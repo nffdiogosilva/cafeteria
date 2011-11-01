@@ -8,43 +8,33 @@ import java.util.regex.Pattern;
 /**
  * Represents a student.
  */
-
 public class Student {
 
     /** Generate number starting at 1000 */
-
     private static int generateNumber = 1000;
 
     /** The actual year */
-
     private static int year;
 
     /** Identification of a student */
-    
     private int id;
 
     /** Name of a student */
-
     private String name;
 
     /** Address of a student */
-
     private Address address;
 
     /** Telephone of a student */
-
     private long phone;
 
     /** Email of a student */
-
     private String email;
 
     /** Tells if a student has scholarship or not */
-
     private boolean scholarship;
 
     /** Course of a student */
-
     private String course;
 
     /**
@@ -58,7 +48,6 @@ public class Student {
      * @param course    course of a student
      * @throws Exception exceptions that leads with invalid arguments
      */
-
     public Student(String name, Address address, long phone, String email, boolean scholarship, String course) throws Exception {
         
         year = Calendar.getInstance().get(Calendar.YEAR);
@@ -67,7 +56,7 @@ public class Student {
             this.id = year * 10000 + generateNumber;
         }
         else {
-            throw new Exception("UNABLE TO GENERATE NEW NUMBER");
+            throw new Exception("Unable to generate new number");
         }
 
         this.name = name;
@@ -77,14 +66,14 @@ public class Student {
             this.phone = phone;
         }
         else {
-            throw new Exception("INVALID NUMBER FORMAT");
+            throw new Exception("Invalid number format");
         }
 
         if (this.emailIsValid(email)){
             this.email = email;
         }
         else {
-            throw new Exception("INVALID EMAIL FORMAT");
+            throw new Exception("Invalid email format");
         }
         
         this.scholarship = scholarship;
@@ -94,13 +83,11 @@ public class Student {
     }
 
     /** Returns the identification of a student */
-
     public int getId() {
         return id;
     }
 
     /** Returns the name of a student */
-
     public String getName() {
         return name;
     }
@@ -110,13 +97,11 @@ public class Student {
      *
      * @param name the name that will be defined
      */
-
     public void setName(String name) {
         this.name = name;
     }
 
     /** Returns the address of a student */
-
     public Address getAddress() {
         return address;
     }
@@ -126,13 +111,11 @@ public class Student {
      *
      * @param address the address that will be defined
      */
-
     public void setAddress(Address address) {
         this.address = address;
     }
 
     /** Returns the telephone of a student */
-
     public long getPhone() {
         return phone;
     }
@@ -143,18 +126,16 @@ public class Student {
      * @param phone the telephone that will be defined
      * @throws Exception exception that leads with invalid number format
      */
-
     public void setPhone(long phone) throws Exception {
         if (phone >= 100000000) {
             this.phone = phone;
         }
         else {
-            throw new Exception("INVALID NUMBER FORMAT");
+            throw new Exception("Invalid number format");
         }
     }
 
     /** Returns the email of a student */
-
     public String getEmail() {
         return email;
     }
@@ -165,18 +146,16 @@ public class Student {
      * @param email the email that will be defined
      * @throws Exception exception that leads with invalid email format
      */
-
     public void setEmail(String email) throws Exception {
         if (this.emailIsValid(email)) {
             this.email = email;
         }
         else {
-            throw new Exception("INVALID EMAIL FORMAT");
+            throw new Exception("Invalid email format");
         }
     }
 
     /** Returns the status of scholarship of a student */
-
     public boolean hasScholarship() {
         return scholarship;
     }
@@ -186,13 +165,11 @@ public class Student {
      *
      * @param scholarship state of the scholarship that will be defined
      */
-
     public void setScholarship(boolean scholarship) {
         this.scholarship = scholarship;
     }
 
     /** Returns the course of a student */
-
     public String getCourse() {
         return course;
     }
@@ -202,13 +179,11 @@ public class Student {
      *
      * @param course the course that will be defined
      */
-
     public void setCourse(String course) {
         this.course = course;
     }
 
     /** Returns a string that describes a student */
-
     @Override
     public String toString() {
         return "\nStudent number: " + this.id +
@@ -226,7 +201,6 @@ public class Student {
      * @param email the email that will be checked
      * @return Returns a boolean. True if the email has the right format. False if the email has the wrong format
      */
-
     public boolean emailIsValid(String email){
         final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
