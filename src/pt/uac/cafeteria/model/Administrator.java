@@ -1,5 +1,5 @@
 
-package model;
+package pt.uac.cafeteria.model;
 
 public class Administrator {
 

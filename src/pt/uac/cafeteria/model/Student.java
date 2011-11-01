@@ -1,5 +1,5 @@
 
-package model;
+package pt.uac.cafeteria.model;
 
 import java.util.Calendar;
 import java.util.regex.Matcher;

@@ -1,5 +1,5 @@
 
-package model;
+package pt.uac.cafeteria.model;
 
 import org.junit.Before;
 import org.junit.Test;

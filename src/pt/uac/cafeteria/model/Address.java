@@ -1,5 +1,5 @@
 
-package model;
+package pt.uac.cafeteria.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
