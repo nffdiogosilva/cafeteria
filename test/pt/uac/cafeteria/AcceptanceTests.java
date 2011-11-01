@@ -17,13 +17,13 @@ public class AcceptanceTests {
 
     @Test
     public void canAccessWithDefaultAdminCredentials() {
-        Backend backend = app.getBackend("administrador", "12345678");
-        assertNotNull(backend);
+        Administrator admin = app.getAdministrator("administrador", "12345678");
+        assertNotNull(admin);
     }
 
     @Test
     public void cantAccessWithInvalidAdminCredentials() {
-        Backend backend = app.getBackend("invalidadmin", "password");
-        assertNull(backend);
+        Administrator admin = app.getAdministrator("invalidadmin", "password");
+        assertNull(admin);
     }
 }

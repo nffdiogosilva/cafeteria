@@ -33,17 +33,17 @@ public class Application {
     }
 
     /**
-     * Get a Backend object, if credentials are valid
+     * Authenticates an Administrator
      * 
      * @param username  Administrator username
      * @param password  Administrator password
-     * @return  Backend object with privileged functions, or null if invalid
+     * @return  Administrator object, or null if invalid
      */
-    public Backend getBackend(String username, String password) {
+    public Administrator getAdministrator(String username, String password) {
         Administrator admin = administrators.get(username);
         
         if (admin != null && admin.isPasswordValid(password)) {
-            return new Backend();
+            return admin;
         }
         
         return null;
