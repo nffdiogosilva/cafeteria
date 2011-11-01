@@ -15,8 +15,8 @@ public class Administrator {
         return username;
     }
 
-    String getPassword() {
-        return password;
+    public boolean isPasswordValid(String password) {
+        return this.password.equals(password);
     }
 
 }

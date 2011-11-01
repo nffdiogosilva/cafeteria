@@ -42,7 +42,7 @@ public class Application {
     public Backend getBackend(String username, String password) {
         Administrator admin = administrators.get(username);
         
-        if (admin != null && admin.getPassword().equals(password)) {
+        if (admin != null && admin.isPasswordValid(password)) {
             return new Backend();
         }
         

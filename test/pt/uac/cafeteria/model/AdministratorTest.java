@@ -16,6 +16,6 @@ public class AdministratorTest {
     public void canCreateAccount() {
         Administrator admin = new Administrator("dummy", "password");
         assertEquals("dummy", admin.getUsername());
-        assertEquals("password", admin.getPassword());
+        assertTrue(admin.isPasswordValid("password"));
     }
 }
