@@ -151,7 +151,10 @@ public class Account {
             this.balance = balance - amount;
             this.transactions.add(new Debit(date, meal));
         }
-        throw new Exception ("Not allowed. Your account doesn't have enough credit");
+        else {
+            throw new Exception ("Not allowed. Your account doesn't have enough credit");
+        }
+        
     }
     
     /**
@@ -165,9 +168,15 @@ public class Account {
             if (this.getStatus() == Status.BLOCKED) {
                 setStatus(Status.ACTIVE);
             }
-            throw new Exception ("Account not blocked");
+            else {
+                throw new Exception ("Account not blocked");
+            }
+            
         }
-        throw new Exception ("Invalid pin code");
+        else {
+            throw new Exception ("Invalid pin code");
+        }
+        
     }
     
     
