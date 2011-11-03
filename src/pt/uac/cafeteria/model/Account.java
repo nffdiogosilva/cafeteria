@@ -67,11 +67,6 @@ public class Account {
         return number;
     }
 
-    /** Returns the pin code */
-    public int getPinCode() {
-        return pinCode;
-    }
-    
     /** 
      * Changes the pin code
      * 
