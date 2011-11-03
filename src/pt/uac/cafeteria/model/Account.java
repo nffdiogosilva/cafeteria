@@ -166,6 +166,9 @@ public class Account {
      * @param administrator the administrator that does the deposit
      */
     public void deposit (double amount, String administrator) {
+        if (amount <= 0) {
+            amount = -amount;
+        }
         this.balance = balance + amount;
         this.transactions.add(new Credit(administrator, amount));
     }
@@ -230,6 +233,21 @@ public class Account {
     /** Sets the BLOCKED state of the account */
     public void block() {
         this.setStatus(Status.BLOCKED);
+    }
+    
+    /** Sets the ACTIVE state of the account */
+    public void unblock() {
+        this.setStatus(Status.ACTIVE);
+    }
+    
+    /** Sets the CLOSED state of the account */
+    public void close() {
+        this.setStatus(Status.CLOSED);
+    }
+    
+    /** Alters the email of the Student */
+    public void updateEmail(String email) throws Exception {
+        getStudent().setEmail(email);
     }
 
     /** Generates a number between 1000 and 9999 */
