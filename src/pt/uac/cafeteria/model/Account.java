@@ -43,6 +43,9 @@ public class Account {
     
     /** List with the transactions of the account */
     private List<Transaction> transactions;
+    
+    /** Recorded number of failed attempts at logging in */
+    private int failedAttempts;
 
     /**
      * Default Constructor
@@ -96,7 +99,41 @@ public class Account {
     public Status getStatus() {
         return status;
     }
-
+    
+    /** Checks if account is active */
+    public boolean isActive() {
+        return status == Status.ACTIVE;
+    }
+    
+    /** Checks if account is blocked */
+    public boolean isBlocked() {
+        return status == Status.BLOCKED;
+    }
+    
+    /** Checks if account is closed */
+    public boolean isClosed() {
+        return status == Status.CLOSED;
+    }
+    
+    /**
+     * Autenticate account
+     * 
+     * Gets blocked after three failed attempts
+     * 
+     * @param pinCode  Account pin code
+     * @return  
+     */
+    public boolean authenticate(int pinCode) {
+        if (this.pinCode == pinCode) {
+            failedAttempts = 0;
+            return true;
+        }
+        if (++failedAttempts == 3) {
+            block();
+        }
+        return false;
+    }
+    
     /**
      * Changes the state.
      * 
@@ -196,7 +233,7 @@ public class Account {
     }
     
     /** Sets the BLOCKED state of the account */
-    public void blockAccount() {
+    public void block() {
         this.setStatus(Status.BLOCKED);
     }
     

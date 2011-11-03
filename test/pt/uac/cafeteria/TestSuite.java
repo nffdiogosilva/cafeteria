@@ -6,8 +6,8 @@ import org.junit.runners.Suite;
 import pt.uac.cafeteria.model.*;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ 
-    AcceptanceTests.class,
+@Suite.SuiteClasses({
+    ApplicationTest.class,
     AdministratorTest.class,
     StudentTest.class
 })
