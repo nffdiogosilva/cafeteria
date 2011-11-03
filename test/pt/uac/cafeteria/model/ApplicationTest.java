@@ -96,4 +96,16 @@ public class ApplicationTest {
         assertFalse(account.isActive());
         assertTrue(account.isBlocked());
     }
+    
+    @Test
+    public void canDeleteStudentAccount() {
+        createStudentAccount();
+        
+        Account account = app.getAccount(testAccountNumber);
+        Student student = account.getStudent();
+        app.deleteAccount(account.getNumber());
+        
+        assertNull(app.getAccount(testAccountNumber));
+        assertEquals(student, app.getOldStudent(testAccountNumber));
+    }
 }

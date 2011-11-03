@@ -23,6 +23,9 @@ public class Application {
     /** Map with student accounts */
     private Map<String, Account> accounts = new HashMap<String, Account>();
     
+    /** Map with old students that no longer have an account */
+    private Map<String, Student> oldStudents = new HashMap<String, Student>();
+    
     /**
      * Constructor
      * 
@@ -86,5 +89,33 @@ public class Application {
         }
         
         return null;
+    }
+
+    /**
+     * Deletes a student account
+     * 
+     * Student gets moved to an historic of students (old students)
+     * 
+     * @param accountNumber  Account or student process number
+     */
+    public void deleteAccount(int accountNumber) {
+        String studentNumber = String.valueOf(accountNumber);
+        Account account = accounts.get(studentNumber);
+        
+        if (account != null) {
+            Student student = account.getStudent();
+            accounts.remove(studentNumber);
+            oldStudents.put(studentNumber, student);
+        }
+    }
+    
+    /**
+     * Gets an old student from the historic
+     * 
+     * @param studentNumber  Student process number
+     * @return   Student object, or null if non-existent
+     */
+    public Student getOldStudent(int studentNumber) {
+        return oldStudents.get(String.valueOf(studentNumber));
     }
 }

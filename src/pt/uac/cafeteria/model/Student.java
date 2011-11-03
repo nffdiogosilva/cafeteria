@@ -193,4 +193,29 @@ public class Student {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Student other = (Student) obj;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 83 * hash + this.id;
+        hash = 83 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 83 * hash + (this.address != null ? this.address.hashCode() : 0);
+        hash = 83 * hash + this.phone;
+        hash = 83 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash = 83 * hash + (this.scholarship ? 1 : 0);
+        hash = 83 * hash + (this.course != null ? this.course.hashCode() : 0);
+        return hash;
+    }
 }
