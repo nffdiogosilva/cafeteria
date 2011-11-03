@@ -26,7 +26,7 @@ public class Student {
     private Address address;
 
     /** Telephone of a student */
-    private long phone;
+    private int phone;
 
     /** Email of a student */
     private String email;
@@ -36,50 +36,36 @@ public class Student {
 
     /** Course of a student */
     private String course;
+    
+    /** Protected constructor. Used in tests (mocks). */
+    protected Student(int id) {
+        this.id = id;
+    }
 
-    /**
-     * Default constructor.
-     *
-     * @param name  name of a student
-     * @param address   address of a student
-     * @param phone telephone of a student
-     * @param email email of a student
-     * @param scholarship   tells if a student has scholarship
-     * @param course    course of a student
-     * @throws Exception exceptions that leads with invalid arguments
-     */
-    public Student(String name, Address address, long phone, String email, boolean scholarship, String course) throws Exception {
+    /** Student builder */
+    public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) throws Exception {
+        
+        Student student;
         
         year = Calendar.getInstance().get(Calendar.YEAR);
        
         if (generateNumber >= 1000 && generateNumber <= 9000) {
-            this.id = year * 10000 + generateNumber;
+            student = new Student(year * 10000 + generateNumber);
         }
         else {
             throw new Exception("Unable to generate new number");
         }
 
-        this.name = name;
-        this.address = address;
-
-        if (phone >= 100000000) {
-            this.phone = phone;
-        }
-        else {
-            throw new Exception("Invalid number format");
-        }
-
-        if (this.emailIsValid(email)){
-            this.email = email;
-        }
-        else {
-            throw new Exception("Invalid email format");
-        }
-        
-        this.scholarship = scholarship;
-        this.course = course;
+        student.setName(name);
+        student.setAddress(address);
+        student.setPhone(phone);
+        student.setEmail(email);
+        student.setScholarship(scholarship);
+        student.setCourse(course);
 
         generateNumber++;
+
+        return student;
     }
 
     /** Returns the identification of a student */
@@ -126,7 +112,7 @@ public class Student {
      * @param phone the telephone that will be defined
      * @throws Exception exception that leads with invalid number format
      */
-    public void setPhone(long phone) throws Exception {
+    public void setPhone(int phone) throws Exception {
         if (phone >= 100000000) {
             this.phone = phone;
         }
