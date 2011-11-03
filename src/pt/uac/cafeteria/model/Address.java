@@ -34,7 +34,7 @@ public class Address {
         else {
             throw new Exception ("Invalid postal code format");
         }
-        
+
         this.city = city;
     }
 
@@ -45,7 +45,7 @@ public class Address {
 
     /**
      * Changes the street address.
-     * 
+     *
      * @param streetAddress street address that will be defined
      */
     public void setStreetAddress(String streetAddress) {

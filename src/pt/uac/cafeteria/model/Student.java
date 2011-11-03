@@ -36,7 +36,7 @@ public class Student {
 
     /** Course of a student */
     private String course;
-    
+
     /** Protected constructor. Used in tests (mocks). */
     protected Student(int id) {
         this.id = id;
@@ -44,11 +44,11 @@ public class Student {
 
     /** Student builder */
     public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) throws Exception {
-        
+
         Student student;
-        
+
         year = Calendar.getInstance().get(Calendar.YEAR);
-       
+
         if (generateNumber >= 1000 && generateNumber <= 9000) {
             student = new Student(year * 10000 + generateNumber);
         }
@@ -108,7 +108,7 @@ public class Student {
 
     /**
      * Changes the telephone.
-     * 
+     *
      * @param phone the telephone that will be defined
      * @throws Exception exception that leads with invalid number format
      */

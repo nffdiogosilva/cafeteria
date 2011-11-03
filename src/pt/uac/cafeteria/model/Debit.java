@@ -10,7 +10,7 @@ import java.util.Calendar;
  */
 
 public class Debit extends Transaction {
-    
+
     /** Enumerated type with the type of a meal */
     public enum MealType {
         LUNCH  { @Override public String toString() { return "Lunch"; } },
@@ -18,13 +18,13 @@ public class Debit extends Transaction {
     }
     /** The date of the meal */
     private Calendar mealDate;
-    
+
     /** The type of the meal */
     private MealType mealType;
 
     /**
      * Default Constructor
-     * 
+     *
      * @param mealDate  the date that is defined as the date of the meal
      * @param mealType  the type of the meal that is defined
      */

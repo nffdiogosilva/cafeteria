@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * Application core
- * 
+ *
  * Central hub from where application scope objects come
  */
 public class Application {
@@ -22,13 +22,13 @@ public class Application {
 
     /** Map with student accounts */
     private Map<String, Account> accounts = new HashMap<String, Account>();
-    
+
     /** Map with old students that no longer have an account */
     private Map<String, Student> oldStudents = new HashMap<String, Student>();
-    
+
     /**
      * Constructor
-     * 
+     *
      * A default administrator account is created at instantiation
      */
     public Application() {
@@ -38,24 +38,24 @@ public class Application {
 
     /**
      * Authenticates an Administrator
-     * 
+     *
      * @param username  Administrator username
      * @param password  Administrator password
      * @return  Administrator object, or null if invalid
      */
     public Administrator getAdministrator(String username, String password) {
         Administrator admin = administrators.get(username);
-        
+
         if (admin != null && admin.isPasswordValid(password)) {
             return admin;
         }
-        
+
         return null;
     }
-    
+
     /**
      * Adds an account to the application
-     * 
+     *
      * @param account  Student account
      */
     public void addAccount(Account account) {
@@ -64,7 +64,7 @@ public class Application {
 
     /**
      * Gets a student account.
-     * 
+     *
      * @param accountNumber  Account process number
      * @return  Student account object
      */
@@ -74,44 +74,44 @@ public class Application {
 
     /**
      * Authenticates a Student using his account.
-     * 
+     *
      * Three failed attempts blocks the account.
-     * 
+     *
      * @param accountNumber  Account process number
      * @param pinCode  Account pin code
-     * @return  Student account object
+     * @return  Student account object, or null if does not authenticate
      */
     public Account getAccount(int accountNumber, int pinCode) {
         Account account = getAccount(accountNumber);
-        
+
         if (account != null && account.authenticate(pinCode)) {
             return account;
         }
-        
+
         return null;
     }
 
     /**
      * Deletes a student account
-     * 
+     *
      * Student gets moved to an historic of students (old students)
-     * 
+     *
      * @param accountNumber  Account or student process number
      */
     public void deleteAccount(int accountNumber) {
         String studentNumber = String.valueOf(accountNumber);
         Account account = accounts.get(studentNumber);
-        
+
         if (account != null) {
             Student student = account.getStudent();
             accounts.remove(studentNumber);
             oldStudents.put(studentNumber, student);
         }
     }
-    
+
     /**
      * Gets an old student from the historic
-     * 
+     *
      * @param studentNumber  Student process number
      * @return   Student object, or null if non-existent
      */

@@ -15,22 +15,22 @@ public class StudentTest {
         static boolean scholarship = true;
         static String course = "IRM";
     }
-    
+
 
     public Student createStudent() throws Exception {
         Address address = new Address(Sample.streetAddress,
                                       Sample.postalCode,
                                       Sample.city);
-        
+
         Student student = Student.build(Sample.name, address,
                                         Sample.phone,
                                         Sample.email,
                                         Sample.scholarship,
                                         Sample.course);
-        
+
         return student;
     }
-    
+
     @Test
     public void canCreateStudent() throws Exception {
         Student student = createStudent();

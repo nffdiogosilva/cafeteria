@@ -13,14 +13,14 @@ public class Meal {
         LUNCH  { @Override public String toString() { return "Dinner"; } },
         DINNER { @Override public String toString() { return "Lunch"; } };
     }
-    
+
     /** Enumerates dish types */
     enum DishType {
         MEAT  { @Override public String toString() { return "Meat"; } },
         FISH { @Override public String toString() { return "Fish"; } },
         VEGETARIAN { @Override public String toString() { return "Vegetarian"; } };
     }
-    
+
     /** Meal day time of service */
     private Type type;
 
@@ -65,21 +65,21 @@ public class Meal {
 
     /**
      * Changes the day time of service of a meal
-     * 
+     *
      * @param type      the type that will be defined
      */
     void setType(Type type) {
         this.type = type;
     }
-    
+
     /** Returns the date of a meal */
     public Date getDate() {
         return date;
     }
-    
+
     /**
      * Changes the date of a meal
-     * 
+     *
      * @param date      the date that will be defined
      */
     public void setDate(Date date) {
@@ -93,21 +93,21 @@ public class Meal {
 
     /**
      * Changes the dish type of a meal
-     * 
+     *
      * @param dishType      the dish type that will be defined
      */
     void setDishType(DishType dishType) {
         this.dishType = dishType;
     }
-    
+
     /** Returns the soup description of a meal */
     public String getSoup() {
         return soup;
     }
-    
+
     /**
      * Changes the soup description of a meal
-     * 
+     *
      * @param Soup      the soup description that will be defined
      */
     public void setSoup(String soup) {
@@ -118,10 +118,10 @@ public class Meal {
     public String getMainCourse() {
         return mainCourse;
     }
-    
+
     /**
      * Changes the main course description of a meal
-     * 
+     *
      * @param mainCourse    the main course description that will be defined
      */
     public void setMainCourse(String mainCourse) {
@@ -135,7 +135,7 @@ public class Meal {
 
     /**
      * Changes the dessert description of a meal
-     * 
+     *
      * @param dessert       the dessert description that will be defined
      */
     public void setDessert(String dessert) {
