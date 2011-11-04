@@ -68,7 +68,7 @@ public class Application {
      * @param accountNumber  Account process number
      * @return  Student account object
      */
-    public Account getAccount(int accountNumber) {
+    Account getAccount(int accountNumber) {
         return accounts.get(new Integer(accountNumber));
     }
 
