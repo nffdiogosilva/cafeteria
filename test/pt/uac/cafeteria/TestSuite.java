@@ -9,6 +9,7 @@ import pt.uac.cafeteria.model.*;
 @Suite.SuiteClasses({
     ApplicationTest.class,
     AdministratorTest.class,
+    AccountTest.class,
     StudentTest.class
 })
 public class TestSuite {}
