@@ -21,10 +21,10 @@ public class Application {
     private Map<String, Administrator> administrators = new HashMap<String, Administrator>();
 
     /** Map with student accounts */
-    private Map<String, Account> accounts = new HashMap<String, Account>();
+    private Map<Integer, Account> accounts = new HashMap<Integer, Account>();
 
     /** Map with old students that no longer have an account */
-    private Map<String, Student> oldStudents = new HashMap<String, Student>();
+    private Map<Integer, Student> oldStudents = new HashMap<Integer, Student>();
 
     /**
      * Constructor
@@ -59,7 +59,7 @@ public class Application {
      * @param account  Student account
      */
     public void addAccount(Account account) {
-        accounts.put(String.valueOf(account.getNumber()), account);
+        accounts.put(new Integer(account.getNumber()), account);
     }
 
     /**
@@ -69,7 +69,7 @@ public class Application {
      * @return  Student account object
      */
     public Account getAccount(int accountNumber) {
-        return accounts.get(String.valueOf(accountNumber));
+        return accounts.get(new Integer(accountNumber));
     }
 
     /**
@@ -99,7 +99,7 @@ public class Application {
      * @param accountNumber  Account or student process number
      */
     public void deleteAccount(int accountNumber) {
-        String studentNumber = String.valueOf(accountNumber);
+        Integer studentNumber = new Integer(accountNumber);
         Account account = accounts.get(studentNumber);
 
         if (account != null) {
@@ -116,6 +116,6 @@ public class Application {
      * @return   Student object, or null if non-existent
      */
     public Student getOldStudent(int studentNumber) {
-        return oldStudents.get(String.valueOf(studentNumber));
+        return oldStudents.get(new Integer(studentNumber));
     }
 }
