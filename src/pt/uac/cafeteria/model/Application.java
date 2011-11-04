@@ -32,8 +32,22 @@ public class Application {
      * A default administrator account is created at instantiation
      */
     public Application() {
-        Administrator default_admin = new Administrator(DEFAULT_ADMIN_NAME, DEFAULT_ADMIN_PASSWORD);
+        Administrator default_admin = new Administrator();
         administrators.put(DEFAULT_ADMIN_NAME, default_admin);
+    }
+
+    /**
+     * Inserts a new administrator account in the application
+     *
+     * @param admin  Administrator object
+     */
+    public void addAdministrator(Administrator admin) {
+        if (administrators.get(admin.getUsername()) != null) {
+            throw new IllegalArgumentException(
+                String.format("Conta de administrador com o username '%s' já ocupada.", admin.getUsername())
+            );
+        }
+        administrators.put(admin.getUsername(), admin);
     }
 
     /**

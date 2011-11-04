@@ -9,7 +9,7 @@ public class AccountTest {
     private final double moneyPrecision = 0.001;
     private final int testAccountNumber = 20112543;
 
-    private final Administrator admin = new Administrator("admin", "pass");
+    private final Administrator admin = new Administrator("Jon Doe", "jondoe", "password");
     private final Student mockStudent = new Student(testAccountNumber);
     private final Account testAccount = new Account(mockStudent);
 

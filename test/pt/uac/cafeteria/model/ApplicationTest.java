@@ -28,10 +28,6 @@ public class ApplicationTest {
         app = new Application();
     }
 
-    private Administrator authenticateDefaultAdmin() {
-        return app.getAdministrator("administrador", "12345678");
-    }
-
     private void createStudentAccount() {
         app.addAccount(new MockAccount(1234));
     }
@@ -39,14 +35,27 @@ public class ApplicationTest {
 
     @Test
     public void canAccessWithDefaultAdminCredentials() {
-        Administrator admin = authenticateDefaultAdmin();
+        Administrator admin = app.getAdministrator("administrador", "12345678");
         assertNotNull(admin);
     }
 
     @Test
     public void cantAccessWithInvalidAdminCredentials() {
-        Administrator impostor = app.getAdministrator("invalidadmin", "password");
+        Administrator impostor = app.getAdministrator("administrador", "password");
         assertNull(impostor);
+    }
+
+    @Test
+    public void canAddAdministrator() {
+        Administrator expected = new Administrator("Jon Doe", "newadmin", "hisSecret");
+        app.addAdministrator(expected);
+        Administrator actual = app.getAdministrator("newadmin", "hisSecret");
+        assertEquals(expected, actual);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cantAddAdministratorWithExistingUsername() {
+        app.addAdministrator(new Administrator());
     }
 
     @Test
