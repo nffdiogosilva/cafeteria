@@ -5,100 +5,77 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Represents a address of a student.
+ * Class with simple address fields.
  */
 public class Address {
 
-    /** The street of a student */
+    /** Street address. */
     private String streetAddress;
 
-    /** The Postal Code of a student */
+    /** Postal code. */
     private String postalCode;
 
-    /** The City of a student */
+    /** City. */
     private String city;
 
     /**
-     * Default constructor.
+     * Factory method.
      *
-     * @param streetAddress street of a student
-     * @param postalCode    postal code of a student
-     * @param city  city of a student
-     * @throws Exception    exception that leads with invalid postal code argument
+     * @param streetAddress  street address
+     * @param postalCode     postal code
+     * @param city           city
+     * @return               Address object
      */
-    public Address(String streetAddress, String postalCode, String city) throws Exception {
-        this.streetAddress = streetAddress;
-        if (this.postalCodeIsValid(postalCode)) {
-            this.postalCode = postalCode;
-        }
-        else {
-            throw new Exception ("Invalid postal code format");
-        }
+    public static Address build(String streetAddress, String postalCode, String city) {
+        Address address = new Address();
 
-        this.city = city;
+        address.setStreetAddress(streetAddress);
+        address.setPostalCode(postalCode);
+        address.setCity(city);
+
+        return address;
     }
 
-    /** Returns the street of a student */
+    /** Returns the street address. */
     public String getStreetAddress() {
         return streetAddress;
     }
 
-    /**
-     * Changes the street address.
-     *
-     * @param streetAddress street address that will be defined
-     */
+    /** Sets the street address to a new value. */
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
 
-    /** Returns the postal code of a student */
+    /** Returns the postal code. */
     public String getPostalCode() {
         return postalCode;
     }
 
-    /**
-     * Changes the postal code.
-     *
-     * @param postalCode postal code that will be defined
-     * @throws Exception exception that leads with invalid postal code format
-     */
-    public void setPostalCode(String postalCode) throws Exception {
-        if (this.postalCodeIsValid(postalCode)) {
-            this.postalCode = postalCode;
+    /** Sets postal code to a new value. */
+    public void setPostalCode(String postalCode) {
+        if (!this.postalCodeIsValid(postalCode)) {
+            throw new IllegalArgumentException("Codigo postal invalido");
         }
-        else {
-               throw new Exception ("Invalid postal code format");
-        }
+        this.postalCode = postalCode;
     }
 
-    /** Returns the city of a student */
+    /** Returns the city. */
     public String getCity() {
         return city;
     }
 
-    /**
-     * Changes the city.
-     *
-     * @param city the city that will be defined
-     */
+    /** Sets city to a new value. */
     public void setCity(String city) {
         this.city = city;
     }
 
-    /** Returns a string that describe the address of a student */
-    @Override
-    public String toString() {
-        return "\nStreet Address: " + this.streetAddress +
-                "\nPostal Code: " + this.postalCode +
-                "\nCity: " + this.city;
-    }
-
     /**
-     * Method that checks if the postal code has the right format
+     * Checks if postal code is in a valid format.
      *
-     * @param postalCode the email that will be checked
-     * @return Returns a boolean. True if the postal code has the right format. False if the postal code has the wrong format
+     * Accepted: Portuguese format (e.g.: 9600-508).
+     *
+     * @param postalCode  postal code string to validate.
+     * @return            true if in right format; false otherwise.
      */
     public boolean postalCodeIsValid(String postalCode){
         final String POSTAL_CODE_PATTERN = "^[0-9]{4}-[0-9]{3}$";

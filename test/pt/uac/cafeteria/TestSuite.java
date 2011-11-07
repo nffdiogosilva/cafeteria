@@ -10,6 +10,7 @@ import pt.uac.cafeteria.model.*;
     ApplicationTest.class,
     AdministratorTest.class,
     AccountTest.class,
-    StudentTest.class
+    StudentTest.class,
+    AddressTest.class
 })
 public class TestSuite {}
