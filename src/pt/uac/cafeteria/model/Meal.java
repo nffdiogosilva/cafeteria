@@ -1,6 +1,7 @@
 
 package pt.uac.cafeteria.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class Meal {
     private Type type;
 
     /** Service date of the meal */
-    private Date date;
+    private Calendar date;
 
     /** Type of meal */
     private DishType dishType;
@@ -49,7 +50,7 @@ public class Meal {
      * @param mainCourse    main course description
      * @param dessert       dessert description
      */
-    Meal(Type type, Date date, DishType dishType, String soup, String mainCourse, String dessert) {
+    Meal(Type type, Calendar date, DishType dishType, String soup, String mainCourse, String dessert) {
         this.type = type;
         this.date = date;
         this.dishType = dishType;
@@ -73,7 +74,7 @@ public class Meal {
     }
 
     /** Returns the date of a meal */
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
@@ -82,7 +83,7 @@ public class Meal {
      *
      * @param date      the date that will be defined
      */
-    public void setDate(Date date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
