@@ -97,12 +97,12 @@ public class Student {
 
     /** Returns the identification of a student */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     /** Returns the name of a student */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -116,7 +116,7 @@ public class Student {
 
     /** Returns the address of a student */
     public Address getAddress() {
-        return address;
+        return this.address;
     }
 
     /** Sets the address. */
@@ -126,7 +126,7 @@ public class Student {
 
     /** Returns the phone number. */
     public int getPhone() {
-        return phone;
+        return this.phone;
     }
 
     /** Sets phone to a new number */
