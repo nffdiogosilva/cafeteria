@@ -4,7 +4,6 @@ package pt.uac.cafeteria.model;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import pt.uac.cafeteria.model.Debit.MealTime;
 
 /**
  *
