@@ -49,7 +49,7 @@ public class Meal {
      * @param mainCourse    main course description
      * @param dessert       dessert description
      */
-    Meal(Time time, Calendar date, Type type, String soup, String mainCourse, String dessert) {
+    Meal(Calendar date, Time time, Type type, String soup, String mainCourse, String dessert) {
         this.time = time;
         this.date = date;
         this.type = type;

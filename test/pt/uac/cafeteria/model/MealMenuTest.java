@@ -29,16 +29,16 @@ public class MealMenuTest {
     public void canCreateMenu() {
         MealMenu menu = createMenu();
 
-        Meal meat_expected = Meal.createMeatMeal(day, time, soup, "Pork", desert);
+        Meal meat_expected = new Meal(day, time, Meal.Type.MEAT, "Pork", soup, desert);
+        Meal fish_expected = new Meal(day, time, Meal.Type.FISH, "Tuna", soup, desert);
+        Meal veggie_expected = new Meal(day, time, Meal.Type.VEGETARIAN, "Soy", soup, desert);
+
         Meal meat_actual = menu.getMeatMeal();
-        assertEquals("menu must generate correct meat meal", meat_expected, meat_actual);
-
-        Meal fish_expected = Meal.createFishMeal(day, time, soup, "Tuna", desert);
         Meal fish_actual = menu.getFishMeal();
-        assertEquals("menu must generate correct fish meal", fish_expected, fish_actual);
-
-        Meal veggie_expected = Meal.createVeggieMeal(day, time, soup, "Soy", desert);
         Meal veggie_actual = menu.getVeggieMeal();
+
+        assertEquals("menu must generate correct meat meal", meat_expected, meat_actual);
+        assertEquals("menu must generate correct fish meal", fish_expected, fish_actual);
         assertEquals("menu must generate correct veggie meal", veggie_expected, veggie_actual);
     }
 
