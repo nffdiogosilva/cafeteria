@@ -42,14 +42,14 @@ public class MealMenuTest {
         assertEquals("menu must generate correct veggie meal", veggie_expected, veggie_actual);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IllegalStateException.class)
     public void mustHaveMainCourse() {
         MealMenu.Builder(day, time).
                 .setSoupAndDesert(soup, desert)
                 .build();
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=IllegalStateException.class)
     public void mustHaveSoupAndDesert() {
         MealMenu.Builder(day, time)
                 .setMeatCourse("Pork")
