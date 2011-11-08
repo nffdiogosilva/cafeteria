@@ -1,37 +1,32 @@
 
 package pt.uac.cafeteria.model;
 
-import org.junit.Before;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ApplicationTest {
-    private Application app;
+
+    private final Application app = new Application();
+    private final Calendar testDay = new GregorianCalendar(2011, 11, 11);
 
     private final int testAccountNumber = 20112543;
 
-    class MockAccount extends Account {
-        MockAccount(int pin) {
-            super(new MockStudent(testAccountNumber));
-            this.setPinCode(pin);
-        }
-    }
-    class MockStudent extends Student {
-        MockStudent(int number) {
-            super(number);
-        }
+    private MealMenu createMealMenu(Calendar day, Meal.Time time) {
+        return MealMenu.Builder(day, time)
+                .setMeatCourse("Pork")
+                .setFishCourse("Tuna")
+                .setVeggieCourse("Soy")
+                .setSoupAndDesert("Vegetables", "Cake")
+                .build();
     }
 
-
-    @Before
-    public void setUp() throws Exception {
-        app = new Application();
+    private void addStudentAccount() {
+        Account mockAccount = new Account(new Student(testAccountNumber));
+        mockAccount.setPinCode(1234);
+        app.addAccount(mockAccount);
     }
-
-    private void createStudentAccount() {
-        app.addAccount(new MockAccount(1234));
-    }
-
 
     @Test
     public void canAccessWithDefaultAdminCredentials() {
@@ -60,28 +55,28 @@ public class ApplicationTest {
 
     @Test
     public void canAddStudentAccount() {
-        createStudentAccount();
+        addStudentAccount();
         Account account = app.getAccount(testAccountNumber);
         assertNotNull(account);
     }
 
     @Test
     public void studentCanAccess() {
-        createStudentAccount();
+        addStudentAccount();
         Account account = app.getAccount(testAccountNumber, 1234);
         assertNotNull(account);
     }
 
     @Test
     public void studentCantAccessWithInvalidCredentials() {
-        createStudentAccount();
+        addStudentAccount();
         Account account = app.getAccount(testAccountNumber, 4321);
         assertNull(account);
     }
 
     @Test
     public void blockAccountAfterThreeFailedAttempts() {
-        createStudentAccount();
+        addStudentAccount();
 
         app.getAccount(testAccountNumber);
         Account account = app.getAccount(testAccountNumber);
@@ -107,7 +102,7 @@ public class ApplicationTest {
 
     @Test
     public void canDeleteStudentAccount() {
-        createStudentAccount();
+        addStudentAccount();
 
         Account account = app.getAccount(testAccountNumber);
         Student student = account.getStudent();
@@ -116,4 +111,12 @@ public class ApplicationTest {
         assertNull(app.getAccount(testAccountNumber));
         assertEquals(student, app.getOldStudent(testAccountNumber));
     }
+
+   @Test
+   public void canAddMealMenu() {
+       MealMenu menu = createMealMenu(testDay, Meal.Time.LUNCH);
+       app.addMealMenu(menu);
+       
+       assertEquals(menu, app.getMealMenu(testDay, Meal.Time.LUNCH));
+   }
 }
