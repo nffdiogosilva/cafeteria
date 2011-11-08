@@ -1,8 +1,16 @@
 
 package pt.uac.cafeteria.model;
 
+import java.util.Calendar;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+class MockLastStudent extends Student {
+    static int seed = 9999+1;
+    MockLastStudent() {
+        super();
+    }
+}
 
 public class StudentTest {
     private static final class Sample {
@@ -16,11 +24,10 @@ public class StudentTest {
         static String course = "IRM";
     }
 
-
-    public Student createStudent() throws Exception {
-        Address address = new Address(Sample.streetAddress,
-                                      Sample.postalCode,
-                                      Sample.city);
+    private Student createStudent() {
+        Address address = Address.build(Sample.streetAddress,
+                                        Sample.postalCode,
+                                        Sample.city);
 
         Student student = Student.build(Sample.name, address,
                                         Sample.phone,
@@ -33,6 +40,7 @@ public class StudentTest {
 
     @Test
     public void canCreateStudent() throws Exception {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
         Student student = createStudent();
 
         assertEquals(Sample.name, student.getName());
@@ -43,5 +51,33 @@ public class StudentTest {
         assertEquals(Sample.phone, student.getPhone());
         assertTrue(student.hasScholarship());
         assertEquals(Sample.course, student.getCourse());
+
+        // First id should be YEAR+1000 (concatenation)
+        String expected = String.format("%d1000", year);
+        String actual = String.valueOf(student.getId());
+        assertEquals(expected, actual);
+    }
+
+    @Test(expected=RuntimeException.class)
+    public void lastNumber() {
+        new MockLastStudent();
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cantUseAnInvalidEmailAddress() {
+        Student student = createStudent();
+        student.setEmail("wrong@email");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cantUseSmallPhone() {
+        Student student = createStudent();
+        student.setPhone(12345678);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cantUseBigPhone() {
+        Student student = createStudent();
+        student.setPhone(1234567891);
     }
 }

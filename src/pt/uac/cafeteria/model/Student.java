@@ -7,54 +7,81 @@ import java.util.regex.Pattern;
 
 /**
  * Represents a student.
+ *
+ * The process number is an auto-incremented number
+ * prefixed with the current year.
  */
 public class Student {
 
-    /** Generate number starting at 1000 */
-    private static int generateNumber = 1000;
+    /** Auto-incremented seed, from 1000 to 9999. */
+    protected static int seed = 1000;
 
-    /** The actual year */
-    private static int year;
+    /** The current year */
+    private static int year = Calendar.getInstance().get(Calendar.YEAR);
 
-    /** Identification of a student */
-    private int id;
+    /** Student identification. It's a combination of the year and seed. */
+    private final int id;
 
-    /** Name of a student */
+    /** Student's name. */
     private String name;
 
-    /** Address of a student */
+    /** Student address. */
     private Address address;
 
-    /** Telephone of a student */
+    /** Telephone number. */
     private int phone;
 
-    /** Email of a student */
+    /** Email address. */
     private String email;
 
-    /** Tells if a student has scholarship or not */
+    /** Student has scholarship? */
     private boolean scholarship;
 
-    /** Course of a student */
+    /** Student's course. */
     private String course;
 
-    /** Protected constructor. Used in tests (mocks). */
+    /**
+     * Protected constructor.
+     * 
+     * Used when a given pre-generated id number is necessary (e.g. mock tests).
+     */
     protected Student(int id) {
         this.id = id;
     }
 
-    /** Student builder */
-    public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) throws Exception {
-
-        Student student;
-
-        year = Calendar.getInstance().get(Calendar.YEAR);
-
-        if (generateNumber >= 1000 && generateNumber <= 9000) {
-            student = new Student(year * 10000 + generateNumber);
+    /**
+     * Constructor.
+     *
+     * Generates a student id number automatically based on a seed number and
+     * the current year.
+     *
+     * Format: YEAR + seed (concatenation).
+     *
+     * E.g. 20102144.
+     */
+    protected Student() {
+        if (seed < 1000 || seed > 9999) {
+            throw new RuntimeException("Impossivel gerar numero de processo. Nao ha nenhum disponivel.");
         }
-        else {
-            throw new Exception("Unable to generate new number");
-        }
+        id = year * 10000 + seed;
+    }
+
+    /**
+     * Factory method.
+     *
+     * Seed is incremented only on successful object creation and validation.
+     *
+     * @param name         full name
+     * @param address      Address object
+     * @param phone        phone number
+     * @param email        email address
+     * @param scholarship  scholarship
+     * @param course       course
+     * @return             Student object.
+     */
+    public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) {
+
+        Student student = new Student();
 
         student.setName(name);
         student.setAddress(address);
@@ -63,7 +90,7 @@ public class Student {
         student.setScholarship(scholarship);
         student.setCourse(course);
 
-        generateNumber++;
+        seed++;
 
         return student;
     }
@@ -92,100 +119,62 @@ public class Student {
         return address;
     }
 
-    /**
-     * Changes the address.
-     *
-     * @param address the address that will be defined
-     */
+    /** Sets the address. */
     public void setAddress(Address address) {
         this.address = address;
     }
 
-    /** Returns the telephone of a student */
-    public long getPhone() {
+    /** Returns the phone number. */
+    public int getPhone() {
         return phone;
     }
 
-    /**
-     * Changes the telephone.
-     *
-     * @param phone the telephone that will be defined
-     * @throws Exception exception that leads with invalid number format
-     */
-    public void setPhone(int phone) throws Exception {
-        if (phone >= 100000000) {
-            this.phone = phone;
+    /** Sets phone to a new number */
+    public void setPhone(int phone) {
+        if (String.valueOf(phone).length() != 9) {
+            throw new IllegalArgumentException("Numero de telefone invalido. Deve ter 9 digitos.");
         }
-        else {
-            throw new Exception("Invalid number format");
-        }
+        this.phone = phone;
     }
 
-    /** Returns the email of a student */
+    /** Returns the email address. */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * Changes the email.
-     *
-     * @param email the email that will be defined
-     * @throws Exception exception that leads with invalid email format
-     */
-    public void setEmail(String email) throws Exception {
-        if (this.emailIsValid(email)) {
-            this.email = email;
+    /** Sets the email to a new valid address. */
+    public void setEmail(String email) {
+        if (!emailIsValid(email)) {
+            throw new IllegalArgumentException("Email com formato invalido.");
         }
-        else {
-            throw new Exception("Invalid email format");
-        }
+        this.email = email;
     }
 
-    /** Returns the status of scholarship of a student */
+    /** Checks if the student has a scholarship. */
     public boolean hasScholarship() {
         return scholarship;
     }
 
-    /**
-     * Changes the status of the scholarship
-     *
-     * @param scholarship state of the scholarship that will be defined
-     */
+    /** Changes the scholarship status. */
     public void setScholarship(boolean scholarship) {
         this.scholarship = scholarship;
     }
 
-    /** Returns the course of a student */
+    /** Returns the course. */
     public String getCourse() {
         return course;
     }
 
-    /**
-     * Changes the course.
-     *
-     * @param course the course that will be defined
-     */
+    /** Sets the course. */
     public void setCourse(String course) {
         this.course = course;
     }
 
-    /** Returns a string that describes a student */
-    @Override
-    public String toString() {
-        return "\nStudent number: " + this.id +
-                "\nName: " + this.name +
-                "\nAddress: " + this.address +
-                "\nPhone: " + this.phone +
-                "\nEmail: " + this.email +
-                "\nScholarship Student: " + this.scholarship +
-                "\nCourse: " + this.course;
-    }
-
     /**
-     * Method that checks if the email has the right format
+     * Checks if an email is a valid address.
      *
-     * @param email the email that will be checked
-     * @return Returns a boolean. True if the email has the right format. False if the email has the wrong format
+     * @param email  email to be checked.
+     * @return       true if email is in the right format; false otherwise.
      */
     public boolean emailIsValid(String email){
         final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -203,19 +192,40 @@ public class Student {
             return false;
         }
         final Student other = (Student) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+            return false;
+        }
+        if (this.address != other.address && (this.address == null || !this.address.equals(other.address))) {
+            return false;
+        }
+        if (this.phone != other.phone) {
+            return false;
+        }
+        if ((this.email == null) ? (other.email != null) : !this.email.equals(other.email)) {
+            return false;
+        }
+        if (this.scholarship != other.scholarship) {
+            return false;
+        }
+        if ((this.course == null) ? (other.course != null) : !this.course.equals(other.course)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + this.id;
-        hash = 83 * hash + (this.name != null ? this.name.hashCode() : 0);
-        hash = 83 * hash + (this.address != null ? this.address.hashCode() : 0);
-        hash = 83 * hash + this.phone;
-        hash = 83 * hash + (this.email != null ? this.email.hashCode() : 0);
-        hash = 83 * hash + (this.scholarship ? 1 : 0);
-        hash = 83 * hash + (this.course != null ? this.course.hashCode() : 0);
+        int hash = 5;
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = 97 * hash + (this.address != null ? this.address.hashCode() : 0);
+        hash = 97 * hash + this.phone;
+        hash = 97 * hash + (this.email != null ? this.email.hashCode() : 0);
+        hash = 97 * hash + (this.scholarship ? 1 : 0);
+        hash = 97 * hash + (this.course != null ? this.course.hashCode() : 0);
         return hash;
     }
 }
