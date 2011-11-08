@@ -2,7 +2,6 @@
 package pt.uac.cafeteria.model;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Represents a meal
@@ -10,26 +9,26 @@ import java.util.Date;
 public class Meal {
 
     /** Enumerates meal day time */
-    enum Type {
-        LUNCH  { @Override public String toString() { return "Dinner"; } },
-        DINNER { @Override public String toString() { return "Lunch"; } };
+    enum Time {
+        LUNCH  { @Override public String toString() { return "Jantar"; } },
+        DINNER { @Override public String toString() { return "Almoco"; } };
     }
 
     /** Enumerates dish types */
-    enum DishType {
-        MEAT  { @Override public String toString() { return "Meat"; } },
-        FISH { @Override public String toString() { return "Fish"; } },
-        VEGETARIAN { @Override public String toString() { return "Vegetarian"; } };
+    enum Type {
+        MEAT  { @Override public String toString() { return "Carne"; } },
+        FISH { @Override public String toString() { return "Peixe"; } },
+        VEGETARIAN { @Override public String toString() { return "Vegetariano"; } };
     }
 
     /** Meal day time of service */
-    private Type type;
+    private Time time;
 
     /** Service date of the meal */
     private Calendar date;
 
     /** Type of meal */
-    private DishType dishType;
+    private Type type;
 
     /** Soup description */
     private String soup;
@@ -50,18 +49,18 @@ public class Meal {
      * @param mainCourse    main course description
      * @param dessert       dessert description
      */
-    Meal(Type type, Calendar date, DishType dishType, String soup, String mainCourse, String dessert) {
-        this.type = type;
+    Meal(Time time, Calendar date, Type type, String soup, String mainCourse, String dessert) {
+        this.time = time;
         this.date = date;
-        this.dishType = dishType;
+        this.type = type;
         this.soup = soup;
         this.mainCourse = mainCourse;
         this.dessert = dessert;
     }
 
    /** Returns the day time of service of a meal */
-    Type getType() {
-        return type;
+    Time getTime() {
+        return this.time;
     }
 
     /**
@@ -69,13 +68,13 @@ public class Meal {
      *
      * @param type      the type that will be defined
      */
-    void setType(Type type) {
-        this.type = type;
+    void setTime(Time time) {
+        this.time = time;
     }
 
     /** Returns the date of a meal */
     public Calendar getDate() {
-        return date;
+        return this.date;
     }
 
     /**
@@ -88,8 +87,8 @@ public class Meal {
     }
 
     /** Returns the dish type of a meal */
-    DishType getDishType() {
-        return dishType;
+    Type getType() {
+        return this.type;
     }
 
     /**
@@ -97,13 +96,13 @@ public class Meal {
      *
      * @param dishType      the dish type that will be defined
      */
-    void setDishType(DishType dishType) {
-        this.dishType = dishType;
+    void setDishType(Type type) {
+        this.type = type;
     }
 
     /** Returns the soup description of a meal */
     public String getSoup() {
-        return soup;
+        return this.soup;
     }
 
     /**
@@ -117,7 +116,7 @@ public class Meal {
 
     /** Returns the main course description of a meal */
     public String getMainCourse() {
-        return mainCourse;
+        return this.mainCourse;
     }
 
     /**
@@ -131,7 +130,7 @@ public class Meal {
 
     /** Returns the dessert description of a meal */
     public String getDessert() {
-        return dessert;
+        return this.dessert;
     }
 
     /**
@@ -146,9 +145,9 @@ public class Meal {
     /** Returns a string that describes a meal */
     @Override
     public String toString() {
-        return "\n:Type " + this.type +
+        return "\n:Time " + this.time +
                 "\nDate: " + this.date +
-                "\nDish type: " + this.dishType +
+                "\nType: " + this.type +
                 "\nSoup: " + this.soup +
                 "\nMain course: " + this.mainCourse +
                 "\nDessert: " + this.dessert;
