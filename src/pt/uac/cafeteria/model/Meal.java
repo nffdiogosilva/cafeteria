@@ -22,13 +22,13 @@ public class Meal {
     }
 
     /** Meal day time of service */
-    private Time time;
+    private final Time time;
 
     /** Service date of the meal */
-    private Calendar date;
+    private final Calendar date;
 
     /** Type of meal */
-    private Type type;
+    private final Type type;
 
     /** Soup description */
     private String soup;
@@ -63,41 +63,14 @@ public class Meal {
         return this.time;
     }
 
-    /**
-     * Changes the day time of service of a meal
-     *
-     * @param type      the type that will be defined
-     */
-    void setTime(Time time) {
-        this.time = time;
-    }
-
     /** Returns the date of a meal */
     public Calendar getDate() {
         return this.date;
     }
 
-    /**
-     * Changes the date of a meal
-     *
-     * @param date      the date that will be defined
-     */
-    public void setDate(Calendar date) {
-        this.date = date;
-    }
-
     /** Returns the dish type of a meal */
     Type getType() {
         return this.type;
-    }
-
-    /**
-     * Changes the dish type of a meal
-     *
-     * @param dishType      the dish type that will be defined
-     */
-    void setDishType(Type type) {
-        this.type = type;
     }
 
     /** Returns the soup description of a meal */

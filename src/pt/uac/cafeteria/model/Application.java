@@ -14,13 +14,13 @@ public class Application {
 
 
     /** Map with administrator accounts */
-    private Map<String, Administrator> administrators = new HashMap<String, Administrator>();
+    private final Map<String, Administrator> administrators = new HashMap<String, Administrator>();
 
     /** Map with student accounts */
-    private Map<Integer, Account> accounts = new HashMap<Integer, Account>();
+    private final Map<Integer, Account> accounts = new HashMap<Integer, Account>();
 
     /** Map with old students that no longer have an account */
-    private Map<Integer, Student> oldStudents = new HashMap<Integer, Student>();
+    private final Map<Integer, Student> oldStudents = new HashMap<Integer, Student>();
 
     /**
      * Constructor
