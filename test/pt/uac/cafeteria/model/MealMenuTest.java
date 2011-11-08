@@ -14,14 +14,14 @@ public class MealMenuTest {
     private final Meal.Time time = Meal.Time.DINNER;
     
     private final String soup = "Vegetables";
-    private final String desert = "Cake";
+    private final String dessert = "Cake";
 
     private MealMenu createMenu() {
         return MealMenu.Builder(day, time)
                 .setMeatCourse("Pork")
                 .setFishCourse("Tuna")
                 .setVeggieCourse("Soy")
-                .setSoupAndDesert(soup, desert)
+                .setSoupAndDessert(soup, dessert)
                 .build();
     }
 
@@ -29,9 +29,9 @@ public class MealMenuTest {
     public void canCreateMenu() {
         MealMenu menu = createMenu();
 
-        Meal meat_expected = new Meal(day, time, Meal.Type.MEAT, "Pork", soup, desert);
-        Meal fish_expected = new Meal(day, time, Meal.Type.FISH, "Tuna", soup, desert);
-        Meal veggie_expected = new Meal(day, time, Meal.Type.VEGETARIAN, "Soy", soup, desert);
+        Meal meat_expected = new Meal(day, time, Meal.Type.MEAT, "Pork", soup, dessert);
+        Meal fish_expected = new Meal(day, time, Meal.Type.FISH, "Tuna", soup, dessert);
+        Meal veggie_expected = new Meal(day, time, Meal.Type.VEGETARIAN, "Soy", soup, dessert);
 
         Meal meat_actual = menu.getMeatMeal();
         Meal fish_actual = menu.getFishMeal();
@@ -45,12 +45,12 @@ public class MealMenuTest {
     @Test(expected=IllegalStateException.class)
     public void mustHaveMainCourse() {
         MealMenu.Builder(day, time).
-                .setSoupAndDesert(soup, desert)
+                .setSoupAndDessert(soup, dessert)
                 .build();
     }
 
     @Test(expected=IllegalStateException.class)
-    public void mustHaveSoupAndDesert() {
+    public void mustHaveSoupAndDessert() {
         MealMenu.Builder(day, time)
                 .setMeatCourse("Pork")
                 .build();

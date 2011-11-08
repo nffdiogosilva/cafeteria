@@ -18,7 +18,7 @@ public class ApplicationTest {
                 .setMeatCourse("Pork")
                 .setFishCourse("Tuna")
                 .setVeggieCourse("Soy")
-                .setSoupAndDesert("Vegetables", "Cake")
+                .setSoupAndDessert("Vegetables", "Cake")
                 .build();
     }
 
