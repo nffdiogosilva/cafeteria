@@ -4,7 +4,7 @@ package pt.uac.cafeteria.model;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import pt.uac.cafeteria.model.Debit.MealType;
+import pt.uac.cafeteria.model.Debit.MealTime;
 
 /**
  *
@@ -21,27 +21,27 @@ public class Account {
 
     /** Enumerated type with the status of the account */
     public enum Status {
-        ACTIVE { @Override public String toString() { return "Active"; } },
-        BLOCKED { @Override public String toString() { return "Blocked"; } },
-        CLOSED { @Override public String toString() { return "Closed"; } }
+        ACTIVE { @Override public String toString() { return "Activa"; } },
+        BLOCKED { @Override public String toString() { return "Bloqueada"; } },
+        CLOSED { @Override public String toString() { return "Fechada"; } }
     }
 
-    /** Identification number of the account */
+    /** Account number */
     private int number;
 
-    /**  Access code of the account */
+    /** Account pin code */
     private int pinCode;
 
-    /** Balance of the account */
+    /** Account balance */
     private double balance;
 
-    /** State of the account */
+    /** Account status */
     private Status status;
 
-    /** Student of the account */
+    /** Account student */
     private Student student;
 
-    /** List with the transactions of the account */
+    /** Account transactions list */
     private List<Transaction> transactions;
 
     /** Recorded number of failed attempts at logging in */
@@ -50,7 +50,7 @@ public class Account {
     /**
      * Default Constructor
      *
-     * @param student   student that will manage the account
+     * @param student   Account Student
      */
     public Account(Student student) {
         this.number = student.getId();
@@ -76,7 +76,7 @@ public class Account {
         this.pinCode = pinCode;
     }
 
-    /** Returns the balance of the account */
+    /** Returns the account balance */
     public double getBalance() {
         return balance;
     }
@@ -90,7 +90,7 @@ public class Account {
         this.balance = balance;
     }
 
-    /** Returns the state of the account */
+    /** Returns the account status */
     public Status getStatus() {
         return status;
     }
@@ -111,7 +111,7 @@ public class Account {
     }
 
     /**
-     * Autenticate account
+     * Authenticate account
      *
      * Gets blocked after three failed attempts
      *
@@ -138,12 +138,12 @@ public class Account {
         this.status = status;
     }
 
-    /** Returns a Student of the account */
+    /** Returns account student */
     public Student getStudent() {
         return student;
     }
 
-    /** Returns a transaction list of the account */
+    /** Returns account transactions list */
     public List<Transaction> getTransactions() {
         return transactions;
     }
@@ -181,15 +181,14 @@ public class Account {
      * @param meal  the type of meal: dinner or lunch
      * @throws Exception    exception that leads with not enough credit
      */
-    public void payment (double amount, Calendar date, MealType meal) throws Exception {
+    public void payment (double amount, Calendar date, MealTime meal) {
         if (amount <= this.balance) {
             this.balance = balance - amount;
             this.transactions.add(new Debit(date, meal));
         }
         else {
-            throw new Exception ("Not allowed. Your account doesn't have enough credit");
+            throw new IllegalArgumentException("Nao possui credito suficiente");
         }
-
     }
 
     /**
@@ -198,20 +197,18 @@ public class Account {
      * @param pinCode   the pin code of a student
      * @throws Exception    exceptions that leads with account not being blocked or having an invalid pin code
      */
-    public void recoverAccountState(int pinCode) throws Exception {
+    public void recoverAccountState(int pinCode) {
         if (this.pinCode == pinCode) {
             if (this.getStatus() == Status.BLOCKED) {
                 setStatus(Status.ACTIVE);
             }
             else {
-                throw new Exception ("Account not blocked");
+                throw new IllegalArgumentException("Conta nao esta bloqueada");
             }
-
         }
         else {
-            throw new Exception ("Invalid pin code");
+            throw new IllegalArgumentException("Codigo pin invalido");
         }
-
     }
 
 
@@ -223,11 +220,11 @@ public class Account {
      * @return  the pin code of the account
      * @throws Exception    exception that leads with invalid id
      */
-    public int recoverAccountPinCode(int id) throws Exception {
+    public int recoverAccountPinCode(int id) {
         if (this.student.getId() == id) {
             return this.pinCode;
         }
-        throw new Exception ("Invalid student identification");
+        throw new IllegalArgumentException("Identificacao do estudante invalida");
     }
 
     /** Sets the BLOCKED state of the account */
