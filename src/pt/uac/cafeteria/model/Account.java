@@ -181,7 +181,7 @@ public class Account {
      * @param meal  the type of meal: dinner or lunch
      * @throws Exception    exception that leads with not enough credit
      */
-    public void payment (double amount, Calendar date, MealTime meal) {
+    public void payment (double amount, Calendar date, Meal.Time meal) {
         if (amount <= this.balance) {
             this.balance = balance - amount;
             this.transactions.add(new Debit(date, meal));

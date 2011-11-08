@@ -59,7 +59,7 @@ public class Student {
      *
      * E.g. 20102144.
      */
-    protected Student() {
+    Student() {
         if (seed < 1000 || seed > 9999) {
             throw new RuntimeException("Impossivel gerar numero de processo. Nao ha nenhum disponivel.");
         }

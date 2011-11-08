@@ -9,13 +9,13 @@ import java.util.Calendar;
 public class Meal {
 
     /** Enumerates meal day time */
-    enum Time {
+    public enum Time {
         LUNCH  { @Override public String toString() { return "Jantar"; } },
         DINNER { @Override public String toString() { return "Almoco"; } };
     }
 
     /** Enumerates dish types */
-    enum Type {
+    public enum Type {
         MEAT  { @Override public String toString() { return "Carne"; } },
         FISH { @Override public String toString() { return "Peixe"; } },
         VEGETARIAN { @Override public String toString() { return "Vegetariano"; } };
