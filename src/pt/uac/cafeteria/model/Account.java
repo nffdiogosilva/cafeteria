@@ -166,8 +166,8 @@ public class Account {
      * @param administrator the administrator that does the deposit
      */
     public void deposit (double amount, String administrator) {
-        if (amount <= 0) {
-            amount = Math.abs(amount);
+        if (amount < 0) {
+            amount = -amount;
         }
         this.balance = balance + amount;
         this.transactions.add(new Credit(administrator, amount));

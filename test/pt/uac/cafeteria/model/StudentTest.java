@@ -25,11 +25,11 @@ public class StudentTest {
     }
 
     private Student createStudent() {
-        Address address = Address.build(Sample.streetAddress,
-                                        Sample.postalCode,
-                                        Sample.city);
-
-        Student student = Student.build(Sample.name, address,
+        Student student = Student.build(Sample.name,
+                                        Address.build(
+                                            Sample.streetAddress,
+                                            Sample.postalCode,
+                                            Sample.city),
                                         Sample.phone,
                                         Sample.email,
                                         Sample.scholarship,
