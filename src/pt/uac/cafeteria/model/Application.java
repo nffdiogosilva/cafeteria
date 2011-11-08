@@ -11,11 +11,7 @@ import java.util.Map;
  */
 public class Application {
 
-    /** Default administrator username */
-    private final String DEFAULT_ADMIN_NAME = "administrador";
 
-    /** Default administrator password */
-    private final String DEFAULT_ADMIN_PASSWORD = "12345678";
 
     /** Map with administrator accounts */
     private Map<String, Administrator> administrators = new HashMap<String, Administrator>();
@@ -33,7 +29,7 @@ public class Application {
      */
     public Application() {
         Administrator default_admin = new Administrator();
-        administrators.put(DEFAULT_ADMIN_NAME, default_admin);
+        administrators.put(default_admin.getUsername(), default_admin);
     }
 
     /**
