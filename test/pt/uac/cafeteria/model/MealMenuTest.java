@@ -17,7 +17,7 @@ public class MealMenuTest {
     private final String dessert = "Cake";
 
     private MealMenu createMenu() {
-        return MealMenu.Builder(day, time)
+        return new MealMenu.Builder(day, time)
                 .setMeatCourse("Pork")
                 .setFishCourse("Tuna")
                 .setVeggieCourse("Soy")
@@ -44,14 +44,14 @@ public class MealMenuTest {
 
     @Test(expected=IllegalStateException.class)
     public void mustHaveMainCourse() {
-        MealMenu.Builder(day, time).
+        new MealMenu.Builder(day, time)
                 .setSoupAndDessert(soup, dessert)
                 .build();
     }
 
     @Test(expected=IllegalStateException.class)
     public void mustHaveSoupAndDessert() {
-        MealMenu.Builder(day, time)
+        new MealMenu.Builder(day, time)
                 .setMeatCourse("Pork")
                 .build();
     }
