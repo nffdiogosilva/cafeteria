@@ -66,6 +66,6 @@ public class MealMenuTest {
             {Meal.Type.VEGETARIAN.toString(), "Soy"}
         });
 
-        assertArrayEquals(expected, menu.getMainCourses());
+        assertEquals(expected, menu.getMainCourses());
     }
 }
