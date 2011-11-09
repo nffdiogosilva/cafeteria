@@ -49,10 +49,6 @@ public class MealMenu {
             this.time = time;
         }
         
-        public Meal getMeatMeal() {
-            return new Meal(day, time, Meal.Type.MEAT, soup, fish, dessert);
-        }
-        
         public Builder setMeatCourse(String meat) {
             this.meat = meat;
             return this;
