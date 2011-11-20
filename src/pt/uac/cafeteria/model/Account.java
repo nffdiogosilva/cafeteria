@@ -37,9 +37,6 @@ public class Account {
     /** Account status */
     private Status status;
 
-    /** Account student */
-    private Student student;
-
     /** Account transactions list */
     private List<Transaction> transactions;
 
@@ -49,14 +46,13 @@ public class Account {
     /**
      * Default Constructor
      *
-     * @param student   Account Student
+     * @param studendId   Student id
      */
-    public Account(Student student) {
-        this.number = student.getId();
+    public Account(int studentId) {
+        this.number = studentId;
         this.pinCode = randomNumber();
         this.balance = 5.0;
         this.status = Status.ACTIVE;
-        this.student = student;
         this.transactions = new ArrayList();
     }
 
@@ -137,11 +133,6 @@ public class Account {
         this.status = status;
     }
 
-    /** Returns account student */
-    public Student getStudent() {
-        return student;
-    }
-
     /** Returns account transactions list */
     public List<Transaction> getTransactions() {
         return transactions;
@@ -154,7 +145,6 @@ public class Account {
                 "\nPin Code: " + this.pinCode +
                 "\nBalance: " + this.balance +
                 "\nStatus: " + this.status +
-                "\nStudent: " + this.student.getName() +
                 "\nTransactions: " + this.transactions;
     }
 
@@ -219,8 +209,8 @@ public class Account {
      * @return  the pin code of the account
      * @throws Exception    exception that leads with invalid id
      */
-    public int recoverAccountPinCode(int id) {
-        if (this.student.getId() == id) {
+    public int recoverAccountPinCode(Student student, int id) {
+        if (student.getId() == id) {
             return this.pinCode;
         }
         throw new IllegalArgumentException("Identificacao do estudante invalida");
@@ -242,8 +232,8 @@ public class Account {
     }
     
     /** Alters the email of the Student */
-    public void updateEmail(String email) throws Exception {
-        getStudent().setEmail(email);
+    public void updateEmail(Student student, String email) {
+        student.setEmail(email);
     }
 
     /** Generates a number between 1000 and 9999 */

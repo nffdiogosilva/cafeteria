@@ -17,7 +17,7 @@ public class Application {
     private final Map<String, Administrator> administrators = new HashMap<String, Administrator>();
 
     /** Map with student accounts */
-    private final Map<Integer, Account> accounts = new HashMap<Integer, Account>();
+    private final Map<Integer, Student> students = new HashMap<Integer, Student>();
 
     /** Map with old students that no longer have an account */
     private final Map<Integer, Student> oldStudents = new HashMap<Integer, Student>();
@@ -64,22 +64,22 @@ public class Application {
     }
 
     /**
-     * Adds an account to the application
+     * Adds a Student to the application
      *
-     * @param account  Student account
+     * @param student  Student
      */
-    public void addAccount(Account account) {
-        accounts.put(new Integer(account.getNumber()), account);
+    public void addStudent(Student student) {
+        students.put(new Integer(student.getId()), student);
     }
 
     /**
-     * Gets a student account.
+     * Gets a student.
      *
-     * @param accountNumber  Account process number
-     * @return  Student account object
+     * @param accountNumber  Student's account process number
+     * @return  Student student object
      */
-    Account getAccount(int accountNumber) {
-        return accounts.get(new Integer(accountNumber));
+    Student getStudent(int accountNumber) {
+        return students.get(new Integer(accountNumber));
     }
 
     /**
@@ -91,30 +91,30 @@ public class Application {
      * @param pinCode  Account pin code
      * @return  Student account object, or null if does not authenticate
      */
-    public Account getAccount(int accountNumber, int pinCode) {
-        Account account = getAccount(accountNumber);
+    public Student getStudent(int accountNumber, int pinCode) {
+        Student student = getStudent(accountNumber);
+        Account account = student.getAccount();
 
         if (account != null && account.authenticate(pinCode)) {
-            return account;
+            return student;
         }
 
         return null;
     }
 
     /**
-     * Deletes a student account
+     * Deletes a student 
      *
      * Student gets moved to an historic of students (old students)
      *
      * @param accountNumber  Account or student process number
      */
-    public void deleteAccount(int accountNumber) {
+    public void deleteStudent(int accountNumber) {
         Integer studentNumber = new Integer(accountNumber);
-        Account account = accounts.get(studentNumber);
+        Student student = students.get(studentNumber);
 
-        if (account != null) {
-            Student student = account.getStudent();
-            accounts.remove(studentNumber);
+        if (student != null) {
+            students.remove(studentNumber);
             oldStudents.put(studentNumber, student);
         }
     }

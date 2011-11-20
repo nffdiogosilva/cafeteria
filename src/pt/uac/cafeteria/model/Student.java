@@ -24,6 +24,9 @@ public class Student {
 
     /** Student's name. */
     private String name;
+    
+    /** Student's account. */
+    private Account account;
 
     /** Student address. */
     private Address address;
@@ -82,7 +85,8 @@ public class Student {
     public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) {
 
         Student student = new Student();
-
+        
+        student.setAccount();
         student.setName(name);
         student.setAddress(address);
         student.setPhone(phone);
@@ -98,6 +102,16 @@ public class Student {
     /** Returns the identification of a student */
     public int getId() {
         return this.id;
+    }
+    
+    /** Returns the student account */
+    public Account getAccount() {
+        return this.account;
+    }
+    
+    /** Defines the student account */
+    public void setAccount() {
+        this.account = new Account(getId());
     }
 
     /** Returns the name of a student */
