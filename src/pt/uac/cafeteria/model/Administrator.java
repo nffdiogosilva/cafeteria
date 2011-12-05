@@ -40,7 +40,7 @@ public class Administrator {
      */
     Administrator() {
         this.name = "Administrador";
-        this.username = "administrador";
+        this.username = "superadmin";
         this.password = "12345678";
     }
 
