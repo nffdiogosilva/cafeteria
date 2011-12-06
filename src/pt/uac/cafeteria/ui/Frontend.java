@@ -3,7 +3,6 @@ package pt.uac.cafeteria.ui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 
 /**
  * 
@@ -37,7 +36,7 @@ public class Frontend extends javax.swing.JFrame {
         pinCode = new javax.swing.JPasswordField();
         confirm = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
-        background = new javax.swing.JLabel();
+        lblFrontBK = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         buttons = new javax.swing.JPanel();
@@ -46,9 +45,9 @@ public class Frontend extends javax.swing.JFrame {
         changePinCode = new javax.swing.JButton();
         changeEmail = new javax.swing.JButton();
         terminate = new javax.swing.JButton();
-        separator = new javax.swing.JSeparator();
         logo1 = new javax.swing.JLabel();
-        background2 = new javax.swing.JLabel();
+        lblFrontBK1 = new javax.swing.JLabel();
+        separator = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cafeteria");
@@ -58,12 +57,12 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPanel.setLayout(null);
 
-        lblNumber.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblNumber.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNumber.setText("Número de Conta");
         mainPanel.add(lblNumber);
         lblNumber.setBounds(355, 150, 110, 14);
 
-        number.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        number.setFont(new java.awt.Font("Tahoma", 1, 11));
         number.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         mainPanel.add(number);
         number.setBounds(350, 170, 110, 30);
@@ -84,13 +83,13 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.add(confirm);
         confirm.setBounds(360, 343, 90, 30);
 
-        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/logo.png"))); // NOI18N
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/logo.png"))); // NOI18N
         mainPanel.add(logo);
         logo.setBounds(355, 390, 100, 100);
 
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/background.png"))); // NOI18N
-        mainPanel.add(background);
-        background.setBounds(0, -50, 939, 683);
+        lblFrontBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/frontBK.png"))); // NOI18N
+        mainPanel.add(lblFrontBK);
+        lblFrontBK.setBounds(0, 0, 939, 683);
 
         loginPanel.setBackground(new java.awt.Color(255, 255, 255));
         loginPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -115,11 +114,6 @@ public class Frontend extends javax.swing.JFrame {
         buttons.setOpaque(false);
 
         buyTicket.setText("Comprar Senha");
-        buyTicket.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                buyTicketMouseReleased(evt);
-            }
-        });
 
         checkBalance.setText("Consultar Saldo");
 
@@ -128,8 +122,11 @@ public class Frontend extends javax.swing.JFrame {
         changeEmail.setText("Alterar e-mail");
 
         terminate.setText("Terminar");
-
-        separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        terminate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                terminateMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout buttonsLayout = new javax.swing.GroupLayout(buttons);
         buttons.setLayout(buttonsLayout);
@@ -138,21 +135,15 @@ public class Frontend extends javax.swing.JFrame {
             .addGroup(buttonsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(terminate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buyTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changePinCode, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsLayout.createSequentialGroup()
-                    .addContainerGap(178, Short.MAX_VALUE)
-                    .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                    .addComponent(buyTicket, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(checkBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(changePinCode, javax.swing.GroupLayout.PREFERRED_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(changeEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(terminate, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
         );
         buttonsLayout.setVerticalGroup(
             buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsLayout.createSequentialGroup()
+            .addGroup(buttonsLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(buyTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
@@ -161,25 +152,25 @@ public class Frontend extends javax.swing.JFrame {
                 .addComponent(changePinCode, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(changeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+                .addGap(306, 306, 306)
                 .addComponent(terminate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
-            .addGroup(buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsLayout.createSequentialGroup()
-                    .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         menuPanel.add(buttons);
-        buttons.setBounds(0, 0, 190, 600);
+        buttons.setBounds(0, 0, 200, 600);
 
-        logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/logo.png"))); // NOI18N
+        logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/logo.png"))); // NOI18N
         menuPanel.add(logo1);
         logo1.setBounds(675, 475, 100, 100);
 
-        background2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/background.png"))); // NOI18N
-        menuPanel.add(background2);
-        background2.setBounds(0, -50, 939, 683);
+        lblFrontBK1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/frontBK.png"))); // NOI18N
+        menuPanel.add(lblFrontBK1);
+        lblFrontBK1.setBounds(0, 0, 939, 683);
+
+        separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        menuPanel.add(separator);
+        separator.setBounds(205, 0, 10, 611);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,17 +199,12 @@ public class Frontend extends javax.swing.JFrame {
     private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
         mainPanel.setVisible(false);
         menuPanel.setVisible(true);
-        buyTicketPanel.setVisible(false);
     }//GEN-LAST:event_confirmMouseReleased
 
-    private void buyTicketMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buyTicketMouseReleased
-        buyTicketPanel.setVisible(true);
-        buyTicket.setEnabled(false);
-        checkBalance.setEnabled(true);
-        changePinCode.setEnabled(true);
-        changeEmail.setEnabled(true);
-        terminate.setEnabled(true);
-    }//GEN-LAST:event_buyTicketMouseReleased
+    private void terminateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_terminateMouseReleased
+        menuPanel.setVisible(false);
+        mainPanel.setVisible(true);
+    }//GEN-LAST:event_terminateMouseReleased
 
     /**
      * @param args the command line arguments
@@ -256,14 +242,14 @@ public class Frontend extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel background;
-    private javax.swing.JLabel background2;
     private javax.swing.JPanel buttons;
     private javax.swing.JButton buyTicket;
     private javax.swing.JButton changeEmail;
     private javax.swing.JButton changePinCode;
     private javax.swing.JButton checkBalance;
     private javax.swing.JButton confirm;
+    private javax.swing.JLabel lblFrontBK;
+    private javax.swing.JLabel lblFrontBK1;
     private javax.swing.JLabel lblNumber;
     private javax.swing.JLabel lblPinCode;
     private javax.swing.JPanel loginPanel;
