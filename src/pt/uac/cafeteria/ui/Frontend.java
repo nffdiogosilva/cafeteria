@@ -3,6 +3,7 @@ package pt.uac.cafeteria.ui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 
 /**
  * 
@@ -16,6 +17,8 @@ public class Frontend extends javax.swing.JFrame {
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(screenSize.width/2 - 400, screenSize.height/2 - 300);
+        
+        menuPanel.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -27,53 +30,25 @@ public class Frontend extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainMenuPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        background1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         mainPanel = new javax.swing.JPanel();
         lblNumber = new javax.swing.JLabel();
-        lblPinCode = new javax.swing.JLabel();
         number = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        lblPinCode = new javax.swing.JLabel();
+        pinCode = new javax.swing.JPasswordField();
         confirm = new javax.swing.JButton();
+        logo = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
-
-        mainMenuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
-        mainMenuPanel.setLayout(null);
-
-        jButton1.setText("Comprar Senha");
-        mainMenuPanel.add(jButton1);
-        jButton1.setBounds(10, 11, 160, 23);
-
-        jButton2.setText("Consultar Saldo");
-        mainMenuPanel.add(jButton2);
-        jButton2.setBounds(10, 60, 160, 23);
-
-        jButton3.setText("Alterar Código de Acesso");
-        mainMenuPanel.add(jButton3);
-        jButton3.setBounds(10, 110, 160, 23);
-
-        jButton4.setText("Alterar e-mail");
-        mainMenuPanel.add(jButton4);
-        jButton4.setBounds(10, 170, 160, 23);
-
-        jButton5.setText("Terminar");
-        mainMenuPanel.add(jButton5);
-        jButton5.setBounds(10, 280, 160, 23);
-
-        background1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/background.png"))); // NOI18N
-        mainMenuPanel.add(background1);
-        background1.setBounds(0, -50, 939, 683);
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        mainMenuPanel.add(jSeparator1);
-        jSeparator1.setBounds(180, 0, 10, 600);
+        menuPanel = new javax.swing.JPanel();
+        buttons = new javax.swing.JPanel();
+        buyTicket = new javax.swing.JButton();
+        checkBalance = new javax.swing.JButton();
+        changePinCode = new javax.swing.JButton();
+        changeEmail = new javax.swing.JButton();
+        terminate = new javax.swing.JButton();
+        separator = new javax.swing.JSeparator();
+        logo1 = new javax.swing.JLabel();
+        background2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cafeteria");
@@ -88,55 +63,162 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.add(lblNumber);
         lblNumber.setBounds(355, 150, 110, 14);
 
+        number.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        number.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        mainPanel.add(number);
+        number.setBounds(350, 170, 110, 30);
+
         lblPinCode.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPinCode.setText("Código de Acesso");
         mainPanel.add(lblPinCode);
         lblPinCode.setBounds(355, 240, 110, 14);
-
-        number.setFont(new java.awt.Font("Tahoma", 1, 11));
-        number.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        mainPanel.add(number);
-        number.setBounds(350, 170, 110, 30);
-        mainPanel.add(jPasswordField1);
-        jPasswordField1.setBounds(350, 265, 110, 30);
+        mainPanel.add(pinCode);
+        pinCode.setBounds(350, 265, 110, 30);
 
         confirm.setText("Confirmar");
+        confirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                confirmMouseReleased(evt);
+            }
+        });
         mainPanel.add(confirm);
         confirm.setBounds(360, 343, 90, 30);
+
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/logo.png"))); // NOI18N
+        mainPanel.add(logo);
+        logo.setBounds(355, 390, 100, 100);
 
         background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/background.png"))); // NOI18N
         mainPanel.add(background);
         background.setBounds(0, -50, 939, 683);
 
         loginPanel.setBackground(new java.awt.Color(255, 255, 255));
+        loginPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addGap(0, 196, Short.MAX_VALUE)
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 396, Short.MAX_VALUE)
         );
 
         mainPanel.add(loginPanel);
         loginPanel.setBounds(300, 100, 200, 400);
+
+        menuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        menuPanel.setLayout(null);
+
+        buttons.setOpaque(false);
+
+        buyTicket.setText("Comprar Senha");
+        buyTicket.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                buyTicketMouseReleased(evt);
+            }
+        });
+
+        checkBalance.setText("Consultar Saldo");
+
+        changePinCode.setText("Alterar Código de Acesso");
+
+        changeEmail.setText("Alterar e-mail");
+
+        terminate.setText("Terminar");
+
+        separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        javax.swing.GroupLayout buttonsLayout = new javax.swing.GroupLayout(buttons);
+        buttons.setLayout(buttonsLayout);
+        buttonsLayout.setHorizontalGroup(
+            buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(terminate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buyTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changePinCode, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(changeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsLayout.createSequentialGroup()
+                    .addContainerGap(178, Short.MAX_VALUE)
+                    .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+        buttonsLayout.setVerticalGroup(
+            buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(buyTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(checkBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(changePinCode, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(changeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+                .addComponent(terminate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
+            .addGroup(buttonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsLayout.createSequentialGroup()
+                    .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 611, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        menuPanel.add(buttons);
+        buttons.setBounds(0, 0, 190, 600);
+
+        logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/logo.png"))); // NOI18N
+        menuPanel.add(logo1);
+        logo1.setBounds(675, 475, 100, 100);
+
+        background2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/background.png"))); // NOI18N
+        menuPanel.add(background2);
+        background2.setBounds(0, -50, 939, 683);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
+        mainPanel.setVisible(false);
+        menuPanel.setVisible(true);
+        buyTicketPanel.setVisible(false);
+    }//GEN-LAST:event_confirmMouseReleased
+
+    private void buyTicketMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buyTicketMouseReleased
+        buyTicketPanel.setVisible(true);
+        buyTicket.setEnabled(false);
+        checkBalance.setEnabled(true);
+        changePinCode.setEnabled(true);
+        changeEmail.setEnabled(true);
+        terminate.setEnabled(true);
+    }//GEN-LAST:event_buyTicketMouseReleased
 
     /**
      * @param args the command line arguments
@@ -175,20 +257,23 @@ public class Frontend extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
-    private javax.swing.JLabel background1;
+    private javax.swing.JLabel background2;
+    private javax.swing.JPanel buttons;
+    private javax.swing.JButton buyTicket;
+    private javax.swing.JButton changeEmail;
+    private javax.swing.JButton changePinCode;
+    private javax.swing.JButton checkBalance;
     private javax.swing.JButton confirm;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblNumber;
     private javax.swing.JLabel lblPinCode;
     private javax.swing.JPanel loginPanel;
-    private javax.swing.JPanel mainMenuPanel;
+    private javax.swing.JLabel logo;
+    private javax.swing.JLabel logo1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel menuPanel;
     private javax.swing.JTextField number;
+    private javax.swing.JPasswordField pinCode;
+    private javax.swing.JSeparator separator;
+    private javax.swing.JButton terminate;
     // End of variables declaration//GEN-END:variables
 }
