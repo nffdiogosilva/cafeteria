@@ -29,9 +29,9 @@ public class MealMenuTest {
     public void canCreateMenu() {
         MealMenu menu = createMenu();
 
-        Meal meat_expected = new Meal(day, time, Meal.Type.MEAT, "Pork", soup, dessert);
-        Meal fish_expected = new Meal(day, time, Meal.Type.FISH, "Tuna", soup, dessert);
-        Meal veggie_expected = new Meal(day, time, Meal.Type.VEGETARIAN, "Soy", soup, dessert);
+        Meal meat_expected = new Meal(day, time, Meal.Type.MEAT, soup, "Pork", dessert);
+        Meal fish_expected = new Meal(day, time, Meal.Type.FISH, soup, "Tuna", dessert);
+        Meal veggie_expected = new Meal(day, time, Meal.Type.VEGETARIAN, soup, "Soy", dessert);
 
         Meal meat_actual = menu.getMeatMeal();
         Meal fish_actual = menu.getFishMeal();
