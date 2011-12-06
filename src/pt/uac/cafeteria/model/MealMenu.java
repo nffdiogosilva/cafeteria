@@ -1,6 +1,8 @@
 package pt.uac.cafeteria.model;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Represents the Meal Menu.
@@ -9,10 +11,10 @@ import java.util.Calendar;
 public class MealMenu {
    
     /** Day of the menu */
-    private Calendar day;
+    private final Calendar day;
     
     /** Time of the meal */
-    private Meal.Time time;
+    private final Meal.Time time;
     
     /** Meat meal */
     private String meat;
@@ -104,11 +106,20 @@ public class MealMenu {
     
     /** Returns fish meal*/
     public Meal getFishMeal() {
-        return new Meal(day, time, Meal.Type.MEAT, soup, fish, dessert);
+        return new Meal(day, time, Meal.Type.FISH, soup, fish, dessert);
     }
     
     /** Returns vegetarian meal*/
     public Meal getVeggieMeal() {
-        return new Meal(day, time, Meal.Type.MEAT, soup, veggie, dessert);
+        return new Meal(day, time, Meal.Type.VEGETARIAN, soup, veggie, dessert);
+    }
+    
+    /** Returns the main courses */
+    public List<String[]> getMainCourses() {
+        return Arrays.asList(new String[][] {
+            {Meal.Type.MEAT.toString(), this.meat},
+            {Meal.Type.FISH.toString(), this.fish},
+            {Meal.Type.VEGETARIAN.toString(), this.veggie}
+        });
     }
 }
