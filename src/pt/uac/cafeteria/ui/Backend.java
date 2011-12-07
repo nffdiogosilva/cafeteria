@@ -14,6 +14,8 @@ public class Backend extends javax.swing.JFrame {
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(screenSize.width/2 - 400, screenSize.height/2 - 300);
+        
+        menuPanel.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -33,11 +35,21 @@ public class Backend extends javax.swing.JFrame {
         confirm = new javax.swing.JButton();
         lblBackBK = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
+        menuPanel = new javax.swing.JPanel();
+        buttons = new javax.swing.JPanel();
+        student = new javax.swing.JButton();
+        account = new javax.swing.JButton();
+        admin = new javax.swing.JButton();
+        meal = new javax.swing.JButton();
+        terminate = new javax.swing.JButton();
+        lblBackBK1 = new javax.swing.JLabel();
+        separator = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cafeteria");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
+        getContentPane().setLayout(null);
 
         mainPanel.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPanel.setLayout(null);
@@ -62,6 +74,11 @@ public class Backend extends javax.swing.JFrame {
         password.setBounds(350, 265, 110, 30);
 
         confirm.setText("Confirmar");
+        confirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                confirmMouseReleased(evt);
+            }
+        });
         mainPanel.add(confirm);
         confirm.setBounds(360, 340, 90, 30);
 
@@ -86,19 +103,83 @@ public class Backend extends javax.swing.JFrame {
         mainPanel.add(loginPanel);
         loginPanel.setBounds(300, 100, 200, 400);
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(mainPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 800, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        getContentPane().add(mainPanel);
+        mainPanel.setBounds(0, 0, 800, 600);
+
+        menuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        menuPanel.setLayout(null);
+
+        buttons.setOpaque(false);
+
+        student.setText("Estudantes");
+
+        account.setText("Contas");
+
+        admin.setText("Administradores");
+
+        meal.setText("Refeições");
+
+        terminate.setText("Terminar");
+        terminate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                terminateMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout buttonsLayout = new org.jdesktop.layout.GroupLayout(buttons);
+        buttons.setLayout(buttonsLayout);
+        buttonsLayout.setHorizontalGroup(
+            buttonsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(buttonsLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(buttonsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(student, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .add(account, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .add(admin, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .add(terminate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, meal, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(mainPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 600, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        buttonsLayout.setVerticalGroup(
+            buttonsLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(buttonsLayout.createSequentialGroup()
+                .add(29, 29, 29)
+                .add(student, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(19, 19, 19)
+                .add(account, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(20, 20, 20)
+                .add(admin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(meal, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(318, 318, 318)
+                .add(terminate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
+
+        menuPanel.add(buttons);
+        buttons.setBounds(0, 0, 200, 600);
+
+        lblBackBK1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/backBK.png"))); // NOI18N
+        menuPanel.add(lblBackBK1);
+        lblBackBK1.setBounds(0, 0, 800, 600);
+
+        separator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        menuPanel.add(separator);
+        separator.setBounds(205, 0, 10, 611);
+
+        getContentPane().add(menuPanel);
+        menuPanel.setBounds(0, 0, 800, 600);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void terminateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_terminateMouseReleased
+
+        menuPanel.setVisible(false);         mainPanel.setVisible(true);     }//GEN-LAST:event_terminateMouseReleased
+
+    private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
+        mainPanel.setVisible(false);
+        menuPanel.setVisible(true);
+    }//GEN-LAST:event_confirmMouseReleased
 
     /**
      * @param args the command line arguments
@@ -136,13 +217,22 @@ public class Backend extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton account;
+    private javax.swing.JButton admin;
+    private javax.swing.JPanel buttons;
     private javax.swing.JButton confirm;
     private javax.swing.JLabel lblBackBK;
+    private javax.swing.JLabel lblBackBK1;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton meal;
+    private javax.swing.JPanel menuPanel;
     private javax.swing.JPasswordField password;
+    private javax.swing.JSeparator separator;
+    private javax.swing.JButton student;
+    private javax.swing.JButton terminate;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
