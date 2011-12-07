@@ -42,23 +42,18 @@ public class Backend extends javax.swing.JFrame {
         mainPanel.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPanel.setLayout(null);
 
-        lblUsername.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblUsername.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUsername.setText("Username:");
         mainPanel.add(lblUsername);
         lblUsername.setBounds(350, 144, 110, 20);
 
-        username.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        username.setFont(new java.awt.Font("Tahoma", 1, 11));
         username.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
         mainPanel.add(username);
         username.setBounds(350, 170, 110, 30);
 
-        lblPassword.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPassword.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPassword.setText("Password:");
         mainPanel.add(lblPassword);
@@ -67,11 +62,6 @@ public class Backend extends javax.swing.JFrame {
         password.setBounds(350, 265, 110, 30);
 
         confirm.setText("Confirmar");
-        confirm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmActionPerformed(evt);
-            }
-        });
         mainPanel.add(confirm);
         confirm.setBounds(360, 340, 90, 30);
 
@@ -109,14 +99,6 @@ public class Backend extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_confirmActionPerformed
-
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
 
     /**
      * @param args the command line arguments
