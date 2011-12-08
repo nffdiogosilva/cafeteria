@@ -34,8 +34,8 @@ public class Frontend extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        time = new javax.swing.ButtonGroup();
-        dish = new javax.swing.ButtonGroup();
+        bgTime = new javax.swing.ButtonGroup();
+        bgDish = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         lblNumber = new javax.swing.JLabel();
         number = new javax.swing.JTextField();
@@ -50,7 +50,7 @@ public class Frontend extends javax.swing.JFrame {
         btnBuyTicket = new javax.swing.JButton();
         btnCheckBalance = new javax.swing.JButton();
         btnChangePinCode = new javax.swing.JButton();
-        brnChangeEmail = new javax.swing.JButton();
+        btnChangeEmail = new javax.swing.JButton();
         btnTerminate = new javax.swing.JButton();
         panelBuyTicket = new javax.swing.JPanel();
         ifWarning = new javax.swing.JInternalFrame();
@@ -62,8 +62,8 @@ public class Frontend extends javax.swing.JFrame {
         btnYesTickets = new javax.swing.JButton();
         btnNoTickets = new javax.swing.JButton();
         ifPurchaseSuccess = new javax.swing.JInternalFrame();
-        success = new javax.swing.JLabel();
-        purchaseOk = new javax.swing.JButton();
+        lblPurchaseSuccess = new javax.swing.JLabel();
+        btnPurchaseOk = new javax.swing.JButton();
         spSummary = new javax.swing.JScrollPane();
         panelSummary = new javax.swing.JPanel();
         lblPurchaseDate = new javax.swing.JLabel();
@@ -81,13 +81,13 @@ public class Frontend extends javax.swing.JFrame {
         lblTicketSoupText = new javax.swing.JLabel();
         lblTicketDishText = new javax.swing.JLabel();
         lblTicketDessertText = new javax.swing.JLabel();
-        chooseDay = new javax.swing.JPanel();
+        panelChooseDay = new javax.swing.JPanel();
         cbYearChoice = new javax.swing.JComboBox();
         cbMonthChoice = new javax.swing.JComboBox();
         cbDayChoice = new javax.swing.JComboBox();
         rbLunch = new javax.swing.JRadioButton();
         rbDinner = new javax.swing.JRadioButton();
-        showMeal = new javax.swing.JPanel();
+        panelShowMeal = new javax.swing.JPanel();
         lblChooseDish = new javax.swing.JLabel();
         rbMeat = new javax.swing.JRadioButton();
         rbFish = new javax.swing.JRadioButton();
@@ -122,7 +122,7 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.add(lblNumber);
         lblNumber.setBounds(355, 150, 110, 14);
 
-        number.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        number.setFont(new java.awt.Font("Tahoma", 1, 11));
         number.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         mainPanel.add(number);
         number.setBounds(350, 170, 110, 30);
@@ -184,7 +184,7 @@ public class Frontend extends javax.swing.JFrame {
 
         btnChangePinCode.setText("Alterar Código de Acesso");
 
-        brnChangeEmail.setText("Alterar e-mail");
+        btnChangeEmail.setText("Alterar e-mail");
 
         btnTerminate.setText("Terminar");
         btnTerminate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -200,26 +200,27 @@ public class Frontend extends javax.swing.JFrame {
             .addGroup(panelButtonsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBuyTicket, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                    .addComponent(btnCheckBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                    .addComponent(btnChangePinCode, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                    .addComponent(brnChangeEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                    .addComponent(btnTerminate, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)))
+                    .addComponent(btnBuyTicket, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(btnCheckBalance, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(btnChangePinCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnChangeEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(btnTerminate, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+                .addGap(37, 37, 37))
         );
         panelButtonsLayout.setVerticalGroup(
             panelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonsLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(32, 32, 32)
                 .addComponent(btnBuyTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addComponent(btnCheckBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(btnChangePinCode, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(brnChangeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnChangeEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(307, 307, 307)
                 .addComponent(btnTerminate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         menuPanel.add(panelButtons);
@@ -231,7 +232,7 @@ public class Frontend extends javax.swing.JFrame {
         ifWarning.setTitle("Aviso");
         ifWarning.setVisible(true);
 
-        lblMoreTickets1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMoreTickets1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMoreTickets1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMoreTickets1.setText("Tem a certeza que quer Cancelar?");
 
@@ -325,14 +326,14 @@ public class Frontend extends javax.swing.JFrame {
         ifPurchaseSuccess.setTitle("Informação");
         ifPurchaseSuccess.setVisible(true);
 
-        success.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        success.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        success.setText("Compra efectuada com sucesso!");
+        lblPurchaseSuccess.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPurchaseSuccess.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPurchaseSuccess.setText("Compra efectuada com sucesso!");
 
-        purchaseOk.setText("OK");
-        purchaseOk.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnPurchaseOk.setText("OK");
+        btnPurchaseOk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                purchaseOkMouseReleased(evt);
+                btnPurchaseOkMouseReleased(evt);
             }
         });
 
@@ -340,19 +341,19 @@ public class Frontend extends javax.swing.JFrame {
         ifPurchaseSuccess.getContentPane().setLayout(ifPurchaseSuccessLayout);
         ifPurchaseSuccessLayout.setHorizontalGroup(
             ifPurchaseSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(success, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+            .addComponent(lblPurchaseSuccess, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
             .addGroup(ifPurchaseSuccessLayout.createSequentialGroup()
                 .addGap(73, 73, 73)
-                .addComponent(purchaseOk, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPurchaseOk, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(76, Short.MAX_VALUE))
         );
         ifPurchaseSuccessLayout.setVerticalGroup(
             ifPurchaseSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ifPurchaseSuccessLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(success, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblPurchaseSuccess, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(purchaseOk)
+                .addComponent(btnPurchaseOk)
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -366,10 +367,10 @@ public class Frontend extends javax.swing.JFrame {
         panelSummary.setOpaque(false);
         panelSummary.setPreferredSize(new java.awt.Dimension(300, 270));
 
-        lblPurchaseDate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPurchaseDate.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPurchaseDate.setText("Data da Compra:");
 
-        lblPrice.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPrice.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPrice.setText("Preço Total:");
 
         lblPriceText.setText("3€");
@@ -406,15 +407,15 @@ public class Frontend extends javax.swing.JFrame {
         lpMeal1.add(lbTicketlMealTimeText, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         lblTicketSoupText.setText("Caldo Verde");
-        lblTicketSoupText.setBounds(100, 70, 180, 20);
+        lblTicketSoupText.setBounds(100, 70, 300, 20);
         lpMeal1.add(lblTicketSoupText, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         lblTicketDishText.setText("Bifes");
-        lblTicketDishText.setBounds(100, 100, 180, 20);
+        lblTicketDishText.setBounds(100, 100, 300, 20);
         lpMeal1.add(lblTicketDishText, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         lblTicketDessertText.setText("Mousse");
-        lblTicketDessertText.setBounds(100, 130, 180, 20);
+        lblTicketDessertText.setBounds(100, 130, 300, 20);
         lpMeal1.add(lblTicketDessertText, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout panelSummaryLayout = new javax.swing.GroupLayout(panelSummary);
@@ -424,16 +425,19 @@ public class Frontend extends javax.swing.JFrame {
             .addGroup(panelSummaryLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lpMeal1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
                     .addGroup(panelSummaryLayout.createSequentialGroup()
-                        .addGroup(panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblPurchaseDate, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addComponent(lblPurchaseDate)
                         .addGap(10, 10, 10)
-                        .addGroup(panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPurchaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                        .addComponent(lblPurchaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(206, Short.MAX_VALUE))
+                    .addGroup(panelSummaryLayout.createSequentialGroup()
+                        .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(371, 371, 371))
+                    .addGroup(panelSummaryLayout.createSequentialGroup()
+                        .addComponent(lpMeal1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         panelSummaryLayout.setVerticalGroup(
             panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,98 +451,98 @@ public class Frontend extends javax.swing.JFrame {
                     .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(lpMeal1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lpMeal1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         spSummary.setViewportView(panelSummary);
 
-        panelBuyTicket.add(spSummary, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 270));
+        panelBuyTicket.add(spSummary, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
 
-        chooseDay.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolha a data e a refeição", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
-        chooseDay.setMinimumSize(new java.awt.Dimension(400, 400));
-        chooseDay.setPreferredSize(new java.awt.Dimension(333, 155));
-        chooseDay.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelChooseDay.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolha a data e a refeição", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+        panelChooseDay.setMinimumSize(new java.awt.Dimension(400, 400));
+        panelChooseDay.setPreferredSize(new java.awt.Dimension(333, 155));
+        panelChooseDay.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cbYearChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2011", "2012", "2013", "2014", "2015", "2016", "2017" }));
-        chooseDay.add(cbYearChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        panelChooseDay.add(cbYearChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         cbMonthChoice.setMaximumRowCount(12);
         cbMonthChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
-        chooseDay.add(cbMonthChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+        panelChooseDay.add(cbMonthChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
         cbDayChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        chooseDay.add(cbDayChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, -1, -1));
+        panelChooseDay.add(cbDayChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, -1, -1));
 
-        time.add(rbLunch);
+        bgTime.add(rbLunch);
         rbLunch.setText("Almoço");
         rbLunch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 rbLunchMouseReleased(evt);
             }
         });
-        chooseDay.add(rbLunch, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 97, -1, -1));
+        panelChooseDay.add(rbLunch, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 97, -1, -1));
 
-        time.add(rbDinner);
+        bgTime.add(rbDinner);
         rbDinner.setText("Jantar");
         rbDinner.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 rbDinnerMouseReleased(evt);
             }
         });
-        chooseDay.add(rbDinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 123, -1, -1));
+        panelChooseDay.add(rbDinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 123, -1, -1));
 
-        panelBuyTicket.add(chooseDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, -1));
+        panelBuyTicket.add(panelChooseDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, -1));
 
-        showMeal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "MENU", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
-        showMeal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelShowMeal.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "MENU", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+        panelShowMeal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblChooseDish.setText("Faça a sua escolha:");
-        showMeal.add(lblChooseDish, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
+        panelShowMeal.add(lblChooseDish, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
 
-        dish.add(rbMeat);
+        bgDish.add(rbMeat);
         rbMeat.setText("Carne");
         rbMeat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 rbMeatMouseReleased(evt);
             }
         });
-        showMeal.add(rbMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        panelShowMeal.add(rbMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
 
-        dish.add(rbFish);
+        bgDish.add(rbFish);
         rbFish.setText("Peixe");
-        showMeal.add(rbFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
+        panelShowMeal.add(rbFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
-        dish.add(rbVegetarian);
+        bgDish.add(rbVegetarian);
         rbVegetarian.setText("Vegetariano");
-        showMeal.add(rbVegetarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
+        panelShowMeal.add(rbVegetarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
 
-        lblSoup.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSoup.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblSoup.setText("Sopa:");
-        showMeal.add(lblSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 20));
+        panelShowMeal.add(lblSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 20));
 
-        lblMeat.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMeat.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMeat.setText("Carne:");
-        showMeal.add(lblMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
+        panelShowMeal.add(lblMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
 
-        lblFish.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblFish.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblFish.setText("Peixe:");
-        showMeal.add(lblFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, 20));
+        panelShowMeal.add(lblFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, 20));
 
-        lblVegetarian.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblVegetarian.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblVegetarian.setText("Vegetariano:");
-        showMeal.add(lblVegetarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, 20));
+        panelShowMeal.add(lblVegetarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, 20));
 
-        lblDessert.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDessert.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDessert.setText("Sobremesa:");
-        showMeal.add(lblDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, 20));
-        showMeal.add(lblSoupText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 290, 20));
-        showMeal.add(lblMeatText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 290, 20));
-        showMeal.add(lblFishText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 290, 20));
-        showMeal.add(lblVegetarianText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 290, 20));
-        showMeal.add(lblDessertText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 290, 20));
+        panelShowMeal.add(lblDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, 20));
+        panelShowMeal.add(lblSoupText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 290, 20));
+        panelShowMeal.add(lblMeatText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 290, 20));
+        panelShowMeal.add(lblFishText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 290, 20));
+        panelShowMeal.add(lblVegetarianText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 290, 20));
+        panelShowMeal.add(lblDessertText, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 290, 20));
 
-        panelBuyTicket.add(showMeal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 440, 260));
+        panelBuyTicket.add(panelShowMeal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 440, 260));
 
         btnBuy.setText("Comprar");
         btnBuy.setPreferredSize(new java.awt.Dimension(75, 23));
@@ -605,15 +609,18 @@ public class Frontend extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
-        mainPanel.setVisible(false);
-        menuPanel.setVisible(true);
-        panelBuyTicket.setVisible(false);
+        if (confirm.isEnabled()) {
+            mainPanel.setVisible(false);
+            menuPanel.setVisible(true);
+            panelBuyTicket.setVisible(false);
+
+            panelChooseDay.setVisible(false);
+            btnBuyTicket.setEnabled(true);
+            btnCheckBalance.setEnabled(true);
+            btnChangePinCode.setEnabled(true);
+            btnChangeEmail.setEnabled(true);
+        }
         
-        chooseDay.setVisible(false);
-        btnBuyTicket.setEnabled(true);
-        btnCheckBalance.setEnabled(true);
-        btnChangePinCode.setEnabled(true);
-        brnChangeEmail.setEnabled(true);
     }//GEN-LAST:event_confirmMouseReleased
 
     private void btnTerminateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTerminateMouseReleased
@@ -622,36 +629,42 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTerminateMouseReleased
 
     private void btnBuyTicketMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuyTicketMouseReleased
-        panelBuyTicket.setVisible(true);
-        chooseDay.setVisible(true);
-        showMeal.setVisible(false);
-        btnConfirmMeal.setVisible(true);
-        btnConfirmMeal.setEnabled(false);
-        btnCancel.setVisible(true);
-        btnCancel.setEnabled(true);
-        ifTickets.setVisible(false);
-        spSummary.setVisible(false);
-        btnBuy.setVisible(false);
-        time.clearSelection();
-        dish.clearSelection();
-        ifPurchaseSuccess.setVisible(false);
-        ifWarning.setVisible(false);
-        cbYearChoice.setSelectedIndex(0);
-        cbMonthChoice.setSelectedIndex(0);
-        cbDayChoice.setSelectedIndex(0);
-        
-        btnBuyTicket.setEnabled(false);
-        btnCheckBalance.setEnabled(true);
-        btnChangePinCode.setEnabled(true);
-        brnChangeEmail.setEnabled(true);
+        if (btnBuyTicket.isEnabled()) {
+            panelBuyTicket.setVisible(true);
+            panelChooseDay.setVisible(true);
+            panelShowMeal.setVisible(false);
+            btnConfirmMeal.setVisible(true);
+            btnConfirmMeal.setEnabled(false);
+            btnCancel.setVisible(true);
+            btnCancel.setEnabled(true);
+            ifTickets.setVisible(false);
+            spSummary.setVisible(false);
+            btnBuy.setVisible(false);
+            bgTime.clearSelection();
+            bgDish.clearSelection();
+            ifPurchaseSuccess.setVisible(false);
+            ifWarning.setVisible(false);
+            cbYearChoice.setSelectedIndex(0);
+            cbMonthChoice.setSelectedIndex(0);
+            cbDayChoice.setSelectedIndex(0);
+
+            btnBuyTicket.setEnabled(false);
+            btnCheckBalance.setEnabled(false);
+            btnChangePinCode.setEnabled(false);
+            btnChangeEmail.setEnabled(false);
+        }
     }//GEN-LAST:event_btnBuyTicketMouseReleased
 
     private void btnCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseReleased
-        ifWarning.setVisible(true);
+        if (btnCancel.isEnabled()) {
+            ifWarning.setVisible(true);
+            btnConfirmMeal.setEnabled(false);
+            btnBuy.setEnabled(false);
+        }
     }//GEN-LAST:event_btnCancelMouseReleased
 
     private void rbLunchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbLunchMouseReleased
-        showMeal.setVisible(true);
+        panelShowMeal.setVisible(true);
         lblSoupText.setText("Caldo Verde");
         lblMeatText.setText("Bifes");
         lblFishText.setText("Chicharros");
@@ -664,51 +677,62 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_rbMeatMouseReleased
 
     private void btnConfirmMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMealMouseReleased
-        chooseDay.setVisible(false);
-        showMeal.setVisible(false);
-        spSummary.setVisible(true);
-        btnConfirmMeal.setVisible(false);
-        btnBuy.setVisible(true);
-        btnBuy.setEnabled(true);
-        
-        lblPurchaseDateText.setText(""+day+"/"+month+"/"+year);
+        if (btnConfirmMeal.isEnabled()) {
+            panelChooseDay.setVisible(false);
+            panelShowMeal.setVisible(false);
+            spSummary.setVisible(true);
+            btnConfirmMeal.setVisible(false);
+            btnBuy.setVisible(true);
+            btnBuy.setEnabled(true);
+
+            lblPurchaseDateText.setText(""+day+"/"+month+"/"+year);    
+        }
     }//GEN-LAST:event_btnConfirmMealMouseReleased
 
     private void btnYesTicketsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesTicketsMouseReleased
-        ifTickets.setVisible(false);
-        spSummary.setVisible(false);
-        showMeal.setVisible(false);
-        btnBuy.setVisible(false);
-        chooseDay.setVisible(true);
-        btnCancel.setVisible(true);
-        btnCancel.setEnabled(true);
-        btnConfirmMeal.setVisible(true);
-        btnConfirmMeal.setEnabled(false);
-        time.clearSelection();
-        dish.clearSelection();
+            ifTickets.setVisible(false);
+            spSummary.setVisible(false);
+            panelShowMeal.setVisible(false);
+            btnBuy.setVisible(false);
+            panelChooseDay.setVisible(true);
+            btnCancel.setVisible(true);
+            btnCancel.setEnabled(true);
+            btnConfirmMeal.setVisible(true);
+            btnConfirmMeal.setEnabled(false);
+            bgTime.clearSelection();
+            bgDish.clearSelection();
     }//GEN-LAST:event_btnYesTicketsMouseReleased
 
     private void btnNoTicketsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNoTicketsMouseReleased
-        ifTickets.setVisible(false);
-        btnBuy.setVisible(false);
-        btnCancel.setVisible(false);
-        btnBuyTicket.setEnabled(true);
+        if(btnNoTickets.isEnabled()) {
+            ifTickets.setVisible(false);
+            btnBuy.setVisible(false);
+            btnCancel.setVisible(false);
+            btnBuyTicket.setEnabled(true);
+            btnCheckBalance.setEnabled(true);
+            btnChangePinCode.setEnabled(true);
+            btnChangeEmail.setEnabled(true);
+        }
     }//GEN-LAST:event_btnNoTicketsMouseReleased
 
     private void btnBuyMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuyMouseReleased
-        btnBuy.setEnabled(false);
-        btnCancel.setEnabled(false);
-        ifPurchaseSuccess.setVisible(true);
+        if (btnBuy.isEnabled()) {
+            btnBuy.setEnabled(false);
+            btnCancel.setEnabled(false);
+            ifPurchaseSuccess.setVisible(true);
+        }
     }//GEN-LAST:event_btnBuyMouseReleased
 
-    private void purchaseOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaseOkMouseReleased
-        ifPurchaseSuccess.setVisible(false);
-        spSummary.setVisible(false);
-        ifTickets.setVisible(true);
-    }//GEN-LAST:event_purchaseOkMouseReleased
+    private void btnPurchaseOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPurchaseOkMouseReleased
+            ifPurchaseSuccess.setVisible(false);
+            spSummary.setVisible(false);
+            ifTickets.setVisible(true);
+            btnBuy.setVisible(false);
+            btnCancel.setVisible(false);
+    }//GEN-LAST:event_btnPurchaseOkMouseReleased
 
     private void rbDinnerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDinnerMouseReleased
-        showMeal.setVisible(true);
+        panelShowMeal.setVisible(true);
         lblSoupText.setText("Sopa de Cenoura");
         lblMeatText.setText("Carne Assada");
         lblFishText.setText("Salmão");
@@ -717,20 +741,32 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_rbDinnerMouseReleased
 
     private void btnYesCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesCancelMouseReleased
-        chooseDay.setVisible(false);
-        showMeal.setVisible(false);
-        btnConfirmMeal.setVisible(false);
-        btnCancel.setVisible(false);
-        ifTickets.setVisible(false);
-        spSummary.setVisible(false);
-        btnBuy.setVisible(false);
-        ifWarning.setVisible(false);
-        
-        btnBuyTicket.setEnabled(true);
+        if (btnYesCancel.isEnabled()) {
+            panelChooseDay.setVisible(false);
+            panelShowMeal.setVisible(false);
+            btnConfirmMeal.setVisible(false);
+            btnCancel.setVisible(false);
+            ifTickets.setVisible(false);
+            spSummary.setVisible(false);
+            btnBuy.setVisible(false);
+            ifWarning.setVisible(false);
+
+            btnBuyTicket.setEnabled(true);
+            btnCheckBalance.setEnabled(true);
+            btnChangePinCode.setEnabled(true);
+            btnChangeEmail.setEnabled(true);
+        }
     }//GEN-LAST:event_btnYesCancelMouseReleased
 
     private void btnNoCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNoCancelMouseReleased
         ifWarning.setVisible(false);
+        if(panelChooseDay.isVisible()) {
+            btnConfirmMeal.setEnabled(false);
+        }
+        if(rbMeat.isSelected()) {
+            btnConfirmMeal.setEnabled(true);
+        }
+        btnBuy.setEnabled(true);
     }//GEN-LAST:event_btnNoCancelMouseReleased
 
     /**
@@ -769,24 +805,25 @@ public class Frontend extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton brnChangeEmail;
+    private javax.swing.ButtonGroup bgDish;
+    private javax.swing.ButtonGroup bgTime;
     private javax.swing.JButton btnBuy;
     private javax.swing.JButton btnBuyTicket;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnChangeEmail;
     private javax.swing.JButton btnChangePinCode;
     private javax.swing.JButton btnCheckBalance;
     private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnNoCancel;
     private javax.swing.JButton btnNoTickets;
+    private javax.swing.JButton btnPurchaseOk;
     private javax.swing.JButton btnTerminate;
     private javax.swing.JButton btnYesCancel;
     private javax.swing.JButton btnYesTickets;
     private javax.swing.JComboBox cbDayChoice;
     private javax.swing.JComboBox cbMonthChoice;
     private javax.swing.JComboBox cbYearChoice;
-    private javax.swing.JPanel chooseDay;
     private javax.swing.JButton confirm;
-    private javax.swing.ButtonGroup dish;
     private javax.swing.JInternalFrame ifPurchaseSuccess;
     private javax.swing.JInternalFrame ifTickets;
     private javax.swing.JInternalFrame ifWarning;
@@ -809,6 +846,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblPriceText;
     private javax.swing.JLabel lblPurchaseDate;
     private javax.swing.JLabel lblPurchaseDateText;
+    private javax.swing.JLabel lblPurchaseSuccess;
     private javax.swing.JLabel lblSoup;
     private javax.swing.JLabel lblSoupText;
     private javax.swing.JLabel lblTicketDessert;
@@ -830,18 +868,16 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JTextField number;
     private javax.swing.JPanel panelButtons;
     private javax.swing.JPanel panelBuyTicket;
+    private javax.swing.JPanel panelChooseDay;
+    private javax.swing.JPanel panelShowMeal;
     private javax.swing.JPanel panelSummary;
     private javax.swing.JPasswordField pinCode;
-    private javax.swing.JButton purchaseOk;
     private javax.swing.JRadioButton rbDinner;
     private javax.swing.JRadioButton rbFish;
     private javax.swing.JRadioButton rbLunch;
     private javax.swing.JRadioButton rbMeat;
     private javax.swing.JRadioButton rbVegetarian;
     private javax.swing.JSeparator separator;
-    private javax.swing.JPanel showMeal;
     private javax.swing.JScrollPane spSummary;
-    private javax.swing.JLabel success;
-    private javax.swing.ButtonGroup time;
     // End of variables declaration//GEN-END:variables
 }

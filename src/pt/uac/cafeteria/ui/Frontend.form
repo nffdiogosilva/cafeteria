@@ -2,9 +2,9 @@
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="time">
+    <Component class="javax.swing.ButtonGroup" name="bgTime">
     </Component>
-    <Component class="javax.swing.ButtonGroup" name="dish">
+    <Component class="javax.swing.ButtonGroup" name="bgDish">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -212,29 +212,30 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnBuyTicket" alignment="0" pref="190" max="32767" attributes="0"/>
-                          <Component id="btnCheckBalance" alignment="0" pref="190" max="32767" attributes="0"/>
-                          <Component id="btnChangePinCode" alignment="0" pref="190" max="32767" attributes="0"/>
-                          <Component id="brnChangeEmail" alignment="0" pref="190" max="32767" attributes="0"/>
-                          <Component id="btnTerminate" alignment="0" pref="190" max="32767" attributes="0"/>
+                          <Component id="btnBuyTicket" alignment="0" pref="153" max="32767" attributes="0"/>
+                          <Component id="btnCheckBalance" alignment="0" pref="153" max="32767" attributes="0"/>
+                          <Component id="btnChangePinCode" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnChangeEmail" alignment="0" pref="153" max="32767" attributes="0"/>
+                          <Component id="btnTerminate" alignment="0" pref="153" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnBuyTicket" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Component id="btnCheckBalance" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       <Component id="btnChangePinCode" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="brnChangeEmail" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="btnChangeEmail" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="307" max="-2" attributes="0"/>
                       <Component id="btnTerminate" min="-2" pref="30" max="-2" attributes="0"/>
-                      <EmptySpace pref="57" max="32767" attributes="0"/>
+                      <EmptySpace pref="54" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -258,7 +259,7 @@
                 <Property name="text" type="java.lang.String" value="Alterar C&#xf3;digo de Acesso"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="brnChangeEmail">
+            <Component class="javax.swing.JButton" name="btnChangeEmail">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alterar e-mail"/>
               </Properties>
@@ -435,10 +436,10 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="success" alignment="0" pref="204" max="32767" attributes="0"/>
+                      <Component id="lblPurchaseSuccess" alignment="0" pref="204" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                          <Component id="purchaseOk" min="-2" pref="55" max="-2" attributes="0"/>
+                          <Component id="btnPurchaseOk" min="-2" pref="55" max="-2" attributes="0"/>
                           <EmptySpace pref="76" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -447,16 +448,16 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="success" min="-2" pref="27" max="-2" attributes="0"/>
+                          <Component id="lblPurchaseSuccess" min="-2" pref="27" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="purchaseOk" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnPurchaseOk" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="43" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="success">
+                <Component class="javax.swing.JLabel" name="lblPurchaseSuccess">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="11" style="1"/>
@@ -465,12 +466,12 @@
                     <Property name="text" type="java.lang.String" value="Compra efectuada com sucesso!"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="purchaseOk">
+                <Component class="javax.swing.JButton" name="btnPurchaseOk">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="OK"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="purchaseOkMouseReleased"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnPurchaseOkMouseReleased"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -487,7 +488,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="0" y="0" width="440" height="270"/>
+                  <AbsoluteConstraints x="0" y="0" width="440" height="300"/>
                 </Constraint>
               </Constraints>
 
@@ -512,20 +513,23 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lpMeal1" alignment="0" pref="408" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="lblPrice" alignment="0" max="32767" attributes="1"/>
-                                          <Component id="lblPurchaseDate" alignment="0" min="-2" max="-2" attributes="1"/>
-                                      </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblPurchaseDate" min="-2" max="-2" attributes="1"/>
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblPurchaseDateText" min="-2" pref="108" max="-2" attributes="0"/>
-                                          <Component id="lblPriceText" min="-2" pref="63" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="lblPurchaseDateText" min="-2" pref="108" max="-2" attributes="0"/>
+                                      <EmptySpace pref="206" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lblPrice" max="32767" attributes="1"/>
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Component id="lblPriceText" min="-2" pref="63" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="371" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lpMeal1" min="-2" pref="408" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -543,8 +547,8 @@
                                   <Component id="lblPriceText" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lpMeal1" min="-2" pref="154" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="lpMeal1" min="-2" pref="158" max="-2" attributes="0"/>
+                              <EmptySpace pref="34" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -663,7 +667,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                              <JLayeredPaneConstraints x="100" y="70" width="180" height="20" layer="0" position="-1"/>
+                              <JLayeredPaneConstraints x="100" y="70" width="300" height="20" layer="0" position="-1"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -673,7 +677,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                              <JLayeredPaneConstraints x="100" y="100" width="180" height="20" layer="0" position="-1"/>
+                              <JLayeredPaneConstraints x="100" y="100" width="300" height="20" layer="0" position="-1"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -683,7 +687,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                              <JLayeredPaneConstraints x="100" y="130" width="180" height="20" layer="0" position="-1"/>
+                              <JLayeredPaneConstraints x="100" y="130" width="300" height="20" layer="0" position="-1"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -693,7 +697,7 @@
                 </Container>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="chooseDay">
+            <Container class="javax.swing.JPanel" name="panelChooseDay">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -810,7 +814,7 @@
                 <Component class="javax.swing.JRadioButton" name="rbLunch">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="time"/>
+                      <ComponentRef name="bgTime"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Almo&#xe7;o"/>
                   </Properties>
@@ -826,7 +830,7 @@
                 <Component class="javax.swing.JRadioButton" name="rbDinner">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="time"/>
+                      <ComponentRef name="bgTime"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Jantar"/>
                   </Properties>
@@ -841,7 +845,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="showMeal">
+            <Container class="javax.swing.JPanel" name="panelShowMeal">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -872,7 +876,7 @@
                 <Component class="javax.swing.JRadioButton" name="rbMeat">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="dish"/>
+                      <ComponentRef name="bgDish"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Carne"/>
                   </Properties>
@@ -888,7 +892,7 @@
                 <Component class="javax.swing.JRadioButton" name="rbFish">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="dish"/>
+                      <ComponentRef name="bgDish"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Peixe"/>
                   </Properties>
@@ -901,7 +905,7 @@
                 <Component class="javax.swing.JRadioButton" name="rbVegetarian">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="dish"/>
+                      <ComponentRef name="bgDish"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Vegetariano"/>
                   </Properties>
