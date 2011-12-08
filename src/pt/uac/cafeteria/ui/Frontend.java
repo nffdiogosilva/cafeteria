@@ -105,6 +105,28 @@ public class Frontend extends javax.swing.JFrame {
         btnBuy = new javax.swing.JButton();
         btnConfirmMeal = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        panelCheckBalance = new javax.swing.JPanel();
+        panelStudent = new javax.swing.JPanel();
+        lblName = new javax.swing.JLabel();
+        lblAddress = new javax.swing.JLabel();
+        lblPhone = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        lblScholarship = new javax.swing.JLabel();
+        lblCourse = new javax.swing.JLabel();
+        lblNameText = new javax.swing.JLabel();
+        lblAddressText = new javax.swing.JLabel();
+        lblPhoneText = new javax.swing.JLabel();
+        lblEmailText = new javax.swing.JLabel();
+        cbScholarship = new javax.swing.JCheckBox();
+        lblCourseText = new javax.swing.JLabel();
+        panelAccount = new javax.swing.JPanel();
+        lblAccount = new javax.swing.JLabel();
+        lblAccountText = new javax.swing.JLabel();
+        lblBalance = new javax.swing.JLabel();
+        lblBalanceText = new javax.swing.JLabel();
+        panelMovements = new javax.swing.JPanel();
+        spMovements = new javax.swing.JScrollPane();
+        lisDates = new javax.swing.JList();
         lblLogo1 = new javax.swing.JLabel();
         lblFrontBK1 = new javax.swing.JLabel();
         separator = new javax.swing.JSeparator();
@@ -181,6 +203,11 @@ public class Frontend extends javax.swing.JFrame {
         });
 
         btnCheckBalance.setText("Consultar Saldo");
+        btnCheckBalance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCheckBalanceMouseReleased(evt);
+            }
+        });
 
         btnChangePinCode.setText("Alterar Código de Acesso");
 
@@ -572,9 +599,172 @@ public class Frontend extends javax.swing.JFrame {
         menuPanel.add(panelBuyTicket);
         panelBuyTicket.setBounds(250, 25, 440, 520);
 
+        panelCheckBalance.setOpaque(false);
+        panelCheckBalance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelStudent.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Aluno", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+
+        lblName.setText("Nome:");
+
+        lblAddress.setText("Rua:");
+
+        lblPhone.setText("Telefone:");
+
+        lblEmail.setText("Email:");
+
+        lblScholarship.setText("Bolseiro:");
+
+        lblCourse.setText("Curso:");
+
+        lblNameText.setText("Paulo Dinis Vieira Silva");
+
+        lblAddressText.setText("Rua Torta, nº2");
+
+        lblPhoneText.setText("296123123");
+
+        lblEmailText.setText("20081234@alunos.uac.pt");
+
+        cbScholarship.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cbScholarship.setEnabled(false);
+
+        lblCourseText.setText("Informática - Redes e Multimédia");
+
+        javax.swing.GroupLayout panelStudentLayout = new javax.swing.GroupLayout(panelStudent);
+        panelStudent.setLayout(panelStudentLayout);
+        panelStudentLayout.setHorizontalGroup(
+            panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelStudentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblName)
+                    .addComponent(lblAddress)
+                    .addComponent(lblPhone)
+                    .addComponent(lblEmail)
+                    .addComponent(lblScholarship)
+                    .addComponent(lblCourse))
+                .addGap(21, 21, 21)
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEmailText)
+                    .addComponent(lblPhoneText)
+                    .addComponent(lblAddressText)
+                    .addComponent(lblNameText)
+                    .addComponent(lblCourseText)
+                    .addComponent(cbScholarship))
+                .addContainerGap(194, Short.MAX_VALUE))
+        );
+        panelStudentLayout.setVerticalGroup(
+            panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelStudentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAddressText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPhoneText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEmailText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblScholarship, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbScholarship))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCourseText, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelCheckBalance.add(panelStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 210));
+
+        panelAccount.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Movimentos de Conta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+
+        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAccount.setText("Conta: ");
+
+        lblAccountText.setText("20081234");
+
+        lblBalance.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblBalance.setText("Saldo:");
+
+        lblBalanceText.setText("100€");
+
+        panelMovements.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+
+        lisDates.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "01/2/2011     Compra     6€", "02/2/2011     Compra     3€", "02/2/2011     Débito     10€", "03/2/2011     Compra     3€" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        lisDates.setOpaque(false);
+        spMovements.setViewportView(lisDates);
+
+        javax.swing.GroupLayout panelMovementsLayout = new javax.swing.GroupLayout(panelMovements);
+        panelMovements.setLayout(panelMovementsLayout);
+        panelMovementsLayout.setHorizontalGroup(
+            panelMovementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMovementsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(spMovements, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelMovementsLayout.setVerticalGroup(
+            panelMovementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMovementsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(spMovements, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelAccountLayout = new javax.swing.GroupLayout(panelAccount);
+        panelAccount.setLayout(panelAccountLayout);
+        panelAccountLayout.setHorizontalGroup(
+            panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAccountLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAccountLayout.createSequentialGroup()
+                        .addComponent(panelMovements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(panelAccountLayout.createSequentialGroup()
+                        .addComponent(lblAccount)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAccountText)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                        .addComponent(lblBalance)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblBalanceText)
+                        .addGap(69, 69, 69))))
+        );
+        panelAccountLayout.setVerticalGroup(
+            panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAccountLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAccount)
+                    .addComponent(lblAccountText)
+                    .addComponent(lblBalance)
+                    .addComponent(lblBalanceText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelMovements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        panelCheckBalance.add(panelAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 440, 290));
+
+        menuPanel.add(panelCheckBalance);
+        panelCheckBalance.setBounds(250, 25, 440, 522);
+
         lblLogo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/logo.png"))); // NOI18N
         menuPanel.add(lblLogo1);
-        lblLogo1.setBounds(675, 475, 100, 100);
+        lblLogo1.setBounds(700, 500, 100, 100);
 
         lblFrontBK1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/frontBK.png"))); // NOI18N
         menuPanel.add(lblFrontBK1);
@@ -613,6 +803,7 @@ public class Frontend extends javax.swing.JFrame {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
             panelBuyTicket.setVisible(false);
+            panelCheckBalance.setVisible(false);
 
             panelChooseDay.setVisible(false);
             btnBuyTicket.setEnabled(true);
@@ -652,6 +843,8 @@ public class Frontend extends javax.swing.JFrame {
             btnCheckBalance.setEnabled(false);
             btnChangePinCode.setEnabled(false);
             btnChangeEmail.setEnabled(false);
+            
+            panelCheckBalance.setVisible(false);
         }
     }//GEN-LAST:event_btnBuyTicketMouseReleased
 
@@ -769,6 +962,11 @@ public class Frontend extends javax.swing.JFrame {
         btnBuy.setEnabled(true);
     }//GEN-LAST:event_btnNoCancelMouseReleased
 
+    private void btnCheckBalanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckBalanceMouseReleased
+        panelCheckBalance.setVisible(true);
+        btnCheckBalance.setEnabled(false);
+    }//GEN-LAST:event_btnCheckBalanceMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -822,15 +1020,26 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JButton btnYesTickets;
     private javax.swing.JComboBox cbDayChoice;
     private javax.swing.JComboBox cbMonthChoice;
+    private javax.swing.JCheckBox cbScholarship;
     private javax.swing.JComboBox cbYearChoice;
     private javax.swing.JButton confirm;
     private javax.swing.JInternalFrame ifPurchaseSuccess;
     private javax.swing.JInternalFrame ifTickets;
     private javax.swing.JInternalFrame ifWarning;
     private javax.swing.JLabel lbTicketlMealTimeText;
+    private javax.swing.JLabel lblAccount;
+    private javax.swing.JLabel lblAccountText;
+    private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblAddressText;
+    private javax.swing.JLabel lblBalance;
+    private javax.swing.JLabel lblBalanceText;
     private javax.swing.JLabel lblChooseDish;
+    private javax.swing.JLabel lblCourse;
+    private javax.swing.JLabel lblCourseText;
     private javax.swing.JLabel lblDessert;
     private javax.swing.JLabel lblDessertText;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblEmailText;
     private javax.swing.JLabel lblFish;
     private javax.swing.JLabel lblFishText;
     private javax.swing.JLabel lblFrontBK;
@@ -840,13 +1049,18 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblMeatText;
     private javax.swing.JLabel lblMoreTickets1;
     private javax.swing.JLabel lblMoreTickets2;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblNameText;
     private javax.swing.JLabel lblNumber;
+    private javax.swing.JLabel lblPhone;
+    private javax.swing.JLabel lblPhoneText;
     private javax.swing.JLabel lblPinCode;
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblPriceText;
     private javax.swing.JLabel lblPurchaseDate;
     private javax.swing.JLabel lblPurchaseDateText;
     private javax.swing.JLabel lblPurchaseSuccess;
+    private javax.swing.JLabel lblScholarship;
     private javax.swing.JLabel lblSoup;
     private javax.swing.JLabel lblSoupText;
     private javax.swing.JLabel lblTicketDessert;
@@ -860,16 +1074,21 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTicketSoupText;
     private javax.swing.JLabel lblVegetarian;
     private javax.swing.JLabel lblVegetarianText;
+    private javax.swing.JList lisDates;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JLabel logo;
     private javax.swing.JLayeredPane lpMeal1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JTextField number;
+    private javax.swing.JPanel panelAccount;
     private javax.swing.JPanel panelButtons;
     private javax.swing.JPanel panelBuyTicket;
+    private javax.swing.JPanel panelCheckBalance;
     private javax.swing.JPanel panelChooseDay;
+    private javax.swing.JPanel panelMovements;
     private javax.swing.JPanel panelShowMeal;
+    private javax.swing.JPanel panelStudent;
     private javax.swing.JPanel panelSummary;
     private javax.swing.JPasswordField pinCode;
     private javax.swing.JRadioButton rbDinner;
@@ -878,6 +1097,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbMeat;
     private javax.swing.JRadioButton rbVegetarian;
     private javax.swing.JSeparator separator;
+    private javax.swing.JScrollPane spMovements;
     private javax.swing.JScrollPane spSummary;
     // End of variables declaration//GEN-END:variables
 }
