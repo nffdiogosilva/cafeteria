@@ -8,7 +8,7 @@ import javax.swing.*;
  * Represents the Back Office user interface.
  */
 public class Backend extends javax.swing.JFrame {
-
+    
     /** Creates new form Backend */
     public Backend() {
         initComponents();
@@ -18,6 +18,8 @@ public class Backend extends javax.swing.JFrame {
         
         menuPanel.setVisible(false);
         warningFrame.setVisible(false);
+        warningLogFrame.setVisible(false);
+        informationFrame.setVisible(false);
     }
     
     /**
@@ -25,12 +27,38 @@ public class Backend extends javax.swing.JFrame {
      * 
      * @param component The component that will be cleaned, i.e: A Panel
      */
-    private void cleanPanel(JComponent component){
+    private void clear(JComponent component){
         for (int i = 0; i < component.getComponents().length; i++) {
             if (component.getComponent(i) instanceof JTextField) {
                 JTextField textField = (JTextField)component.getComponent(i);
                 textField.setText(null);
             }
+        }
+    }
+    
+    /**
+     * Method responsible of setting visible and enabled a component
+     * 
+     * @param component The component that will be enable
+     */
+    private void activate(JComponent component) {
+        component.setVisible(true);
+        component.setEnabled(true);
+        for (int i = 0; i < component.getComponents().length; i++) {
+            component.getComponent(i).setEnabled(true);
+        }
+    }
+    
+    /**
+     * Method responsible of setting the component disabled
+     * 
+     * @param component The component that will be disable
+     */
+    private void deactivate(JComponent component) {
+        component.setEnabled(false);
+        for (int i = 0; i < component.getComponents().length; i++) {
+
+            component.getComponent(i).setEnabled(false);
         }
     }
 
@@ -57,8 +85,6 @@ public class Backend extends javax.swing.JFrame {
         lblLogMessage = new javax.swing.JLabel();
         btnLogYes = new javax.swing.JButton();
         btnLogNo = new javax.swing.JButton();
-        studentPanel = new javax.swing.JTabbedPane();
-        addPanel = new javax.swing.JPanel();
         informationFrame = new javax.swing.JInternalFrame();
         lblMessage1 = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
@@ -66,6 +92,8 @@ public class Backend extends javax.swing.JFrame {
         lblMessage = new javax.swing.JLabel();
         btnWarningYes = new javax.swing.JButton();
         btnWarningNo = new javax.swing.JButton();
+        studentPanel = new javax.swing.JTabbedPane();
+        addPanel = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
         lblStreet = new javax.swing.JLabel();
         lblPostalCode = new javax.swing.JLabel();
@@ -189,12 +217,12 @@ public class Backend extends javax.swing.JFrame {
         warningLogFrameLayout.setHorizontalGroup(
             warningLogFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, warningLogFrameLayout.createSequentialGroup()
-                .addContainerGap(143, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(btnLogYes)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(btnLogNo)
                 .add(43, 43, 43))
-            .add(lblLogMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+            .add(lblLogMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
         );
         warningLogFrameLayout.setVerticalGroup(
             warningLogFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -210,10 +238,6 @@ public class Backend extends javax.swing.JFrame {
 
         menuPanel.add(warningLogFrame);
         warningLogFrame.setBounds(300, 150, 220, 160);
-
-        studentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        addPanel.setLayout(null);
 
         informationFrame.setTitle("Informação");
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
@@ -250,7 +274,7 @@ public class Backend extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        addPanel.add(informationFrame);
+        menuPanel.add(informationFrame);
         informationFrame.setBounds(100, 150, 220, 160);
 
         warningFrame.setTitle("Aviso");
@@ -299,8 +323,12 @@ public class Backend extends javax.swing.JFrame {
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        addPanel.add(warningFrame);
-        warningFrame.setBounds(100, 150, 220, 160);
+        menuPanel.add(warningFrame);
+        warningFrame.setBounds(300, 150, 220, 160);
+
+        studentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        addPanel.setLayout(null);
 
         lblName.setText("Nome:");
         addPanel.add(lblName);
@@ -497,85 +525,93 @@ public class Backend extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
-        mainPanel.setVisible(false);
-        menuPanel.setVisible(true);
-        btnStudent.setEnabled(true);
-        btnAccount.setEnabled(true);
-        btnAdmin.setEnabled(true);
-        btnMeal.setEnabled(true);
-        btnTerminate.setEnabled(true);
-        studentPanel.setVisible(false);
+        if (confirm.isEnabled()) {
+            mainPanel.setVisible(false);
+            menuPanel.setVisible(true);
+            studentPanel.setVisible(false);
+            activate(buttonsPanel);
+        }
     }//GEN-LAST:event_confirmMouseReleased
 
     private void btnStudentMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseReleased
-        studentPanel.setVisible(true);
-        studentPanel.setEnabled(true);
-        btnCancel.setEnabled(true);
-        btnSave.setEnabled(true);
-        btnStudent.setEnabled(false);
-        scholarshipChoose.clearSelection();
+        if (btnStudent.isEnabled()) {
+            btnStudent.setEnabled(false);
+            activate(studentPanel);
+            activate(addPanel);
+            clear(addPanel);
+            scholarshipChoose.clearSelection();
+        }
     }//GEN-LAST:event_btnStudentMouseReleased
 
     private void btnCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseReleased
-        warningFrame.setVisible(true);
-        studentPanel.setEnabled(false);
-        btnCancel.setEnabled(false);
-        btnSave.setEnabled(false);
-        informationFrame.setVisible(false);
+        if (btnCancel.isEnabled()) {
+            warningFrame.setVisible(true);
+            deactivate(studentPanel);
+            deactivate(addPanel);
+        }
     }//GEN-LAST:event_btnCancelMouseReleased
 
     private void btnWarningNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnWarningNoMouseReleased
-        btnCancel.setEnabled(true);
-        btnSave.setEnabled(true);
-        studentPanel.setEnabled(true);
-        warningFrame.setVisible(false);
+        if (btnWarningNo.isEnabled()) {
+            warningFrame.setVisible(false);
+            activate(studentPanel);
+            activate(addPanel);
+        }
     }//GEN-LAST:event_btnWarningNoMouseReleased
 
     private void btnWarningYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnWarningYesMouseReleased
-        warningFrame.setVisible(false);
-        studentPanel.setVisible(false);
-        btnStudent.setEnabled(true);
-        cleanPanel(addPanel);
+        if (btnWarningYes.isEnabled()) {
+            warningFrame.setVisible(false);
+            studentPanel.setVisible(false);
+            activate(buttonsPanel);
+        }
     }//GEN-LAST:event_btnWarningYesMouseReleased
 
     private void btnSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseReleased
-        studentPanel.setEnabled(false);
-        informationFrame.setVisible(true);
-        btnCancel.setEnabled(false);
-        btnSave.setEnabled(false);
+        if (btnSave.isEnabled()) {
+            informationFrame.setVisible(true);
+            deactivate(studentPanel);
+            deactivate(addPanel);
+        }   
     }//GEN-LAST:event_btnSaveMouseReleased
 
     private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOkMouseReleased
-        informationFrame.setVisible(false);
-        cleanPanel(addPanel);
-        scholarshipChoose.clearSelection();
-        studentPanel.setEnabled(true);
-        btnSave.setEnabled(true);
-        btnCancel.setEnabled(true);
+        if (btnOk.isEnabled()) {
+            informationFrame.setVisible(false);
+            studentPanel.setVisible(false);
+            activate(buttonsPanel);
+        }
     }//GEN-LAST:event_btnOkMouseReleased
 
     private void btnLogYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogYesMouseReleased
-        warningLogFrame.setVisible(false);
-        warningFrame.setVisible(false);
-        informationFrame.setVisible(false);
-        menuPanel.setVisible(false);
-        mainPanel.setVisible(true);
-        cleanPanel(addPanel);
+        if (btnLogYes.isEnabled()) {
+            warningLogFrame.setVisible(false);
+            warningFrame.setVisible(false);
+            informationFrame.setVisible(false);
+            menuPanel.setVisible(false);
+            mainPanel.setVisible(true);
+        }
     }//GEN-LAST:event_btnLogYesMouseReleased
 
     private void btnLogNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogNoMouseReleased
-        btnTerminate.setEnabled(true);
-        warningLogFrame.setVisible(false);
-        btnCancel.setEnabled(true);
-        btnSave.setEnabled(true);
-        studentPanel.setEnabled(true);
+        if (btnLogNo.isEnabled()) {
+            btnTerminate.setEnabled(true);
+            warningLogFrame.setVisible(false);
+            activate(addPanel);
+            studentPanel.setEnabled(true);
+        }
     }//GEN-LAST:event_btnLogNoMouseReleased
 
     private void btnTerminateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTerminateMouseReleased
-        btnTerminate.setEnabled(false);
-        warningLogFrame.setVisible(true);
-        warningFrame.setVisible(false);
-        informationFrame.setVisible(false);
+        if (btnTerminate.isEnabled()) {
+            btnTerminate.setEnabled(false);
+            warningLogFrame.setVisible(true);
+            warningFrame.setVisible(false);
+            informationFrame.setVisible(false);
+            deactivate(studentPanel);
+            deactivate(addPanel);
+            clear(mainPanel);
+        }
     }//GEN-LAST:event_btnTerminateMouseReleased
 
     /**
