@@ -117,7 +117,7 @@ public class Frontend extends javax.swing.JFrame {
         lblAddressText = new javax.swing.JLabel();
         lblPhoneText = new javax.swing.JLabel();
         lblEmailText = new javax.swing.JLabel();
-        cbScholarship = new javax.swing.JCheckBox();
+        chbScholarship = new javax.swing.JCheckBox();
         lblCourseText = new javax.swing.JLabel();
         panelAccount = new javax.swing.JPanel();
         lblAccount = new javax.swing.JLabel();
@@ -127,6 +127,20 @@ public class Frontend extends javax.swing.JFrame {
         panelMovements = new javax.swing.JPanel();
         spMovements = new javax.swing.JScrollPane();
         lisDates = new javax.swing.JList();
+        panelChangePinCode = new javax.swing.JPanel();
+        ifChangePinCodeSuccess = new javax.swing.JInternalFrame();
+        lblChangePinCodeSuccess1 = new javax.swing.JLabel();
+        lblChangePinCodeSuccess2 = new javax.swing.JLabel();
+        btnChangePinCodeSuccessOk = new javax.swing.JButton();
+        panelChangePinCodeFields = new javax.swing.JPanel();
+        lblCurrentPin = new javax.swing.JLabel();
+        lblNewPin = new javax.swing.JLabel();
+        lblConfiirmPin = new javax.swing.JLabel();
+        pfCurrentPin = new javax.swing.JPasswordField();
+        pfNewPin = new javax.swing.JPasswordField();
+        pfConfirmPin = new javax.swing.JPasswordField();
+        btnValidatePinCode = new javax.swing.JButton();
+        btnCancelNewPinCode = new javax.swing.JButton();
         lblLogo1 = new javax.swing.JLabel();
         lblFrontBK1 = new javax.swing.JLabel();
         separator = new javax.swing.JSeparator();
@@ -210,6 +224,11 @@ public class Frontend extends javax.swing.JFrame {
         });
 
         btnChangePinCode.setText("Alterar Código de Acesso");
+        btnChangePinCode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChangePinCodeMouseReleased(evt);
+            }
+        });
 
         btnChangeEmail.setText("Alterar e-mail");
 
@@ -353,7 +372,7 @@ public class Frontend extends javax.swing.JFrame {
         ifPurchaseSuccess.setTitle("Informação");
         ifPurchaseSuccess.setVisible(true);
 
-        lblPurchaseSuccess.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPurchaseSuccess.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPurchaseSuccess.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPurchaseSuccess.setText("Compra efectuada com sucesso!");
 
@@ -624,8 +643,9 @@ public class Frontend extends javax.swing.JFrame {
 
         lblEmailText.setText("20081234@alunos.uac.pt");
 
-        cbScholarship.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        cbScholarship.setEnabled(false);
+        chbScholarship.setSelected(true);
+        chbScholarship.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        chbScholarship.setEnabled(false);
 
         lblCourseText.setText("Informática - Redes e Multimédia");
 
@@ -649,7 +669,7 @@ public class Frontend extends javax.swing.JFrame {
                     .addComponent(lblAddressText)
                     .addComponent(lblNameText)
                     .addComponent(lblCourseText)
-                    .addComponent(cbScholarship))
+                    .addComponent(chbScholarship))
                 .addContainerGap(194, Short.MAX_VALUE))
         );
         panelStudentLayout.setVerticalGroup(
@@ -674,7 +694,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblScholarship, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbScholarship))
+                    .addComponent(chbScholarship))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -686,7 +706,7 @@ public class Frontend extends javax.swing.JFrame {
 
         panelAccount.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Movimentos de Conta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
 
-        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblAccount.setText("Conta: ");
 
         lblAccountText.setText("20081234");
@@ -762,6 +782,128 @@ public class Frontend extends javax.swing.JFrame {
         menuPanel.add(panelCheckBalance);
         panelCheckBalance.setBounds(250, 25, 440, 522);
 
+        panelChangePinCode.setMinimumSize(new java.awt.Dimension(440, 520));
+        panelChangePinCode.setOpaque(false);
+        panelChangePinCode.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ifChangePinCodeSuccess.setTitle("Informação");
+        ifChangePinCodeSuccess.setVisible(true);
+
+        lblChangePinCodeSuccess1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblChangePinCodeSuccess1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChangePinCodeSuccess1.setText("Código de acesso");
+
+        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblChangePinCodeSuccess2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChangePinCodeSuccess2.setText("alterado com sucesso!");
+
+        btnChangePinCodeSuccessOk.setText("OK");
+        btnChangePinCodeSuccessOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChangePinCodeSuccessOkMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ifChangePinCodeSuccessLayout = new javax.swing.GroupLayout(ifChangePinCodeSuccess.getContentPane());
+        ifChangePinCodeSuccess.getContentPane().setLayout(ifChangePinCodeSuccessLayout);
+        ifChangePinCodeSuccessLayout.setHorizontalGroup(
+            ifChangePinCodeSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblChangePinCodeSuccess1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+            .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
+                .addComponent(lblChangePinCodeSuccess2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(btnChangePinCodeSuccessOk, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+        ifChangePinCodeSuccessLayout.setVerticalGroup(
+            ifChangePinCodeSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(lblChangePinCodeSuccess1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblChangePinCodeSuccess2)
+                .addGap(29, 29, 29)
+                .addComponent(btnChangePinCodeSuccessOk)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        panelChangePinCode.add(ifChangePinCodeSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 39, -1, 160));
+
+        panelChangePinCodeFields.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alterar Código de Acesso", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+
+        lblCurrentPin.setText("Insira o código corrente:");
+
+        lblNewPin.setText("Insira o novo código:");
+
+        lblConfiirmPin.setText("Confirmar novo código:");
+
+        javax.swing.GroupLayout panelChangePinCodeFieldsLayout = new javax.swing.GroupLayout(panelChangePinCodeFields);
+        panelChangePinCodeFields.setLayout(panelChangePinCodeFieldsLayout);
+        panelChangePinCodeFieldsLayout.setHorizontalGroup(
+            panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                        .addComponent(lblCurrentPin)
+                        .addGap(18, 18, 18)
+                        .addComponent(pfCurrentPin, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblConfiirmPin)
+                    .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                        .addComponent(lblNewPin)
+                        .addGap(35, 35, 35)
+                        .addGroup(panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pfConfirmPin, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pfNewPin, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(215, Short.MAX_VALUE))
+        );
+        panelChangePinCodeFieldsLayout.setVerticalGroup(
+            panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCurrentPin, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(pfCurrentPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(46, 46, 46)
+                .addGroup(panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblNewPin, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(pfNewPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
+                .addGroup(panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblConfiirmPin, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelChangePinCodeFieldsLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(pfConfirmPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+
+        panelChangePinCode.add(panelChangePinCodeFields, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, -1));
+
+        btnValidatePinCode.setText("Alterar");
+        btnValidatePinCode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnValidatePinCodeMouseReleased(evt);
+            }
+        });
+        panelChangePinCode.add(btnValidatePinCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 490, 80, 30));
+
+        btnCancelNewPinCode.setText("Cancelar");
+        btnCancelNewPinCode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancelNewPinCodeMouseReleased(evt);
+            }
+        });
+        panelChangePinCode.add(btnCancelNewPinCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 490, 80, 30));
+
+        menuPanel.add(panelChangePinCode);
+        panelChangePinCode.setBounds(250, 25, 440, 522);
+
         lblLogo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pt/uac/cafeteria/ui/images/logo.png"))); // NOI18N
         menuPanel.add(lblLogo1);
         lblLogo1.setBounds(700, 500, 100, 100);
@@ -804,6 +946,7 @@ public class Frontend extends javax.swing.JFrame {
             menuPanel.setVisible(true);
             panelBuyTicket.setVisible(false);
             panelCheckBalance.setVisible(false);
+            panelChangePinCode.setVisible(false);
 
             panelChooseDay.setVisible(false);
             btnBuyTicket.setEnabled(true);
@@ -845,6 +988,7 @@ public class Frontend extends javax.swing.JFrame {
             btnChangeEmail.setEnabled(false);
             
             panelCheckBalance.setVisible(false);
+            panelChangePinCode.setVisible(false);
         }
     }//GEN-LAST:event_btnBuyTicketMouseReleased
 
@@ -963,9 +1107,47 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNoCancelMouseReleased
 
     private void btnCheckBalanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckBalanceMouseReleased
-        panelCheckBalance.setVisible(true);
-        btnCheckBalance.setEnabled(false);
+        if (btnCheckBalance.isEnabled()) {
+            panelCheckBalance.setVisible(true);
+            panelChangePinCode.setVisible(false);
+            btnCheckBalance.setEnabled(false);
+            btnChangePinCode.setEnabled(true);
+        }
     }//GEN-LAST:event_btnCheckBalanceMouseReleased
+
+    private void btnChangePinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangePinCodeMouseReleased
+        if (btnChangePinCode.isEnabled()) {
+            panelChangePinCode.setVisible(true);
+            panelCheckBalance.setVisible(false);
+            btnCheckBalance.setEnabled(true);
+            btnChangePinCode.setEnabled(false);
+            ifChangePinCodeSuccess.setVisible(false);
+            btnValidatePinCode.setEnabled(true);
+            btnCancelNewPinCode.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnChangePinCodeMouseReleased
+
+    private void btnValidatePinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnValidatePinCodeMouseReleased
+        if(btnValidatePinCode.isEnabled()) {
+            ifChangePinCodeSuccess.setVisible(true);
+            btnValidatePinCode.setEnabled(false);
+            btnCancelNewPinCode.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnValidatePinCodeMouseReleased
+
+    private void btnChangePinCodeSuccessOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangePinCodeSuccessOkMouseReleased
+        ifChangePinCodeSuccess.setVisible(false);
+        panelChangePinCode.setVisible(false);
+        btnChangePinCode.setEnabled(true);
+    }//GEN-LAST:event_btnChangePinCodeSuccessOkMouseReleased
+
+    private void btnCancelNewPinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelNewPinCodeMouseReleased
+        if(btnCancelNewPinCode.isEnabled()) {
+            ifChangePinCodeSuccess.setVisible(false);
+            panelChangePinCode.setVisible(false);
+            btnChangePinCode.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnCancelNewPinCodeMouseReleased
 
     /**
      * @param args the command line arguments
@@ -1008,21 +1190,25 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JButton btnBuy;
     private javax.swing.JButton btnBuyTicket;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCancelNewPinCode;
     private javax.swing.JButton btnChangeEmail;
     private javax.swing.JButton btnChangePinCode;
+    private javax.swing.JButton btnChangePinCodeSuccessOk;
     private javax.swing.JButton btnCheckBalance;
     private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnNoCancel;
     private javax.swing.JButton btnNoTickets;
     private javax.swing.JButton btnPurchaseOk;
     private javax.swing.JButton btnTerminate;
+    private javax.swing.JButton btnValidatePinCode;
     private javax.swing.JButton btnYesCancel;
     private javax.swing.JButton btnYesTickets;
     private javax.swing.JComboBox cbDayChoice;
     private javax.swing.JComboBox cbMonthChoice;
-    private javax.swing.JCheckBox cbScholarship;
     private javax.swing.JComboBox cbYearChoice;
+    private javax.swing.JCheckBox chbScholarship;
     private javax.swing.JButton confirm;
+    private javax.swing.JInternalFrame ifChangePinCodeSuccess;
     private javax.swing.JInternalFrame ifPurchaseSuccess;
     private javax.swing.JInternalFrame ifTickets;
     private javax.swing.JInternalFrame ifWarning;
@@ -1033,9 +1219,13 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblAddressText;
     private javax.swing.JLabel lblBalance;
     private javax.swing.JLabel lblBalanceText;
+    private javax.swing.JLabel lblChangePinCodeSuccess1;
+    private javax.swing.JLabel lblChangePinCodeSuccess2;
     private javax.swing.JLabel lblChooseDish;
+    private javax.swing.JLabel lblConfiirmPin;
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblCourseText;
+    private javax.swing.JLabel lblCurrentPin;
     private javax.swing.JLabel lblDessert;
     private javax.swing.JLabel lblDessertText;
     private javax.swing.JLabel lblEmail;
@@ -1051,6 +1241,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblMoreTickets2;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblNameText;
+    private javax.swing.JLabel lblNewPin;
     private javax.swing.JLabel lblNumber;
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblPhoneText;
@@ -1084,12 +1275,17 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JPanel panelAccount;
     private javax.swing.JPanel panelButtons;
     private javax.swing.JPanel panelBuyTicket;
+    private javax.swing.JPanel panelChangePinCode;
+    private javax.swing.JPanel panelChangePinCodeFields;
     private javax.swing.JPanel panelCheckBalance;
     private javax.swing.JPanel panelChooseDay;
     private javax.swing.JPanel panelMovements;
     private javax.swing.JPanel panelShowMeal;
     private javax.swing.JPanel panelStudent;
     private javax.swing.JPanel panelSummary;
+    private javax.swing.JPasswordField pfConfirmPin;
+    private javax.swing.JPasswordField pfCurrentPin;
+    private javax.swing.JPasswordField pfNewPin;
     private javax.swing.JPasswordField pinCode;
     private javax.swing.JRadioButton rbDinner;
     private javax.swing.JRadioButton rbFish;
