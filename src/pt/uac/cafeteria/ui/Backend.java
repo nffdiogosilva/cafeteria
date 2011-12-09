@@ -1,6 +1,7 @@
 package pt.uac.cafeteria.ui;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -8,6 +9,10 @@ import javax.swing.*;
  * Represents the Back Office user interface.
  */
 public class Backend extends javax.swing.JFrame {
+    
+    
+    /** Type of list to use on JList Component */
+    private DefaultListModel list = new DefaultListModel();
     
     /** Creates new form Backend */
     public Backend() {
@@ -20,6 +25,25 @@ public class Backend extends javax.swing.JFrame {
         warningFrame.setVisible(false);
         warningLogFrame.setVisible(false);
         informationFrame.setVisible(false);
+        visualizePanel.setVisible(false);
+        updatePanel.setVisible(false);
+        
+        
+        putStudentsInList();
+    }
+    
+    /** Add students to JList Component */
+    private void putStudentsInList() {
+        ArrayList<String> students = new ArrayList<String>();
+        students.add("Nuno Diogo da Silva");
+        students.add("Nuno Rego Silva");
+        students.add("Nuno Pereira");
+        
+        searchList.setModel(list);
+        
+        for (String student : students) {
+            list.addElement(student);
+        }
     }
     
     /**
@@ -27,7 +51,7 @@ public class Backend extends javax.swing.JFrame {
      * 
      * @param component The component that will be cleaned, i.e: A Panel
      */
-    private void clear(JComponent component){
+    private void clearTextFieldsOf(JComponent component){
         for (int i = 0; i < component.getComponents().length; i++) {
             if (component.getComponent(i) instanceof JTextField) {
                 JTextField textField = (JTextField)component.getComponent(i);
@@ -61,6 +85,14 @@ public class Backend extends javax.swing.JFrame {
             component.getComponent(i).setEnabled(false);
         }
     }
+    
+    private void enabledAll(JComponent component) {
+        component.setEnabled(true);
+        for (int i = 0; i < component.getComponents().length; i++) {
+
+            component.getComponent(i).setEnabled(true);
+        }
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -88,6 +120,10 @@ public class Backend extends javax.swing.JFrame {
         informationFrame = new javax.swing.JInternalFrame();
         lblMessage1 = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
+        deleteWarningFrame = new javax.swing.JInternalFrame();
+        lblDeleteMessage = new javax.swing.JLabel();
+        btnDeleteYes = new javax.swing.JButton();
+        btnDeleteNo = new javax.swing.JButton();
         warningFrame = new javax.swing.JInternalFrame();
         lblMessage = new javax.swing.JLabel();
         btnWarningYes = new javax.swing.JButton();
@@ -115,9 +151,59 @@ public class Backend extends javax.swing.JFrame {
         rdoNo = new javax.swing.JRadioButton();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
-        updatePanel = new javax.swing.JPanel();
-        deletePanel = new javax.swing.JPanel();
         searchPanel = new javax.swing.JPanel();
+        updatePanel = new javax.swing.JPanel();
+        rdoNo1 = new javax.swing.JRadioButton();
+        lblName2 = new javax.swing.JLabel();
+        lblIfen1 = new javax.swing.JLabel();
+        email2 = new javax.swing.JTextField();
+        phone2 = new javax.swing.JTextField();
+        city2 = new javax.swing.JTextField();
+        postalCode3 = new javax.swing.JTextField();
+        lblStreet2 = new javax.swing.JLabel();
+        btnChange = new javax.swing.JButton();
+        lblPostalCode2 = new javax.swing.JLabel();
+        course1 = new javax.swing.JTextField();
+        name2 = new javax.swing.JTextField();
+        rdoYes1 = new javax.swing.JRadioButton();
+        street2 = new javax.swing.JTextField();
+        lblEmail2 = new javax.swing.JLabel();
+        postalCode4 = new javax.swing.JTextField();
+        lblCity2 = new javax.swing.JLabel();
+        btnCancel2 = new javax.swing.JButton();
+        lblPhone2 = new javax.swing.JLabel();
+        lblCourse2 = new javax.swing.JLabel();
+        lblScholarship2 = new javax.swing.JLabel();
+        visualizePanel = new javax.swing.JPanel();
+        lblName1 = new javax.swing.JLabel();
+        lblStreet1 = new javax.swing.JLabel();
+        lblPostalCode1 = new javax.swing.JLabel();
+        lblCity1 = new javax.swing.JLabel();
+        lblPhone1 = new javax.swing.JLabel();
+        lblEmail1 = new javax.swing.JLabel();
+        lblCourse1 = new javax.swing.JLabel();
+        lblScholarship1 = new javax.swing.JLabel();
+        name1 = new javax.swing.JLabel();
+        street1 = new javax.swing.JLabel();
+        postalCode2 = new javax.swing.JLabel();
+        city1 = new javax.swing.JLabel();
+        phone1 = new javax.swing.JLabel();
+        email1 = new javax.swing.JLabel();
+        scholarship1 = new javax.swing.JLabel();
+        chbScholarship = new javax.swing.JCheckBox();
+        lblTitle = new javax.swing.JLabel();
+        btnReturn = new javax.swing.JButton();
+        lblSearch = new javax.swing.JLabel();
+        lblSearchNumber = new javax.swing.JLabel();
+        search = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        cbSearch = new javax.swing.JComboBox();
+        jScrollPane = new javax.swing.JScrollPane();
+        searchList = new javax.swing.JList();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnCheck = new javax.swing.JButton();
+        btnCancel1 = new javax.swing.JButton();
         buttonsPanel = new javax.swing.JPanel();
         btnStudent = new javax.swing.JButton();
         btnAccount = new javax.swing.JButton();
@@ -152,6 +238,12 @@ public class Backend extends javax.swing.JFrame {
         lblPassword.setText("Password:");
         mainPanel.add(lblPassword);
         lblPassword.setBounds(350, 240, 110, 20);
+
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordKeyReleased(evt);
+            }
+        });
         mainPanel.add(password);
         password.setBounds(350, 265, 110, 30);
 
@@ -194,9 +286,9 @@ public class Backend extends javax.swing.JFrame {
         warningLogFrame.setTitle("Aviso");
         warningLogFrame.setPreferredSize(new java.awt.Dimension(220, 160));
 
-        lblLogMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblLogMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblLogMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLogMessage.setText("Tem a certeza que quer Terminar?");
+        lblLogMessage.setText("Tem a certeza que deseja Terminar?");
 
         btnLogYes.setText("Sim");
         btnLogYes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -275,7 +367,56 @@ public class Backend extends javax.swing.JFrame {
         );
 
         menuPanel.add(informationFrame);
-        informationFrame.setBounds(100, 150, 220, 160);
+        informationFrame.setBounds(300, 150, 220, 160);
+
+        deleteWarningFrame.setTitle("Aviso");
+        deleteWarningFrame.setPreferredSize(new java.awt.Dimension(300, 160));
+        deleteWarningFrame.setSize(new java.awt.Dimension(300, 160));
+
+        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblDeleteMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDeleteMessage.setText("Tem a certeza que deseja eliminar este Estudante?");
+
+        btnDeleteYes.setText("Sim");
+        btnDeleteYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDeleteYesMouseReleased(evt);
+            }
+        });
+
+        btnDeleteNo.setText("Não");
+        btnDeleteNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDeleteNoMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout deleteWarningFrameLayout = new org.jdesktop.layout.GroupLayout(deleteWarningFrame.getContentPane());
+        deleteWarningFrame.getContentPane().setLayout(deleteWarningFrameLayout);
+        deleteWarningFrameLayout.setHorizontalGroup(
+            deleteWarningFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, deleteWarningFrameLayout.createSequentialGroup()
+                .addContainerGap(95, Short.MAX_VALUE)
+                .add(btnDeleteYes)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(btnDeleteNo)
+                .add(43, 43, 43))
+            .add(lblDeleteMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        deleteWarningFrameLayout.setVerticalGroup(
+            deleteWarningFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(deleteWarningFrameLayout.createSequentialGroup()
+                .add(27, 27, 27)
+                .add(lblDeleteMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(deleteWarningFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnDeleteNo)
+                    .add(btnDeleteYes))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        menuPanel.add(deleteWarningFrame);
+        deleteWarningFrame.setBounds(300, 150, 300, 160);
 
         warningFrame.setTitle("Aviso");
         warningFrame.setPreferredSize(new java.awt.Dimension(220, 160));
@@ -283,7 +424,7 @@ public class Backend extends javax.swing.JFrame {
 
         lblMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMessage.setText("Tem a certeza que quer Cancelar?");
+        lblMessage.setText("Tem a certeza que deseja Cancelar?");
 
         btnWarningYes.setText("Sim");
         btnWarningYes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -414,44 +555,319 @@ public class Backend extends javax.swing.JFrame {
 
         studentPanel.addTab("Adicionar", addPanel);
 
-        org.jdesktop.layout.GroupLayout updatePanelLayout = new org.jdesktop.layout.GroupLayout(updatePanel);
-        updatePanel.setLayout(updatePanelLayout);
-        updatePanelLayout.setHorizontalGroup(
-            updatePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 547, Short.MAX_VALUE)
+        searchPanel.setLayout(null);
+
+        updatePanel.setBackground(new java.awt.Color(153, 153, 153));
+        updatePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        updatePanel.setPreferredSize(new java.awt.Dimension(530, 306));
+        updatePanel.setLayout(null);
+
+        scholarshipChoose.add(rdoNo1);
+        rdoNo1.setText("Não");
+        updatePanel.add(rdoNo1);
+        rdoNo1.setBounds(182, 268, 57, 23);
+
+        lblName2.setText("Nome:");
+        updatePanel.add(lblName2);
+        lblName2.setBounds(20, 26, 41, 16);
+
+        lblIfen1.setText("-");
+        updatePanel.add(lblIfen1);
+        lblIfen1.setBounds(175, 97, 8, 16);
+
+        email2.setText("nffdiosi@gmail.com");
+        updatePanel.add(email2);
+        email2.setBounds(121, 200, 406, 28);
+
+        phone2.setText("917235609");
+        phone2.setMaximumSize(new java.awt.Dimension(14, 28));
+        updatePanel.add(phone2);
+        phone2.setBounds(121, 164, 90, 28);
+
+        city2.setText("Ponta Delgada");
+        updatePanel.add(city2);
+        city2.setBounds(121, 128, 406, 28);
+
+        postalCode3.setText("172");
+        updatePanel.add(postalCode3);
+        postalCode3.setBounds(186, 92, 40, 28);
+
+        lblStreet2.setText("Rua:");
+        updatePanel.add(lblStreet2);
+        lblStreet2.setBounds(20, 62, 27, 16);
+
+        btnChange.setText("Alterar");
+        btnChange.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChangeMouseReleased(evt);
+            }
+        });
+        updatePanel.add(btnChange);
+        btnChange.setBounds(340, 310, 86, 29);
+
+        lblPostalCode2.setText("Código Postal:");
+        updatePanel.add(lblPostalCode2);
+        lblPostalCode2.setBounds(20, 98, 91, 16);
+
+        course1.setText("IRM");
+        updatePanel.add(course1);
+        course1.setBounds(121, 236, 406, 28);
+
+        name2.setText("Nuno Filipe Ferreira Diogo da Silva");
+        updatePanel.add(name2);
+        name2.setBounds(121, 20, 406, 28);
+
+        scholarshipChoose.add(rdoYes1);
+        rdoYes1.setText("Sim");
+        updatePanel.add(rdoYes1);
+        rdoYes1.setBounds(121, 268, 55, 23);
+
+        street2.setText("Rua Francisco José, 5");
+        updatePanel.add(street2);
+        street2.setBounds(121, 56, 406, 28);
+
+        lblEmail2.setText("Email:");
+        updatePanel.add(lblEmail2);
+        lblEmail2.setBounds(20, 206, 38, 16);
+
+        postalCode4.setText("9500");
+        updatePanel.add(postalCode4);
+        postalCode4.setBounds(121, 92, 50, 28);
+
+        lblCity2.setText("Cidade:");
+        updatePanel.add(lblCity2);
+        lblCity2.setBounds(20, 134, 47, 16);
+
+        btnCancel2.setText("Cancelar");
+        btnCancel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancel2MouseReleased(evt);
+            }
+        });
+        updatePanel.add(btnCancel2);
+        btnCancel2.setBounds(430, 310, 98, 29);
+
+        lblPhone2.setText("Telefone:");
+        updatePanel.add(lblPhone2);
+        lblPhone2.setBounds(20, 170, 58, 16);
+
+        lblCourse2.setText("Curso:");
+        updatePanel.add(lblCourse2);
+        lblCourse2.setBounds(20, 242, 41, 16);
+
+        lblScholarship2.setText("Bolseiro:");
+        updatePanel.add(lblScholarship2);
+        lblScholarship2.setBounds(20, 272, 54, 16);
+
+        searchPanel.add(updatePanel);
+        updatePanel.setBounds(20, 100, 590, 350);
+
+        visualizePanel.setBackground(new java.awt.Color(153, 153, 153));
+        visualizePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblName1.setText("Nome:");
+
+        lblStreet1.setText("Rua:");
+
+        lblPostalCode1.setText("Código Postal:");
+
+        lblCity1.setText("Cidade:");
+
+        lblPhone1.setText("Telefone:");
+
+        lblEmail1.setText("Email:");
+
+        lblCourse1.setText("Curso:");
+
+        lblScholarship1.setText("Bolseiro:");
+
+        name1.setText("Nuno Filipe Ferreira Diogo da Silva");
+
+        street1.setText("Rua da Universidade, 5");
+
+        postalCode2.setText("9500-123");
+
+        city1.setText("Ponta Delgada");
+
+        phone1.setText("937445045");
+
+        email1.setText("diogosilva@gmail.com");
+
+        scholarship1.setText("IRM");
+
+        chbScholarship.setSelected(true);
+        chbScholarship.setEnabled(false);
+
+        lblTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
+        lblTitle.setText("Dados do Aluno");
+
+        btnReturn.setText("Voltar");
+        btnReturn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnReturnMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout visualizePanelLayout = new org.jdesktop.layout.GroupLayout(visualizePanel);
+        visualizePanel.setLayout(visualizePanelLayout);
+        visualizePanelLayout.setHorizontalGroup(
+            visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(visualizePanelLayout.createSequentialGroup()
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(visualizePanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(lblName1)
+                            .add(lblStreet1)
+                            .add(lblPostalCode1)
+                            .add(lblCity1)
+                            .add(lblPhone1)
+                            .add(lblEmail1)
+                            .add(lblCourse1)
+                            .add(lblScholarship1))
+                        .add(33, 33, 33)
+                        .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(scholarship1)
+                            .add(email1)
+                            .add(phone1)
+                            .add(city1)
+                            .add(postalCode2)
+                            .add(street1)
+                            .add(name1)
+                            .add(chbScholarship)))
+                    .add(visualizePanelLayout.createSequentialGroup()
+                        .add(216, 216, 216)
+                        .add(lblTitle)))
+                .addContainerGap(165, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, visualizePanelLayout.createSequentialGroup()
+                .addContainerGap(224, Short.MAX_VALUE)
+                .add(btnReturn)
+                .add(221, 221, 221))
         );
-        updatePanelLayout.setVerticalGroup(
-            updatePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 532, Short.MAX_VALUE)
+        visualizePanelLayout.setVerticalGroup(
+            visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(visualizePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lblTitle)
+                .add(25, 25, 25)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblName1)
+                    .add(name1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblStreet1)
+                    .add(street1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblPostalCode1)
+                    .add(postalCode2))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblCity1)
+                    .add(city1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblPhone1)
+                    .add(phone1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblEmail1)
+                    .add(email1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblCourse1)
+                    .add(scholarship1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(lblScholarship1)
+                    .add(chbScholarship))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(btnReturn)
+                .addContainerGap())
         );
 
-        studentPanel.addTab("Actualizar", updatePanel);
+        searchPanel.add(visualizePanel);
+        visualizePanel.setBounds(20, 100, 530, 306);
 
-        org.jdesktop.layout.GroupLayout deletePanelLayout = new org.jdesktop.layout.GroupLayout(deletePanel);
-        deletePanel.setLayout(deletePanelLayout);
-        deletePanelLayout.setHorizontalGroup(
-            deletePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 547, Short.MAX_VALUE)
-        );
-        deletePanelLayout.setVerticalGroup(
-            deletePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 532, Short.MAX_VALUE)
-        );
+        lblSearch.setText("Pesquisar por:");
+        searchPanel.add(lblSearch);
+        lblSearch.setBounds(150, 30, 100, 30);
+        searchPanel.add(lblSearchNumber);
+        lblSearchNumber.setBounds(220, 190, 0, 0);
 
-        studentPanel.addTab("Eliminar", deletePanel);
+        search.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchFocusGained(evt);
+            }
+        });
+        search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
+            }
+        });
+        searchPanel.add(search);
+        search.setBounds(240, 70, 100, 28);
 
-        org.jdesktop.layout.GroupLayout searchPanelLayout = new org.jdesktop.layout.GroupLayout(searchPanel);
-        searchPanel.setLayout(searchPanelLayout);
-        searchPanelLayout.setHorizontalGroup(
-            searchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 547, Short.MAX_VALUE)
-        );
-        searchPanelLayout.setVerticalGroup(
-            searchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 532, Short.MAX_VALUE)
-        );
+        btnSearch.setText("Pesquisar");
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSearchMouseReleased(evt);
+            }
+        });
+        searchPanel.add(btnSearch);
+        btnSearch.setBounds(240, 110, 104, 29);
 
-        studentPanel.addTab("Pesquisa", searchPanel);
+        cbSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Nº de aluno" }));
+        searchPanel.add(cbSearch);
+        cbSearch.setBounds(240, 30, 120, 27);
+
+        searchList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                searchListValueChanged(evt);
+            }
+        });
+        jScrollPane.setViewportView(searchList);
+
+        searchPanel.add(jScrollPane);
+        jScrollPane.setBounds(20, 202, 530, 132);
+
+        btnUpdate.setText("Actualizar");
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnUpdateMouseReleased(evt);
+            }
+        });
+        searchPanel.add(btnUpdate);
+        btnUpdate.setBounds(223, 349, 107, 29);
+
+        btnDelete.setText("Eliminar");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseReleased(evt);
+            }
+        });
+        searchPanel.add(btnDelete);
+        btnDelete.setBounds(397, 349, 95, 29);
+
+        btnCheck.setText("Visualizar");
+        btnCheck.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCheckMouseReleased(evt);
+            }
+        });
+        searchPanel.add(btnCheck);
+        btnCheck.setBounds(58, 349, 105, 29);
+
+        btnCancel1.setText("Cancelar");
+        btnCancel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancel1MouseReleased(evt);
+            }
+        });
+        searchPanel.add(btnCancel1);
+        btnCancel1.setBounds(430, 480, 98, 29);
+
+        studentPanel.addTab("Pesquisar", searchPanel);
 
         menuPanel.add(studentPanel);
         studentPanel.setBounds(220, 10, 570, 580);
@@ -524,38 +940,47 @@ public class Backend extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
-        if (confirm.isEnabled()) {
-            mainPanel.setVisible(false);
-            menuPanel.setVisible(true);
-            studentPanel.setVisible(false);
-            activate(buttonsPanel);
-        }
-    }//GEN-LAST:event_confirmMouseReleased
-
     private void btnStudentMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseReleased
         if (btnStudent.isEnabled()) {
             btnStudent.setEnabled(false);
             activate(studentPanel);
+            
+            // Add Panel treatment
             activate(addPanel);
-            clear(addPanel);
+            clearTextFieldsOf(addPanel);
             scholarshipChoose.clearSelection();
+            studentPanel.setSelectedIndex(0);
+            
+            // Search Panel treatment
+            clearTextFieldsOf(searchPanel);
+            lblSearch.setEnabled(true);
+            cbSearch.setEnabled(true);
+            search.setEnabled(true);
+            btnSearch.setEnabled(false);
+            searchList.setVisible(false);
+            btnCheck.setVisible(false);
+            btnDelete.setVisible(false);
+            btnUpdate.setVisible(false);
+            btnCancel1.setEnabled(true);
+            searchList.clearSelection();
+            updatePanel.setVisible(false);
         }
     }//GEN-LAST:event_btnStudentMouseReleased
-
-    private void btnCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseReleased
-        if (btnCancel.isEnabled()) {
-            warningFrame.setVisible(true);
-            deactivate(studentPanel);
-            deactivate(addPanel);
-        }
-    }//GEN-LAST:event_btnCancelMouseReleased
 
     private void btnWarningNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnWarningNoMouseReleased
         if (btnWarningNo.isEnabled()) {
             warningFrame.setVisible(false);
             activate(studentPanel);
-            activate(addPanel);
+            enabledAll(addPanel);
+            enabledAll(searchPanel);
+            enabledAll(searchList);
+            activate(buttonsPanel);
+            
+            if (searchList.isSelectionEmpty()) {
+                btnCheck.setEnabled(false);
+                btnDelete.setEnabled(false);
+                btnUpdate.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_btnWarningNoMouseReleased
 
@@ -567,19 +992,18 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnWarningYesMouseReleased
 
-    private void btnSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseReleased
-        if (btnSave.isEnabled()) {
-            informationFrame.setVisible(true);
-            deactivate(studentPanel);
-            deactivate(addPanel);
-        }   
-    }//GEN-LAST:event_btnSaveMouseReleased
-
     private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOkMouseReleased
         if (btnOk.isEnabled()) {
+            
             informationFrame.setVisible(false);
-            studentPanel.setVisible(false);
-            activate(buttonsPanel);
+            
+            enabledAll(studentPanel);
+            enabledAll(addPanel);
+            enabledAll(searchPanel);
+            enabledAll(searchList);
+            enabledAll(buttonsPanel);
+            scholarshipChoose.clearSelection();
+            clearTextFieldsOf(addPanel);
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -590,6 +1014,7 @@ public class Backend extends javax.swing.JFrame {
             informationFrame.setVisible(false);
             menuPanel.setVisible(false);
             mainPanel.setVisible(true);
+            activate(buttonsPanel);
         }
     }//GEN-LAST:event_btnLogYesMouseReleased
 
@@ -597,8 +1022,17 @@ public class Backend extends javax.swing.JFrame {
         if (btnLogNo.isEnabled()) {
             btnTerminate.setEnabled(true);
             warningLogFrame.setVisible(false);
-            activate(addPanel);
+            enabledAll(addPanel);
             studentPanel.setEnabled(true);
+            activate(buttonsPanel);
+            enabledAll(searchPanel);
+            enabledAll(searchList);
+            
+            if (searchList.isSelectionEmpty()) {
+                btnCheck.setEnabled(false);
+                btnDelete.setEnabled(false);
+                btnUpdate.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_btnLogNoMouseReleased
 
@@ -610,9 +1044,174 @@ public class Backend extends javax.swing.JFrame {
             informationFrame.setVisible(false);
             deactivate(studentPanel);
             deactivate(addPanel);
-            clear(mainPanel);
+            deactivate(searchPanel);
+            deactivate(buttonsPanel);
+            deactivate(searchList);
+            clearTextFieldsOf(mainPanel);
         }
     }//GEN-LAST:event_btnTerminateMouseReleased
+
+    private void btnSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseReleased
+        if (btnSearch.isEnabled()) {
+            
+            searchList.setVisible(true);
+            searchList.setEnabled(true);
+            
+            btnCheck.setVisible(true);
+            btnCheck.setEnabled(false);
+                    
+            btnUpdate.setVisible(true);
+            btnUpdate.setEnabled(false);
+            
+            btnDelete.setVisible(true);
+            btnDelete.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnSearchMouseReleased
+
+    private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
+        if (confirm.isEnabled() && evt.getKeyCode() == evt.VK_ENTER) {
+            mainPanel.setVisible(false);
+            menuPanel.setVisible(true);
+            studentPanel.setVisible(false);
+            activate(buttonsPanel);
+        }
+    }//GEN-LAST:event_passwordKeyReleased
+
+    private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
+        if (confirm.isEnabled()) {
+            mainPanel.setVisible(false);
+            menuPanel.setVisible(true);
+            studentPanel.setVisible(false);
+            activate(buttonsPanel);
+        }
+    }//GEN-LAST:event_confirmMouseReleased
+
+    private void btnCheckMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckMouseReleased
+        if (btnCheck.isEnabled()) {
+            visualizePanel.setVisible(true);
+            deactivate(studentPanel);
+            deactivate(searchPanel);
+            deactivate(searchList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnCheckMouseReleased
+
+    private void searchListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_searchListValueChanged
+        btnCheck.setEnabled(true);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+    }//GEN-LAST:event_searchListValueChanged
+
+    private void btnReturnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReturnMouseReleased
+        visualizePanel.setVisible(false);
+        activate(studentPanel);
+        activate(searchPanel);
+        activate(searchList);
+        activate(buttonsPanel);
+    }//GEN-LAST:event_btnReturnMouseReleased
+
+    private void btnCancel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel1MouseReleased
+        if (btnCancel1.isEnabled()) {
+            warningFrame.setVisible(true);
+            btnCancel1.setEnabled(false);
+            deactivate(studentPanel);
+            deactivate(searchPanel);
+            deactivate(searchList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnCancel1MouseReleased
+
+    private void searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFocusGained
+        btnSearch.setEnabled(true);
+    }//GEN-LAST:event_searchFocusGained
+
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            searchList.setVisible(true);
+            searchList.setEnabled(true);
+            
+            btnCheck.setVisible(true);
+            btnCheck.setEnabled(false);
+                    
+            btnUpdate.setVisible(true);
+            btnUpdate.setEnabled(false);
+            
+            btnDelete.setVisible(true);
+            btnDelete.setEnabled(false);
+        }
+    }//GEN-LAST:event_searchKeyReleased
+
+    private void btnSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseReleased
+        if (btnSave.isEnabled()) {             
+            informationFrame.setVisible(true);             
+            deactivate(studentPanel);             
+            deactivate(addPanel);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnSaveMouseReleased
+
+    private void btnCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMouseReleased
+        if (btnCancel.isEnabled()) {       
+            warningFrame.setVisible(true);    
+            deactivate(studentPanel);   
+            deactivate(addPanel);
+            deactivate(buttonsPanel);
+        }     
+    }//GEN-LAST:event_btnCancelMouseReleased
+
+    private void btnDeleteYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYesMouseReleased
+        deleteWarningFrame.setVisible(false);
+        
+        list.remove(searchList.getSelectedIndex());
+        lblMessage1.setText("Eliminação feita com Sucesso");
+        informationFrame.setVisible(true);
+        deactivate(searchPanel);
+        deactivate(searchList);
+    }//GEN-LAST:event_btnDeleteYesMouseReleased
+
+    private void btnDeleteNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteNoMouseReleased
+        deleteWarningFrame.setVisible(false);
+        enabledAll(studentPanel);   
+        enabledAll(searchPanel);
+        enabledAll(searchList);
+        enabledAll(buttonsPanel);
+    }//GEN-LAST:event_btnDeleteNoMouseReleased
+
+    private void btnDeleteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseReleased
+        if (btnDelete.isEnabled()) {
+            deleteWarningFrame.setVisible(true);
+            deactivate(studentPanel);   
+            deactivate(searchPanel);
+            deactivate(searchList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnDeleteMouseReleased
+
+    private void btnChangeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangeMouseReleased
+        if (btnChange.isEnabled()) {             
+            informationFrame.setVisible(true);
+            updatePanel.setVisible(false);
+        }
+    }//GEN-LAST:event_btnChangeMouseReleased
+
+    private void btnCancel2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel2MouseReleased
+        if (btnCancel2.isEnabled()) {
+            updatePanel.setVisible(false);
+            activate(studentPanel);
+            activate(searchPanel);
+            activate(searchList);
+        }
+    }//GEN-LAST:event_btnCancel2MouseReleased
+
+    private void btnUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseReleased
+        if (btnUpdate.isEnabled()) {
+            updatePanel.setVisible(true);
+            deactivate(studentPanel);   
+            deactivate(searchPanel);
+            deactivate(searchList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnUpdateMouseReleased
 
     /**
      * @param args the command line arguments
@@ -654,55 +1253,109 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCancel1;
+    private javax.swing.JButton btnCancel2;
+    private javax.swing.JButton btnChange;
+    private javax.swing.JButton btnCheck;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteNo;
+    private javax.swing.JButton btnDeleteYes;
     private javax.swing.JButton btnLogNo;
     private javax.swing.JButton btnLogYes;
     private javax.swing.JButton btnMeal;
     private javax.swing.JButton btnOk;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnTerminate;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JComboBox cbSearch;
+    private javax.swing.JCheckBox chbScholarship;
     private javax.swing.JTextField city;
+    private javax.swing.JLabel city1;
+    private javax.swing.JTextField city2;
     private javax.swing.JButton confirm;
     private javax.swing.JTextField course;
-    private javax.swing.JPanel deletePanel;
+    private javax.swing.JTextField course1;
+    private javax.swing.JInternalFrame deleteWarningFrame;
     private javax.swing.JTextField email;
+    private javax.swing.JLabel email1;
+    private javax.swing.JTextField email2;
     private javax.swing.JInternalFrame informationFrame;
+    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JLabel lblBackBK;
     private javax.swing.JLabel lblBackBK1;
     private javax.swing.JLabel lblCity;
+    private javax.swing.JLabel lblCity1;
+    private javax.swing.JLabel lblCity2;
     private javax.swing.JLabel lblCourse;
+    private javax.swing.JLabel lblCourse1;
+    private javax.swing.JLabel lblCourse2;
+    private javax.swing.JLabel lblDeleteMessage;
     private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblEmail1;
+    private javax.swing.JLabel lblEmail2;
     private javax.swing.JLabel lblIfen;
+    private javax.swing.JLabel lblIfen1;
     private javax.swing.JLabel lblLogMessage;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JLabel lblMessage1;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblName1;
+    private javax.swing.JLabel lblName2;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhone;
+    private javax.swing.JLabel lblPhone1;
+    private javax.swing.JLabel lblPhone2;
     private javax.swing.JLabel lblPostalCode;
+    private javax.swing.JLabel lblPostalCode1;
+    private javax.swing.JLabel lblPostalCode2;
     private javax.swing.JLabel lblScholarship;
+    private javax.swing.JLabel lblScholarship1;
+    private javax.swing.JLabel lblScholarship2;
+    private javax.swing.JLabel lblSearch;
+    private javax.swing.JLabel lblSearchNumber;
     private javax.swing.JLabel lblStreet;
+    private javax.swing.JLabel lblStreet1;
+    private javax.swing.JLabel lblStreet2;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JTextField name;
+    private javax.swing.JLabel name1;
+    private javax.swing.JTextField name2;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField phone;
+    private javax.swing.JLabel phone1;
+    private javax.swing.JTextField phone2;
     private javax.swing.JTextField postalCode;
     private javax.swing.JTextField postalCode1;
+    private javax.swing.JLabel postalCode2;
+    private javax.swing.JTextField postalCode3;
+    private javax.swing.JTextField postalCode4;
     private javax.swing.JRadioButton rdoNo;
+    private javax.swing.JRadioButton rdoNo1;
     private javax.swing.JRadioButton rdoYes;
+    private javax.swing.JRadioButton rdoYes1;
+    private javax.swing.JLabel scholarship1;
     private javax.swing.ButtonGroup scholarshipChoose;
+    private javax.swing.JTextField search;
+    private javax.swing.JList searchList;
     private javax.swing.JPanel searchPanel;
     private javax.swing.JSeparator separator;
     private javax.swing.JTextField street;
+    private javax.swing.JLabel street1;
+    private javax.swing.JTextField street2;
     private javax.swing.JTabbedPane studentPanel;
     private javax.swing.JPanel updatePanel;
     private javax.swing.JTextField username;
+    private javax.swing.JPanel visualizePanel;
     private javax.swing.JInternalFrame warningFrame;
     private javax.swing.JInternalFrame warningLogFrame;
     // End of variables declaration//GEN-END:variables
