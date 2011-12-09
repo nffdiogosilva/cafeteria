@@ -336,7 +336,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        panelBuyTicket.add(ifWarning, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 220, 160));
+        panelBuyTicket.add(ifWarning, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
 
         ifTickets.setTitle("Informação");
         ifTickets.setVisible(true);
@@ -383,7 +383,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        panelBuyTicket.add(ifTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 220, 160));
+        panelBuyTicket.add(ifTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
 
         ifPurchaseSuccess.setTitle("Informação");
         ifPurchaseSuccess.setVisible(true);
@@ -419,7 +419,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        panelBuyTicket.add(ifPurchaseSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 220, 160));
+        panelBuyTicket.add(ifPurchaseSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
 
         spSummary.setBorder(null);
         spSummary.setToolTipText("");
@@ -809,7 +809,7 @@ public class Frontend extends javax.swing.JFrame {
         lblChangePinCodeSuccess1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChangePinCodeSuccess1.setText("Código de acesso");
 
-        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChangePinCodeSuccess2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChangePinCodeSuccess2.setText("alterado com sucesso!");
 
@@ -825,27 +825,25 @@ public class Frontend extends javax.swing.JFrame {
         ifChangePinCodeSuccessLayout.setHorizontalGroup(
             ifChangePinCodeSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblChangePinCodeSuccess1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+            .addComponent(lblChangePinCodeSuccess2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
             .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
-                .addComponent(lblChangePinCodeSuccess2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
-                .addGap(77, 77, 77)
+                .addGap(73, 73, 73)
                 .addComponent(btnChangePinCodeSuccessOk, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         ifChangePinCodeSuccessLayout.setVerticalGroup(
             ifChangePinCodeSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(19, 19, 19)
                 .addComponent(lblChangePinCodeSuccess1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblChangePinCodeSuccess2)
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addComponent(btnChangePinCodeSuccessOk)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
-        panelChangePinCode.add(ifChangePinCodeSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 39, -1, 160));
+        panelChangePinCode.add(ifChangePinCodeSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
 
         panelChangePinCodeFields.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alterar Código de Acesso", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
 
@@ -888,10 +886,10 @@ public class Frontend extends javax.swing.JFrame {
                         .addGroup(panelChangePinCodeFieldsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblConfiirmPin, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pfConfirmPin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        panelChangePinCode.add(panelChangePinCodeFields, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, -1));
+        panelChangePinCode.add(panelChangePinCodeFields, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 210));
 
         btnValidatePinCode.setText("Alterar");
         btnValidatePinCode.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -915,7 +913,7 @@ public class Frontend extends javax.swing.JFrame {
         panelChangeEmail.setOpaque(false);
         panelChangeEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ifChangeEmailSuccess.setTitle("Aviso");
+        ifChangeEmailSuccess.setTitle("Informação");
         ifChangeEmailSuccess.setVisible(true);
 
         lblChangeEmailSuccess.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -951,7 +949,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        panelChangeEmail.add(ifChangeEmailSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 240, 220, 160));
+        panelChangeEmail.add(ifChangeEmailSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
 
         panelChangeEmailFields.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alterar Email", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
 
@@ -1235,6 +1233,9 @@ public class Frontend extends javax.swing.JFrame {
             ifChangePinCodeSuccess.setVisible(false);
             btnValidatePinCode.setEnabled(true);
             btnCancelNewPinCode.setEnabled(true);
+            pfCurrentPin.setText(null);
+            pfNewPin.setText(null);
+            pfConfirmPin.setText(null);
         }
     }//GEN-LAST:event_btnChangePinCodeMouseReleased
 
@@ -1245,12 +1246,6 @@ public class Frontend extends javax.swing.JFrame {
             btnCancelNewPinCode.setEnabled(false);
         }
     }//GEN-LAST:event_btnValidatePinCodeMouseReleased
-
-    private void btnChangePinCodeSuccessOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangePinCodeSuccessOkMouseReleased
-        ifChangePinCodeSuccess.setVisible(false);
-        panelChangePinCode.setVisible(false);
-        btnChangePinCode.setEnabled(true);
-    }//GEN-LAST:event_btnChangePinCodeSuccessOkMouseReleased
 
     private void btnCancelNewPinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelNewPinCodeMouseReleased
         if(btnCancelNewPinCode.isEnabled()) {
@@ -1288,10 +1283,18 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnValidateEmailMouseReleased
 
     private void btnCancelNewEmailMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelNewEmailMouseReleased
-        panelChangeEmail.setVisible(false);
-        ifChangeEmailSuccess.setVisible(false);
-        btnChangeEmail.setEnabled(true);
+        if(btnCancelNewEmail.isEnabled()) {
+            panelChangeEmail.setVisible(false);
+            ifChangeEmailSuccess.setVisible(false);
+            btnChangeEmail.setEnabled(true);
+        }
     }//GEN-LAST:event_btnCancelNewEmailMouseReleased
+
+    private void btnChangePinCodeSuccessOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangePinCodeSuccessOkMouseReleased
+        ifChangePinCodeSuccess.setVisible(false);
+        panelChangePinCode.setVisible(false);         
+        btnChangePinCode.setEnabled(true);
+    }//GEN-LAST:event_btnChangePinCodeSuccessOkMouseReleased
 
     /**
      * @param args the command line arguments
