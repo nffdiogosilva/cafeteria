@@ -52,6 +52,11 @@ public class Frontend extends javax.swing.JFrame {
         btnChangePinCode = new javax.swing.JButton();
         btnChangeEmail = new javax.swing.JButton();
         btnTerminate = new javax.swing.JButton();
+        panelWelcome = new javax.swing.JPanel();
+        lblWelcome = new javax.swing.JLabel();
+        lblWelcome1 = new javax.swing.JLabel();
+        lblWelcome2 = new javax.swing.JLabel();
+        lblWelcome3 = new javax.swing.JLabel();
         panelBuyTicket = new javax.swing.JPanel();
         ifWarning = new javax.swing.JInternalFrame();
         lblMoreTickets1 = new javax.swing.JLabel();
@@ -287,6 +292,50 @@ public class Frontend extends javax.swing.JFrame {
 
         menuPanel.add(panelButtons);
         panelButtons.setBounds(0, 0, 200, 600);
+
+        panelWelcome.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bem-Vindo", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+
+        lblWelcome.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblWelcome.setText("Aplicação para a compra de senhas da");
+
+        lblWelcome1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblWelcome1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblWelcome1.setText("Universidade dos Açores");
+
+        lblWelcome2.setText("- Escolha uma das operações disponíveis.");
+
+        lblWelcome3.setText("- Quando concluir as suas operações, pressione o botão Terminar.");
+
+        javax.swing.GroupLayout panelWelcomeLayout = new javax.swing.GroupLayout(panelWelcome);
+        panelWelcome.setLayout(panelWelcomeLayout);
+        panelWelcomeLayout.setHorizontalGroup(
+            panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelWelcomeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblWelcome1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                    .addComponent(lblWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                    .addComponent(lblWelcome2)
+                    .addComponent(lblWelcome3))
+                .addContainerGap())
+        );
+        panelWelcomeLayout.setVerticalGroup(
+            panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelWelcomeLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(lblWelcome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblWelcome1)
+                .addGap(33, 33, 33)
+                .addComponent(lblWelcome2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblWelcome3)
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+
+        menuPanel.add(panelWelcome);
+        panelWelcome.setBounds(250, 25, 440, 200);
 
         panelBuyTicket.setOpaque(false);
         panelBuyTicket.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1049,11 +1098,11 @@ public class Frontend extends javax.swing.JFrame {
         if (confirm.isEnabled()) {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
+            panelWelcome.setVisible(true);
             panelBuyTicket.setVisible(false);
             panelCheckBalance.setVisible(false);
             panelChangePinCode.setVisible(false);
             panelChangeEmail.setVisible(false);
-
             panelChooseDay.setVisible(false);
             btnBuyTicket.setEnabled(true);
             btnCheckBalance.setEnabled(true);
@@ -1087,12 +1136,11 @@ public class Frontend extends javax.swing.JFrame {
             cbYearChoice.setSelectedIndex(0);
             cbMonthChoice.setSelectedIndex(0);
             cbDayChoice.setSelectedIndex(0);
-
             btnBuyTicket.setEnabled(false);
             btnCheckBalance.setEnabled(false);
             btnChangePinCode.setEnabled(false);
             btnChangeEmail.setEnabled(false);
-            
+            panelWelcome.setVisible(false);
             panelCheckBalance.setVisible(false);
             panelChangePinCode.setVisible(false);
             panelChangeEmail.setVisible(false);
@@ -1128,7 +1176,6 @@ public class Frontend extends javax.swing.JFrame {
             btnConfirmMeal.setVisible(false);
             btnBuy.setVisible(true);
             btnBuy.setEnabled(true);
-
             lblPurchaseDateText.setText(""+day+"/"+month+"/"+year);    
         }
     }//GEN-LAST:event_btnConfirmMealMouseReleased
@@ -1156,6 +1203,7 @@ public class Frontend extends javax.swing.JFrame {
             btnCheckBalance.setEnabled(true);
             btnChangePinCode.setEnabled(true);
             btnChangeEmail.setEnabled(true);
+            panelWelcome.setVisible(true);
         }
     }//GEN-LAST:event_btnNoTicketsMouseReleased
 
@@ -1194,11 +1242,11 @@ public class Frontend extends javax.swing.JFrame {
             spSummary.setVisible(false);
             btnBuy.setVisible(false);
             ifWarning.setVisible(false);
-
             btnBuyTicket.setEnabled(true);
             btnCheckBalance.setEnabled(true);
             btnChangePinCode.setEnabled(true);
             btnChangeEmail.setEnabled(true);
+            panelWelcome.setVisible(true);
         }
     }//GEN-LAST:event_btnYesCancelMouseReleased
 
@@ -1215,6 +1263,7 @@ public class Frontend extends javax.swing.JFrame {
 
     private void btnCheckBalanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckBalanceMouseReleased
         if (btnCheckBalance.isEnabled()) {
+            panelWelcome.setVisible(false);
             panelCheckBalance.setVisible(true);
             panelChangePinCode.setVisible(false);
             btnCheckBalance.setEnabled(false);
@@ -1225,6 +1274,7 @@ public class Frontend extends javax.swing.JFrame {
 
     private void btnChangePinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangePinCodeMouseReleased
         if (btnChangePinCode.isEnabled()) {
+            panelWelcome.setVisible(false);
             panelChangePinCode.setVisible(true);
             panelCheckBalance.setVisible(false);
             btnCheckBalance.setEnabled(true);
@@ -1252,10 +1302,12 @@ public class Frontend extends javax.swing.JFrame {
             ifChangePinCodeSuccess.setVisible(false);
             panelChangePinCode.setVisible(false);
             btnChangePinCode.setEnabled(true);
+            panelWelcome.setVisible(true);
         }
     }//GEN-LAST:event_btnCancelNewPinCodeMouseReleased
 
     private void btnChangeEmailMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangeEmailMouseReleased
+        panelWelcome.setVisible(false);
         panelChangeEmail.setVisible(true);
         panelCheckBalance.setVisible(false);
         panelChangePinCode.setVisible(false);
@@ -1287,6 +1339,7 @@ public class Frontend extends javax.swing.JFrame {
             panelChangeEmail.setVisible(false);
             ifChangeEmailSuccess.setVisible(false);
             btnChangeEmail.setEnabled(true);
+            panelWelcome.setVisible(true);
         }
     }//GEN-LAST:event_btnCancelNewEmailMouseReleased
 
@@ -1420,6 +1473,10 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTicketSoupText;
     private javax.swing.JLabel lblVegetarian;
     private javax.swing.JLabel lblVegetarianText;
+    private javax.swing.JLabel lblWelcome;
+    private javax.swing.JLabel lblWelcome1;
+    private javax.swing.JLabel lblWelcome2;
+    private javax.swing.JLabel lblWelcome3;
     private javax.swing.JList lisDates;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JLabel logo;
@@ -1440,6 +1497,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JPanel panelShowMeal;
     private javax.swing.JPanel panelStudent;
     private javax.swing.JPanel panelSummary;
+    private javax.swing.JPanel panelWelcome;
     private javax.swing.JPasswordField pfConfirmPin;
     private javax.swing.JPasswordField pfCurrentPin;
     private javax.swing.JPasswordField pfNewPin;
