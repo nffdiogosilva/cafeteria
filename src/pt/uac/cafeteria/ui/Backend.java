@@ -1,6 +1,7 @@
 package pt.uac.cafeteria.ui;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -151,11 +152,11 @@ public class Backend extends javax.swing.JFrame {
         city = new javax.swing.JTextField();
         phone = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
-        course = new javax.swing.JTextField();
         rdoYes = new javax.swing.JRadioButton();
         rdoNo = new javax.swing.JRadioButton();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
+        cbSchollarship = new javax.swing.JComboBox();
         searchPanel = new javax.swing.JPanel();
         updatePanel = new javax.swing.JPanel();
         rdoNo1 = new javax.swing.JRadioButton();
@@ -510,8 +511,6 @@ public class Backend extends javax.swing.JFrame {
         phone.setBounds(121, 164, 90, 28);
         addPanel.add(email);
         email.setBounds(121, 200, 406, 28);
-        addPanel.add(course);
-        course.setBounds(121, 236, 406, 28);
 
         scholarshipChoose.add(rdoYes);
         rdoYes.setText("Sim");
@@ -540,6 +539,10 @@ public class Backend extends javax.swing.JFrame {
         });
         addPanel.add(btnSave);
         btnSave.setBounds(340, 480, 93, 29);
+
+        cbSchollarship.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
+        addPanel.add(cbSchollarship);
+        cbSchollarship.setBounds(120, 240, 142, 27);
 
         studentPanel.addTab("Adicionar", addPanel);
 
@@ -963,6 +966,7 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(searchPanel);
             enabledAll(searchList);
             activate(buttonsPanel);
+            btnStudent.setEnabled(false);
             
             if (searchList.isSelectionEmpty()) {
                 btnCheck.setEnabled(false);
@@ -990,6 +994,8 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(searchPanel);
             enabledAll(searchList);
             enabledAll(buttonsPanel);
+            btnStudent.setEnabled(false);
+                    
             scholarshipChoose.clearSelection();
             clearTextFieldsOf(addPanel);
             
@@ -1062,7 +1068,7 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchMouseReleased
 
     private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
-        if (confirm.isEnabled() && evt.getKeyCode() == evt.VK_ENTER) {
+        if (confirm.isEnabled() && evt.getKeyCode() == KeyEvent.VK_ENTER) {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
             studentPanel.setVisible(false);
@@ -1101,6 +1107,7 @@ public class Backend extends javax.swing.JFrame {
         activate(searchPanel);
         activate(searchList);
         activate(buttonsPanel);
+        btnStudent.setEnabled(false);
     }//GEN-LAST:event_btnReturnMouseReleased
 
     private void btnCancel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel1MouseReleased
@@ -1119,7 +1126,7 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_searchFocusGained
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
-        if (evt.getKeyCode() == evt.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             searchList.setVisible(true);
             searchList.setEnabled(true);
             
@@ -1168,6 +1175,7 @@ public class Backend extends javax.swing.JFrame {
         enabledAll(searchPanel);
         enabledAll(searchList);
         enabledAll(buttonsPanel);
+        btnStudent.setEnabled(false);
     }//GEN-LAST:event_btnDeleteNoMouseReleased
 
     private void btnDeleteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseReleased
@@ -1193,6 +1201,8 @@ public class Backend extends javax.swing.JFrame {
             activate(studentPanel);
             activate(searchPanel);
             activate(searchList);
+            enabledAll(buttonsPanel);
+            btnStudent.setEnabled(false);
         }
     }//GEN-LAST:event_btnCancel2MouseReleased
 
@@ -1236,7 +1246,7 @@ public class Backend extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            @Override
             public void run() {
                 new Backend().setVisible(true);
             }
@@ -1267,6 +1277,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JComboBox cbSchollarship;
     private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
     private javax.swing.JCheckBox chbScholarship;
@@ -1274,7 +1285,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel city1;
     private javax.swing.JTextField city2;
     private javax.swing.JButton confirm;
-    private javax.swing.JTextField course;
     private javax.swing.JInternalFrame deleteWarningFrame;
     private javax.swing.JTextField email;
     private javax.swing.JLabel email1;
