@@ -86,6 +86,11 @@ public class Backend extends javax.swing.JFrame {
         }
     }
     
+    /** 
+     * Method responsible of setting the component enabled
+     * 
+     * @param component The component that will be enabled
+     */
     private void enabledAll(JComponent component) {
         component.setEnabled(true);
         for (int i = 0; i < component.getComponents().length; i++) {
@@ -163,7 +168,6 @@ public class Backend extends javax.swing.JFrame {
         lblStreet2 = new javax.swing.JLabel();
         btnChange = new javax.swing.JButton();
         lblPostalCode2 = new javax.swing.JLabel();
-        course1 = new javax.swing.JTextField();
         name2 = new javax.swing.JTextField();
         rdoYes1 = new javax.swing.JRadioButton();
         street2 = new javax.swing.JTextField();
@@ -174,6 +178,7 @@ public class Backend extends javax.swing.JFrame {
         lblPhone2 = new javax.swing.JLabel();
         lblCourse2 = new javax.swing.JLabel();
         lblScholarship2 = new javax.swing.JLabel();
+        cbSchollarship2 = new javax.swing.JComboBox();
         visualizePanel = new javax.swing.JPanel();
         lblName1 = new javax.swing.JLabel();
         lblStreet1 = new javax.swing.JLabel();
@@ -335,7 +340,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
         informationFrame.setSize(new java.awt.Dimension(220, 160));
 
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMessage1.setText("Dados guardados com sucesso!");
 
@@ -352,9 +357,9 @@ public class Backend extends javax.swing.JFrame {
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
             .add(informationFrameLayout.createSequentialGroup()
-                .add(80, 80, 80)
+                .add(85, 85, 85)
                 .add(btnOk)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         informationFrameLayout.setVerticalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -370,12 +375,15 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setBounds(300, 150, 220, 160);
 
         deleteWarningFrame.setTitle("Aviso");
-        deleteWarningFrame.setPreferredSize(new java.awt.Dimension(300, 160));
-        deleteWarningFrame.setSize(new java.awt.Dimension(300, 160));
+        deleteWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
+        deleteWarningFrame.setSize(new java.awt.Dimension(330, 160));
+        deleteWarningFrame.getContentPane().setLayout(null);
 
-        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDeleteMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDeleteMessage.setText("Tem a certeza que deseja eliminar este Estudante?");
+        deleteWarningFrame.getContentPane().add(lblDeleteMessage);
+        lblDeleteMessage.setBounds(0, 27, 320, 27);
 
         btnDeleteYes.setText("Sim");
         btnDeleteYes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -383,6 +391,8 @@ public class Backend extends javax.swing.JFrame {
                 btnDeleteYesMouseReleased(evt);
             }
         });
+        deleteWarningFrame.getContentPane().add(btnDeleteYes);
+        btnDeleteYes.setBounds(80, 72, 75, 29);
 
         btnDeleteNo.setText("Não");
         btnDeleteNo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -390,33 +400,11 @@ public class Backend extends javax.swing.JFrame {
                 btnDeleteNoMouseReleased(evt);
             }
         });
-
-        org.jdesktop.layout.GroupLayout deleteWarningFrameLayout = new org.jdesktop.layout.GroupLayout(deleteWarningFrame.getContentPane());
-        deleteWarningFrame.getContentPane().setLayout(deleteWarningFrameLayout);
-        deleteWarningFrameLayout.setHorizontalGroup(
-            deleteWarningFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, deleteWarningFrameLayout.createSequentialGroup()
-                .addContainerGap(95, Short.MAX_VALUE)
-                .add(btnDeleteYes)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(btnDeleteNo)
-                .add(43, 43, 43))
-            .add(lblDeleteMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        deleteWarningFrameLayout.setVerticalGroup(
-            deleteWarningFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(deleteWarningFrameLayout.createSequentialGroup()
-                .add(27, 27, 27)
-                .add(lblDeleteMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
-                .add(deleteWarningFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnDeleteNo)
-                    .add(btnDeleteYes))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        deleteWarningFrame.getContentPane().add(btnDeleteNo);
+        btnDeleteNo.setBounds(170, 72, 75, 29);
 
         menuPanel.add(deleteWarningFrame);
-        deleteWarningFrame.setBounds(300, 150, 300, 160);
+        deleteWarningFrame.setBounds(300, 150, 330, 160);
 
         warningFrame.setTitle("Aviso");
         warningFrame.setPreferredSize(new java.awt.Dimension(220, 160));
@@ -577,7 +565,7 @@ public class Backend extends javax.swing.JFrame {
 
         email2.setText("nffdiosi@gmail.com");
         updatePanel.add(email2);
-        email2.setBounds(121, 200, 406, 28);
+        email2.setBounds(121, 200, 380, 28);
 
         phone2.setText("917235609");
         phone2.setMaximumSize(new java.awt.Dimension(14, 28));
@@ -586,7 +574,7 @@ public class Backend extends javax.swing.JFrame {
 
         city2.setText("Ponta Delgada");
         updatePanel.add(city2);
-        city2.setBounds(121, 128, 406, 28);
+        city2.setBounds(121, 128, 380, 28);
 
         postalCode3.setText("172");
         updatePanel.add(postalCode3);
@@ -603,19 +591,15 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         updatePanel.add(btnChange);
-        btnChange.setBounds(340, 310, 86, 29);
+        btnChange.setBounds(300, 310, 86, 29);
 
         lblPostalCode2.setText("Código Postal:");
         updatePanel.add(lblPostalCode2);
         lblPostalCode2.setBounds(20, 98, 91, 16);
 
-        course1.setText("IRM");
-        updatePanel.add(course1);
-        course1.setBounds(121, 236, 406, 28);
-
         name2.setText("Nuno Filipe Ferreira Diogo da Silva");
         updatePanel.add(name2);
-        name2.setBounds(121, 20, 406, 28);
+        name2.setBounds(121, 20, 380, 28);
 
         scholarshipChoose.add(rdoYes1);
         rdoYes1.setText("Sim");
@@ -624,7 +608,7 @@ public class Backend extends javax.swing.JFrame {
 
         street2.setText("Rua Francisco José, 5");
         updatePanel.add(street2);
-        street2.setBounds(121, 56, 406, 28);
+        street2.setBounds(121, 56, 380, 28);
 
         lblEmail2.setText("Email:");
         updatePanel.add(lblEmail2);
@@ -645,7 +629,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         updatePanel.add(btnCancel2);
-        btnCancel2.setBounds(430, 310, 98, 29);
+        btnCancel2.setBounds(400, 310, 98, 29);
 
         lblPhone2.setText("Telefone:");
         updatePanel.add(lblPhone2);
@@ -659,8 +643,12 @@ public class Backend extends javax.swing.JFrame {
         updatePanel.add(lblScholarship2);
         lblScholarship2.setBounds(20, 272, 54, 16);
 
+        cbSchollarship2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
+        updatePanel.add(cbSchollarship2);
+        cbSchollarship2.setBounds(120, 240, 142, 27);
+
         searchPanel.add(updatePanel);
-        updatePanel.setBounds(20, 100, 590, 350);
+        updatePanel.setBounds(20, 100, 530, 350);
 
         visualizePanel.setBackground(new java.awt.Color(153, 153, 153));
         visualizePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1004,6 +992,11 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(buttonsPanel);
             scholarshipChoose.clearSelection();
             clearTextFieldsOf(addPanel);
+            
+            searchList.clearSelection();
+            btnCheck.setEnabled(false);
+            btnDelete.setEnabled(false);
+            btnUpdate.setEnabled(false);
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -1205,6 +1198,7 @@ public class Backend extends javax.swing.JFrame {
 
     private void btnUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseReleased
         if (btnUpdate.isEnabled()) {
+            lblMessage1.setText("Dados guardados com sucesso!");
             updatePanel.setVisible(true);
             deactivate(studentPanel);   
             deactivate(searchPanel);
@@ -1273,6 +1267,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
     private javax.swing.JCheckBox chbScholarship;
     private javax.swing.JTextField city;
@@ -1280,7 +1275,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField city2;
     private javax.swing.JButton confirm;
     private javax.swing.JTextField course;
-    private javax.swing.JTextField course1;
     private javax.swing.JInternalFrame deleteWarningFrame;
     private javax.swing.JTextField email;
     private javax.swing.JLabel email1;
