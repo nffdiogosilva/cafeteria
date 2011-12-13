@@ -3,6 +3,7 @@ package pt.uac.cafeteria.ui;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.*;
 
 /**
@@ -11,6 +12,9 @@ import javax.swing.*;
  */
 public class Backend extends javax.swing.JFrame {
     
+    private static int year = Calendar.getInstance().get(Calendar.YEAR);
+    private static int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    private static int day = Calendar.getInstance().get(Calendar.DATE);
     
     /** Type of list to use on JList Component */
     private DefaultListModel list = new DefaultListModel();
@@ -22,13 +26,16 @@ public class Backend extends javax.swing.JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(screenSize.width/2 - 400, screenSize.height/2 - 300);
         
+        //Panels
         menuPanel.setVisible(false);
+        visualizePanel.setVisible(false);
+        updatePanel.setVisible(false);
+        confirmMealPanel.setVisible(false);
+        
+        //Pop Ups
         warningFrame.setVisible(false);
         warningLogFrame.setVisible(false);
         informationFrame.setVisible(false);
-        visualizePanel.setVisible(false);
-        updatePanel.setVisible(false);
-        
         
         putStudentsInList();
     }
@@ -110,6 +117,7 @@ public class Backend extends javax.swing.JFrame {
     private void initComponents() {
 
         scholarshipChoose = new javax.swing.ButtonGroup();
+        bgTime = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         lblUsername = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
@@ -123,6 +131,9 @@ public class Backend extends javax.swing.JFrame {
         lblLogMessage = new javax.swing.JLabel();
         btnLogYes = new javax.swing.JButton();
         btnLogNo = new javax.swing.JButton();
+        informationMealFrame = new javax.swing.JInternalFrame();
+        lblMealMessage = new javax.swing.JLabel();
+        btnMealOk = new javax.swing.JButton();
         informationFrame = new javax.swing.JInternalFrame();
         lblMessage1 = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
@@ -134,6 +145,50 @@ public class Backend extends javax.swing.JFrame {
         lblMessage = new javax.swing.JLabel();
         btnWarningYes = new javax.swing.JButton();
         btnWarningNo = new javax.swing.JButton();
+        confirmMealPanel = new javax.swing.JLayeredPane();
+        lblTicketMealDate = new javax.swing.JLabel();
+        lblTicketMealTime = new javax.swing.JLabel();
+        lblTicketSoup = new javax.swing.JLabel();
+        lblTicketMeat = new javax.swing.JLabel();
+        lblTicketFish = new javax.swing.JLabel();
+        lblTicketVegetarian = new javax.swing.JLabel();
+        lblTicketDessert = new javax.swing.JLabel();
+        lblTicketMealDateText = new javax.swing.JLabel();
+        lbTicketlMealTimeText = new javax.swing.JLabel();
+        lblTicketSoupText = new javax.swing.JLabel();
+        lblTicketMeatText = new javax.swing.JLabel();
+        lblTicketFishText = new javax.swing.JLabel();
+        lblTicketVegetarianText = new javax.swing.JLabel();
+        lblTicketDessertText = new javax.swing.JLabel();
+        btnConfirmMeal = new javax.swing.JButton();
+        btnCancelConfirmation = new javax.swing.JButton();
+        mealPanel = new javax.swing.JPanel();
+        chooseDayPanel = new javax.swing.JPanel();
+        cbYearChoice = new javax.swing.JComboBox();
+        cbMonthChoice = new javax.swing.JComboBox();
+        cbDayChoice = new javax.swing.JComboBox();
+        rbLunch = new javax.swing.JRadioButton();
+        rbDinner = new javax.swing.JRadioButton();
+        btnNext = new javax.swing.JButton();
+        chooseMealPanel = new javax.swing.JPanel();
+        cbSoup = new javax.swing.JComboBox();
+        lblSoup = new javax.swing.JLabel();
+        cbMeat = new javax.swing.JComboBox();
+        lblMeat = new javax.swing.JLabel();
+        cbFish = new javax.swing.JComboBox();
+        lblFish = new javax.swing.JLabel();
+        cbVeggie = new javax.swing.JComboBox();
+        lblVeggie = new javax.swing.JLabel();
+        lblDessert = new javax.swing.JLabel();
+        cbDessert = new javax.swing.JComboBox();
+        newMeat = new javax.swing.JTextField();
+        newFish = new javax.swing.JTextField();
+        newVeggie = new javax.swing.JTextField();
+        newSoup = new javax.swing.JTextField();
+        newDessert = new javax.swing.JTextField();
+        btnSaveMeal = new javax.swing.JButton();
+        btnCancelMeal = new javax.swing.JButton();
+        lblPanelTitle = new javax.swing.JLabel();
         studentPanel = new javax.swing.JTabbedPane();
         addPanel = new javax.swing.JPanel();
         lblName = new javax.swing.JLabel();
@@ -337,6 +392,44 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(warningLogFrame);
         warningLogFrame.setBounds(300, 150, 220, 160);
 
+        informationMealFrame.setTitle("Informação");
+        informationMealFrame.setPreferredSize(new java.awt.Dimension(220, 160));
+        informationMealFrame.setSize(new java.awt.Dimension(220, 160));
+
+        lblMealMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMealMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMealMessage.setText("Dados guardados com sucesso!");
+
+        btnMealOk.setText("OK");
+        btnMealOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMealOkMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout informationMealFrameLayout = new org.jdesktop.layout.GroupLayout(informationMealFrame.getContentPane());
+        informationMealFrame.getContentPane().setLayout(informationMealFrameLayout);
+        informationMealFrameLayout.setHorizontalGroup(
+            informationMealFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(lblMealMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+            .add(informationMealFrameLayout.createSequentialGroup()
+                .add(85, 85, 85)
+                .add(btnMealOk)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        informationMealFrameLayout.setVerticalGroup(
+            informationMealFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(informationMealFrameLayout.createSequentialGroup()
+                .add(27, 27, 27)
+                .add(lblMealMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnMealOk)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        menuPanel.add(informationMealFrame);
+        informationMealFrame.setBounds(300, 150, 220, 160);
+
         informationFrame.setTitle("Informação");
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
         informationFrame.setSize(new java.awt.Dimension(220, 160));
@@ -380,7 +473,7 @@ public class Backend extends javax.swing.JFrame {
         deleteWarningFrame.setSize(new java.awt.Dimension(330, 160));
         deleteWarningFrame.getContentPane().setLayout(null);
 
-        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDeleteMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDeleteMessage.setText("Tem a certeza que deseja eliminar este Estudante?");
         deleteWarningFrame.getContentPane().add(lblDeleteMessage);
@@ -455,6 +548,222 @@ public class Backend extends javax.swing.JFrame {
 
         menuPanel.add(warningFrame);
         warningFrame.setBounds(300, 150, 220, 160);
+
+        confirmMealPanel.setBackground(new java.awt.Color(153, 153, 153));
+        confirmMealPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        confirmMealPanel.setMaximumSize(new java.awt.Dimension(500, 600));
+        confirmMealPanel.setMinimumSize(new java.awt.Dimension(500, 400));
+        confirmMealPanel.setOpaque(true);
+        confirmMealPanel.setPreferredSize(new java.awt.Dimension(500, 400));
+
+        lblTicketMealDate.setText("Data:");
+        lblTicketMealDate.setBounds(10, 10, 50, 20);
+        confirmMealPanel.add(lblTicketMealDate, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketMealTime.setText("Refeição:");
+        lblTicketMealTime.setBounds(10, 40, 70, 20);
+        confirmMealPanel.add(lblTicketMealTime, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketSoup.setText("Sopa:");
+        lblTicketSoup.setBounds(10, 70, 60, 20);
+        confirmMealPanel.add(lblTicketSoup, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketMeat.setText("Carne:");
+        lblTicketMeat.setBounds(10, 100, 50, 20);
+        confirmMealPanel.add(lblTicketMeat, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketFish.setText("Peixe:");
+        lblTicketFish.setBounds(10, 130, 37, 16);
+        confirmMealPanel.add(lblTicketFish, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketVegetarian.setText("Vegetariano:");
+        lblTicketVegetarian.setBounds(10, 160, 80, 16);
+        confirmMealPanel.add(lblTicketVegetarian, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketDessert.setText("Sobremesa:");
+        lblTicketDessert.setBounds(10, 190, 80, 20);
+        confirmMealPanel.add(lblTicketDessert, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lblTicketMealDateText.setText("10/1/2012");
+        lblTicketMealDateText.setBounds(100, 10, 90, 20);
+        confirmMealPanel.add(lblTicketMealDateText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lbTicketlMealTimeText.setBounds(100, 40, 380, 20);
+        confirmMealPanel.add(lbTicketlMealTimeText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblTicketSoupText.setBounds(100, 70, 380, 20);
+        confirmMealPanel.add(lblTicketSoupText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblTicketMeatText.setBounds(100, 100, 380, 20);
+        confirmMealPanel.add(lblTicketMeatText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblTicketFishText.setBounds(100, 130, 380, 20);
+        confirmMealPanel.add(lblTicketFishText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblTicketVegetarianText.setBounds(100, 160, 380, 20);
+        confirmMealPanel.add(lblTicketVegetarianText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lblTicketDessertText.setBounds(100, 190, 380, 20);
+        confirmMealPanel.add(lblTicketDessertText, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        btnConfirmMeal.setText("Confirmar");
+        btnConfirmMeal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnConfirmMealMouseReleased(evt);
+            }
+        });
+        btnConfirmMeal.setBounds(140, 340, 107, 29);
+        confirmMealPanel.add(btnConfirmMeal, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        btnCancelConfirmation.setText("Voltar atrás");
+        btnCancelConfirmation.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancelConfirmationMouseReleased(evt);
+            }
+        });
+        btnCancelConfirmation.setBounds(260, 340, 116, 29);
+        confirmMealPanel.add(btnCancelConfirmation, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        menuPanel.add(confirmMealPanel);
+        confirmMealPanel.setBounds(220, 50, 500, 400);
+
+        mealPanel.setMaximumSize(new java.awt.Dimension(550, 550));
+        mealPanel.setMinimumSize(new java.awt.Dimension(550, 550));
+        mealPanel.setPreferredSize(new java.awt.Dimension(550, 550));
+        mealPanel.setLayout(null);
+
+        chooseDayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolha a data e a refeição", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+        chooseDayPanel.setMinimumSize(new java.awt.Dimension(400, 400));
+        chooseDayPanel.setPreferredSize(new java.awt.Dimension(333, 155));
+        chooseDayPanel.setLayout(null);
+
+        cbYearChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2011", "2012", "2013", "2014", "2015", "2016", "2017" }));
+        chooseDayPanel.add(cbYearChoice);
+        cbYearChoice.setBounds(10, 40, 88, 27);
+
+        cbMonthChoice.setMaximumRowCount(12);
+        cbMonthChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
+        chooseDayPanel.add(cbMonthChoice);
+        cbMonthChoice.setBounds(100, 40, 121, 27);
+
+        cbDayChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        chooseDayPanel.add(cbDayChoice);
+        cbDayChoice.setBounds(220, 40, 72, 27);
+
+        bgTime.add(rbLunch);
+        rbLunch.setText("Almoço");
+        rbLunch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                rbLunchMouseReleased(evt);
+            }
+        });
+        chooseDayPanel.add(rbLunch);
+        rbLunch.setBounds(10, 97, 80, 23);
+
+        bgTime.add(rbDinner);
+        rbDinner.setText("Jantar");
+        rbDinner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                rbDinnerMouseReleased(evt);
+            }
+        });
+        chooseDayPanel.add(rbDinner);
+        rbDinner.setBounds(10, 123, 68, 23);
+
+        btnNext.setText("Seguinte");
+        btnNext.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnNextMouseReleased(evt);
+            }
+        });
+        chooseDayPanel.add(btnNext);
+        btnNext.setBounds(400, 110, 98, 29);
+
+        mealPanel.add(chooseDayPanel);
+        chooseDayPanel.setBounds(20, 60, 510, 155);
+
+        chooseMealPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cbSoup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Canja", "Alho Francês", "Cenoura", "Abóbra", "Criar Novo..." }));
+        cbSoup.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbSoupItemStateChanged(evt);
+            }
+        });
+        chooseMealPanel.add(cbSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 169, -1));
+
+        lblSoup.setText("Sopa:");
+        chooseMealPanel.add(lblSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 25, -1, -1));
+
+        cbMeat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Almôndegas", "Carne Assada", "Bife de Vaca", "Criar Novo..." }));
+        cbMeat.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMeatItemStateChanged(evt);
+            }
+        });
+        chooseMealPanel.add(cbMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 169, -1));
+
+        lblMeat.setText("Carne:");
+        chooseMealPanel.add(lblMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 65, -1, -1));
+
+        cbFish.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Albacora", "Salmão", "Filetes", "Chicharros", "Criar Novo..." }));
+        cbFish.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbFishItemStateChanged(evt);
+            }
+        });
+        chooseMealPanel.add(cbFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 169, -1));
+
+        lblFish.setText("Peixe:");
+        chooseMealPanel.add(lblFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 105, -1, -1));
+
+        cbVeggie.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Salada", "Alho Francês", "Criar Novo..." }));
+        cbVeggie.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbVeggieItemStateChanged(evt);
+            }
+        });
+        chooseMealPanel.add(cbVeggie, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 169, -1));
+
+        lblVeggie.setText("Vegetariano:");
+        chooseMealPanel.add(lblVeggie, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 145, -1, -1));
+
+        lblDessert.setText("Sobremesa:");
+        chooseMealPanel.add(lblDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 185, -1, -1));
+
+        cbDessert.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mousse", "Gelatina", "Fruta", "Tarte de Maçã", "Criar Novo..." }));
+        cbDessert.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbDessertItemStateChanged(evt);
+            }
+        });
+        chooseMealPanel.add(cbDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 169, -1));
+        chooseMealPanel.add(newMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 230, -1));
+        chooseMealPanel.add(newFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, 230, -1));
+        chooseMealPanel.add(newVeggie, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 230, -1));
+        chooseMealPanel.add(newSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 230, -1));
+        chooseMealPanel.add(newDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 180, 230, -1));
+
+        btnSaveMeal.setText("Salvar");
+        btnSaveMeal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSaveMealMouseReleased(evt);
+            }
+        });
+        chooseMealPanel.add(btnSaveMeal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 250, -1, -1));
+
+        btnCancelMeal.setText("Cancelar");
+        btnCancelMeal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancelMealMouseReleased(evt);
+            }
+        });
+        chooseMealPanel.add(btnCancelMeal, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, -1, -1));
+
+        mealPanel.add(chooseMealPanel);
+        chooseMealPanel.setBounds(20, 250, 530, 300);
+
+        lblPanelTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblPanelTitle.setText("Criar Refeição");
+        mealPanel.add(lblPanelTitle);
+        lblPanelTitle.setBounds(240, 20, 101, 17);
+
+        menuPanel.add(mealPanel);
+        mealPanel.setBounds(220, 10, 550, 550);
 
         studentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -877,6 +1186,11 @@ public class Backend extends javax.swing.JFrame {
         btnAdmin.setText("Administradores");
 
         btnMeal.setText("Refeições");
+        btnMeal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnMealMouseReleased(evt);
+            }
+        });
 
         btnTerminate.setText("Terminar");
         btnTerminate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -933,6 +1247,10 @@ public class Backend extends javax.swing.JFrame {
 
     private void btnStudentMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseReleased
         if (btnStudent.isEnabled()) {
+            
+            btnMeal.setEnabled(true);
+            mealPanel.setVisible(false);
+            
             btnStudent.setEnabled(false);
             activate(studentPanel);
             
@@ -1032,6 +1350,18 @@ public class Backend extends javax.swing.JFrame {
                 btnDelete.setEnabled(false);
                 btnUpdate.setEnabled(false);
             }
+            
+            if (studentPanel.isVisible()) {
+                btnStudent.setEnabled(false);
+            }
+            
+            if (mealPanel.isVisible()) {
+                btnMeal.setEnabled(false);
+            }
+            
+            if (confirmMealPanel.isVisible()) {
+                btnMeal.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_btnLogNoMouseReleased
 
@@ -1072,6 +1402,7 @@ public class Backend extends javax.swing.JFrame {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
             studentPanel.setVisible(false);
+            mealPanel.setVisible(false);
             activate(buttonsPanel);
         }
     }//GEN-LAST:event_passwordKeyReleased
@@ -1081,6 +1412,7 @@ public class Backend extends javax.swing.JFrame {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
             studentPanel.setVisible(false);
+            mealPanel.setVisible(false);
             activate(buttonsPanel);
         }
     }//GEN-LAST:event_confirmMouseReleased
@@ -1217,6 +1549,196 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateMouseReleased
 
+    private void btnMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMealMouseReleased
+        if (btnMeal.isEnabled()) {
+            bgTime.clearSelection();
+            activate(buttonsPanel);
+            studentPanel.setVisible(false);
+            
+            btnMeal.setEnabled(false);
+            btnNext.setEnabled(false);
+            
+            mealPanel.setVisible(true);
+            chooseMealPanel.setVisible(false);
+            confirmMealPanel.setVisible(false);
+        }
+    }//GEN-LAST:event_btnMealMouseReleased
+
+    private void rbLunchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbLunchMouseReleased
+        if (rbLunch.isSelected()) {
+            btnNext.setEnabled(true);
+        }
+    }//GEN-LAST:event_rbLunchMouseReleased
+
+    private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
+        if (btnNext.isEnabled()) {
+            btnCancelMeal.setEnabled(true);
+            chooseMealPanel.setVisible(true);
+            newMeat.setVisible(false);
+            newFish.setVisible(false);
+            newVeggie.setVisible(false);
+            newSoup.setVisible(false);
+            newDessert.setVisible(false);
+        }
+    }//GEN-LAST:event_btnNextMouseReleased
+
+    private void btnCancelMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMealMouseReleased
+        if (btnCancelMeal.isEnabled()) {
+            btnCancelMeal.setEnabled(false);
+            mealPanel.setVisible(false);
+            menuPanel.setVisible(true);
+            activate(buttonsPanel);
+        }
+        
+    }//GEN-LAST:event_btnCancelMealMouseReleased
+
+    private void cbMeatItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMeatItemStateChanged
+        String meal = "Criar Novo...";
+        if (cbMeat.getSelectedItem().equals(meal)) {
+            newMeat.setVisible(true);
+        }
+        else {
+            newMeat.setVisible(false);
+            clearTextFieldsOf(chooseMealPanel);
+        }
+    }//GEN-LAST:event_cbMeatItemStateChanged
+
+    private void cbFishItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbFishItemStateChanged
+        String meal = "Criar Novo...";
+        if (cbFish.getSelectedItem().equals(meal)) {
+            newFish.setVisible(true);
+        }
+        else {
+            newFish.setVisible(false);
+            clearTextFieldsOf(chooseMealPanel);
+        }
+    }//GEN-LAST:event_cbFishItemStateChanged
+
+    private void cbVeggieItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVeggieItemStateChanged
+        String newMeal = "Criar Novo...";
+        if (cbVeggie.getSelectedItem().equals(newMeal)) {
+            newVeggie.setVisible(true);
+        }
+        else {
+            newVeggie.setVisible(false);
+            clearTextFieldsOf(chooseMealPanel);
+        }
+    }//GEN-LAST:event_cbVeggieItemStateChanged
+
+    private void cbSoupItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSoupItemStateChanged
+        String newMeal = "Criar Novo...";
+        if (cbSoup.getSelectedItem().equals(newMeal)) {
+            newSoup.setVisible(true);
+        }
+        else {
+            newSoup.setVisible(false);
+        }
+    }//GEN-LAST:event_cbSoupItemStateChanged
+
+    private void cbDessertItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDessertItemStateChanged
+        String newMeal = "Criar Novo...";
+        if (cbDessert.getSelectedItem().equals(newMeal)) {
+            newDessert.setVisible(true);
+        }
+        else {
+            newDessert.setVisible(false);
+        }
+    }//GEN-LAST:event_cbDessertItemStateChanged
+
+    private void btnSaveMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMealMouseReleased
+        
+        if (btnSaveMeal.isEnabled()) {
+            mealPanel.setVisible(false);
+            activate(confirmMealPanel);
+            
+            lblTicketMealDateText.setText(day + "/" + month + "/" + year);
+            
+            if (rbLunch.isSelected()) {
+                lbTicketlMealTimeText.setText(rbLunch.getText());
+            }
+            else {
+                lbTicketlMealTimeText.setText(rbDinner.getText());
+            }
+            
+            String newMeal = "Criar Novo...";
+            
+            if (cbSoup.getSelectedItem().equals(newMeal)) {
+                lblTicketSoupText.setText("" + newSoup.getText());
+            }
+            else {
+                lblTicketSoupText.setText("" + cbSoup.getSelectedItem());
+            }
+            
+            if (cbMeat.getSelectedItem().equals(newMeal)) {
+                lblTicketMeatText.setText("" + newMeat.getText());
+            }
+            else {
+                lblTicketMeatText.setText("" + cbMeat.getSelectedItem());
+            }
+            
+            if (cbFish.getSelectedItem().equals(newMeal)) {
+                lblTicketFishText.setText("" + newFish.getText());
+            }
+            else {
+                lblTicketFishText.setText("" + cbFish.getSelectedItem());
+            }
+            
+            if (cbVeggie.getSelectedItem().equals(newMeal)) {
+                lblTicketVegetarianText.setText("" + newVeggie.getText());
+            }
+            else {
+                lblTicketVegetarianText.setText("" + cbVeggie.getSelectedItem());
+            }
+            
+            if (cbDessert.getSelectedItem().equals(newMeal)) {
+                lblTicketDessertText.setText("" + newDessert.getText());
+            }
+            else {
+                lblTicketDessertText.setText("" + cbDessert.getSelectedItem());
+            }
+            
+            
+            
+        }
+    }//GEN-LAST:event_btnSaveMealMouseReleased
+
+    private void btnCancelConfirmationMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelConfirmationMouseReleased
+        if (btnCancelConfirmation.isEnabled()) {
+            confirmMealPanel.setVisible(false);
+            mealPanel.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCancelConfirmationMouseReleased
+
+    private void btnConfirmMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMealMouseReleased
+        if (btnConfirmMeal.isEnabled()) {
+            lblMessage1.setText("Dados guardados com sucesso!");
+            informationMealFrame.setVisible(true);
+            deactivate(mealPanel);
+            deactivate(confirmMealPanel);
+            deactivate(buttonsPanel);
+        }
+        
+    }//GEN-LAST:event_btnConfirmMealMouseReleased
+
+    private void btnMealOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMealOkMouseReleased
+        confirmMealPanel.setVisible(false);
+        informationMealFrame.setVisible(false);
+        activate(mealPanel);
+        enabledAll(buttonsPanel);
+        
+        chooseDayPanel.setVisible(true);
+        chooseMealPanel.setVisible(false);
+        btnMeal.setEnabled(false);
+        clearTextFieldsOf(chooseMealPanel);
+        bgTime.clearSelection();
+    }//GEN-LAST:event_btnMealOkMouseReleased
+
+    private void rbDinnerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDinnerMouseReleased
+        if (rbDinner.isSelected()) {
+            btnNext.setEnabled(true);
+        }
+    }//GEN-LAST:event_rbDinnerMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1254,22 +1776,29 @@ public class Backend extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addPanel;
+    private javax.swing.ButtonGroup bgTime;
     private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancel1;
     private javax.swing.JButton btnCancel2;
+    private javax.swing.JButton btnCancelConfirmation;
+    private javax.swing.JButton btnCancelMeal;
     private javax.swing.JButton btnChange;
     private javax.swing.JButton btnCheck;
+    private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteNo;
     private javax.swing.JButton btnDeleteYes;
     private javax.swing.JButton btnLogNo;
     private javax.swing.JButton btnLogYes;
     private javax.swing.JButton btnMeal;
+    private javax.swing.JButton btnMealOk;
+    private javax.swing.JButton btnNext;
     private javax.swing.JButton btnOk;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveMeal;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnTerminate;
@@ -1277,20 +1806,33 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JComboBox cbDayChoice;
+    private javax.swing.JComboBox cbDessert;
+    private javax.swing.JComboBox cbFish;
+    private javax.swing.JComboBox cbMeat;
+    private javax.swing.JComboBox cbMonthChoice;
     private javax.swing.JComboBox cbSchollarship;
     private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
+    private javax.swing.JComboBox cbSoup;
+    private javax.swing.JComboBox cbVeggie;
+    private javax.swing.JComboBox cbYearChoice;
     private javax.swing.JCheckBox chbScholarship;
+    private javax.swing.JPanel chooseDayPanel;
+    private javax.swing.JPanel chooseMealPanel;
     private javax.swing.JTextField city;
     private javax.swing.JLabel city1;
     private javax.swing.JTextField city2;
     private javax.swing.JButton confirm;
+    private javax.swing.JLayeredPane confirmMealPanel;
     private javax.swing.JInternalFrame deleteWarningFrame;
     private javax.swing.JTextField email;
     private javax.swing.JLabel email1;
     private javax.swing.JTextField email2;
     private javax.swing.JInternalFrame informationFrame;
+    private javax.swing.JInternalFrame informationMealFrame;
     private javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JLabel lbTicketlMealTimeText;
     private javax.swing.JLabel lblBackBK;
     private javax.swing.JLabel lblBackBK1;
     private javax.swing.JLabel lblCity;
@@ -1300,17 +1842,22 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblCourse1;
     private javax.swing.JLabel lblCourse2;
     private javax.swing.JLabel lblDeleteMessage;
+    private javax.swing.JLabel lblDessert;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblEmail1;
     private javax.swing.JLabel lblEmail2;
+    private javax.swing.JLabel lblFish;
     private javax.swing.JLabel lblIfen;
     private javax.swing.JLabel lblIfen1;
     private javax.swing.JLabel lblLogMessage;
+    private javax.swing.JLabel lblMealMessage;
+    private javax.swing.JLabel lblMeat;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JLabel lblMessage1;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblName2;
+    private javax.swing.JLabel lblPanelTitle;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblPhone1;
@@ -1323,17 +1870,38 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblScholarship2;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblSearchNumber;
+    private javax.swing.JLabel lblSoup;
     private javax.swing.JLabel lblStreet;
     private javax.swing.JLabel lblStreet1;
     private javax.swing.JLabel lblStreet2;
+    private javax.swing.JLabel lblTicketDessert;
+    private javax.swing.JLabel lblTicketDessertText;
+    private javax.swing.JLabel lblTicketFish;
+    private javax.swing.JLabel lblTicketFishText;
+    private javax.swing.JLabel lblTicketMealDate;
+    private javax.swing.JLabel lblTicketMealDateText;
+    private javax.swing.JLabel lblTicketMealTime;
+    private javax.swing.JLabel lblTicketMeat;
+    private javax.swing.JLabel lblTicketMeatText;
+    private javax.swing.JLabel lblTicketSoup;
+    private javax.swing.JLabel lblTicketSoupText;
+    private javax.swing.JLabel lblTicketVegetarian;
+    private javax.swing.JLabel lblTicketVegetarianText;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblUsername;
+    private javax.swing.JLabel lblVeggie;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel mealPanel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JTextField name;
     private javax.swing.JLabel name1;
     private javax.swing.JTextField name2;
+    private javax.swing.JTextField newDessert;
+    private javax.swing.JTextField newFish;
+    private javax.swing.JTextField newMeat;
+    private javax.swing.JTextField newSoup;
+    private javax.swing.JTextField newVeggie;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phone1;
@@ -1343,6 +1911,8 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel postalCode2;
     private javax.swing.JTextField postalCode3;
     private javax.swing.JTextField postalCode4;
+    private javax.swing.JRadioButton rbDinner;
+    private javax.swing.JRadioButton rbLunch;
     private javax.swing.JRadioButton rdoNo;
     private javax.swing.JRadioButton rdoNo1;
     private javax.swing.JRadioButton rdoYes;
