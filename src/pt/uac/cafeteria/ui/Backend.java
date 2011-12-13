@@ -1632,6 +1632,7 @@ public class Backend extends javax.swing.JFrame {
         }
         else {
             newSoup.setVisible(false);
+            clearTextFieldsOf(chooseMealPanel);
         }
     }//GEN-LAST:event_cbSoupItemStateChanged
 
@@ -1642,6 +1643,7 @@ public class Backend extends javax.swing.JFrame {
         }
         else {
             newDessert.setVisible(false);
+            clearTextFieldsOf(chooseMealPanel);
         }
     }//GEN-LAST:event_cbDessertItemStateChanged
 
