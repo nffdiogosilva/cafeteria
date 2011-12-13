@@ -17,7 +17,8 @@ public class Backend extends javax.swing.JFrame {
     private static int day = Calendar.getInstance().get(Calendar.DATE);
     
     /** Type of list to use on JList Component */
-    private DefaultListModel list = new DefaultListModel();
+    private DefaultListModel list1 = new DefaultListModel();
+    private DefaultListModel list2 = new DefaultListModel();
     
     /** Creates new form Backend */
     public Backend() {
@@ -31,6 +32,8 @@ public class Backend extends javax.swing.JFrame {
         visualizePanel.setVisible(false);
         updatePanel.setVisible(false);
         confirmMealPanel.setVisible(false);
+        adminPanel.setVisible(false);
+        
         
         //Pop Ups
         warningFrame.setVisible(false);
@@ -38,6 +41,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setVisible(false);
         
         putStudentsInList();
+        putAdminsInList();
     }
     
     /** Add students to JList Component */
@@ -47,10 +51,23 @@ public class Backend extends javax.swing.JFrame {
         students.add("Nuno Rego Silva");
         students.add("Nuno Pereira");
         
-        searchList.setModel(list);
+        searchList.setModel(list1);
         
         for (String student : students) {
-            list.addElement(student);
+            list1.addElement(student);
+        }
+    }
+    
+    private void putAdminsInList() {
+        ArrayList<String> admins = new ArrayList<String>();
+        admins.add("Paulo Leocádio");
+        admins.add("Hélia Guerra");
+        admins.add("Luís Gomes");
+        
+        searchAdminList.setModel(list2);
+        
+        for (String admin : admins) {
+            list2.addElement(admin);
         }
     }
     
@@ -137,6 +154,10 @@ public class Backend extends javax.swing.JFrame {
         informationFrame = new javax.swing.JInternalFrame();
         lblMessage1 = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
+        deleteAdminWarningFrame = new javax.swing.JInternalFrame();
+        lblDeleteAdminMessage = new javax.swing.JLabel();
+        btnDeleteYes1 = new javax.swing.JButton();
+        btnDeleteNo1 = new javax.swing.JButton();
         deleteWarningFrame = new javax.swing.JInternalFrame();
         lblDeleteMessage = new javax.swing.JLabel();
         btnDeleteYes = new javax.swing.JButton();
@@ -265,6 +286,50 @@ public class Backend extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnCheck = new javax.swing.JButton();
         btnCancel1 = new javax.swing.JButton();
+        adminPanel = new javax.swing.JTabbedPane();
+        addAdminPanel = new javax.swing.JPanel();
+        lblAdminName = new javax.swing.JLabel();
+        lblAdminUser = new javax.swing.JLabel();
+        lblAdminPwd = new javax.swing.JLabel();
+        adminName = new javax.swing.JTextField();
+        adminUser = new javax.swing.JTextField();
+        btnCancelAdmin = new javax.swing.JButton();
+        btnSaveAdmin = new javax.swing.JButton();
+        adminPwd = new javax.swing.JPasswordField();
+        searchAdminPanel = new javax.swing.JPanel();
+        updateAdminPanel = new javax.swing.JPanel();
+        lblAdminName1 = new javax.swing.JLabel();
+        lblAdminUser1 = new javax.swing.JLabel();
+        btnChange1 = new javax.swing.JButton();
+        lblAdminPwd1 = new javax.swing.JLabel();
+        name4 = new javax.swing.JTextField();
+        btnCancel4 = new javax.swing.JButton();
+        street6 = new javax.swing.JTextField();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        lblAdminPwd2 = new javax.swing.JLabel();
+        jPasswordField2 = new javax.swing.JPasswordField();
+        lblAdminPwd3 = new javax.swing.JLabel();
+        jPasswordField3 = new javax.swing.JPasswordField();
+        visualizeAdminPanel = new javax.swing.JPanel();
+        lblName5 = new javax.swing.JLabel();
+        lblStreet5 = new javax.swing.JLabel();
+        name5 = new javax.swing.JLabel();
+        street5 = new javax.swing.JLabel();
+        lblTitle1 = new javax.swing.JLabel();
+        btnReturn1 = new javax.swing.JButton();
+        lblStreet6 = new javax.swing.JLabel();
+        lblStreet7 = new javax.swing.JLabel();
+        lblSearchAdmin = new javax.swing.JLabel();
+        lblSearchNumber1 = new javax.swing.JLabel();
+        searchAdmin = new javax.swing.JTextField();
+        btnSearchAdmin = new javax.swing.JButton();
+        cbSearchAdmin = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        searchAdminList = new javax.swing.JList();
+        btnUpdate1 = new javax.swing.JButton();
+        btnDelete1 = new javax.swing.JButton();
+        btnCheck1 = new javax.swing.JButton();
+        btnAdminCancel = new javax.swing.JButton();
         buttonsPanel = new javax.swing.JPanel();
         btnStudent = new javax.swing.JButton();
         btnAccount = new javax.swing.JButton();
@@ -396,7 +461,7 @@ public class Backend extends javax.swing.JFrame {
         informationMealFrame.setPreferredSize(new java.awt.Dimension(220, 160));
         informationMealFrame.setSize(new java.awt.Dimension(220, 160));
 
-        lblMealMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMealMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMealMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMealMessage.setText("Dados guardados com sucesso!");
 
@@ -468,12 +533,44 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(informationFrame);
         informationFrame.setBounds(300, 150, 220, 160);
 
+        deleteAdminWarningFrame.setTitle("Aviso");
+        deleteAdminWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
+        deleteAdminWarningFrame.setSize(new java.awt.Dimension(330, 160));
+        deleteAdminWarningFrame.getContentPane().setLayout(null);
+
+        lblDeleteAdminMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDeleteAdminMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDeleteAdminMessage.setText("Tem a certeza que deseja eliminar este Administrador?");
+        deleteAdminWarningFrame.getContentPane().add(lblDeleteAdminMessage);
+        lblDeleteAdminMessage.setBounds(10, 30, 320, 27);
+
+        btnDeleteYes1.setText("Sim");
+        btnDeleteYes1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDeleteYes1MouseReleased(evt);
+            }
+        });
+        deleteAdminWarningFrame.getContentPane().add(btnDeleteYes1);
+        btnDeleteYes1.setBounds(90, 70, 75, 29);
+
+        btnDeleteNo1.setText("Não");
+        btnDeleteNo1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDeleteNo1MouseReleased(evt);
+            }
+        });
+        deleteAdminWarningFrame.getContentPane().add(btnDeleteNo1);
+        btnDeleteNo1.setBounds(180, 70, 75, 29);
+
+        menuPanel.add(deleteAdminWarningFrame);
+        deleteAdminWarningFrame.setBounds(300, 150, 330, 160);
+
         deleteWarningFrame.setTitle("Aviso");
         deleteWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
         deleteWarningFrame.setSize(new java.awt.Dimension(330, 160));
         deleteWarningFrame.getContentPane().setLayout(null);
 
-        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblDeleteMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDeleteMessage.setText("Tem a certeza que deseja eliminar este Estudante?");
         deleteWarningFrame.getContentPane().add(lblDeleteMessage);
@@ -554,7 +651,6 @@ public class Backend extends javax.swing.JFrame {
         confirmMealPanel.setMaximumSize(new java.awt.Dimension(500, 600));
         confirmMealPanel.setMinimumSize(new java.awt.Dimension(500, 400));
         confirmMealPanel.setOpaque(true);
-        confirmMealPanel.setPreferredSize(new java.awt.Dimension(500, 400));
 
         lblTicketMealDate.setText("Data:");
         lblTicketMealDate.setBounds(10, 10, 50, 20);
@@ -757,7 +853,7 @@ public class Backend extends javax.swing.JFrame {
         mealPanel.add(chooseMealPanel);
         chooseMealPanel.setBounds(20, 250, 530, 300);
 
-        lblPanelTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblPanelTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblPanelTitle.setText("Criar Refeição");
         mealPanel.add(lblPanelTitle);
         lblPanelTitle.setBounds(240, 20, 101, 17);
@@ -1172,6 +1268,274 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(studentPanel);
         studentPanel.setBounds(220, 10, 570, 580);
 
+        adminPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        addAdminPanel.setLayout(null);
+
+        lblAdminName.setText("Nome:");
+        addAdminPanel.add(lblAdminName);
+        lblAdminName.setBounds(20, 20, 41, 16);
+
+        lblAdminUser.setText("Username:");
+        addAdminPanel.add(lblAdminUser);
+        lblAdminUser.setBounds(20, 60, 90, 16);
+
+        lblAdminPwd.setText("Password:");
+        addAdminPanel.add(lblAdminPwd);
+        lblAdminPwd.setBounds(20, 100, 63, 16);
+        addAdminPanel.add(adminName);
+        adminName.setBounds(121, 15, 406, 28);
+        addAdminPanel.add(adminUser);
+        adminUser.setBounds(121, 55, 406, 28);
+
+        btnCancelAdmin.setText("Cancelar");
+        btnCancelAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancelAdminMouseReleased(evt);
+            }
+        });
+        addAdminPanel.add(btnCancelAdmin);
+        btnCancelAdmin.setBounds(430, 210, 98, 29);
+
+        btnSaveAdmin.setText("Guardar");
+        btnSaveAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSaveAdminMouseReleased(evt);
+            }
+        });
+        addAdminPanel.add(btnSaveAdmin);
+        btnSaveAdmin.setBounds(310, 210, 93, 29);
+
+        adminPwd.setText("jPasswordField1");
+        addAdminPanel.add(adminPwd);
+        adminPwd.setBounds(120, 95, 134, 28);
+
+        adminPanel.addTab("Adicionar", addAdminPanel);
+
+        searchAdminPanel.setLayout(null);
+
+        updateAdminPanel.setBackground(new java.awt.Color(153, 153, 153));
+        updateAdminPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        updateAdminPanel.setPreferredSize(new java.awt.Dimension(530, 306));
+        updateAdminPanel.setLayout(null);
+
+        lblAdminName1.setText("Nome:");
+        updateAdminPanel.add(lblAdminName1);
+        lblAdminName1.setBounds(20, 20, 41, 16);
+
+        lblAdminUser1.setText("Username:");
+        updateAdminPanel.add(lblAdminUser1);
+        lblAdminUser1.setBounds(20, 60, 90, 16);
+
+        btnChange1.setText("Alterar");
+        btnChange1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChange1MouseReleased(evt);
+            }
+        });
+        updateAdminPanel.add(btnChange1);
+        btnChange1.setBounds(180, 300, 86, 29);
+
+        lblAdminPwd1.setText("Insira password actual:");
+        updateAdminPanel.add(lblAdminPwd1);
+        lblAdminPwd1.setBounds(20, 100, 145, 16);
+
+        name4.setText("Nuno Filipe Ferreira Diogo da Silva");
+        updateAdminPanel.add(name4);
+        name4.setBounds(170, 15, 330, 28);
+
+        btnCancel4.setText("Cancelar");
+        btnCancel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancel4MouseReleased(evt);
+            }
+        });
+        updateAdminPanel.add(btnCancel4);
+        btnCancel4.setBounds(280, 300, 98, 29);
+
+        street6.setText("Rua Francisco José, 5");
+        updateAdminPanel.add(street6);
+        street6.setBounds(170, 55, 330, 28);
+
+        jPasswordField1.setText("jPasswordField1");
+        updateAdminPanel.add(jPasswordField1);
+        jPasswordField1.setBounds(170, 95, 134, 28);
+
+        lblAdminPwd2.setText("Insira nova password:");
+        updateAdminPanel.add(lblAdminPwd2);
+        lblAdminPwd2.setBounds(20, 140, 137, 16);
+
+        jPasswordField2.setText("jPasswordField1");
+        updateAdminPanel.add(jPasswordField2);
+        jPasswordField2.setBounds(170, 135, 134, 28);
+
+        lblAdminPwd3.setText("insira novamente:");
+        updateAdminPanel.add(lblAdminPwd3);
+        lblAdminPwd3.setBounds(20, 180, 112, 16);
+
+        jPasswordField3.setText("jPasswordField1");
+        updateAdminPanel.add(jPasswordField3);
+        jPasswordField3.setBounds(170, 175, 134, 28);
+
+        searchAdminPanel.add(updateAdminPanel);
+        updateAdminPanel.setBounds(20, 100, 530, 350);
+
+        visualizeAdminPanel.setBackground(new java.awt.Color(153, 153, 153));
+        visualizeAdminPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        visualizeAdminPanel.setMaximumSize(new java.awt.Dimension(530, 530));
+
+        lblName5.setText("Nome:");
+
+        lblStreet5.setText("Rua:");
+
+        name5.setText("Paulo Leocádio");
+
+        street5.setText("Rua da Universidade, 5");
+
+        lblTitle1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblTitle1.setText("Dados do Administrador");
+
+        btnReturn1.setText("Voltar");
+        btnReturn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnReturn1MouseReleased(evt);
+            }
+        });
+
+        lblStreet6.setText("Username:");
+
+        lblStreet7.setText("pleocadio");
+
+        org.jdesktop.layout.GroupLayout visualizeAdminPanelLayout = new org.jdesktop.layout.GroupLayout(visualizeAdminPanel);
+        visualizeAdminPanel.setLayout(visualizeAdminPanelLayout);
+        visualizeAdminPanelLayout.setHorizontalGroup(
+            visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(visualizeAdminPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, visualizeAdminPanelLayout.createSequentialGroup()
+                        .add(btnReturn1)
+                        .add(221, 221, 221))
+                    .add(visualizeAdminPanelLayout.createSequentialGroup()
+                        .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(lblName5)
+                            .add(lblStreet6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(visualizeAdminPanelLayout.createSequentialGroup()
+                                .add(69, 69, 69)
+                                .add(lblTitle1))
+                            .add(visualizeAdminPanelLayout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(name5)
+                                    .add(lblStreet7)
+                                    .add(street5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))))
+                        .addContainerGap(184, Short.MAX_VALUE))
+                    .add(lblStreet5)))
+        );
+        visualizeAdminPanelLayout.setVerticalGroup(
+            visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(visualizeAdminPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lblTitle1)
+                .add(25, 25, 25)
+                .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblName5)
+                    .add(name5))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblStreet6)
+                    .add(lblStreet7))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblStreet5)
+                    .add(street5))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 64, Short.MAX_VALUE)
+                .add(btnReturn1)
+                .addContainerGap())
+        );
+
+        searchAdminPanel.add(visualizeAdminPanel);
+        visualizeAdminPanel.setBounds(20, 100, 530, 240);
+
+        lblSearchAdmin.setText("Pesquisar por:");
+        searchAdminPanel.add(lblSearchAdmin);
+        lblSearchAdmin.setBounds(150, 30, 100, 30);
+        searchAdminPanel.add(lblSearchNumber1);
+        lblSearchNumber1.setBounds(220, 190, 0, 0);
+
+        searchAdmin.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchAdminFocusGained(evt);
+            }
+        });
+        searchAdminPanel.add(searchAdmin);
+        searchAdmin.setBounds(240, 70, 100, 28);
+
+        btnSearchAdmin.setText("Pesquisar");
+        btnSearchAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSearchAdminMouseReleased(evt);
+            }
+        });
+        searchAdminPanel.add(btnSearchAdmin);
+        btnSearchAdmin.setBounds(240, 110, 104, 29);
+
+        cbSearchAdmin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Username", "Nome" }));
+        searchAdminPanel.add(cbSearchAdmin);
+        cbSearchAdmin.setBounds(240, 30, 120, 27);
+
+        searchAdminList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                searchAdminListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(searchAdminList);
+
+        searchAdminPanel.add(jScrollPane1);
+        jScrollPane1.setBounds(20, 202, 530, 132);
+
+        btnUpdate1.setText("Actualizar");
+        btnUpdate1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnUpdate1MouseReleased(evt);
+            }
+        });
+        searchAdminPanel.add(btnUpdate1);
+        btnUpdate1.setBounds(223, 349, 107, 29);
+
+        btnDelete1.setText("Eliminar");
+        btnDelete1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDelete1MouseReleased(evt);
+            }
+        });
+        searchAdminPanel.add(btnDelete1);
+        btnDelete1.setBounds(397, 349, 95, 29);
+
+        btnCheck1.setText("Visualizar");
+        btnCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCheck1MouseReleased(evt);
+            }
+        });
+        searchAdminPanel.add(btnCheck1);
+        btnCheck1.setBounds(58, 349, 105, 29);
+
+        btnAdminCancel.setText("Cancelar");
+        btnAdminCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnAdminCancelMouseReleased(evt);
+            }
+        });
+        searchAdminPanel.add(btnAdminCancel);
+        btnAdminCancel.setBounds(430, 480, 98, 29);
+
+        adminPanel.addTab("Pesquisar", searchAdminPanel);
+
+        menuPanel.add(adminPanel);
+        adminPanel.setBounds(220, 10, 570, 580);
+
         buttonsPanel.setOpaque(false);
 
         btnStudent.setText("Estudantes");
@@ -1184,6 +1548,11 @@ public class Backend extends javax.swing.JFrame {
         btnAccount.setText("Contas");
 
         btnAdmin.setText("Administradores");
+        btnAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnAdminMouseReleased(evt);
+            }
+        });
 
         btnMeal.setText("Refeições");
         btnMeal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1250,7 +1619,7 @@ public class Backend extends javax.swing.JFrame {
             
             btnMeal.setEnabled(true);
             mealPanel.setVisible(false);
-            
+            enabledAll(buttonsPanel);
             btnStudent.setEnabled(false);
             activate(studentPanel);
             
@@ -1279,18 +1648,37 @@ public class Backend extends javax.swing.JFrame {
     private void btnWarningNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnWarningNoMouseReleased
         if (btnWarningNo.isEnabled()) {
             warningFrame.setVisible(false);
-            activate(studentPanel);
-            enabledAll(addPanel);
-            enabledAll(searchPanel);
-            enabledAll(searchList);
-            activate(buttonsPanel);
-            btnStudent.setEnabled(false);
-            
-            if (searchList.isSelectionEmpty()) {
+            if (studentPanel.isVisible()) {
+                activate(studentPanel);
+                enabledAll(addPanel);
+                enabledAll(searchPanel);
+                enabledAll(searchList);
+                activate(buttonsPanel);
+                btnStudent.setEnabled(false);
+                
+                if (searchList.isSelectionEmpty()) {
                 btnCheck.setEnabled(false);
                 btnDelete.setEnabled(false);
                 btnUpdate.setEnabled(false);
+                }
             }
+            
+            if (adminPanel.isVisible()) {
+                activate(adminPanel);
+                enabledAll(addAdminPanel);
+                enabledAll(searchAdminPanel);
+                enabledAll(searchAdminList);
+                activate(buttonsPanel);
+                btnAdmin.setEnabled(false);
+                
+                if (searchAdminList.isSelectionEmpty()) {
+                btnCheck1.setEnabled(false);
+                btnDelete1.setEnabled(false);
+                btnUpdate1.setEnabled(false);
+                }
+            }
+            
+            
         }
     }//GEN-LAST:event_btnWarningNoMouseReleased
 
@@ -1298,6 +1686,7 @@ public class Backend extends javax.swing.JFrame {
         if (btnWarningYes.isEnabled()) {
             warningFrame.setVisible(false);
             studentPanel.setVisible(false);
+            adminPanel.setVisible(false);
             activate(buttonsPanel);
         }
     }//GEN-LAST:event_btnWarningYesMouseReleased
@@ -1307,20 +1696,36 @@ public class Backend extends javax.swing.JFrame {
             
             informationFrame.setVisible(false);
             
-            enabledAll(studentPanel);
-            enabledAll(addPanel);
-            enabledAll(searchPanel);
-            enabledAll(searchList);
-            enabledAll(buttonsPanel);
-            btnStudent.setEnabled(false);
-                    
-            scholarshipChoose.clearSelection();
-            clearTextFieldsOf(addPanel);
+            if (studentPanel.isVisible()) {
+                enabledAll(studentPanel);
+                enabledAll(addPanel);
+                enabledAll(searchPanel);
+                enabledAll(searchList);
+                enabledAll(buttonsPanel);
+                btnStudent.setEnabled(false);
+                scholarshipChoose.clearSelection();
+                clearTextFieldsOf(addPanel);
+                searchList.clearSelection();
+                btnCheck.setEnabled(false);
+                btnDelete.setEnabled(false);
+                btnUpdate.setEnabled(false);
+            }
             
-            searchList.clearSelection();
-            btnCheck.setEnabled(false);
-            btnDelete.setEnabled(false);
-            btnUpdate.setEnabled(false);
+            if (adminPanel.isVisible()) {
+                enabledAll(adminPanel);
+                enabledAll(addAdminPanel);
+                enabledAll(searchAdminPanel);
+                enabledAll(searchAdminList);
+                enabledAll(buttonsPanel);
+                btnAdmin.setEnabled(false);
+                scholarshipChoose.clearSelection();
+                clearTextFieldsOf(addAdminPanel);
+                searchAdminList.clearSelection();
+                btnCheck1.setEnabled(false);
+                btnDelete1.setEnabled(false);
+                btnUpdate1.setEnabled(false);
+            }
+            
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -1344,11 +1749,31 @@ public class Backend extends javax.swing.JFrame {
             activate(buttonsPanel);
             enabledAll(searchPanel);
             enabledAll(searchList);
+
+            enabledAll(addAdminPanel);
+            adminPanel.setEnabled(true);
+            enabledAll(searchAdminPanel);
+            enabledAll(searchAdminList);
+            
+            enabledAll(chooseMealPanel);
+            enabledAll(chooseDayPanel);
+            mealPanel.setEnabled(true);
+            
+            if (!(rbLunch.isSelected() || rbDinner.isSelected())) {
+                btnNext.setEnabled(false);    
+            }
+            
             
             if (searchList.isSelectionEmpty()) {
                 btnCheck.setEnabled(false);
                 btnDelete.setEnabled(false);
                 btnUpdate.setEnabled(false);
+            }
+            
+            if (searchAdminList.isSelectionEmpty()) {
+                btnCheck1.setEnabled(false);
+                btnDelete1.setEnabled(false);
+                btnUpdate1.setEnabled(false);
             }
             
             if (studentPanel.isVisible()) {
@@ -1374,8 +1799,18 @@ public class Backend extends javax.swing.JFrame {
             deactivate(studentPanel);
             deactivate(addPanel);
             deactivate(searchPanel);
-            deactivate(buttonsPanel);
             deactivate(searchList);
+            
+            deactivate(adminPanel);
+            deactivate(addAdminPanel);
+            deactivate(searchAdminPanel);
+            deactivate(searchAdminList);
+            
+            deactivate(mealPanel);
+            deactivate(chooseMealPanel);
+            deactivate(chooseDayPanel);
+            
+            deactivate(buttonsPanel);
             clearTextFieldsOf(mainPanel);
         }
     }//GEN-LAST:event_btnTerminateMouseReleased
@@ -1494,7 +1929,7 @@ public class Backend extends javax.swing.JFrame {
     private void btnDeleteYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYesMouseReleased
         deleteWarningFrame.setVisible(false);
         
-        list.remove(searchList.getSelectedIndex());
+        list1.remove(searchList.getSelectedIndex());
         lblMessage1.setText("Eliminação feita com Sucesso");
         informationFrame.setVisible(true);
         deactivate(searchPanel);
@@ -1554,6 +1989,7 @@ public class Backend extends javax.swing.JFrame {
             bgTime.clearSelection();
             activate(buttonsPanel);
             studentPanel.setVisible(false);
+            adminPanel.setVisible(false);
             
             btnMeal.setEnabled(false);
             btnNext.setEnabled(false);
@@ -1697,10 +2133,7 @@ public class Backend extends javax.swing.JFrame {
             }
             else {
                 lblTicketDessertText.setText("" + cbDessert.getSelectedItem());
-            }
-            
-            
-            
+            }   
         }
     }//GEN-LAST:event_btnSaveMealMouseReleased
 
@@ -1733,6 +2166,7 @@ public class Backend extends javax.swing.JFrame {
         btnMeal.setEnabled(false);
         clearTextFieldsOf(chooseMealPanel);
         bgTime.clearSelection();
+        searchAdminList.clearSelection();
     }//GEN-LAST:event_btnMealOkMouseReleased
 
     private void rbDinnerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDinnerMouseReleased
@@ -1740,6 +2174,154 @@ public class Backend extends javax.swing.JFrame {
             btnNext.setEnabled(true);
         }
     }//GEN-LAST:event_rbDinnerMouseReleased
+
+        private void btnAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminMouseReleased
+            if (btnAdmin.isEnabled()) {
+                activate(buttonsPanel);
+                enabledAll(adminPanel);
+                enabledAll(addAdminPanel);
+                enabledAll(searchAdminPanel);
+                btnAdmin.setEnabled(false);
+                adminPanel.setVisible(true);
+                adminPanel.setSelectedIndex(0);
+                
+                studentPanel.setVisible(false);
+                mealPanel.setVisible(false);
+                updateAdminPanel.setVisible(false);
+                visualizeAdminPanel.setVisible(false);
+                
+                btnSearchAdmin.setEnabled(false);
+                searchAdminList.setVisible(false);
+                searchAdminList.setEnabled(false);
+                searchAdminList.clearSelection();
+                searchAdmin.setText(null);
+                
+                btnUpdate1.setEnabled(false);
+                btnCheck1.setEnabled(false);
+                btnDelete1.setEnabled(false);
+            }
+    }//GEN-LAST:event_btnAdminMouseReleased
+
+    private void btnSearchAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchAdminMouseReleased
+        if (btnSearchAdmin.isEnabled()) {
+            searchAdminList.setVisible(true);
+            searchAdminList.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnSearchAdminMouseReleased
+
+    private void searchAdminFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchAdminFocusGained
+        btnSearchAdmin.setEnabled(true);
+    }//GEN-LAST:event_searchAdminFocusGained
+
+    private void searchAdminListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_searchAdminListValueChanged
+        btnCheck1.setEnabled(true);
+        btnUpdate1.setEnabled(true);
+        btnDelete1.setEnabled(true);
+    }//GEN-LAST:event_searchAdminListValueChanged
+
+    private void btnCheck1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheck1MouseReleased
+        if (btnCheck1.isEnabled()) {
+            visualizeAdminPanel.setVisible(true);
+            deactivate(adminPanel);
+            deactivate(searchAdminPanel);
+            deactivate(searchAdminList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnCheck1MouseReleased
+
+    private void btnReturn1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReturn1MouseReleased
+        visualizeAdminPanel.setVisible(false);
+        activate(adminPanel);
+        activate(searchAdminPanel);
+        activate(searchAdminList);
+        activate(buttonsPanel);
+        btnAdmin.setEnabled(false);
+    }//GEN-LAST:event_btnReturn1MouseReleased
+
+    private void btnUpdate1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseReleased
+        if (btnUpdate1.isEnabled()) {
+            updateAdminPanel.setVisible(true);
+            deactivate(adminPanel);   
+            deactivate(searchAdminPanel);
+            deactivate(searchAdminList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnUpdate1MouseReleased
+
+    private void btnCancel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel4MouseReleased
+        updateAdminPanel.setVisible(false);
+        activate(adminPanel);
+        activate(searchAdminPanel);
+        activate(searchAdminList);
+        activate(buttonsPanel);
+        btnAdmin.setEnabled(false);
+    }//GEN-LAST:event_btnCancel4MouseReleased
+
+    private void btnDelete1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseReleased
+        if (btnDelete1.isEnabled()) {
+            deleteAdminWarningFrame.setVisible(true);
+            deactivate(adminPanel);   
+            deactivate(searchAdminPanel);
+            deactivate(searchAdminList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnDelete1MouseReleased
+
+    private void btnDeleteYes1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYes1MouseReleased
+        deleteAdminWarningFrame.setVisible(false);
+        
+        list2.remove(searchAdminList.getSelectedIndex());
+        lblMessage1.setText("Eliminação feita com Sucesso");
+        informationFrame.setVisible(true);
+        deactivate(searchAdminPanel);
+        deactivate(searchAdminList);
+    }//GEN-LAST:event_btnDeleteYes1MouseReleased
+
+    private void btnDeleteNo1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteNo1MouseReleased
+        deleteAdminWarningFrame.setVisible(false);
+        enabledAll(adminPanel);   
+        enabledAll(searchAdminPanel);
+        enabledAll(searchAdminList);
+        enabledAll(buttonsPanel);
+        btnAdmin.setEnabled(false);
+    }//GEN-LAST:event_btnDeleteNo1MouseReleased
+
+    private void btnChange1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChange1MouseReleased
+        if (btnChange1.isEnabled()) {             
+            informationFrame.setVisible(true);
+            updateAdminPanel.setVisible(false);
+        }
+    }//GEN-LAST:event_btnChange1MouseReleased
+
+    private void btnAdminCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCancelMouseReleased
+        if (btnAdminCancel.isEnabled()) {       
+            warningFrame.setVisible(true);
+            btnAdminCancel.setEnabled(false);
+            deactivate(adminPanel);
+            deactivate(searchAdminPanel);
+            deactivate(addAdminPanel);
+            deactivate(searchAdminList);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnAdminCancelMouseReleased
+
+    private void btnCancelAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelAdminMouseReleased
+        if (btnCancelAdmin.isEnabled()) {       
+            warningFrame.setVisible(true);    
+            deactivate(adminPanel);   
+            deactivate(addAdminPanel);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnCancelAdminMouseReleased
+
+    private void btnSaveAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveAdminMouseReleased
+        if (btnSaveAdmin.isEnabled()) {             
+            informationFrame.setVisible(true);             
+            deactivate(adminPanel);             
+            deactivate(addAdminPanel);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnSaveAdminMouseReleased
 
     /**
      * @param args the command line arguments
@@ -1777,21 +2359,34 @@ public class Backend extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel addAdminPanel;
     private javax.swing.JPanel addPanel;
+    private javax.swing.JTextField adminName;
+    private javax.swing.JTabbedPane adminPanel;
+    private javax.swing.JPasswordField adminPwd;
+    private javax.swing.JTextField adminUser;
     private javax.swing.ButtonGroup bgTime;
     private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnAdmin;
+    private javax.swing.JButton btnAdminCancel;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCancel1;
     private javax.swing.JButton btnCancel2;
+    private javax.swing.JButton btnCancel4;
+    private javax.swing.JButton btnCancelAdmin;
     private javax.swing.JButton btnCancelConfirmation;
     private javax.swing.JButton btnCancelMeal;
     private javax.swing.JButton btnChange;
+    private javax.swing.JButton btnChange1;
     private javax.swing.JButton btnCheck;
+    private javax.swing.JButton btnCheck1;
     private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnDeleteNo;
+    private javax.swing.JButton btnDeleteNo1;
     private javax.swing.JButton btnDeleteYes;
+    private javax.swing.JButton btnDeleteYes1;
     private javax.swing.JButton btnLogNo;
     private javax.swing.JButton btnLogYes;
     private javax.swing.JButton btnMeal;
@@ -1799,12 +2394,16 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnOk;
     private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnReturn1;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveAdmin;
     private javax.swing.JButton btnSaveMeal;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnSearchAdmin;
     private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnTerminate;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnUpdate1;
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
@@ -1816,6 +2415,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbSchollarship;
     private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
+    private javax.swing.JComboBox cbSearchAdmin;
     private javax.swing.JComboBox cbSoup;
     private javax.swing.JComboBox cbVeggie;
     private javax.swing.JComboBox cbYearChoice;
@@ -1827,14 +2427,27 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField city2;
     private javax.swing.JButton confirm;
     private javax.swing.JLayeredPane confirmMealPanel;
+    private javax.swing.JInternalFrame deleteAdminWarningFrame;
     private javax.swing.JInternalFrame deleteWarningFrame;
     private javax.swing.JTextField email;
     private javax.swing.JLabel email1;
     private javax.swing.JTextField email2;
     private javax.swing.JInternalFrame informationFrame;
     private javax.swing.JInternalFrame informationMealFrame;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbTicketlMealTimeText;
+    private javax.swing.JLabel lblAdminName;
+    private javax.swing.JLabel lblAdminName1;
+    private javax.swing.JLabel lblAdminPwd;
+    private javax.swing.JLabel lblAdminPwd1;
+    private javax.swing.JLabel lblAdminPwd2;
+    private javax.swing.JLabel lblAdminPwd3;
+    private javax.swing.JLabel lblAdminUser;
+    private javax.swing.JLabel lblAdminUser1;
     private javax.swing.JLabel lblBackBK;
     private javax.swing.JLabel lblBackBK1;
     private javax.swing.JLabel lblCity;
@@ -1843,6 +2456,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblCourse;
     private javax.swing.JLabel lblCourse1;
     private javax.swing.JLabel lblCourse2;
+    private javax.swing.JLabel lblDeleteAdminMessage;
     private javax.swing.JLabel lblDeleteMessage;
     private javax.swing.JLabel lblDessert;
     private javax.swing.JLabel lblEmail;
@@ -1859,6 +2473,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblName2;
+    private javax.swing.JLabel lblName5;
     private javax.swing.JLabel lblPanelTitle;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhone;
@@ -1871,11 +2486,16 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblScholarship1;
     private javax.swing.JLabel lblScholarship2;
     private javax.swing.JLabel lblSearch;
+    private javax.swing.JLabel lblSearchAdmin;
     private javax.swing.JLabel lblSearchNumber;
+    private javax.swing.JLabel lblSearchNumber1;
     private javax.swing.JLabel lblSoup;
     private javax.swing.JLabel lblStreet;
     private javax.swing.JLabel lblStreet1;
     private javax.swing.JLabel lblStreet2;
+    private javax.swing.JLabel lblStreet5;
+    private javax.swing.JLabel lblStreet6;
+    private javax.swing.JLabel lblStreet7;
     private javax.swing.JLabel lblTicketDessert;
     private javax.swing.JLabel lblTicketDessertText;
     private javax.swing.JLabel lblTicketFish;
@@ -1890,6 +2510,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTicketVegetarian;
     private javax.swing.JLabel lblTicketVegetarianText;
     private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblVeggie;
     private javax.swing.JPanel loginPanel;
@@ -1899,6 +2520,8 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField name;
     private javax.swing.JLabel name1;
     private javax.swing.JTextField name2;
+    private javax.swing.JTextField name4;
+    private javax.swing.JLabel name5;
     private javax.swing.JTextField newDessert;
     private javax.swing.JTextField newFish;
     private javax.swing.JTextField newMeat;
@@ -1922,15 +2545,22 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel scholarship1;
     private javax.swing.ButtonGroup scholarshipChoose;
     private javax.swing.JTextField search;
+    private javax.swing.JTextField searchAdmin;
+    private javax.swing.JList searchAdminList;
+    private javax.swing.JPanel searchAdminPanel;
     private javax.swing.JList searchList;
     private javax.swing.JPanel searchPanel;
     private javax.swing.JSeparator separator;
     private javax.swing.JTextField street;
     private javax.swing.JLabel street1;
     private javax.swing.JTextField street2;
+    private javax.swing.JLabel street5;
+    private javax.swing.JTextField street6;
     private javax.swing.JTabbedPane studentPanel;
+    private javax.swing.JPanel updateAdminPanel;
     private javax.swing.JPanel updatePanel;
     private javax.swing.JTextField username;
+    private javax.swing.JPanel visualizeAdminPanel;
     private javax.swing.JPanel visualizePanel;
     private javax.swing.JInternalFrame warningFrame;
     private javax.swing.JInternalFrame warningLogFrame;
