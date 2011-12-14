@@ -39,6 +39,7 @@ public class Backend extends javax.swing.JFrame {
         warningFrame.setVisible(false);
         warningLogFrame.setVisible(false);
         informationFrame.setVisible(false);
+        chargeBalanceFrame.setVisible(false);
         
         putStudentsInList();
         putAdminsInList();
@@ -135,6 +136,7 @@ public class Backend extends javax.swing.JFrame {
 
         scholarshipChoose = new javax.swing.ButtonGroup();
         bgTime = new javax.swing.ButtonGroup();
+        bgCharge = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         lblUsername = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
@@ -148,6 +150,14 @@ public class Backend extends javax.swing.JFrame {
         lblLogMessage = new javax.swing.JLabel();
         btnLogYes = new javax.swing.JButton();
         btnLogNo = new javax.swing.JButton();
+        chargeBalanceFrame = new javax.swing.JInternalFrame();
+        jLabel1 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        btnChargeYes = new javax.swing.JButton();
+        btnChargeNo = new javax.swing.JButton();
         informationMealFrame = new javax.swing.JInternalFrame();
         lblMealMessage = new javax.swing.JLabel();
         btnMealOk = new javax.swing.JButton();
@@ -275,6 +285,10 @@ public class Backend extends javax.swing.JFrame {
         chbScholarship = new javax.swing.JCheckBox();
         lblTitle = new javax.swing.JLabel();
         btnReturn = new javax.swing.JButton();
+        btnRecoverCode = new javax.swing.JButton();
+        btnUnblockAccount = new javax.swing.JButton();
+        btnChargeBalance = new javax.swing.JButton();
+        btnCloseAccount = new javax.swing.JButton();
         lblSearch = new javax.swing.JLabel();
         lblSearchNumber = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
@@ -332,7 +346,6 @@ public class Backend extends javax.swing.JFrame {
         btnAdminCancel = new javax.swing.JButton();
         buttonsPanel = new javax.swing.JPanel();
         btnStudent = new javax.swing.JButton();
-        btnAccount = new javax.swing.JButton();
         btnAdmin = new javax.swing.JButton();
         btnMeal = new javax.swing.JButton();
         btnTerminate = new javax.swing.JButton();
@@ -457,6 +470,60 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(warningLogFrame);
         warningLogFrame.setBounds(300, 150, 220, 160);
 
+        chargeBalanceFrame.setTitle("Carregamento");
+        chargeBalanceFrame.setVisible(true);
+        chargeBalanceFrame.getContentPane().setLayout(null);
+
+        jLabel1.setText("Insira Montante:");
+        chargeBalanceFrame.getContentPane().add(jLabel1);
+        jLabel1.setBounds(60, 20, 102, 16);
+
+        bgCharge.add(jRadioButton1);
+        jRadioButton1.setText("5 €");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+        chargeBalanceFrame.getContentPane().add(jRadioButton1);
+        jRadioButton1.setBounds(17, 54, 52, 23);
+
+        bgCharge.add(jRadioButton2);
+        jRadioButton2.setText("10 €");
+        chargeBalanceFrame.getContentPane().add(jRadioButton2);
+        jRadioButton2.setBounds(126, 54, 60, 23);
+
+        bgCharge.add(jRadioButton3);
+        jRadioButton3.setText("20 €");
+        chargeBalanceFrame.getContentPane().add(jRadioButton3);
+        jRadioButton3.setBounds(17, 83, 60, 23);
+
+        bgCharge.add(jRadioButton4);
+        jRadioButton4.setText("30 €");
+        chargeBalanceFrame.getContentPane().add(jRadioButton4);
+        jRadioButton4.setBounds(126, 83, 60, 23);
+
+        btnChargeYes.setText("Confirmar");
+        btnChargeYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChargeYesMouseReleased(evt);
+            }
+        });
+        chargeBalanceFrame.getContentPane().add(btnChargeYes);
+        btnChargeYes.setBounds(0, 120, 110, 29);
+
+        btnChargeNo.setText("Cancelar");
+        btnChargeNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChargeNoMouseReleased(evt);
+            }
+        });
+        chargeBalanceFrame.getContentPane().add(btnChargeNo);
+        btnChargeNo.setBounds(110, 120, 112, 29);
+
+        menuPanel.add(chargeBalanceFrame);
+        chargeBalanceFrame.setBounds(300, 150, 249, 199);
+
         informationMealFrame.setTitle("Informação");
         informationMealFrame.setPreferredSize(new java.awt.Dimension(220, 160));
         informationMealFrame.setSize(new java.awt.Dimension(220, 160));
@@ -499,7 +566,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
         informationFrame.setSize(new java.awt.Dimension(220, 160));
 
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMessage1.setText("Dados guardados com sucesso!");
 
@@ -514,24 +581,24 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.getContentPane().setLayout(informationFrameLayout);
         informationFrameLayout.setHorizontalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
             .add(informationFrameLayout.createSequentialGroup()
-                .add(85, 85, 85)
+                .add(105, 105, 105)
                 .add(btnOk)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         informationFrameLayout.setVerticalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(informationFrameLayout.createSequentialGroup()
-                .add(27, 27, 27)
-                .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(14, 14, 14)
+                .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnOk)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
         menuPanel.add(informationFrame);
-        informationFrame.setBounds(300, 150, 220, 160);
+        informationFrame.setBounds(300, 150, 300, 160);
 
         deleteAdminWarningFrame.setTitle("Aviso");
         deleteAdminWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
@@ -1060,42 +1127,77 @@ public class Backend extends javax.swing.JFrame {
 
         visualizePanel.setBackground(new java.awt.Color(153, 153, 153));
         visualizePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        visualizePanel.setLayout(null);
 
         lblName1.setText("Nome:");
+        visualizePanel.add(lblName1);
+        lblName1.setBounds(22, 47, 41, 16);
 
         lblStreet1.setText("Rua:");
+        visualizePanel.add(lblStreet1);
+        lblStreet1.setBounds(22, 71, 27, 16);
 
         lblPostalCode1.setText("Código Postal:");
+        visualizePanel.add(lblPostalCode1);
+        lblPostalCode1.setBounds(22, 95, 91, 16);
 
         lblCity1.setText("Cidade:");
+        visualizePanel.add(lblCity1);
+        lblCity1.setBounds(22, 119, 47, 16);
 
         lblPhone1.setText("Telefone:");
+        visualizePanel.add(lblPhone1);
+        lblPhone1.setBounds(22, 143, 58, 16);
 
         lblEmail1.setText("Email:");
+        visualizePanel.add(lblEmail1);
+        lblEmail1.setBounds(22, 167, 38, 16);
 
         lblCourse1.setText("Curso:");
+        visualizePanel.add(lblCourse1);
+        lblCourse1.setBounds(22, 191, 41, 16);
 
         lblScholarship1.setText("Bolseiro:");
+        visualizePanel.add(lblScholarship1);
+        lblScholarship1.setBounds(22, 218, 54, 16);
 
         name1.setText("Nuno Filipe Ferreira Diogo da Silva");
+        visualizePanel.add(name1);
+        name1.setBounds(143, 47, 217, 16);
 
         street1.setText("Rua da Universidade, 5");
+        visualizePanel.add(street1);
+        street1.setBounds(143, 71, 143, 16);
 
         postalCode2.setText("9500-123");
+        visualizePanel.add(postalCode2);
+        postalCode2.setBounds(143, 95, 64, 16);
 
         city1.setText("Ponta Delgada");
+        visualizePanel.add(city1);
+        city1.setBounds(143, 119, 90, 16);
 
         phone1.setText("937445045");
+        visualizePanel.add(phone1);
+        phone1.setBounds(143, 143, 72, 16);
 
         email1.setText("diogosilva@gmail.com");
+        visualizePanel.add(email1);
+        email1.setBounds(143, 167, 142, 16);
 
         scholarship1.setText("IRM");
+        visualizePanel.add(scholarship1);
+        scholarship1.setBounds(143, 191, 23, 16);
 
         chbScholarship.setSelected(true);
         chbScholarship.setEnabled(false);
+        visualizePanel.add(chbScholarship);
+        chbScholarship.setBounds(143, 211, 28, 23);
 
         lblTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblTitle.setText("Dados do Aluno");
+        visualizePanel.add(lblTitle);
+        lblTitle.setBounds(218, 22, 115, 17);
 
         btnReturn.setText("Voltar");
         btnReturn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1103,87 +1205,47 @@ public class Backend extends javax.swing.JFrame {
                 btnReturnMouseReleased(evt);
             }
         });
+        visualizePanel.add(btnReturn);
+        btnReturn.setBounds(200, 290, 81, 29);
 
-        org.jdesktop.layout.GroupLayout visualizePanelLayout = new org.jdesktop.layout.GroupLayout(visualizePanel);
-        visualizePanel.setLayout(visualizePanelLayout);
-        visualizePanelLayout.setHorizontalGroup(
-            visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(visualizePanelLayout.createSequentialGroup()
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(visualizePanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(lblName1)
-                            .add(lblStreet1)
-                            .add(lblPostalCode1)
-                            .add(lblCity1)
-                            .add(lblPhone1)
-                            .add(lblEmail1)
-                            .add(lblCourse1)
-                            .add(lblScholarship1))
-                        .add(33, 33, 33)
-                        .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(scholarship1)
-                            .add(email1)
-                            .add(phone1)
-                            .add(city1)
-                            .add(postalCode2)
-                            .add(street1)
-                            .add(name1)
-                            .add(chbScholarship)))
-                    .add(visualizePanelLayout.createSequentialGroup()
-                        .add(216, 216, 216)
-                        .add(lblTitle)))
-                .addContainerGap(165, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, visualizePanelLayout.createSequentialGroup()
-                .addContainerGap(224, Short.MAX_VALUE)
-                .add(btnReturn)
-                .add(221, 221, 221))
-        );
-        visualizePanelLayout.setVerticalGroup(
-            visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(visualizePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lblTitle)
-                .add(25, 25, 25)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblName1)
-                    .add(name1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblStreet1)
-                    .add(street1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblPostalCode1)
-                    .add(postalCode2))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblCity1)
-                    .add(city1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblPhone1)
-                    .add(phone1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblEmail1)
-                    .add(email1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblCourse1)
-                    .add(scholarship1))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(visualizePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(lblScholarship1)
-                    .add(chbScholarship))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(btnReturn)
-                .addContainerGap())
-        );
+        btnRecoverCode.setText("Recuperar Código");
+        btnRecoverCode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnRecoverCodeMouseReleased(evt);
+            }
+        });
+        visualizePanel.add(btnRecoverCode);
+        btnRecoverCode.setBounds(370, 120, 170, 29);
+
+        btnUnblockAccount.setText("Desbloquear Conta");
+        btnUnblockAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnUnblockAccountMouseReleased(evt);
+            }
+        });
+        visualizePanel.add(btnUnblockAccount);
+        btnUnblockAccount.setBounds(370, 80, 170, 29);
+
+        btnChargeBalance.setText("Carregar Saldo");
+        btnChargeBalance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChargeBalanceMouseReleased(evt);
+            }
+        });
+        visualizePanel.add(btnChargeBalance);
+        btnChargeBalance.setBounds(370, 40, 170, 29);
+
+        btnCloseAccount.setText("Fechar Conta");
+        btnCloseAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCloseAccountMouseReleased(evt);
+            }
+        });
+        visualizePanel.add(btnCloseAccount);
+        btnCloseAccount.setBounds(370, 160, 170, 29);
 
         searchPanel.add(visualizePanel);
-        visualizePanel.setBounds(20, 100, 530, 306);
+        visualizePanel.setBounds(10, 100, 550, 329);
 
         lblSearch.setText("Pesquisar por:");
         searchPanel.add(lblSearch);
@@ -1545,8 +1607,6 @@ public class Backend extends javax.swing.JFrame {
             }
         });
 
-        btnAccount.setText("Contas");
-
         btnAdmin.setText("Administradores");
         btnAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1576,23 +1636,20 @@ public class Backend extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(buttonsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(btnStudent, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .add(btnAccount, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .add(btnAdmin, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                     .add(btnTerminate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnMeal, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
+                    .add(btnAdmin, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .add(btnMeal, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
         );
         buttonsPanelLayout.setVerticalGroup(
             buttonsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(buttonsPanelLayout.createSequentialGroup()
                 .add(29, 29, 29)
                 .add(btnStudent, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(19, 19, 19)
-                .add(btnAccount, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(20, 20, 20)
+                .add(18, 18, 18)
                 .add(btnAdmin, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(btnMeal, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(318, 318, 318)
+                .add(369, 369, 369)
                 .add(btnTerminate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 30, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
@@ -1709,6 +1766,13 @@ public class Backend extends javax.swing.JFrame {
                 btnCheck.setEnabled(false);
                 btnDelete.setEnabled(false);
                 btnUpdate.setEnabled(false);
+                btnChargeBalance.setEnabled(true);
+                btnUnblockAccount.setEnabled(true);
+                btnRecoverCode.setEnabled(true);
+                btnCloseAccount.setEnabled(true);
+                btnReturn.setEnabled(true);
+                deactivate(searchList);
+                btnCancel1.setEnabled(false);
             }
             
             if (adminPanel.isVisible()) {
@@ -1875,6 +1939,10 @@ public class Backend extends javax.swing.JFrame {
         activate(searchList);
         activate(buttonsPanel);
         btnStudent.setEnabled(false);
+        btnCheck.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnCancel1.setEnabled(true);
     }//GEN-LAST:event_btnReturnMouseReleased
 
     private void btnCancel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel1MouseReleased
@@ -2323,6 +2391,109 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveAdminMouseReleased
 
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void btnChargeBalanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeBalanceMouseReleased
+        if (btnChargeBalance.isEnabled()) {
+            btnChargeBalance.setEnabled(false);
+            btnUnblockAccount.setEnabled(false);
+            btnRecoverCode.setEnabled(false);
+            btnCloseAccount.setEnabled(false);
+            btnReturn.setEnabled(false);
+            
+            deactivate(studentPanel);
+            deactivate(searchList);
+            deactivate(searchPanel);
+            deactivate(buttonsPanel);
+            
+            chargeBalanceFrame.setVisible(true);
+        }
+    }//GEN-LAST:event_btnChargeBalanceMouseReleased
+
+    private void btnChargeNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeNoMouseReleased
+        btnChargeBalance.setEnabled(true);
+        btnUnblockAccount.setEnabled(true);
+        btnRecoverCode.setEnabled(true);
+        btnCloseAccount.setEnabled(true);
+        btnStudent.setEnabled(true);
+        btnReturn.setEnabled(true);
+
+        enabledAll(studentPanel);
+        enabledAll(searchList);
+        enabledAll(searchPanel);
+
+        chargeBalanceFrame.setVisible(false);
+    }//GEN-LAST:event_btnChargeNoMouseReleased
+
+    private void btnChargeYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeYesMouseReleased
+        if (btnSaveAdmin.isEnabled()) {             
+            chargeBalanceFrame.setVisible(false);
+            
+            lblMessage1.setText("Operação feita com sucesso!");
+            informationFrame.setVisible(true);
+            
+            deactivate(studentPanel);             
+            deactivate(searchPanel);
+            deactivate(buttonsPanel);
+        }
+    }//GEN-LAST:event_btnChargeYesMouseReleased
+
+    private void btnUnblockAccountMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUnblockAccountMouseReleased
+        if (btnUnblockAccount.isEnabled()) {
+            btnChargeBalance.setEnabled(false);
+            btnUnblockAccount.setEnabled(false);
+            btnCloseAccount.setEnabled(false);
+            btnRecoverCode.setEnabled(false);
+            btnReturn.setEnabled(false);
+            
+            deactivate(studentPanel);
+            deactivate(searchList);
+            deactivate(searchPanel);
+            deactivate(buttonsPanel);
+            
+            lblMessage1.setText("Conta desbloqueada");
+            informationFrame.setVisible(true);
+        }
+    }//GEN-LAST:event_btnUnblockAccountMouseReleased
+
+    private void btnRecoverCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRecoverCodeMouseReleased
+        if (btnRecoverCode.isEnabled()) {
+            btnChargeBalance.setEnabled(false);
+            btnUnblockAccount.setEnabled(false);
+            btnRecoverCode.setEnabled(false);
+            btnCloseAccount.setEnabled(false);
+            btnReturn.setEnabled(false);
+            
+            deactivate(studentPanel);
+            deactivate(searchList);
+            deactivate(searchPanel);
+            deactivate(buttonsPanel);
+            
+            lblMessage1.setText("Código enviado para: " + email1.getText());
+            informationFrame.setVisible(true);
+        }
+    }//GEN-LAST:event_btnRecoverCodeMouseReleased
+
+    private void btnCloseAccountMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseAccountMouseReleased
+        if (btnCloseAccount.isEnabled()) {
+            btnChargeBalance.setEnabled(false);
+            btnUnblockAccount.setEnabled(false);
+            btnRecoverCode.setEnabled(false);
+            btnCloseAccount.setEnabled(false);
+            btnReturn.setEnabled(false);
+            
+            deactivate(studentPanel);
+            deactivate(searchList);
+            deactivate(searchPanel);
+            deactivate(buttonsPanel);
+            
+            lblMessage1.setText("Conta fechada!");
+            informationFrame.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCloseAccountMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -2365,8 +2536,8 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTabbedPane adminPanel;
     private javax.swing.JPasswordField adminPwd;
     private javax.swing.JTextField adminUser;
+    private javax.swing.ButtonGroup bgCharge;
     private javax.swing.ButtonGroup bgTime;
-    private javax.swing.JButton btnAccount;
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnAdminCancel;
     private javax.swing.JButton btnCancel;
@@ -2378,8 +2549,12 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelMeal;
     private javax.swing.JButton btnChange;
     private javax.swing.JButton btnChange1;
+    private javax.swing.JButton btnChargeBalance;
+    private javax.swing.JButton btnChargeNo;
+    private javax.swing.JButton btnChargeYes;
     private javax.swing.JButton btnCheck;
     private javax.swing.JButton btnCheck1;
+    private javax.swing.JButton btnCloseAccount;
     private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDelete1;
@@ -2393,6 +2568,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnMealOk;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnOk;
+    private javax.swing.JButton btnRecoverCode;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnReturn1;
     private javax.swing.JButton btnSave;
@@ -2402,6 +2578,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnSearchAdmin;
     private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnTerminate;
+    private javax.swing.JButton btnUnblockAccount;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdate1;
     private javax.swing.JButton btnWarningNo;
@@ -2419,6 +2596,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbSoup;
     private javax.swing.JComboBox cbVeggie;
     private javax.swing.JComboBox cbYearChoice;
+    private javax.swing.JInternalFrame chargeBalanceFrame;
     private javax.swing.JCheckBox chbScholarship;
     private javax.swing.JPanel chooseDayPanel;
     private javax.swing.JPanel chooseMealPanel;
@@ -2434,9 +2612,14 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField email2;
     private javax.swing.JInternalFrame informationFrame;
     private javax.swing.JInternalFrame informationMealFrame;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbTicketlMealTimeText;
