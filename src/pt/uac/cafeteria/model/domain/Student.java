@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * The process number is an auto-incremented number
  * prefixed with the current year.
  */
-public class Student {
+public class Student implements DomainObject<Integer> {
 
     /** Auto-incremented seed, from 1000 to 9999. */
     protected static int seed = 1000;
@@ -100,8 +100,9 @@ public class Student {
     }
 
     /** Returns the identification of a student */
-    public int getId() {
-        return this.id;
+    @Override
+    public Integer getId() {
+        return new Integer(this.id);
     }
     
     /** Returns the student account */
