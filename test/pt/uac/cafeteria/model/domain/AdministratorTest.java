@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model;
+package pt.uac.cafeteria.model.domain;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -1,6 +1,9 @@
 
 package pt.uac.cafeteria.model;
 
+import pt.uac.cafeteria.model.domain.Administrator;
+import pt.uac.cafeteria.model.domain.Student;
+import pt.uac.cafeteria.model.domain.Account;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +14,11 @@ import java.util.Map;
  */
 public class Application {
 
+    /** Default administrator username */
+    private final String DEFAULT_ADMIN_USERNAME = "superadmin";
 
+    /** Default administrator password */
+    private final String DEFAULT_ADMIN_PASSWORD = "12345678";
 
     /** Map with administrator accounts */
     private final Map<String, Administrator> administrators = new HashMap<String, Administrator>();
@@ -28,7 +35,9 @@ public class Application {
      * A default administrator account is created at instantiation
      */
     public Application() {
-        Administrator default_admin = new Administrator();
+        Administrator default_admin = new Administrator(
+            "Administrador", DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD
+        );
         administrators.put(default_admin.getUsername(), default_admin);
     }
 

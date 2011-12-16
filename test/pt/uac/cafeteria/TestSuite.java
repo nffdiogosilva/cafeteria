@@ -1,6 +1,7 @@
 
 package pt.uac.cafeteria;
 
+import pt.uac.cafeteria.model.domain.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import pt.uac.cafeteria.model.*;

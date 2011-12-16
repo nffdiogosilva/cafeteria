@@ -1,4 +1,4 @@
-package pt.uac.cafeteria.model;
+package pt.uac.cafeteria.model.domain;
 
 import java.util.Arrays;
 import java.util.Calendar;

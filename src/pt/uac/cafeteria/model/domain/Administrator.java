@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model;
+package pt.uac.cafeteria.model.domain;
 
 /**
  * Administrator account.
@@ -28,21 +28,6 @@ public class Administrator {
 
     /** The password */
     private String password;
-
-    /**
-     * Creates a default administrator account
-     *
-     * Since the requirements for a default account would be to have a
-     * username 'administrador' and all usernames should be greater than 6
-     * characters, an exception had to be made since both are in conflict.
-     *
-     * Package private scope is enough since we only need this in Application.
-     */
-    Administrator() {
-        this.name = "Administrador";
-        this.username = "superadmin";
-        this.password = "12345678";
-    }
 
     /**
      * Public constructor.
