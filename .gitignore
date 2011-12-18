@@ -2,3 +2,6 @@ build.xml
 manifest.mf
 nbproject
 /build/
+/dist/
+lib/nblibraries.properties
+lib/CopyLibs/
