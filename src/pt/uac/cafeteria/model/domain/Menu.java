@@ -1,3 +1,4 @@
+
 package pt.uac.cafeteria.model.domain;
 
 import java.util.Arrays;
@@ -10,11 +11,29 @@ import java.util.List;
  */
 public class Menu {
 
-    /** Day of the menu */
-    private final Calendar day;
+    public static class Id {
+        /** Day of the menu */
+        private final Calendar day;
 
-    /** Time of the meal */
-    private final Meal.Time time;
+        /** Time of the meal */
+        private final Meal.Time time;
+
+        public Id(Calendar day, Meal.Time time) {
+            this.day = day;
+            this.time = time;
+        }
+
+        public Calendar getDay() {
+            return (Calendar) this.day.clone();
+        }
+
+        public Meal.Time getTime() {
+            return this.time;
+        }
+    }
+
+
+    private final Id id;
 
     /** Meat meal */
     private String meat;
@@ -38,6 +57,7 @@ public class Menu {
     public static class Builder {
 
         private final Calendar day;
+
         private final Meal.Time time;
 
         private String meat;
@@ -89,8 +109,7 @@ public class Menu {
      * @param builder
      */
     private Menu(Builder builder) {
-        this.day = builder.day;
-        this.time = builder.time;
+        this.id = new Id(builder.day, builder.time);
         this.meat = builder.meat;
         this.fish = builder.fish;
         this.veggie = builder.veggie;
@@ -101,17 +120,17 @@ public class Menu {
 
     /** Returns meat meal*/
     public Meal getMeatMeal() {
-        return new Meal(day, time, Meal.Type.MEAT, soup, meat, dessert);
+        return new Meal(id.getDay(), id.getTime(), Meal.Type.MEAT, soup, meat, dessert);
     }
 
     /** Returns fish meal*/
     public Meal getFishMeal() {
-        return new Meal(day, time, Meal.Type.FISH, soup, fish, dessert);
+        return new Meal(id.getDay(), id.getTime(), Meal.Type.FISH, soup, fish, dessert);
     }
 
     /** Returns vegetarian meal*/
     public Meal getVeggieMeal() {
-        return new Meal(day, time, Meal.Type.VEGETARIAN, soup, veggie, dessert);
+        return new Meal(id.getDay(), id.getTime(), Meal.Type.VEGETARIAN, soup, veggie, dessert);
     }
 
     /** Returns the main courses */
@@ -121,5 +140,42 @@ public class Menu {
             {Meal.Type.FISH.toString(), this.fish},
             {Meal.Type.VEGETARIAN.toString(), this.veggie}
         });
+    }
+
+    public String getMainCourse(Meal.Type type) {
+        switch (type) {
+            case MEAT : return this.meat;
+            case FISH : return this.fish;
+            case VEGETARIAN : return this.veggie;
+            default : return null;
+        }
+    }
+
+    public String getDessert() {
+        return dessert;
+    }
+
+    public String getFish() {
+        return fish;
+    }
+
+    public String getMeat() {
+        return meat;
+    }
+
+    public String getSoup() {
+        return soup;
+    }
+
+    public String getVegetarian() {
+        return veggie;
+    }
+
+    public Id getId() {
+        return id;
+    }
+
+    public Meal.Time getTime() {
+        return id.getTime();
     }
 }
