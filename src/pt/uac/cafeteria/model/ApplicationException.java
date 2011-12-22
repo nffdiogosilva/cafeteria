@@ -1,6 +1,8 @@
 
 package pt.uac.cafeteria.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ApplicationException extends RuntimeException {
 
@@ -16,5 +18,10 @@ public class ApplicationException extends RuntimeException {
      */
     public ApplicationException(String msg) {
         super(msg);
+    }
+
+    public ApplicationException(String msg, Exception e) {
+        super(msg);
+        Logger.getLogger(e.getClass().getName()).log(Level.WARNING, null, e);
     }
 }
