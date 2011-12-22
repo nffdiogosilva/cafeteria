@@ -13,6 +13,6 @@ import pt.uac.cafeteria.model.*;
     AccountTest.class,
     StudentTest.class,
     AddressTest.class,
-    MealMenuTest.class
+    MenuTest.class
 })
 public class TestSuite {}

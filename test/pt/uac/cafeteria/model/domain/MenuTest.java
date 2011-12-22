@@ -8,16 +8,16 @@ import java.util.GregorianCalendar;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class MealMenuTest {
+public class MenuTest {
 
     private final Calendar day = new GregorianCalendar(2011, 11, 11);
     private final Meal.Time time = Meal.Time.DINNER;
-    
+
     private final String soup = "Vegetables";
     private final String dessert = "Cake";
 
-    private MealMenu createMenu() {
-        return new MealMenu.Builder(day, time)
+    private Menu createMenu() {
+        return new Menu.Builder(day, time)
                 .setMeatCourse("Pork")
                 .setFishCourse("Tuna")
                 .setVeggieCourse("Soy")
@@ -27,7 +27,7 @@ public class MealMenuTest {
 
     @Test
     public void canCreateMenu() {
-        MealMenu menu = createMenu();
+        Menu menu = createMenu();
 
         Meal meat_expected = new Meal(day, time, Meal.Type.MEAT, soup, "Pork", dessert);
         Meal fish_expected = new Meal(day, time, Meal.Type.FISH, soup, "Tuna", dessert);
@@ -44,21 +44,21 @@ public class MealMenuTest {
 
     @Test(expected=IllegalStateException.class)
     public void mustHaveMainCourse() {
-        new MealMenu.Builder(day, time)
+        new Menu.Builder(day, time)
                 .setSoupAndDessert(soup, dessert)
                 .build();
     }
 
     @Test(expected=IllegalStateException.class)
     public void mustHaveSoupAndDessert() {
-        new MealMenu.Builder(day, time)
+        new Menu.Builder(day, time)
                 .setMeatCourse("Pork")
                 .build();
     }
 
     @Test
     public void canGetChoices() {
-        MealMenu menu = createMenu();
+        Menu menu = createMenu();
 
         List<String[]> expected = Arrays.asList(new String[][] {
             {Meal.Type.MEAT.toString(), "Pork"},
