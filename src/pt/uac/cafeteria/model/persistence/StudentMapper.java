@@ -49,4 +49,8 @@ public class StudentMapper extends DatabaseMapper<Student> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public int update(Student o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
