@@ -79,13 +79,13 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
         return result;
     }
 
-    protected List<T> findMany(StatementSource source) {
+    protected List<T> findMany(String sql, Object[] parameters) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = getDB().prepareStatement(source.sql());
-            for (int i = 0; i < source.parameters().length; i++) {
-                stmt.setObject(i+1, source.parameters()[i]);
+            stmt = getDB().prepareStatement(sql);
+            for (int i = 0; i < parameters.length; i++) {
+                stmt.setObject(i+1, parameters[i]);
             }
             rs = stmt.executeQuery();
             return loadAll(rs);
