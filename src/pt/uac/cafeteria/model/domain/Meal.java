@@ -10,8 +10,8 @@ public class Meal {
 
     /** Enumerates meal day time */
     public enum Time {
-        LUNCH  { @Override public String toString() { return "Jantar"; } },
-        DINNER { @Override public String toString() { return "Almoco"; } };
+        LUNCH  { @Override public String toString() { return "Almoco"; } },
+        DINNER { @Override public String toString() { return "Jantar"; } };
     }
 
     /** Enumerates dish types */
