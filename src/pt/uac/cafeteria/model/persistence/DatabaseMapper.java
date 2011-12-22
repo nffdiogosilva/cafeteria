@@ -18,7 +18,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
     protected Map<Integer, T> loadedMap = new HashMap<Integer, T>();
     abstract protected String findStatement();
 
-    private static Connection con;
+    private Connection con;
 
     private Connection getDB() {
         if (con == null) {
@@ -30,6 +30,10 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
             }
         }
         return con;
+    }
+
+    public void setConnection(Connection con) {
+        this.con = con;
     }
 
     @Override
