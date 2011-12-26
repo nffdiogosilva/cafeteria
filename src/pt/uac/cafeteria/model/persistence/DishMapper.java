@@ -4,41 +4,51 @@ package pt.uac.cafeteria.model.persistence;
 import java.io.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import pt.uac.cafeteria.model.ApplicationException;
 
 
-public class DishMapper implements DataMapper<String, String> {
+public class DishMapper extends FileAccess implements DataMapper<String, String> {
 
-    private final String PATH = "data/dishes/";
+    private static final String PATH = "data/dishes/";
+    private static final String EXT = ".txt";
 
-    private File file;
+    private static Map<String, DishMapper> instances = new HashMap<String, DishMapper>();
 
     private SortedSet<String> loaded;
 
-    private DishMapper(String key) {
-        this.file = new File(PATH + key + ".txt");
-    }
-
     public static DishMapper getMeatInstance() {
-        return new DishMapper("carne");
+        return getInstance("carne");
     }
 
     public static DishMapper getFishInstance() {
-        return new DishMapper("peixe");
+        return getInstance("peixe");
     }
 
     public static DishMapper getVegetarianInstance() {
-        return new DishMapper("veget");
+        return getInstance("veget");
     }
 
     public static DishMapper getSoupInstance() {
-        return new DishMapper("sopa");
+        return getInstance("sopa");
     }
 
     public static DishMapper getDessertInstance() {
-        return new DishMapper("sobrem");
+        return getInstance("sobrem");
+    }
+
+    public static DishMapper getInstance(String key) {
+        if (!instances.containsKey(key)) {
+            instances.put(key, new DishMapper(PATH + key + EXT));
+        }
+        return instances.get(key);
+    }
+
+    public DishMapper(String filepath) {
+        super(filepath);
     }
 
     public Collection<String> findAll() {
@@ -56,12 +66,8 @@ public class DishMapper implements DataMapper<String, String> {
     private void loadAll() {
         loaded.clear();
         try {
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
             String dish;
-            BufferedReader in = new BufferedReader(new FileReader(file));
+            BufferedReader in = new BufferedReader(new FileReader(useFile()));
             while ((dish = in.readLine()) != null) {
                 loaded.add(dish);
             }
@@ -73,7 +79,7 @@ public class DishMapper implements DataMapper<String, String> {
 
     private void save() {
         try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            BufferedWriter out = new BufferedWriter(new FileWriter(useFile()));
             for (String dish : getLoaded()) {
                 out.write(dish);
                 out.newLine();

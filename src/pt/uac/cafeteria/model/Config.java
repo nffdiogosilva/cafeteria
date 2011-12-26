@@ -7,9 +7,6 @@ import pt.uac.cafeteria.model.persistence.AbstractProperties;
 /**
  * Application specific implementation of AbstractProperties.
  *
- * Implemented as a Singleton (only one instance allowed), used as a
- * global configuration object with a properties list, for the application.
- *
  * Methods are specifically defined for setting and getting required
  * application configuration fields, with their correct types. Meanwhile,
  * it is allowed to use it as a sort of Registry for other configuration
@@ -17,29 +14,35 @@ import pt.uac.cafeteria.model.persistence.AbstractProperties;
  */
 public class Config extends AbstractProperties {
 
-    /** Relative path and filename to the properties file. */
-    protected static final String PATH = "resources/config.txt";
+    /** Default path to the properties file. */
+    protected static final String DEFAULT_PATH = "data/config.txt";
 
-    /** Reference to the only instance of Config. */
-    private static Config instance;
-
-    /** Private constructor does not allow creation of new instances (Singleton). */
-    private Config() { }
+    /** Reference to this object's instance. */
+    protected static Config instance;
 
     /**
-     * Gets the instance of Config.
+     * Gets reference to a statically initialized instance. Allows lazy loading.
      *
-     * Implements the Singleton design pattern.
-     *
-     * @return Config object, with file path already set, based on default.
+     * @return reference to a Config object instance.
      */
     public static Config getInstance() {
-        if (instance != null) {
-            return instance;
+        if (instance == null) {
+            instance = new Config(DEFAULT_PATH);
         }
-        Config config = new Config();
-        config.setFilePath(PATH);
-        return config;
+        return instance;
+    }
+
+    /**
+     * Creates a new object instance. File path needed.
+     *
+     * Only used when isolation needed, or to set a different path from the
+     * default one. Use Config.getInstance() instead to reuse a single
+     * instance.
+     *
+     * @param filePath relative or absolute path to the file.
+     */
+    public Config(String filePath) {
+        super(filePath);
     }
 
     @Override

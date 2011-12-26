@@ -23,11 +23,26 @@ import pt.uac.cafeteria.model.domain.Meal;
 
 public class MenuMapper implements DataMapper<Menu, Menu.Id> {
 
-    private final String PATH = "data/meals/";
+    private static final String DEFAULT_PATH = "data/meals/";
 
-    private final String ROOT = "ementa";
+    private static final String ROOT = "ementa";
+
+    private static MenuMapper instance;
+
+    private String path;
 
     private Map<Menu.Id, Menu> loadedMap = new HashMap<Menu.Id, Menu>();
+
+    public static MenuMapper getInstance() {
+        if (instance == null) {
+            instance = new MenuMapper(DEFAULT_PATH);
+        }
+        return instance;
+    }
+
+    public MenuMapper(String path) {
+        this.path = path;
+    }
 
     public boolean hasMenu(Calendar day) {
         return getFile(day.getTime()).exists();
@@ -36,7 +51,7 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
     private File getFile(Date day) {
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         String date = df.format(day);
-        return new File(PATH + date + ".xml");
+        return new File(path + date + ".xml");
     }
 
     private File getFile(Menu.Id id) {

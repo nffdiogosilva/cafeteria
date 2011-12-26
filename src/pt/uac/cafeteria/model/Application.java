@@ -1,6 +1,9 @@
 
 package pt.uac.cafeteria.model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Account;
@@ -28,6 +31,9 @@ public class Application {
 
     /** Map with old students that no longer have an account */
     private final Map<Integer, Student> oldStudents = new HashMap<Integer, Student>();
+
+    /** Reusable database connection. */
+    private static Connection db;
 
     /**
      * Constructor
@@ -136,5 +142,37 @@ public class Application {
      */
     public Student getOldStudent(int studentNumber) {
         return oldStudents.get(new Integer(studentNumber));
+    }
+
+    /**
+     * Gets reference to reusable database connection, using credentials
+     * stored on Config object.
+     *
+     * @return database connection.
+     */
+    public static Connection getDBConnection() {
+        if (db == null) {
+            db = initDBConnection();
+        }
+        return db;
+    }
+
+    /**
+     * Creates a new database connection using credentials stored in Config.
+     *
+     * @return database connection.
+     * @throws ApplicationException if unable to create connection.
+     */
+    private static Connection initDBConnection() {
+        Config config = Config.getInstance();
+        String dbname = config.getDBName();
+        String dbuser = config.getDBUsername();
+        String dbpass = config.getDBPassword();
+        String url = "jdbc:mysql://localhost/" + dbname;
+        try {
+            return DriverManager.getConnection(url, dbuser, dbpass);
+        } catch (SQLException e) {
+            throw new ApplicationException("Problema em ligar à base de dados.", e);
+        }
     }
 }

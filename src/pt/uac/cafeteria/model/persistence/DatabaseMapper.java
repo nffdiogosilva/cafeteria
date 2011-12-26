@@ -2,7 +2,6 @@
 package pt.uac.cafeteria.model.persistence;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,24 +15,11 @@ import pt.uac.cafeteria.model.domain.DomainObject;
 public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements DataMapper<T, Integer> {
 
     protected Map<Integer, T> loadedMap = new HashMap<Integer, T>();
-    abstract protected String findStatement();
 
-    private Connection con;
+    protected final Connection DB;
 
-    private Connection getDB() {
-        if (con == null) {
-            try {
-                con = DriverManager.getConnection(
-                        "jdbc:mysql://localhost/cafeteria", "root", "root");
-            } catch (SQLException e) {
-                throw new ApplicationException(e.getMessage());
-            }
-        }
-        return con;
-    }
-
-    public void setConnection(Connection con) {
-        this.con = con;
+    public DatabaseMapper(Connection con) {
+        this.DB = con;
     }
 
     @Override
@@ -44,7 +30,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
         }
         PreparedStatement findStatement = null;
         try {
-            findStatement = getDB().prepareStatement(findStatement());
+            findStatement = DB.prepareStatement(findStatement());
             findStatement.setInt(1, id.intValue());
             ResultSet rs = findStatement.executeQuery();
             rs.next();
@@ -62,6 +48,8 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
             }
         }
     }
+
+    abstract protected String findStatement();
 
     protected T load(ResultSet rs) throws SQLException {
         Integer id = new Integer(rs.getInt(1));
@@ -87,7 +75,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            stmt = getDB().prepareStatement(sql);
+            stmt = DB.prepareStatement(sql);
             for (int i = 0; i < parameters.length; i++) {
                 stmt.setObject(i+1, parameters[i]);
             }
@@ -102,7 +90,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
     public Integer insert(T subject) {
         PreparedStatement insertStatement = null;
         try {
-            insertStatement = getDB().prepareStatement(insertStatement());
+            insertStatement = DB.prepareStatement(insertStatement());
             doInsert(subject, insertStatement);
             insertStatement.executeUpdate();
             loadedMap.put(subject.getId(), subject);

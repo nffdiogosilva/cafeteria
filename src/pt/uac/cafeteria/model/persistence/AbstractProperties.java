@@ -1,7 +1,6 @@
 
 package pt.uac.cafeteria.model.persistence;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,14 +24,8 @@ import pt.uac.cafeteria.model.ApplicationException;
  * This decorator also implements a few gateway methods that make it easier
  * to set and retrieve ints and doubles, using the default implementation
  * from java.util.Properties (which uses only strings).
- *
- * setFilePath should be called after instantiation of an object of this type.
- * Not setting a file path may produce NullPointerException errors.
  */
-public abstract class AbstractProperties {
-
-    /** Relative path and filename to the properties file. */
-    protected String filePath;
+public abstract class AbstractProperties extends FileAccess {
 
     /** java.util.Properties object to be decorated. */
     protected Properties props;
@@ -41,21 +34,12 @@ public abstract class AbstractProperties {
     protected boolean autoSave = true;
 
     /**
-     * Sets a different file path to use.
+     * Constructor.
      *
-     * @param filepath Relative path and filename to the properties file.
+     * @param filePath relative or absolute file path.
      */
-    public void setFilePath(String filepath) {
-        this.filePath = filepath;
-    }
-
-    /**
-     * Gets the current file path used.
-     *
-     * @param filepath Relative path and filename to the properties file.
-     */
-    public String getFilePath() {
-        return filePath;
+    public AbstractProperties(String filePath) {
+        super(filePath);
     }
 
     /**
@@ -80,7 +64,7 @@ public abstract class AbstractProperties {
             props = new Properties();
             try {
                 try {
-                    FileInputStream in = new FileInputStream(filePath);
+                    FileInputStream in = new FileInputStream(getFile());
                     props.load(in);
                     in.close();
 
@@ -100,7 +84,7 @@ public abstract class AbstractProperties {
      */
     protected void save() {
         try {
-            FileOutputStream out = new FileOutputStream(filePath);
+            FileOutputStream out = new FileOutputStream(getFile());
             props.store(out, "--- Application configuration ---");
             out.close();
 
@@ -121,9 +105,7 @@ public abstract class AbstractProperties {
      * @throws IOException if unable to create the file.
      */
     protected void restoreFile() throws IOException {
-        File file = new File(filePath);
-        file.getParentFile().mkdirs();
-        file.createNewFile();
+        createNewFile();
         load();
         setAutoSave(false);
         setDefaults();

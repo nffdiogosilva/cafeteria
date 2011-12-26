@@ -1,9 +1,11 @@
 
 package pt.uac.cafeteria.model.persistence;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.domain.Student;
 
 
@@ -11,6 +13,19 @@ public class StudentMapper extends DatabaseMapper<Student> {
 
     public static final String TABLE = "students";
     public static final String COLUMNS = " id, name, phone, email, scholarship ";
+
+    private static StudentMapper instance;
+
+    public static StudentMapper getInstance() {
+        if (instance == null) {
+            instance = new StudentMapper(Application.getDBConnection());
+        }
+        return instance;
+    }
+
+    public StudentMapper(Connection con) {
+        super(con);
+    }
 
     @Override
     protected String findStatement() {
