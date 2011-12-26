@@ -45,6 +45,6 @@ public class ApplicationException extends RuntimeException {
      */
     public ApplicationException(String msg, Exception e) {
         super(msg);
-        Logger.getLogger(e.getClass().getName()).log(Level.WARNING, null, e);
+        Logger.getLogger(e.getClass().getName()).log(Level.SEVERE, null, e);
     }
 }
