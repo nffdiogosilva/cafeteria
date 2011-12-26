@@ -10,7 +10,14 @@ import java.util.List;
  * Represents the student account
  *
  */
-public class Account {
+public class Account implements DomainObject<Integer>, java.io.Serializable {
+
+    /**
+     * Serialization version
+     *
+     * @see http://www.mkyong.com/java-best-practices/understand-the-serialversionuid/
+     */
+    private static final long serialVersionUID = 1L;
 
     /** Constant with maximum value to generate a number */
     private static final int MAX_VALUE = 9999;
@@ -56,6 +63,10 @@ public class Account {
         this.transactions = new ArrayList();
     }
 
+    @Override
+    public Integer getId() {
+        return new Integer(number);
+    }
 
     /** Returns the account number */
     public int getNumber() {
