@@ -9,7 +9,7 @@ import java.util.List;
  * Represents the Meal Menu.
  *
  */
-public class Menu {
+public class Menu implements DomainObject<Menu.Id> {
 
     public static class Id {
         /** Day of the menu */
@@ -171,6 +171,7 @@ public class Menu {
         return veggie;
     }
 
+    @Override
     public Id getId() {
         return id;
     }
