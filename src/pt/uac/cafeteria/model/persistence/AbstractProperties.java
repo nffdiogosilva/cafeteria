@@ -30,7 +30,7 @@ public abstract class AbstractProperties extends FileAccess {
     /** java.util.Properties object to be decorated. */
     protected Properties props;
 
-    /** Automatically save file on each setProperty call? */
+    /** Automatically save file on each set call? */
     protected boolean autoSave = true;
 
     /**
@@ -43,7 +43,7 @@ public abstract class AbstractProperties extends FileAccess {
     }
 
     /**
-     * Sets auto saving or not on each setProperty call.
+     * Sets auto saving or not on each set call.
      *
      * @param b true to turn on, false to turn off.
      */
@@ -122,13 +122,13 @@ public abstract class AbstractProperties extends FileAccess {
     abstract protected void setDefaults();
 
     /**
-     * Calls the Properties method setProperty, while ensuring that the
+     * Calls the Properties method set, while ensuring that the
      * properties are loaded from the file, and allowing auto save, if set for it.
      *
      * @param key the key to be placed into the properties list.
      * @param value the value corresponding to key.
      */
-    public void setProperty(String key, String value) {
+    public void set(String key, String value) {
         load();
         props.setProperty(key, value);
         if (autoSave) {
@@ -137,19 +137,19 @@ public abstract class AbstractProperties extends FileAccess {
     }
 
     /**
-     * Calls the Properties method getProperty, while ensuring that the
+     * Calls the Properties method get, while ensuring that the
      * properties are loaded from the file.
      *
      * @param key the property key.
      * @return the value in the property list with the specified key value.
      */
-    public String getProperty(String key) {
+    public String get(String key) {
         load();
         return props.getProperty(key);
     }
 
     /**
-     * Same as setProperty, but used as a companion to the other primitive
+     * Same as set, but used as a companion to the other primitive
      * setting methods, where the method name is descriptive of the value
      * type being set.
      *
@@ -157,31 +157,31 @@ public abstract class AbstractProperties extends FileAccess {
      * @param value the string value corresponding to the key.
      */
     public void setString(String key, String value) {
-        setProperty(key, value);
+        set(key, value);
     }
 
     /**
-     * Similar to setProperty, but using an int value.
+     * Similar to set, but using an int value.
      *
      * @param key the property key.
      * @param value the int value corresponding to the key.
      */
     public void setInt(String key, int value) {
-        setProperty(key, String.valueOf(value));
+        set(key, String.valueOf(value));
     }
 
     /**
-     * Similar to setProperty, but using a double value.
+     * Similar to set, but using a double value.
      *
      * @param key the property key.
      * @param value the double value corresponding to the key.
      */
     public void setDouble(String key, double value) {
-        setProperty(key, String.valueOf(value));
+        set(key, String.valueOf(value));
     }
 
     /**
-     * Same as getProperty, but used as a companion to the other primitive
+     * Same as get, but used as a companion to the other primitive
      * getting methods, where the method name is descriptive of the value
      * type being returned.
      *
@@ -189,26 +189,26 @@ public abstract class AbstractProperties extends FileAccess {
      * @return the string value corresponding to the key.
      */
     public String getString(String key) {
-        return getProperty(key);
+        return get(key);
     }
 
     /**
-     * Similar to getProperty, but using an int value.
+     * Similar to get, but using an int value.
      *
      * @param key the property key.
      * @return the int value corresponding to the key.
      */
     public int getInt(String key) {
-        return Integer.parseInt(getProperty(key));
+        return Integer.parseInt(get(key));
     }
 
     /**
-     * Similar to getProperty, but using a double value.
+     * Similar to get, but using a double value.
      *
      * @param key the property key.
      * @return the double value corresponding to the key.
      */
     public double getDouble(String key) {
-        return Double.parseDouble(getProperty(key));
+        return Double.parseDouble(get(key));
     }
 }

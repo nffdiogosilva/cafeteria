@@ -165,9 +165,9 @@ public class Application {
      */
     private static Connection initDBConnection() {
         Config config = Config.getInstance();
-        String dbname = config.getDBName();
-        String dbuser = config.getDBUsername();
-        String dbpass = config.getDBPassword();
+        String dbname = config.get(Config.DB_NAME);
+        String dbuser = config.get(Config.DB_USER);
+        String dbpass = config.get(Config.DB_PASS);
         String url = "jdbc:mysql://localhost/" + dbname;
         try {
             return DriverManager.getConnection(url, dbuser, dbpass);
