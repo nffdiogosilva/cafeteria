@@ -170,7 +170,10 @@ public class Application {
         String dbpass = config.get(Config.DB_PASS);
         String url = "jdbc:mysql://localhost/" + dbname;
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection(url, dbuser, dbpass);
+        } catch (ClassNotFoundException e) {
+            throw new ApplicationException("Falha ao carregar driver mysql.", e);
         } catch (SQLException e) {
             throw new ApplicationException("Problema em ligar à base de dados.", e);
         }
