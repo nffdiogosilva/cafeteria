@@ -4,8 +4,6 @@ package pt.uac.cafeteria.model.persistence;
 import java.io.*;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import pt.uac.cafeteria.model.ApplicationException;
@@ -13,39 +11,7 @@ import pt.uac.cafeteria.model.ApplicationException;
 
 public class DishMapper extends FileAccess implements DataMapper<String, String> {
 
-    private static final String PATH = "data/dishes/";
-    private static final String EXT = ".txt";
-
-    private static Map<String, DishMapper> instances = new HashMap<String, DishMapper>();
-
     private SortedSet<String> loaded;
-
-    public static DishMapper getMeatInstance() {
-        return getInstance("carne");
-    }
-
-    public static DishMapper getFishInstance() {
-        return getInstance("peixe");
-    }
-
-    public static DishMapper getVegetarianInstance() {
-        return getInstance("veget");
-    }
-
-    public static DishMapper getSoupInstance() {
-        return getInstance("sopa");
-    }
-
-    public static DishMapper getDessertInstance() {
-        return getInstance("sobrem");
-    }
-
-    public static DishMapper getInstance(String key) {
-        if (!instances.containsKey(key)) {
-            instances.put(key, new DishMapper(PATH + key + EXT));
-        }
-        return instances.get(key);
-    }
 
     public DishMapper(String filepath) {
         super(filepath);

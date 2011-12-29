@@ -23,22 +23,11 @@ import pt.uac.cafeteria.model.domain.Meal;
 
 public class MenuMapper implements DataMapper<Menu, Menu.Id> {
 
-    private static final String DEFAULT_PATH = "data/meals/";
-
     private static final String ROOT = "ementa";
-
-    private static MenuMapper instance;
-
-    private String path;
 
     private Map<Menu.Id, Menu> loadedMap = new HashMap<Menu.Id, Menu>();
 
-    public static MenuMapper getInstance() {
-        if (instance == null) {
-            instance = new MenuMapper(DEFAULT_PATH);
-        }
-        return instance;
-    }
+    private String path;
 
     public MenuMapper(String path) {
         this.path = path;

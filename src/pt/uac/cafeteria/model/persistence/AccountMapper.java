@@ -15,20 +15,9 @@ import pt.uac.cafeteria.model.domain.Account;
 
 public class AccountMapper extends FileAccess implements DataMapper<Account, Integer> {
 
-    private static final String DEFAULT_PATH = "data/contas.dat";
-
-    public static AccountMapper instance;
-
     private Map<Integer, Account> loadedMap;
 
     private boolean autoSave = false;
-
-    public static AccountMapper getInstance() {
-        if (instance == null) {
-            instance = new AccountMapper(DEFAULT_PATH);
-        }
-        return instance;
-    }
 
     public AccountMapper(String filePath) {
         super(filePath);
