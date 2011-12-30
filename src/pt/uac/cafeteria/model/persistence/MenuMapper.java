@@ -163,8 +163,8 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
     }
 
     @Override
-    public int update(Menu menu) {
-        return save(menu) ? 1 : 0;
+    public boolean update(Menu menu) {
+        return save(menu);
     }
 
     @Override

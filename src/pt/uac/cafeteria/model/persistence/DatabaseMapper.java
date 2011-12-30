@@ -102,4 +102,14 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>> implements
 
     abstract protected String insertStatement();
     abstract protected void doInsert(T subject, PreparedStatement insertStatement) throws SQLException;
+
+    @Override
+    public boolean update(T subject) {
+        throw new UnsupportedOperationException("Not supported yet");
+    }
+
+    @Override
+    public boolean delete(T subject) {
+        throw new UnsupportedOperationException("Not supported yet");
+    }
 }

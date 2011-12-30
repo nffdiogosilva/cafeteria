@@ -48,14 +48,4 @@ public class StudentMapper extends DatabaseMapper<Student> {
         stmt.setString(4, student.getEmail());
         stmt.setBoolean(5, student.hasScholarship());
     }
-
-    @Override
-    public boolean delete(Student o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int update(Student o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

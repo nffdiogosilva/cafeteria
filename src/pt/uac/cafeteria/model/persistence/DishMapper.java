@@ -71,8 +71,8 @@ public class DishMapper extends FileAccess implements DataMapper<String, String>
     }
 
     @Override
-    public int update(String dish) {
-        return insert(dish) != null ? 1 : 0;
+    public boolean update(String dish) {
+        return insert(dish) != null;
     }
 
     @Override

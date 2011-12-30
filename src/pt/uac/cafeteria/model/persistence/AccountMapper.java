@@ -80,8 +80,8 @@ public class AccountMapper extends FileAccess implements DataMapper<Account, Int
     }
 
     @Override
-    public int update(Account account) {
-        return insert(account) != null ? 1 : 0;
+    public boolean update(Account account) {
+        return insert(account) != null;
     }
 
     @Override
