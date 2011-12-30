@@ -33,7 +33,7 @@ public class Menu implements DomainObject<Menu.Id> {
     }
 
 
-    private final Id id;
+    private Id id;
 
     /** Meat meal */
     private String meat;
@@ -174,6 +174,11 @@ public class Menu implements DomainObject<Menu.Id> {
     @Override
     public Id getId() {
         return id;
+    }
+
+    @Override
+    public void setId(Menu.Id id) {
+        this.id = id;
     }
 
     public Meal.Time getTime() {

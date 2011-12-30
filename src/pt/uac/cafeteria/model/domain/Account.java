@@ -68,6 +68,11 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
         return new Integer(number);
     }
 
+    @Override
+    public void setId(Integer id) {
+        number = id.intValue();
+    }
+
     /** Returns the account number */
     public int getNumber() {
         return number;

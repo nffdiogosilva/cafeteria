@@ -20,7 +20,7 @@ public class Student implements DomainObject<Integer> {
     private static int year = Calendar.getInstance().get(Calendar.YEAR);
 
     /** Student identification. It's a combination of the year and seed. */
-    private final int id;
+    private int id;
 
     /** Student's name. */
     private String name;
@@ -104,7 +104,12 @@ public class Student implements DomainObject<Integer> {
     public Integer getId() {
         return new Integer(this.id);
     }
-    
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id.intValue();
+    }
+
     /** Returns the student account */
     public Account getAccount() {
         return this.account;
