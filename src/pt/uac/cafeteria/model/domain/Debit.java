@@ -4,11 +4,8 @@ package pt.uac.cafeteria.model.domain;
 import java.util.Calendar;
 
 /**
- *
  * Represents a debit transaction
- *
  */
-
 public class Debit extends Transaction {
 
     /** The date of the meal */

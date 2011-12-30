@@ -24,7 +24,7 @@ public class Student implements DomainObject<Integer> {
 
     /** Student's name. */
     private String name;
-    
+
     /** Student's account. */
     private Account account;
 
@@ -45,7 +45,7 @@ public class Student implements DomainObject<Integer> {
 
     /**
      * Protected constructor.
-     * 
+     *
      * Used when a given pre-generated id number is necessary (e.g. mock tests).
      */
     protected Student(int id) {
@@ -85,7 +85,7 @@ public class Student implements DomainObject<Integer> {
     public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) {
 
         Student student = new Student();
-        
+
         student.setAccount();
         student.setName(name);
         student.setAddress(address);
@@ -114,7 +114,7 @@ public class Student implements DomainObject<Integer> {
     public Account getAccount() {
         return this.account;
     }
-    
+
     /** Defines the student account */
     public void setAccount() {
         this.account = new Account(getId());

@@ -236,17 +236,17 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
     public void block() {
         this.setStatus(Status.BLOCKED);
     }
-    
+
     /** Sets the ACTIVE state of the account */
     public void unblock() {
         this.setStatus(Status.ACTIVE);
     }
-    
+
     /** Sets the CLOSED state of the account */
     public void close() {
         this.setStatus(Status.CLOSED);
     }
-    
+
     /** Alters the email of the Student */
     public void updateEmail(Student student, String email) {
         student.setEmail(email);
