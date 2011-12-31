@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Simple abstraction from file access.
+ * Simple abstraction for file access.
  *
  * Meant to be used as a base class. It holds a reference to a File
  * object for subclasses that need one, and any common and useful methods
