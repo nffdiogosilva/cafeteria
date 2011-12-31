@@ -76,6 +76,11 @@ public class MapperRegistry {
         return dish("sobrem");
     }
 
+    /** Gets an AdministratorMapper instance. */
+    public static AdministratorMapper administrator() {
+        return getInstance("AdministratorMapper", DB);
+    }
+
     /** Gets a StudentMapper instance. */
     public static StudentMapper student() {
         return getInstance("StudentMapper", DB);

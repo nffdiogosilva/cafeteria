@@ -6,7 +6,7 @@ package pt.uac.cafeteria.model.domain;
  *
  * Used for privileged access in the application.
  */
-public class Administrator {
+public class Administrator implements DomainObject<Integer> {
 
     /** Minimum accepted length for the username */
     private final int USER_MIN_LEN = 6;
@@ -19,6 +19,9 @@ public class Administrator {
 
     /** Maximum accepted length for the password */
     private final int PASS_MAX_LEN = 15;
+
+    /** The admin's unique id. */
+    private Integer id;
 
     /** The person's full name */
     private String name;
@@ -52,6 +55,16 @@ public class Administrator {
         this.password = password;
     }
 
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     /** Returns the person's name */
     public String getName() {
         return name;
@@ -68,6 +81,16 @@ public class Administrator {
     /** Returns the username */
     public String getUsername() {
         return username;
+    }
+
+    /** Returns the password */
+    public String getPassword() {
+        return password;
+    }
+
+    /** Sets a new password */
+    public void setPassword(String newPassword) {
+        password = newPassword;
     }
 
     /**
