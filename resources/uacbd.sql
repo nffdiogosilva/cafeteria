@@ -49,13 +49,42 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `uacbd`.`Alunos`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `uacbd`.`Alunos` (
-  `id` INT NOT NULL ,
+  `id` INT UNSIGNED NOT NULL ,
   `nome` VARCHAR(60) NOT NULL ,
-  `morada` INT NOT NULL ,
-  `telefone` CHAR(9) NULL ,
+  `morada` INT UNSIGNED NOT NULL ,
+  `telefone` CHAR(9) NOT NULL ,
   `email` VARCHAR(30) NOT NULL ,
   `bolsa` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `curso` INT NOT NULL ,
+  `curso` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
+  INDEX `fk_alunos_curso` (`curso` ASC) ,
+  INDEX `fk_alunos_morada` (`morada` ASC) ,
+  CONSTRAINT `fk_alunos_curso`
+    FOREIGN KEY (`curso` )
+    REFERENCES `uacbd`.`Cursos` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_alunos_morada`
+    FOREIGN KEY (`morada` )
+    REFERENCES `uacbd`.`Moradas` (`id` )
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `uacbd`.`histAlunos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `uacbd`.`histAlunos` (
+  `id` INT UNSIGNED NOT NULL ,
+  `nome` VARCHAR(60) NOT NULL ,
+  `morada` INT UNSIGNED NOT NULL ,
+  `telefone` CHAR(9) NOT NULL ,
+  `email` VARCHAR(30) NOT NULL ,
+  `bolsa` TINYINT(1) NOT NULL DEFAULT 0 ,
+  `curso` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
   INDEX `fk_alunos_curso` (`curso` ASC) ,

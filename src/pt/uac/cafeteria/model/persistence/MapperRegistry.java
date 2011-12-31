@@ -96,6 +96,10 @@ public class MapperRegistry {
         return getInstance("CourseMapper", DB);
     }
 
+    public static OldStudentMapper oldStudent() {
+        return getInstance("OldStudentMapper", DB);
+    }
+
     /**
      * Prefixes a default common path to any file path. This puts all files
      * or directories inside the same parent directory.
