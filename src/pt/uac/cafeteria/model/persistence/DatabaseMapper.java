@@ -288,24 +288,14 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
 
     @Override
     public boolean delete(T subject) {
-        return delete(subject.getId());
-    }
-
-    /**
-     * Convenience method to delete a domain object based on id.
-     *
-     * @param id domain object id.
-     * @return true if delete successful, false otherwise.
-     */
-    public boolean delete(Integer id) {
         PreparedStatement deleteStatement = null;
         try {
             deleteStatement = DB.prepareStatement(deleteStatement());
-            deleteStatement.setInt(1, id.intValue());
+            deleteStatement.setInt(1, subject.getId().intValue());
 
             int affectedRows = deleteStatement.executeUpdate();
             if (affectedRows != 0) {
-                remove(id);
+                remove(subject.getId());
                 return true;
             }
             return false;
@@ -315,16 +305,6 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
         } finally {
             cleanUp(deleteStatement);
         }
-    }
-
-    /**
-     * Convenience method to delete based on id as primitive integer.
-     *
-     * @param id domain object id value.
-     * @return true if delete successful, false otherwise.
-     */
-    public boolean delete(int id) {
-        return delete(new Integer(id));
     }
 
     /**
