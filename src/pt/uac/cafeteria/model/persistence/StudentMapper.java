@@ -22,10 +22,6 @@ public class StudentMapper extends DatabaseMapper<Student> {
         return "SELECT * FROM " + TABLE + " WHERE id = ?";
     }
 
-    public Student find(int id) {
-        return find(new Integer(id));
-    }
-
     @Override
     protected Student doLoad(Integer id, ResultSet rs) throws SQLException {
         String name = rs.getString("name");
@@ -47,5 +43,20 @@ public class StudentMapper extends DatabaseMapper<Student> {
         stmt.setString(3, String.valueOf(student.getPhone()));
         stmt.setString(4, student.getEmail());
         stmt.setBoolean(5, student.hasScholarship());
+    }
+
+    @Override
+    protected String updateStatement() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected void doUpdate(Student subject, PreparedStatement updateStatement) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected String deleteStatement() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
