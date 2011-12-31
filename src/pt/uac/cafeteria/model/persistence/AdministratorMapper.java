@@ -78,9 +78,7 @@ public class AdministratorMapper extends DatabaseMapper<Administrator> {
 
     @Override
     protected void doUpdate(Administrator admin, PreparedStatement stmt) throws SQLException {
-        stmt.setString(1, admin.getName());
-        stmt.setString(2, admin.getUsername());
-        stmt.setString(3, admin.getPassword());
+        doInsert(admin, stmt);
         stmt.setInt(4, admin.getId().intValue());
     }
 }

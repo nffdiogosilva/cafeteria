@@ -46,8 +46,8 @@ public class CourseMapper extends DatabaseMapper<Course> {
     }
 
     @Override
-    protected void doInsert(Course course, PreparedStatement insertStatement) throws SQLException {
-        insertStatement.setString(1, course.getName());
+    protected void doInsert(Course course, PreparedStatement stmt) throws SQLException {
+        stmt.setString(1, course.getName());
     }
 
     @Override
@@ -56,9 +56,9 @@ public class CourseMapper extends DatabaseMapper<Course> {
     }
 
     @Override
-    protected void doUpdate(Course course, PreparedStatement updateStatement) throws SQLException {
-        updateStatement.setString(1, course.getName());
-        updateStatement.setInt(2, course.getId().intValue());
+    protected void doUpdate(Course course, PreparedStatement stmt) throws SQLException {
+        doInsert(course, stmt);
+        stmt.setInt(2, course.getId().intValue());
     }
 
     /**
