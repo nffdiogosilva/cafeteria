@@ -81,6 +81,11 @@ public class MapperRegistry {
         return getInstance("StudentMapper", DB);
     }
 
+    /** Gets a CourseMapper instance. */
+    public static CourseMapper course() {
+        return getInstance("CourseMapper", DB);
+    }
+
     /**
      * Prefixes a default common path to any file path. This puts all files
      * or directories inside the same parent directory.
