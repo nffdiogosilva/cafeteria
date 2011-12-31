@@ -63,6 +63,9 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
         return loadedMap.remove(id);
     }
 
+    /** Gets the database table name to map. */
+    abstract protected String table();
+
     /**
      * Convenience method that finds a domain object based on its id as
      * a primitive int.
@@ -332,5 +335,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      * Typical usage:
      * <code>DELETE FROM table WHERE id = ?</code>
      */
-    abstract protected String deleteStatement();
+    protected String deleteStatement() {
+        return "DELETE FROM " + table() + " WHERE id = ?";
+    }
 }

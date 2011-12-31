@@ -10,9 +10,6 @@ import pt.uac.cafeteria.model.domain.Course;
  */
 public class CourseMapper extends DatabaseMapper<Course> {
 
-    /** Database table name. */
-    private final String TABLE = "Cursos";
-
     /**
      * Creates a new instance of the mapper.
      *
@@ -22,14 +19,19 @@ public class CourseMapper extends DatabaseMapper<Course> {
         super(con);
     }
 
+    @Override
+    protected String table() {
+        return "Cursos";
+    }
+
     /** Gets a list, ordered by name, of all courses. */
     public List<Course> findAll() {
-        return findMany("SELECT id, nome FROM " + TABLE + " ORDER BY nome");
+        return findMany("SELECT id, nome FROM " + table() + " ORDER BY nome");
     }
 
     @Override
     protected String findStatement() {
-        return "SELECT id, nome FROM " + TABLE + " WHERE id = ?";
+        return "SELECT id, nome FROM " + table() + " WHERE id = ?";
     }
 
     @Override
@@ -40,7 +42,7 @@ public class CourseMapper extends DatabaseMapper<Course> {
 
     @Override
     protected String insertStatement() {
-        return "INSERT INTO " + TABLE + " (nome) VALUES (?)";
+        return "INSERT INTO " + table() + " (nome) VALUES (?)";
     }
 
     @Override
@@ -50,18 +52,13 @@ public class CourseMapper extends DatabaseMapper<Course> {
 
     @Override
     protected String updateStatement() {
-        return "UPDATE " + TABLE + " SET nome = ? WHERE id = ?";
+        return "UPDATE " + table() + " SET nome = ? WHERE id = ?";
     }
 
     @Override
     protected void doUpdate(Course course, PreparedStatement updateStatement) throws SQLException {
         updateStatement.setString(1, course.getName());
         updateStatement.setInt(2, course.getId().intValue());
-    }
-
-    @Override
-    protected String deleteStatement() {
-        return "DELETE FROM " + TABLE + " WHERE id = ?";
     }
 
     /**

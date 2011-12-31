@@ -18,6 +18,11 @@ public class StudentMapper extends DatabaseMapper<Student> {
     }
 
     @Override
+    protected String table() {
+        return TABLE;
+    }
+
+    @Override
     protected String findStatement() {
         return "SELECT * FROM " + TABLE + " WHERE id = ?";
     }
