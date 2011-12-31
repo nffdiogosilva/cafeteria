@@ -7,10 +7,20 @@ import java.util.regex.Pattern;
 /**
  * Class with simple address fields.
  */
-public class Address {
+public class Address implements DomainObject<Integer> {
+
+    /** Unique identifier for the address. */
+    private int id;
 
     /** Street address. */
     private String streetAddress;
+
+    /**
+     * Door number, and optionally the apartment number too.
+     * <p>
+     * Example: 12 - 1ºDto
+     */
+    private String number;
 
     /** Postal code. */
     private String postalCode;
@@ -22,11 +32,12 @@ public class Address {
      * Factory method.
      *
      * @param streetAddress  street address
+     * @param number         door number, and optionally apartment number too
      * @param postalCode     postal code
      * @param city           city
      * @return               Address object
      */
-    public static Address build(String streetAddress, String postalCode, String city) {
+    public static Address build(String streetAddress, String number, String postalCode, String city) {
         Address address = new Address();
 
         address.setStreetAddress(streetAddress);
@@ -34,6 +45,16 @@ public class Address {
         address.setCity(city);
 
         return address;
+    }
+
+    @Override
+    public Integer getId() {
+        return new Integer(this.id);
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id.intValue();
     }
 
     /** Returns the street address. */
@@ -44,6 +65,16 @@ public class Address {
     /** Sets the street address to a new value. */
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
+    }
+
+    /** Gets the door number. */
+    public String getNumber() {
+        return number;
+    }
+
+    /** Sets a new door number. */
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     /** Returns the postal code. */

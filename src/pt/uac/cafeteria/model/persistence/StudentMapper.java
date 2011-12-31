@@ -6,13 +6,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import pt.uac.cafeteria.model.domain.Student;
+import pt.uac.cafeteria.model.domain.Address;
+import pt.uac.cafeteria.model.domain.Course;
 
-
+/**
+ * Data Mapper for the Student domain object.
+ */
 public class StudentMapper extends DatabaseMapper<Student> {
 
-    public static final String TABLE = "students";
-    public static final String COLUMNS = " id, name, phone, email, scholarship ";
+    public static final String TABLE = "Alunos";
 
+    /**
+     * Creates a new StudentMapper instance.
+     *
+     * @param con a database connection object.
+     */
     public StudentMapper(Connection con) {
         super(con);
     }
@@ -24,16 +32,78 @@ public class StudentMapper extends DatabaseMapper<Student> {
 
     @Override
     protected String findStatement() {
-        return "SELECT * FROM " + TABLE + " WHERE id = ?";
+        // We will attempt to load the foreign keys too, to save calls to the db.
+        return "SELECT a.id, a.nome, telefone, email, bolsa, "
+                + "m.id AS idMorada, rua, nr, cod_postal, localidade, "
+                + "c.id AS idCurso, c.nome AS curso"
+                + " FROM " + TABLE + " AS a"
+                + " INNER JOIN Moradas AS m ON morada = m.id"
+                + " INNER JOIN Cursos  AS c ON a.curso = c.id"
+                + " WHERE a.id = ?";
     }
 
     @Override
     protected Student doLoad(Integer id, ResultSet rs) throws SQLException {
-        String name = rs.getString("name");
-        int phone = Integer.valueOf(rs.getString("phone"));
+        String name = rs.getString("nome");
+
+        Integer addressId = new Integer(rs.getInt("idMorada"));
+        Address address = loadAddress(addressId, rs);
+
+        int phone = rs.getInt("phone");
         String email = rs.getString("email");
-        boolean scholarship = rs.getBoolean("scholarship");
-        return Student.build(name, null, phone, email, scholarship, "");
+        boolean scholarship = rs.getBoolean("bolsa");
+
+        Integer courseId = new Integer(rs.getInt("idCurso"));
+        Course course = loadCourse(courseId, rs);
+
+        return new Student(id, name, address, phone, email, scholarship, course);
+    }
+
+    /**
+     * Loads an Address domain object from a result set.
+     * <p>
+     * Used for foreign key mapping, to save an additional call to the database.
+     *
+     * @param id the foreign key id.
+     * @param rs the result set to load from.
+     * @return An Address domain object.
+     */
+    protected Address loadAddress(Integer id, ResultSet rs) throws SQLException {
+        AddressMapper addressMapper = MapperRegistry.address();
+
+        if (addressMapper.isLoaded(id)) {
+            return addressMapper.find(id);
+        }
+
+        String streetAddress = rs.getString("rua");
+        String number = rs.getString("nr");
+        String postalCode = rs.getString("cod_postal");
+        String city = rs.getString("localidade");
+
+        Address address = Address.build(streetAddress, number, postalCode, city);
+        address.setId(id);
+
+        return addressMapper.register(id, address);
+    }
+
+    /**
+     * Loads a Course domain object from a result set.
+     * <p>
+     * Used for foreign key mapping, to save an additional call to the database.
+     *
+     * @param id the foreign key id.
+     * @param rs the result set to load from.
+     * @return A Course domain object.
+     */
+    protected Course loadCourse(Integer id, ResultSet rs) throws SQLException {
+        CourseMapper courseMapper = MapperRegistry.course();
+
+        if (courseMapper.isLoaded(id)) {
+            return courseMapper.find(id);
+        }
+
+        Course course = new Course(id, rs.getString("curso"));
+        return courseMapper.register(id, course);
     }
 
     @Override
@@ -43,6 +113,14 @@ public class StudentMapper extends DatabaseMapper<Student> {
 
     @Override
     protected void doInsert(Student student, PreparedStatement stmt) throws SQLException {
+        Integer courseId = student.getCourse().getId();
+        if (courseId == null) {
+            courseId = MapperRegistry.course().insert(student.getCourse());
+        }
+        Integer addressId = student.getAddress().getId();
+        if (addressId == null) {
+            addressId = MapperRegistry.address().insert(student.getAddress());
+        }
         stmt.setInt(1, student.getId());
         stmt.setString(2, student.getName());
         stmt.setString(3, String.valueOf(student.getPhone()));
@@ -52,16 +130,23 @@ public class StudentMapper extends DatabaseMapper<Student> {
 
     @Override
     protected String updateStatement() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "UPDATE " + TABLE + " SET "
+                + "nome = ?, morada = ?, telefone = ?, "
+                + "email = ?, bolsa = ?, curso = ? "
+                + "WHERE id = ?";
     }
 
     @Override
-    protected void doUpdate(Student subject, PreparedStatement updateStatement) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    protected void doUpdate(Student student, PreparedStatement stmt) throws SQLException {
+        MapperRegistry.address().update(student.getAddress());
+        MapperRegistry.course().update(student.getCourse());
 
-    @Override
-    protected String deleteStatement() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        stmt.setString(1, student.getName());
+        stmt.setInt(2, student.getAddress().getId());
+        stmt.setString(3, student.getPhone().toString());
+        stmt.setString(4, student.getEmail());
+        stmt.setInt(5, student.hasScholarship() ? 1 : 0 );
+        stmt.setInt(6, student.getCourse().getId());
+        stmt.setInt(7, student.getId());
     }
 }

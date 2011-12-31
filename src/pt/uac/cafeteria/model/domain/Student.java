@@ -32,7 +32,7 @@ public class Student implements DomainObject<Integer> {
     private Address address;
 
     /** Telephone number. */
-    private int phone;
+    private Integer phone;
 
     /** Email address. */
     private String email;
@@ -41,7 +41,7 @@ public class Student implements DomainObject<Integer> {
     private boolean scholarship;
 
     /** Student's course. */
-    private String course;
+    private Course course;
 
     /**
      * Protected constructor.
@@ -70,6 +70,26 @@ public class Student implements DomainObject<Integer> {
     }
 
     /**
+     * Creates a new Student instance.
+     *
+     * @param id the student id number.
+     * @param address the student's address.
+     * @param phone a phone number.
+     * @param email an email address.
+     * @param scholarship scholarship status.
+     * @param course the student's course.
+     */
+    public Student(Integer id, String name, Address address, int phone, String email, boolean scholarship, Course course) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.scholarship = scholarship;
+        this.course = course;
+    }
+
+    /**
      * Factory method.
      *
      * Seed is incremented only on successful object creation and validation.
@@ -82,7 +102,7 @@ public class Student implements DomainObject<Integer> {
      * @param course       course
      * @return             Student object.
      */
-    public static Student build(String name, Address address, int phone, String email, boolean scholarship, String course) {
+    public static Student build(String name, Address address, int phone, String email, boolean scholarship, Course course) {
 
         Student student = new Student();
 
@@ -145,8 +165,8 @@ public class Student implements DomainObject<Integer> {
     }
 
     /** Returns the phone number. */
-    public int getPhone() {
-        return this.phone;
+    public Integer getPhone() {
+        return new Integer(this.phone);
     }
 
     /** Sets phone to a new number */
@@ -181,12 +201,12 @@ public class Student implements DomainObject<Integer> {
     }
 
     /** Returns the course. */
-    public String getCourse() {
+    public Course getCourse() {
         return course;
     }
 
     /** Sets the course. */
-    public void setCourse(String course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
 

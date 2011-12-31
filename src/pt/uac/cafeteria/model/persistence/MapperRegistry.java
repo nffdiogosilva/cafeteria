@@ -86,6 +86,11 @@ public class MapperRegistry {
         return getInstance("StudentMapper", DB);
     }
 
+    /** Gets an AddressMapper instance. */
+    public static AddressMapper address() {
+        return getInstance("AddressMapper", DB);
+    }
+
     /** Gets a CourseMapper instance. */
     public static CourseMapper course() {
         return getInstance("CourseMapper", DB);
