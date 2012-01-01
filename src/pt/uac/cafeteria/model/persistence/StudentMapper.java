@@ -9,6 +9,7 @@ import pt.uac.cafeteria.model.domain.Account;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Course;
+import pt.uac.cafeteria.model.persistence.abstracts.DatabaseMapper;
 
 /**
  * Data Mapper for the Student domain object.

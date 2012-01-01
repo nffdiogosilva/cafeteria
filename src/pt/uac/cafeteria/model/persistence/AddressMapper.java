@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import pt.uac.cafeteria.model.domain.Address;
+import pt.uac.cafeteria.model.persistence.abstracts.DatabaseMapper;
 
 /**
  * Data Mapper for Address domain objects.

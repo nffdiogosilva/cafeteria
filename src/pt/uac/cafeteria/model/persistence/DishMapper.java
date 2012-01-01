@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import pt.uac.cafeteria.model.ApplicationException;
+import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
+import pt.uac.cafeteria.model.persistence.abstracts.FileAccess;
 
 
 public class DishMapper extends FileAccess implements DataMapper<String, String> {

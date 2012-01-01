@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model.persistence;
+package pt.uac.cafeteria.model.persistence.abstracts;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

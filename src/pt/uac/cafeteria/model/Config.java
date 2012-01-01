@@ -2,7 +2,7 @@
 package pt.uac.cafeteria.model;
 
 import java.util.Calendar;
-import pt.uac.cafeteria.model.persistence.AbstractProperties;
+import pt.uac.cafeteria.model.persistence.abstracts.AbstractProperties;
 
 /**
  * Application specific implementation of AbstractProperties.

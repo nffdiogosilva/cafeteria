@@ -4,6 +4,7 @@ package pt.uac.cafeteria.model.persistence;
 import java.sql.*;
 import java.util.List;
 import pt.uac.cafeteria.model.domain.Course;
+import pt.uac.cafeteria.model.persistence.abstracts.DatabaseMapper;
 
 /**
  * DataMapper for the Course domain object.

@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import pt.uac.cafeteria.model.ApplicationException;
 import pt.uac.cafeteria.model.domain.Account;
+import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
+import pt.uac.cafeteria.model.persistence.abstracts.FileAccess;
 
 
 public class AccountMapper extends FileAccess implements DataMapper<Account, Integer> {

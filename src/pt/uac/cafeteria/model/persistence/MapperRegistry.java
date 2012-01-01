@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pt.uac.cafeteria.model.*;
+import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
 
 /**
  * A well-known class that other objects can use to find data mappers.

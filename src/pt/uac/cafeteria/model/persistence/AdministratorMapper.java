@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import pt.uac.cafeteria.model.domain.Administrator;
+import pt.uac.cafeteria.model.persistence.abstracts.DatabaseMapper;
 
 /**
  * DataMapper for the Administrator domain object.

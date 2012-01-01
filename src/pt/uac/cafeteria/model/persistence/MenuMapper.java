@@ -20,6 +20,7 @@ import org.jdom.output.XMLOutputter;
 import pt.uac.cafeteria.model.ApplicationException;
 import pt.uac.cafeteria.model.domain.Menu;
 import pt.uac.cafeteria.model.domain.Meal;
+import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
 
 public class MenuMapper implements DataMapper<Menu, Menu.Id> {
 

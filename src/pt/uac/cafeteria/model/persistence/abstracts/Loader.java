@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model.persistence;
+package pt.uac.cafeteria.model.persistence.abstracts;
 
 /**
  * Contract for objects that need to manage loaded instances.

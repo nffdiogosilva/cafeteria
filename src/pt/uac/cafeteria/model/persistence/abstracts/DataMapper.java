@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model.persistence;
+package pt.uac.cafeteria.model.persistence.abstracts;
 
 /**
  * A layer of mappers that moves data between objects and their data

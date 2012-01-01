@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model.persistence;
+package pt.uac.cafeteria.model.persistence.abstracts;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
