@@ -14,21 +14,40 @@ import pt.uac.cafeteria.model.domain.Account;
 import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
 import pt.uac.cafeteria.model.persistence.abstracts.FileAccess;
 
-
+/**
+ * Data Mapper for Account domain objects.
+ */
 public class AccountMapper extends FileAccess implements DataMapper<Account, Integer> {
 
+    /** Map with already loaded instances of the domain object. */
     private Map<Integer, Account> loadedMap;
 
+    /** Automatically save to file on each insert, update or delete? */
     private boolean autoSave = false;
 
+    /**
+     * Creates a new instance of the mapper.
+     *
+     * @param filePath the path to the file used to persist Account objects.
+     */
     public AccountMapper(String filePath) {
         super(filePath);
     }
 
+    /**
+     * Sets auto saving or not on each insert, update or delete.
+     *
+     * @param b true to turn on, false to turn off.
+     */
     public void setAutosave(boolean b) {
         autoSave = b;
     }
 
+    /**
+     * Gets a reference to the loaded map. Loads all accounts the first time called.
+     *
+     * @return The loaded map of Account instances.
+     */
     private Map<Integer, Account> getLoaded() {
         if (loadedMap == null) {
             loadedMap = new HashMap<Integer, Account>();
@@ -37,6 +56,12 @@ public class AccountMapper extends FileAccess implements DataMapper<Account, Int
         return loadedMap;
     }
 
+    /**
+     * Loads all accounts from file.
+     *
+     * @throws ApplicationException if data file is corrupted, or problem with
+     * file system operations.
+     */
     public void loadAll() {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(useFile()));
@@ -52,6 +77,11 @@ public class AccountMapper extends FileAccess implements DataMapper<Account, Int
         }
     }
 
+    /**
+     * Saves all accounts in loaded map to file.
+     *
+     * @throws ApplicationException if there's a problem with file system operations.
+     */
     public void save() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(useFile()));
@@ -72,6 +102,12 @@ public class AccountMapper extends FileAccess implements DataMapper<Account, Int
         return account.getId();
     }
 
+    /**
+     * Finds an Account with an <code>int</code> from the java language.
+     *
+     * @param id account id number.
+     * @return The Account domain object.
+     */
     public Account find(int id) {
         return find(new Integer(id));
     }

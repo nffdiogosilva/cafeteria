@@ -10,19 +10,37 @@ import pt.uac.cafeteria.model.ApplicationException;
 import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
 import pt.uac.cafeteria.model.persistence.abstracts.FileAccess;
 
-
+/**
+ * Data Mapper for persistence of a list of dishes.
+ * <p>
+ * This mapper doesn't map a domain object because they don't need an id,
+ * so an Embeded Value object isn't needed. It's a simple list of strings,
+ * ordered alphabetically.
+ */
 public class DishMapper extends FileAccess implements DataMapper<String, String> {
 
+    /** Loaded set of dishes. Ordered alphabetically, with no duplicates. */
     private SortedSet<String> loaded;
 
+    /**
+     * Creates a new DishMapper instance.
+     *
+     * @param filepath the relative or absolute path to the data file.
+     */
     public DishMapper(String filepath) {
         super(filepath);
     }
 
+    /** Gets a collection of all dishes. */
     public Collection<String> findAll() {
         return Collections.unmodifiableCollection(getLoaded());
     }
 
+    /**
+     * Gets a reference to the loaded set. Loads all accounts the first time called.
+     *
+     * @return The loaded set of dishes, as strings.
+     */
     private SortedSet<String> getLoaded() {
         if (loaded == null) {
             loaded = new TreeSet<String>();
@@ -31,6 +49,11 @@ public class DishMapper extends FileAccess implements DataMapper<String, String>
         return loaded;
     }
 
+    /**
+     * Loads all dishes from file.
+     *
+     * @throws ApplicationException if there's a problem with file system operations.
+     */
     private void loadAll() {
         loaded.clear();
         try {
@@ -45,6 +68,11 @@ public class DishMapper extends FileAccess implements DataMapper<String, String>
         }
     }
 
+    /**
+     * Saves all loaded dishes to file.
+     *
+     * @throws ApplicationException if there's a problem with file system operations.
+     */
     private void save() {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(useFile()));
