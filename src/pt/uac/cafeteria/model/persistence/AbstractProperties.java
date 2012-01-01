@@ -59,7 +59,7 @@ public abstract class AbstractProperties extends FileAccess {
      *
      * @throws ApplicationException if file operations not permitted somehow.
      */
-    protected void load() {
+    public void load() {
         if (props == null) {
             props = new Properties();
             try {
@@ -78,11 +78,11 @@ public abstract class AbstractProperties extends FileAccess {
     }
 
     /**
-     * Save modifications to file using FileOutputStream.
+     * Save modifications to file.
      *
      * @throws ApplicationException if unable to save to file.
      */
-    protected void save() {
+    public void save() {
         try {
             FileOutputStream out = new FileOutputStream(getFile());
             props.store(out, "--- Application configuration ---");
@@ -107,9 +107,10 @@ public abstract class AbstractProperties extends FileAccess {
     protected void restoreFile() throws IOException {
         createNewFile();
         load();
+        boolean b = autoSave;
         setAutoSave(false);
         setDefaults();
-        setAutoSave(true);
+        setAutoSave(b);
         save();
     }
 
