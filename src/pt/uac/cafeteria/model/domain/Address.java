@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Address implements DomainObject<Integer> {
 
     /** Unique identifier for the address. */
-    private int id;
+    private Integer id;
 
     /** Street address. */
     private String streetAddress;
@@ -41,6 +41,7 @@ public class Address implements DomainObject<Integer> {
         Address address = new Address();
 
         address.setStreetAddress(streetAddress);
+        address.setNumber(number);
         address.setPostalCode(postalCode);
         address.setCity(city);
 
@@ -49,12 +50,12 @@ public class Address implements DomainObject<Integer> {
 
     @Override
     public Integer getId() {
-        return new Integer(this.id);
+        return this.id;
     }
 
     @Override
     public void setId(Integer id) {
-        this.id = id.intValue();
+        this.id = id;
     }
 
     /** Returns the street address. */

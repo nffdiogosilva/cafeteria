@@ -1,170 +1,50 @@
 
 package pt.uac.cafeteria.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import pt.uac.cafeteria.model.domain.Administrator;
-import pt.uac.cafeteria.model.domain.Student;
-import pt.uac.cafeteria.model.domain.Account;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.*;
+import pt.uac.cafeteria.model.domain.*;
+import pt.uac.cafeteria.model.persistence.*;
 
 /**
- * Application core
- *
- * Central hub from where application scope objects come
+ * Application gateway.
+ * <p>
+ * Provides application initialization and gateway methods as a convenience
+ * for units of work.
  */
 public class Application {
 
     /** Default administrator username */
-    private final String DEFAULT_ADMIN_USERNAME = "superadmin";
+    private static final String DEFAULT_ADMIN_USERNAME = "superadmin";
 
     /** Default administrator password */
-    private final String DEFAULT_ADMIN_PASSWORD = "12345678";
+    private static final String DEFAULT_ADMIN_PASSWORD = "12345678";
 
-    /** Map with administrator accounts */
-    private final Map<String, Administrator> administrators = new HashMap<String, Administrator>();
-
-    /** Map with student accounts */
-    private final Map<Integer, Student> students = new HashMap<Integer, Student>();
-
-    /** Map with old students that no longer have an account */
-    private final Map<Integer, Student> oldStudents = new HashMap<Integer, Student>();
+    /** Global configuration object instance. */
+    private static Config config = Config.getInstance();
 
     /** Reusable database connection. */
     private static Connection db;
 
-    /**
-     * Constructor
-     *
-     * A default administrator account is created at instantiation
-     */
-    public Application() {
-        Administrator default_admin = new Administrator(
-            "Administrador", DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD
-        );
-        administrators.put(default_admin.getUsername(), default_admin);
+    /** Application initialization. */
+    public static void init() {
+        initDBConnection();
+        checkDefaultAdminAccount();
+        MapperRegistry.account().loadAll();
     }
 
-    /**
-     * Inserts a new administrator account in the application
-     *
-     * @param admin  Administrator object
-     */
-    public void addAdministrator(Administrator admin) {
-        if (administrators.get(admin.getUsername()) != null) {
-            throw new IllegalArgumentException(
-                String.format("Conta de administrador com o username '%s' já ocupada.", admin.getUsername())
-            );
-        }
-        administrators.put(admin.getUsername(), admin);
-    }
-
-    /**
-     * Authenticates an Administrator
-     *
-     * @param username  Administrator username
-     * @param password  Administrator password
-     * @return  Administrator object, or null if invalid
-     */
-    public Administrator getAdministrator(String username, String password) {
-        Administrator admin = administrators.get(username);
-
-        if (admin != null && admin.isPasswordValid(password)) {
-            return admin;
-        }
-
-        return null;
-    }
-
-    /**
-     * Adds a Student to the application
-     *
-     * @param student  Student
-     */
-    public void addStudent(Student student) {
-        students.put(new Integer(student.getId()), student);
-    }
-
-    /**
-     * Gets a student.
-     *
-     * @param accountNumber  Student's account process number
-     * @return  Student student object
-     */
-    Student getStudent(int accountNumber) {
-        return students.get(new Integer(accountNumber));
-    }
-
-    /**
-     * Authenticates a Student using his account.
-     *
-     * Three failed attempts blocks the account.
-     *
-     * @param accountNumber  Account process number
-     * @param pinCode  Account pin code
-     * @return  Student account object, or null if does not authenticate
-     */
-    public Student getStudent(int accountNumber, int pinCode) {
-        Student student = getStudent(accountNumber);
-        Account account = student.getAccount();
-
-        if (account != null && account.authenticate(pinCode)) {
-            return student;
-        }
-
-        return null;
-    }
-
-    /**
-     * Deletes a student 
-     *
-     * Student gets moved to an historic of students (old students)
-     *
-     * @param accountNumber  Account or student process number
-     */
-    public void deleteStudent(int accountNumber) {
-        Integer studentNumber = new Integer(accountNumber);
-        Student student = students.get(studentNumber);
-
-        if (student != null) {
-            students.remove(studentNumber);
-            oldStudents.put(studentNumber, student);
-        }
-    }
-
-    /**
-     * Gets an old student from the historic
-     *
-     * @param studentNumber  Student process number
-     * @return   Student object, or null if non-existent
-     */
-    public Student getOldStudent(int studentNumber) {
-        return oldStudents.get(new Integer(studentNumber));
-    }
-
-    /**
-     * Gets reference to reusable database connection, using credentials
-     * stored on Config object.
-     *
-     * @return database connection.
-     */
-    public static Connection getDBConnection() {
-        if (db == null) {
-            db = initDBConnection();
-        }
-        return db;
+    /** Application finalization. Must be run on exit. */
+    public static void close() {
+        MapperRegistry.account().save();
     }
 
     /**
      * Creates a new database connection using credentials stored in Config.
      *
-     * @return database connection.
-     * @throws ApplicationException if unable to create connection.
+     * @return a database connection.
+     * @throws ApplicationException if unable to create connection, or
+     * db driver can't be loaded.
      */
     private static Connection initDBConnection() {
-        Config config = Config.getInstance();
         String dbname = config.get(Config.DB_NAME);
         String dbuser = config.get(Config.DB_USER);
         String dbpass = config.get(Config.DB_PASS);
@@ -177,5 +57,133 @@ public class Application {
         } catch (SQLException e) {
             throw new ApplicationException("Problema em ligar à base de dados.", e);
         }
+    }
+
+    /**
+     * Gets a reference to reusable database connection, using credentials
+     * stored on Config object.
+     *
+     * @return database connection.
+     */
+    public static Connection getDBConnection() {
+        if (db == null) {
+            db = initDBConnection();
+        }
+        return db;
+    }
+
+    /**
+     * Checks if default administrator account exists,
+     * and creates it if not found.
+     */
+    private static void checkDefaultAdminAccount() {
+        AdministratorMapper adminMapper = MapperRegistry.administrator();
+        if (adminMapper.findByUsername(DEFAULT_ADMIN_USERNAME) == null) {
+            Administrator defaultAdmin = new Administrator(
+                "Administrador", DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWORD
+            );
+            adminMapper.insert(defaultAdmin);
+        }
+    }
+
+    /**
+     * Authenticates an Administrator, against a password.
+     *
+     * @param username the Administrator username.
+     * @param password the Administrator password.
+     * @return Administrator object, or null if invalid.
+     */
+    public static Administrator authenticateAdmin(String username, String password) {
+        Administrator admin = MapperRegistry.administrator().findByUsername(username);
+
+        if (admin != null && admin.authenticate(password)) {
+            return admin;
+        }
+
+        return null;
+    }
+
+    /**
+     * Creates a new Student and Account.
+     * <p>
+     * The account seed in config is auto-incremented.
+     *
+     * @param student the Student object.
+     * @return The new student's id number.
+     */
+    public static Integer createStudent(Student student) {
+        Integer id = student.getId();
+        if (id == null) {
+            id = getNextStudentId();
+            student.setId(id);
+        }
+        if (MapperRegistry.student().insert(student) != null) {
+            incrementStudentId();
+            //sendNoticeOfNewAccount(student);
+            return id;
+        }
+        return null;
+    }
+
+    /** Gets next student id number to be used. */
+    public static Integer getNextStudentId() {
+        String id = config.get(Config.YEAR) + config.get(Config.ACCOUNT_SEED);
+        return Integer.valueOf(id);
+    }
+
+    /** Increments current account seed for student id number generation. */
+    public static void incrementStudentId() {
+        int currentSeed = config.getInt(Config.ACCOUNT_SEED);
+        config.setInt(Config.ACCOUNT_SEED, ++currentSeed);
+    }
+
+    /**
+     * Sends notice to student of newly created account.
+     *
+     * @param student the Student object.
+     */
+    public static void sendNoticeOfNewAccount(Student student) {
+        throw new UnsupportedOperationException("Not yet implemented!");
+    }
+
+    /**
+     * Closes a student account.
+     * <p>
+     * The student is moved to a different list of old students, and the
+     * account is closed.
+     *
+     * @param student the student to close the account.
+     */
+    public static void closeStudentAccount(Student student) {
+        // move student from active list to historic list
+        MapperRegistry.oldStudent().insert(student);
+        MapperRegistry.student().delete(student);
+
+        // close account
+        student.getAccount().close();
+        MapperRegistry.account().update(student.getAccount());
+    }
+
+    /**
+     * Authenticates a Student against a pin code.
+     *
+     * @param accountNumber the Account process number or student id.
+     * @param pinCode the Account pin code.
+     * @return Student account object, or null if does not authenticate.
+     * @throws ApplicationException if the account gets blocked after a certain
+     * amount of successive failed login attempts.
+     */
+    public static Student authenticateStudent(int accountNumber, int pinCode) {
+        Account account = MapperRegistry.account().find(accountNumber);
+
+        if (account == null && account.authenticate(pinCode)) {
+            return MapperRegistry.student().find(accountNumber);
+        }
+
+        if (account.isBlocked()) {
+            throw new ApplicationException("Conta bloqueada!");
+        }
+
+        return null;
     }
 }

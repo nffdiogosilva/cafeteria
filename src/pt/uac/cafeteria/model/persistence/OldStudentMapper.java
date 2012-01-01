@@ -1,6 +1,8 @@
 
 package pt.uac.cafeteria.model.persistence;
 
+import pt.uac.cafeteria.model.domain.Account;
+
 /**
  * Data Mapper for old Student objects.
  * <p>
@@ -21,5 +23,12 @@ public class OldStudentMapper extends StudentMapper {
     @Override
     protected String table() {
         return "histAlunos";
+    }
+
+    @Override
+    protected Account createNewAccount(Integer id) {
+        Account account = super.createNewAccount(id);
+        account.close();
+        return account;
     }
 }

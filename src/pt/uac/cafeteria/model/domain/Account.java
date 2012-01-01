@@ -25,6 +25,9 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
     /** Constant with minimum value to generate a number*/
     private static final int MIN_VALUE = 1000;
 
+    /** Starting balance for newly created accounts. */
+    private final double STARTING_BALANCE = 5.0;
+
     /** Enumerated type with the status of the account */
     public enum Status {
         ACTIVE { @Override public String toString() { return "Activa"; } },
@@ -51,16 +54,16 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
     private int failedAttempts;
 
     /**
-     * Default Constructor
+     * Creates a new Account, with auto-generated pin code.
      *
-     * @param studendId   Student id
+     * @param studendId the student id number.
      */
     public Account(int studentId) {
         this.number = studentId;
         this.pinCode = randomNumber();
-        this.balance = 5.0;
+        this.balance = STARTING_BALANCE;
         this.status = Status.ACTIVE;
-        this.transactions = new ArrayList();
+        this.transactions = new ArrayList<Transaction>();
     }
 
     @Override
@@ -90,6 +93,10 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
     /** Returns the account balance */
     public double getBalance() {
         return balance;
+    }
+
+    public int getPinCode() {
+        return pinCode;
     }
 
     /**

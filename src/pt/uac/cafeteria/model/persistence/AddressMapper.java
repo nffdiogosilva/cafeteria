@@ -59,7 +59,7 @@ public class AddressMapper extends DatabaseMapper<Address> {
 
     @Override
     protected String updateStatement() {
-        return "UPDATE FROM " + table()
+        return "UPDATE " + table()
                 + " SET rua = ?, nr = ?, cod_postal = ?, localidade = ?"
                 + " WHERE id = ?";
     }

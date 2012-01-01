@@ -99,7 +99,7 @@ public class Administrator implements DomainObject<Integer> {
      * @param password  password to test
      * @return  true if passwords are equal; false otherwise
      */
-    public boolean isPasswordValid(String password) {
+    public boolean authenticate(String password) {
         return this.password.equals(password);
     }
 }
