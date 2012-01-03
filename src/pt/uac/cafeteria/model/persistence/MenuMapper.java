@@ -60,6 +60,9 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
     /** Root element name in XML document. */
     private static final String ROOT = "ementa";
 
+    /** File name format to be translated from a date (eg, 20120116.xml). */
+    private final String FILENAME_FORMAT = "yyyyMMdd";
+
     /** Loaded map of Menu instances. */
     private Map<Menu.Id, Menu> loadedMap = new HashMap<Menu.Id, Menu>();
 
@@ -95,7 +98,7 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
      * @return The File object pointing to the file corresponding to <code>day</code>.
      */
     private File getFile(Date day) {
-        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        DateFormat df = new SimpleDateFormat(FILENAME_FORMAT);
         String date = df.format(day);
         return new File(path + date + ".xml");
     }
