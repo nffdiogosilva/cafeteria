@@ -85,7 +85,7 @@ public class StudentMapper extends DatabaseMapper<Student> {
         String postalCode = rs.getString("cod_postal");
         String city = rs.getString("localidade");
 
-        Address address = Address.build(streetAddress, number, postalCode, city);
+        Address address = new Address(streetAddress, number, postalCode, city);
         address.setId(id);
 
         addressMapper.register(id, address);

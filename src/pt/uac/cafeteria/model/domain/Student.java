@@ -1,9 +1,6 @@
 
 package pt.uac.cafeteria.model.domain;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Represents a student.
  *
@@ -109,9 +106,6 @@ public class Student implements DomainObject<Integer> {
 
     /** Sets phone to a new number */
     public void setPhone(int phone) {
-        if (String.valueOf(phone).length() != 9) {
-            throw new IllegalArgumentException("Numero de telefone invalido. Deve ter 9 digitos.");
-        }
         this.phone = phone;
     }
 
@@ -122,9 +116,6 @@ public class Student implements DomainObject<Integer> {
 
     /** Sets the email to a new valid address. */
     public void setEmail(String email) {
-        if (!emailIsValid(email)) {
-            throw new IllegalArgumentException("Email com formato invalido.");
-        }
         this.email = email;
     }
 
@@ -146,18 +137,5 @@ public class Student implements DomainObject<Integer> {
     /** Sets the course. */
     public void setCourse(Course course) {
         this.course = course;
-    }
-
-    /**
-     * Checks if an email is a valid address.
-     *
-     * @param email  email to be checked.
-     * @return       true if email is in the right format; false otherwise.
-     */
-    public boolean emailIsValid(String email){
-        final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 }

@@ -39,7 +39,7 @@ public class AddressMapper extends DatabaseMapper<Address> {
         String number = rs.getString("nr");
         String postalCode = rs.getString("cod_postal");
         String city = rs.getString("localidade");
-        Address result = Address.build(streetAddress, number, postalCode, city);
+        Address result = new Address(streetAddress, number, postalCode, city);
         result.setId(id);
         return result;
     }

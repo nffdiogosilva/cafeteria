@@ -173,12 +173,7 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
             String soup = mainDish.getChildText("sopa");
             String dessert = mainDish.getChildText("sobremesa");
 
-            result = new Menu.Builder(id.getDay(), id.getTime())
-                    .setMeatCourse(meat)
-                    .setFishCourse(fish)
-                    .setVeggieCourse(veggie)
-                    .setSoupAndDessert(soup, dessert)
-                    .build();
+            result = new Menu(id, meat, fish, veggie, soup, dessert);
 
             loadedMap.put(id, result);
 
