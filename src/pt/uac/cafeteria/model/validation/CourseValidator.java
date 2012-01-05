@@ -10,6 +10,6 @@ public class CourseValidator extends Validator<Course> {
 
     @Override
     public void doAssertions(Course course) {
-        assertRequired("nome", course.getName());
+        assertRequired("curso", course.getName());
     }
 }

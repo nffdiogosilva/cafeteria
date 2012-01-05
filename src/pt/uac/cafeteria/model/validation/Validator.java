@@ -174,7 +174,7 @@ public abstract class Validator<T extends DomainObject> {
     }
 
     /**
-     * Produces an error message for a required field name.
+     * Produces an error message for a required field.
      * <p>
      * Override method to give an alternate error message.
      *
