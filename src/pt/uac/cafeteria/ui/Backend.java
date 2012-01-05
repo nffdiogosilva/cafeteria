@@ -5,7 +5,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
-
+import pt.uac.cafeteria.model.*;
+import pt.uac.cafeteria.model.domain.Administrator;
+import pt.uac.cafeteria.model.persistence.MapperRegistry;
+import pt.uac.cafeteria.model.validation.AdministratorValidator;
 /**
  * 
  * Represents the Back Office user interface.
@@ -22,6 +25,9 @@ public class Backend extends javax.swing.JFrame {
     
     /** Creates new form Backend */
     public Backend() {
+        
+        Application.init();
+        
         initComponents();
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -36,6 +42,7 @@ public class Backend extends javax.swing.JFrame {
         
         
         //Pop Ups
+        loginFrame.setVisible(false);
         warningFrame.setVisible(false);
         warningLogFrame.setVisible(false);
         informationFrame.setVisible(false);
@@ -137,6 +144,9 @@ public class Backend extends javax.swing.JFrame {
         bgTime = new javax.swing.ButtonGroup();
         bgCharge = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
+        loginFrame = new javax.swing.JInternalFrame();
+        lblLoginMessage = new javax.swing.JLabel();
+        btnLoginOk = new javax.swing.JButton();
         lblUsername = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         lblPassword = new javax.swing.JLabel();
@@ -353,6 +363,44 @@ public class Backend extends javax.swing.JFrame {
         mainPanel.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPanel.setLayout(null);
 
+        loginFrame.setTitle("Aviso");
+        loginFrame.setPreferredSize(new java.awt.Dimension(350, 200));
+        loginFrame.setSize(new java.awt.Dimension(350, 200));
+
+        lblLoginMessage.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblLoginMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLoginMessage.setText("Username e/ou Password fora dos limites permitidos!");
+
+        btnLoginOk.setText("OK");
+        btnLoginOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnLoginOkMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout loginFrameLayout = new org.jdesktop.layout.GroupLayout(loginFrame.getContentPane());
+        loginFrame.getContentPane().setLayout(loginFrameLayout);
+        loginFrameLayout.setHorizontalGroup(
+            loginFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblLoginMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, loginFrameLayout.createSequentialGroup()
+                .addContainerGap(151, Short.MAX_VALUE)
+                .add(btnLoginOk)
+                .add(144, 144, 144))
+        );
+        loginFrameLayout.setVerticalGroup(
+            loginFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(loginFrameLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(lblLoginMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnLoginOk)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(loginFrame);
+        loginFrame.setBounds(225, 170, 350, 150);
+
         lblUsername.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUsername.setText("Username:");
@@ -466,7 +514,7 @@ public class Backend extends javax.swing.JFrame {
 
         lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMessage1.setText("Dados guardados com sucesso!");
+        lblMessage1.setText("Username e/ou Password fora dos limites!");
 
         btnOk.setText("OK");
         btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1827,21 +1875,82 @@ public class Backend extends javax.swing.JFrame {
 
     private void passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyReleased
         if (confirm.isEnabled() && evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            mainPanel.setVisible(false);
-            menuPanel.setVisible(true);
-            studentPanel.setVisible(false);
-            mealPanel.setVisible(false);
-            activate(buttonsPanel);
+        
+            AdministratorValidator validator = new AdministratorValidator();
+
+            String user = username.getText();
+            String pass = String.valueOf(password.getPassword());
+
+            int[] passwordBounds = validator.getPasswordBounds();
+            int[] usernameBounds = validator.getUsernameBounds();
+
+            if (user.length() >= usernameBounds[0] && user.length() <= usernameBounds[1] && pass.length() >= passwordBounds[0] && pass.length() <= passwordBounds[1]) {
+
+                Administrator admin = MapperRegistry.administrator().findByUsername(user);
+
+                if (admin.authenticate(pass)) {
+                    mainPanel.setVisible(false);
+                    menuPanel.setVisible(true);
+                    studentPanel.setVisible(false);
+                    mealPanel.setVisible(false);
+                    activate(buttonsPanel);
+                }
+                else {
+                    lblLoginMessage.setText("Password Inválida! Tente Novamente");
+                    loginFrame.setVisible(true);
+                    username.setEnabled(false);
+                    password.setEnabled(false);
+                    confirm.setEnabled(false);
+                }
+            }
+            else {
+                lblLoginMessage.setText("Username e/ou Password fora dos limites permitidos!");
+                loginFrame.setVisible(true);
+                username.setEnabled(false);
+                password.setEnabled(false);
+                confirm.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_passwordKeyReleased
 
     private void confirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmMouseReleased
-        if (confirm.isEnabled()) {
-            mainPanel.setVisible(false);
-            menuPanel.setVisible(true);
-            studentPanel.setVisible(false);
-            mealPanel.setVisible(false);
-            activate(buttonsPanel);
+        
+        AdministratorValidator validator = new AdministratorValidator();
+        
+        String user = username.getText();
+        String pass = String.valueOf(password.getPassword());
+        
+        int[] passwordBounds = validator.getPasswordBounds();
+        int[] usernameBounds = validator.getUsernameBounds();
+        
+        if (user.length() >= usernameBounds[0] && user.length() <= usernameBounds[1] && pass.length() >= passwordBounds[0] && pass.length() <= passwordBounds[1]) {
+            
+            Administrator admin = MapperRegistry.administrator().findByUsername(user);
+            
+            if (admin.authenticate(pass)) {
+                
+               if (confirm.isEnabled()) {
+                    mainPanel.setVisible(false);
+                    menuPanel.setVisible(true);
+                    studentPanel.setVisible(false);
+                    mealPanel.setVisible(false);
+                    activate(buttonsPanel);
+                }
+            }
+            else {
+                lblLoginMessage.setText("Password Inválida! Tente Novamente");
+                loginFrame.setVisible(true);
+                username.setEnabled(false);
+                password.setEnabled(false);
+                confirm.setEnabled(false);
+            }
+        }
+        else {
+            lblLoginMessage.setText("Username e/ou Password fora dos limites permitidos!");
+            loginFrame.setVisible(true);
+            username.setEnabled(false);
+            password.setEnabled(false);
+            confirm.setEnabled(false);
         }
     }//GEN-LAST:event_confirmMouseReleased
 
@@ -2402,6 +2511,18 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCloseAccountMouseReleased
 
+    private void btnLoginOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginOkMouseReleased
+        loginFrame.setVisible(false);
+        username.setText(null);
+        password.setText(null);
+        
+        username.setEnabled(true);
+        password.setEnabled(true);
+        confirm.setEnabled(true);
+        
+        username.grabFocus();
+    }//GEN-LAST:event_btnLoginOkMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -2470,6 +2591,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteYes1;
     private javax.swing.JButton btnLogNo;
     private javax.swing.JButton btnLogYes;
+    private javax.swing.JButton btnLoginOk;
     private javax.swing.JButton btnMeal;
     private javax.swing.JButton btnMealOk;
     private javax.swing.JButton btnNext;
@@ -2553,6 +2675,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblIfen;
     private javax.swing.JLabel lblIfen1;
     private javax.swing.JLabel lblLogMessage;
+    private javax.swing.JLabel lblLoginMessage;
     private javax.swing.JLabel lblMealMessage;
     private javax.swing.JLabel lblMeat;
     private javax.swing.JLabel lblMessage;
@@ -2600,6 +2723,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblVeggie;
+    private javax.swing.JInternalFrame loginFrame;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel mealPanel;
