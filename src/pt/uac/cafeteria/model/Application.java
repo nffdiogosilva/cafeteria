@@ -171,7 +171,7 @@ public class Application {
      * @param accountNumber the Account process number or student id.
      * @param pinCode the Account pin code.
      * @return Student account object, or null if does not authenticate.
-     * @throws ApplicationException if the account gets blocked after a certain
+     * @throws IllegalStateException if the account gets blocked after a certain
      * amount of successive failed login attempts.
      */
     public static Student authenticateStudent(int accountNumber, int pinCode) {
@@ -182,7 +182,7 @@ public class Application {
         }
 
         if (account.isBlocked()) {
-            throw new ApplicationException("Conta bloqueada!");
+            throw new IllegalStateException("Conta bloqueada!");
         }
 
         return null;
