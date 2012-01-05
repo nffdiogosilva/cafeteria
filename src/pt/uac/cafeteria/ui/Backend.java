@@ -7,6 +7,7 @@ import java.util.Calendar;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
 import pt.uac.cafeteria.model.domain.Administrator;
+import pt.uac.cafeteria.model.domain.Course;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
 /**
@@ -382,9 +383,9 @@ public class Backend extends javax.swing.JFrame {
         loginFrame.getContentPane().setLayout(loginFrameLayout);
         loginFrameLayout.setHorizontalGroup(
             loginFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblLoginMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblLoginMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, loginFrameLayout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
+                .addContainerGap(107, Short.MAX_VALUE)
                 .add(btnLoginOk)
                 .add(144, 144, 144))
         );
@@ -1021,9 +1022,8 @@ public class Backend extends javax.swing.JFrame {
         addPanel.add(btnSave);
         btnSave.setBounds(340, 480, 93, 29);
 
-        cbSchollarship.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
         addPanel.add(cbSchollarship);
-        cbSchollarship.setBounds(120, 240, 142, 27);
+        cbSchollarship.setBounds(120, 240, 52, 27);
         addPanel.add(cbSchollarShip);
         cbSchollarShip.setBounds(120, 270, 30, 23);
 
@@ -1657,6 +1657,13 @@ public class Backend extends javax.swing.JFrame {
 
     private void btnStudentMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStudentMouseReleased
         if (btnStudent.isEnabled()) {
+            
+            ArrayList<Course> courses = (ArrayList<Course>) MapperRegistry.course().findAll();
+            
+            for (Course course: courses) {
+                cbSchollarship.addItem(course.getName());
+            }
+            cbSchollarship.setSize(250, 25);
             
             btnMeal.setEnabled(true);
             mealPanel.setVisible(false);

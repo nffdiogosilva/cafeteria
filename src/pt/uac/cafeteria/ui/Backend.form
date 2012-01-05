@@ -1488,12 +1488,7 @@
                 <Component class="javax.swing.JComboBox" name="cbSchollarship">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="IRM"/>
-                        <StringItem index="1" value="Gest&#xe3;o"/>
-                        <StringItem index="2" value="Servi&#xe7;o Social"/>
-                        <StringItem index="3" value="Enfermagem"/>
-                      </StringArray>
+                      <StringArray count="0"/>
                     </Property>
                   </Properties>
                   <Constraints>

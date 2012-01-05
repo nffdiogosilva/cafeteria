@@ -1,110 +1,111 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+/*
+ Navicat Premium Data Transfer
 
-DROP SCHEMA IF EXISTS `uacbd` ;
-CREATE SCHEMA IF NOT EXISTS `uacbd` DEFAULT CHARACTER SET latin1 ;
-USE `uacbd` ;
+ Source Server         : MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 50509
+ Source Host           : localhost
+ Source Database       : uacbd
 
--- -----------------------------------------------------
--- Table `uacbd`.`Moradas`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uacbd`.`Moradas` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `rua` VARCHAR(60) NOT NULL ,
-  `nr` VARCHAR(15) NOT NULL ,
-  `cod_postal` CHAR(8) NOT NULL ,
-  `localidade` VARCHAR(30) NOT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+ Target Server Type    : MySQL
+ Target Server Version : 50509
+ File Encoding         : utf-8
 
+ Date: 01/05/2012 17:44:44 PM
+*/
 
--- -----------------------------------------------------
--- Table `uacbd`.`Admins`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uacbd`.`Admins` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `nome` VARCHAR(60) NOT NULL ,
-  `username` VARCHAR(10) NOT NULL ,
-  `password` VARCHAR(15) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) )
-ENGINE = InnoDB;
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
 
-USE `uacbd` ;
+-- ----------------------------
+--  Table structure for `Admins`
+-- ----------------------------
+DROP TABLE IF EXISTS `Admins`;
+CREATE TABLE `Admins` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(60) NOT NULL,
+  `username` varchar(10) NOT NULL,
+  `password` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- -----------------------------------------------------
--- Table `uacbd`.`Cursos`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uacbd`.`Cursos` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `nome` VARCHAR(60) NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `nome` (`nome` ASC) )
-ENGINE = InnoDB
-AUTO_INCREMENT = 10
-DEFAULT CHARACTER SET = latin1;
+-- ----------------------------
+--  Records of `Admins`
+-- ----------------------------
+BEGIN;
+INSERT INTO `Admins` VALUES ('1', 'Administrador', 'superadmin', '12345678');
+COMMIT;
 
+-- ----------------------------
+--  Table structure for `Alunos`
+-- ----------------------------
+DROP TABLE IF EXISTS `Alunos`;
+CREATE TABLE `Alunos` (
+  `id` int(10) unsigned NOT NULL,
+  `nome` varchar(60) NOT NULL,
+  `morada` int(10) unsigned NOT NULL,
+  `telefone` char(9) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `bolsa` tinyint(1) NOT NULL DEFAULT '0',
+  `curso` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `fk_alunos_curso` (`curso`),
+  KEY `fk_alunos_morada` (`morada`),
+  CONSTRAINT `fk_alunos_curso` FOREIGN KEY (`curso`) REFERENCES `Cursos` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_alunos_morada` FOREIGN KEY (`morada`) REFERENCES `Moradas` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- -----------------------------------------------------
--- Table `uacbd`.`Alunos`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uacbd`.`Alunos` (
-  `id` INT UNSIGNED NOT NULL ,
-  `nome` VARCHAR(60) NOT NULL ,
-  `morada` INT UNSIGNED NOT NULL ,
-  `telefone` CHAR(9) NOT NULL ,
-  `email` VARCHAR(30) NOT NULL ,
-  `bolsa` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `curso` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
-  INDEX `fk_alunos_curso` (`curso` ASC) ,
-  INDEX `fk_alunos_morada` (`morada` ASC) ,
-  CONSTRAINT `fk_alunos_curso`
-    FOREIGN KEY (`curso` )
-    REFERENCES `uacbd`.`Cursos` (`id` )
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_alunos_morada`
-    FOREIGN KEY (`morada` )
-    REFERENCES `uacbd`.`Moradas` (`id` )
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+-- ----------------------------
+--  Table structure for `Cursos`
+-- ----------------------------
+DROP TABLE IF EXISTS `Cursos`;
+CREATE TABLE `Cursos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome` (`nome`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
+-- ----------------------------
+--  Records of `Cursos`
+-- ----------------------------
+BEGIN;
+INSERT INTO `Cursos` VALUES ('13', 'Arquitectura (Preparatórios)'), ('1', 'Biologia'), ('2', 'Ciclo Básico de Medicina'), ('4', 'Ciências Agrárias'), ('3', 'Ciências Biológicas e da Saúde'), ('14', 'Ciências da Engenharia Civil'), ('5', 'Ciências da Nutrição (Preparatórios)'), ('15', 'Ciências de Engenharia - Engenharia Civil, Engenharia Mecâni'), ('6', 'Ciências Farmacêuticas (Preparatórios)'), ('27', 'Comunicação Social e Cultura'), ('18', 'Economia'), ('11', 'Educação Básica'), ('7', 'Energias Renováveis'), ('31', 'Enfermagem'), ('16', 'Engenharia Civil'), ('8', 'Engenharia e Gestão do Ambiente'), ('29', 'Engenharia Electrotécnica e de Computadores'), ('17', 'Engenharia Mecânica'), ('21', 'Estudos Europeus e Política Internacional'), ('22', 'Filosofia e Cultura Portuguesa'), ('19', 'Gestão'), ('9', 'Guias da Natureza'), ('23', 'História'), ('30', 'Informática - Redes e Multimédia'), ('10', 'Medicina Veterinária (Preparatórios)'), ('24', 'Património Cultural'), ('12', 'Psicologia'), ('28', 'Relações Públicas e Comunicação'), ('25', 'Serviço Cultural'), ('26', 'Sociologia'), ('20', 'Turismo');
+COMMIT;
 
--- -----------------------------------------------------
--- Table `uacbd`.`histAlunos`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `uacbd`.`histAlunos` (
-  `id` INT UNSIGNED NOT NULL ,
-  `nome` VARCHAR(60) NOT NULL ,
-  `morada` INT UNSIGNED NOT NULL ,
-  `telefone` CHAR(9) NOT NULL ,
-  `email` VARCHAR(30) NOT NULL ,
-  `bolsa` TINYINT(1) NOT NULL DEFAULT 0 ,
-  `curso` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) ,
-  INDEX `fk_alunos_curso` (`curso` ASC) ,
-  INDEX `fk_alunos_morada` (`morada` ASC) ,
-  CONSTRAINT `fk_alunos_curso0`
-    FOREIGN KEY (`curso` )
-    REFERENCES `uacbd`.`Cursos` (`id` )
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_alunos_morada0`
-    FOREIGN KEY (`morada` )
-    REFERENCES `uacbd`.`Moradas` (`id` )
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+-- ----------------------------
+--  Table structure for `Moradas`
+-- ----------------------------
+DROP TABLE IF EXISTS `Moradas`;
+CREATE TABLE `Moradas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rua` varchar(60) NOT NULL,
+  `nr` varchar(15) NOT NULL,
+  `cod_postal` char(8) NOT NULL,
+  `localidade` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- ----------------------------
+--  Table structure for `histAlunos`
+-- ----------------------------
+DROP TABLE IF EXISTS `histAlunos`;
+CREATE TABLE `histAlunos` (
+  `id` int(10) unsigned NOT NULL,
+  `nome` varchar(60) NOT NULL,
+  `morada` int(10) unsigned NOT NULL,
+  `telefone` char(9) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `bolsa` tinyint(1) NOT NULL DEFAULT '0',
+  `curso` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `fk_alunos_curso` (`curso`),
+  KEY `fk_alunos_morada` (`morada`),
+  CONSTRAINT `fk_alunos_curso0` FOREIGN KEY (`curso`) REFERENCES `Cursos` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_alunos_morada0` FOREIGN KEY (`morada`) REFERENCES `Moradas` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+SET FOREIGN_KEY_CHECKS = 1;
