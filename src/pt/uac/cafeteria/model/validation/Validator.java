@@ -131,7 +131,7 @@ public abstract class Validator<T extends DomainObject> {
     protected abstract void doAssertions(T subject);
 
     /**
-     * Asserts another domain object and adds any found error messages to
+     * Asserts an aggregate domain object and adds any found error messages to
      * this one.
      * <p>
      * Since objects can have various associations, this allows separation
@@ -143,7 +143,7 @@ public abstract class Validator<T extends DomainObject> {
      * @param subject the aggregated domain object.
      * @param validator the aggregated domain object's validator.
      */
-    protected <S extends DomainObject> void assertObject(S subject, Validator<S> validator) {
+    protected <S extends DomainObject> void assertAggregate(S subject, Validator<S> validator) {
         if (!validator.isValid(subject)) {
             errors.addAll(validator.getErrors());
         }

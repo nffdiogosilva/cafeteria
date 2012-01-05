@@ -31,7 +31,7 @@ public class StudentValidator extends Validator<Student> {
         assertRequired("nome", student.getName());
 
         if (assertRequired("endereço", student.getAddress())) {
-            assertObject(student.getAddress(), new AddressValidator());
+            assertAggregate(student.getAddress(), new AddressValidator());
         }
 
         if (assertRequired("contacto telefónico", student.getPhone())) {
@@ -43,7 +43,7 @@ public class StudentValidator extends Validator<Student> {
         }
 
         if (assertRequired("curso", student.getCourse())) {
-            assertObject(student.getCourse(), new CourseValidator());
+            assertAggregate(student.getCourse(), new CourseValidator());
         }
     }
 
