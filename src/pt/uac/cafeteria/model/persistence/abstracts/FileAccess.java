@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * Simple abstraction for file access.
- *
+ * <p>
  * Meant to be used as a base class. It holds a reference to a File
  * object for subclasses that need one, and any common and useful methods
  * related to the file referenced.
@@ -17,8 +17,8 @@ public abstract class FileAccess {
     protected File file;
 
     /**
-     * Constructor.
-     *
+     * Base constructor.
+     * <p>
      * Forces subclasses to declare a constructor that initializes the file
      * reference.
      *

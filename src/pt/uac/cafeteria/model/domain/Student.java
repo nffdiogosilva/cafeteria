@@ -3,8 +3,8 @@ package pt.uac.cafeteria.model.domain;
 
 /**
  * Represents a student.
- *
- * The process number is an auto-incremented number
+ * <p>
+ * The id number should be an auto-incremented number
  * prefixed with the current year.
  */
 public class Student implements DomainObject<Integer> {

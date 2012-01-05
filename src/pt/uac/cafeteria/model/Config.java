@@ -6,7 +6,7 @@ import pt.uac.cafeteria.model.persistence.abstracts.AbstractProperties;
 
 /**
  * Application specific implementation of AbstractProperties.
- *
+ * <p>
  * Properties are specifically defined for required application
  * configuration fields, at the same time as it is allowed to use
  * it as a sort of Registry for other configuration variables.
@@ -67,7 +67,7 @@ public class Config extends AbstractProperties {
 
     /**
      * Creates a new object instance. File path needed.
-     *
+     * <p>
      * Only used when isolation needed, or to set a different path from the
      * default one. Use Config.getInstance() instead to reuse a single
      * instance.

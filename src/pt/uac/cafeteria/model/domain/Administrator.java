@@ -3,7 +3,7 @@ package pt.uac.cafeteria.model.domain;
 
 /**
  * Administrator account.
- *
+ * <p>
  * Used for privileged access in the application.
  */
 public class Administrator implements DomainObject<Integer> {
@@ -49,8 +49,9 @@ public class Administrator implements DomainObject<Integer> {
     }
 
     /**
-     * Updates the name
-     * @param name  new full name
+     * Updates the name.
+     *
+     * @param name new full name.
      */
     public void setName(String name) {
         this.name = name;

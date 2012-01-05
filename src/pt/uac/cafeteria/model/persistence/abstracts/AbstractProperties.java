@@ -10,17 +10,17 @@ import pt.uac.cafeteria.model.ApplicationException;
 
 /**
  * AbstractProperties decorates java.util.Properties.
- *
+ * <p>
  * It abstracts away a default file store, and makes loading and saving
  * at each operation. This is useful in situations where it's important
  * to prevent data inconsistency by some unexpected event that exits the
  * application without proper closing procedures.
- *
+ * <p>
  * For example, if a configuration property is used in managing the next
  * id in a database row, and if the application is unexpectedly closed by
  * an uncaught exception, the next time the application runs it will be
  * found in an inconsistent state, where the last saved id isn't up to date.
- *
+ * <p>
  * This decorator also implements a few gateway methods that make it easier
  * to set and retrieve ints and doubles, using the default implementation
  * from java.util.Properties (which uses only strings).
@@ -53,7 +53,7 @@ public abstract class AbstractProperties extends FileAccess {
 
     /**
      * Lazy loading using FileInputStream.
-     *
+     * <p>
      * If the file doesn't exist, attempt to create necessary
      * parent folders and properties file.
      *
@@ -95,10 +95,10 @@ public abstract class AbstractProperties extends FileAccess {
 
     /**
      * Attempt to create file.
-     *
+     * <p>
      * Intended to be used only when it's found that the file doesn't exist.
      * This attempts to recover from that.
-     *
+     * <p>
      * If the file does exist, calling this method will reset the default
      * properties. Other properties added will be left alone.
      *
@@ -116,7 +116,7 @@ public abstract class AbstractProperties extends FileAccess {
 
     /**
      * Implements default properties.
-     *
+     * <p>
      * When creating a new properties file, these settings will be called.
      * to define a first set of important properties.
      */
