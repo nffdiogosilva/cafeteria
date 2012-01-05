@@ -2,6 +2,8 @@
 package pt.uac.cafeteria.model.domain;
 
 import java.util.Calendar;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Meal Menu for a a lunch or dinner, in a given day.
@@ -41,14 +43,7 @@ public class Menu implements DomainObject<Menu.Id> {
     /** Unique indentifier for this menu. */
     private Id id;
 
-    /** Name of meat dish. */
-    private String meat;
-
-    /** Name of fish dish. */
-    private String fish;
-
-    /** Name of vegetarian dish. */
-    private String veggie;
+    private Map<Meal.Type, String> dishes = new EnumMap<Meal.Type, String>(Meal.Type.class);
 
     /** Soup name. */
     private String soup;
@@ -70,9 +65,9 @@ public class Menu implements DomainObject<Menu.Id> {
             String soup, String dessert) {
 
         this.id = id;
-        this.meat = meat;
-        this.fish = fish;
-        this.veggie = vegetarian;
+        dishes.put(Meal.Type.MEAT, meat);
+        dishes.put(Meal.Type.FISH, fish);
+        dishes.put(Meal.Type.VEGETARIAN, vegetarian);
         this.soup = soup;
         this.dessert = dessert;
     }
@@ -104,24 +99,9 @@ public class Menu implements DomainObject<Menu.Id> {
         this.id = id;
     }
 
-    /** Gets the meal time of day for the menu. */
-    public Meal.Time getTime() {
-        return id.getTime();
-    }
-
-    /** Gets the meat dish name in the menu. */
-    public String getMeat() {
-        return meat;
-    }
-
-    /** Gets the fish dish name in the menu. */
-    public String getFish() {
-        return fish;
-    }
-
-    /** Gets the vegetarian dish name in the menu. */
-    public String getVegetarian() {
-        return veggie;
+    /** Gets the name of the main course dish, based on type of meal. */
+    public String getMainCourse(Meal.Type mealType) {
+        return dishes.get(mealType);
     }
 
     /** Gets the soup name in the menu. */
@@ -134,38 +114,12 @@ public class Menu implements DomainObject<Menu.Id> {
         return dessert;
     }
 
-    /** Returns a meal with meat as main course, or null if there isn't one. */
-    public Meal getMeatMeal() {
-        if (meat == null || meat.isEmpty()) {
+    /** Gets a <code>Meal</code> choice from an available main course type. */
+    public Meal getMeal(Meal.Type mealType) {
+        String mainCourse = getMainCourse(mealType);
+        if (mainCourse == null) {
             return null;
         }
-        return new Meal(id.getDay(), id.getTime(), Meal.Type.MEAT, soup, meat, dessert);
-    }
-
-    /** Returns a meal with fish as main course, or null if there isn't one. */
-    public Meal getFishMeal() {
-        if (fish == null || fish.isEmpty()) {
-            return null;
-        }
-        return new Meal(id.getDay(), id.getTime(), Meal.Type.FISH, soup, fish, dessert);
-    }
-
-    /** Returns a meal with vegetarian as main course, or null if there isn't one. */
-    public Meal getVegetarianMeal() {
-        if (veggie == null || veggie.isEmpty()) {
-            return null;
-        }
-        return new Meal(id.getDay(), id.getTime(), Meal.Type.VEGETARIAN, soup, veggie, dessert);
-    }
-
-    /** Gets the name of the main course dish, based on type of main course. */
-    public String getMainCourse(Meal.Type type) {
-        switch (type) {
-            case MEAT : return this.meat;
-            case FISH : return this.fish;
-            case VEGETARIAN : return this.veggie;
-            default :
-                throw new IllegalArgumentException("Tipo de prato desconhecido.");
-        }
+        return new Meal(id.getDay(), id.getTime(), mealType, soup, mainCourse, dessert);
     }
 }
