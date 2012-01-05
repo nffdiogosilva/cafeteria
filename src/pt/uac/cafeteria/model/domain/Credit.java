@@ -1,30 +1,33 @@
 
 package pt.uac.cafeteria.model.domain;
 
-import java.util.Calendar;
-
 /**
- * Represents the credit transaction
- *
+ * A type of transaction used when a student makes a payment to an
+ * administrator to add credit to his account (increasing balance).
+ * <p>
+ * Only an administrator should be allowed to make this transaction
+ * in a backend.
  */
 public class Credit extends Transaction {
 
-    /** Administrator responsible of the credit transaction */
-    private String administrator;
+    /** Serialization version. */
+    private static final long serialVersionUID = 1L;
 
-   /**
-     * Default Constructor
+    /** Administrator handling the transaction. */
+    private final String administrator;
+
+    /**
+     * Creates a new Credit transaction.
      *
-     * @param administrator the administrator that does the credit transaction
-     * @param amount    the amount that will be credited
+     * @param administrator the administrator handling the transaction.
+     * @param amount the amount to add to the account balance.
      */
     public Credit(String administrator, double amount) {
-        super.setDate(Calendar.getInstance());
-        super.setAmount(amount);
+        super(amount);
         this.administrator = administrator;
     }
 
-    /** Returns the administrator responsible of the credit transaction */
+    /** Gets the administrator responsible for the transaction. */
     public String getAdministrator() {
         return administrator;
     }

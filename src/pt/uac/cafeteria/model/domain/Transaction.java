@@ -1,46 +1,44 @@
 
 package pt.uac.cafeteria.model.domain;
 
-import java.util.Calendar;
+import java.util.Date;
 
 /**
- *
- * Represents a transaction
+ * Account transaction superclass.
+ * <p>
+ * At least two types of transaction should be implemented:
+ * a payment to add to the account credit, and a ticket when a meal is bought.
  *
  */
-public abstract class Transaction {
+public abstract class Transaction implements java.io.Serializable {
 
-    /** The date of the occurrence of the transaction */
-    private Calendar date;
+    /** Serialization version. */
+    private static final long serialVersionUID = 1L;
 
-    /** The amount made in the transaction */
-    private double amount;
+    /** The date the transaction was made. */
+    private final Date date;
 
-    /** Returns the date of the transaction */
-    public Calendar getDate() {
+    /** The amount being transacted. */
+    private final double amount;
+
+    /**
+     * Base default constructor that sets the date for the current moment,
+     * and amount being transacted.
+     *
+     * @param amount amount being transacted.
+     */
+    protected Transaction(double amount) {
+        this.date = new Date();
+        this.amount = Math.abs(amount);
+    }
+
+    /** Returns the date of the transaction. */
+    public Date getDate() {
         return date;
     }
 
-    /**
-     * Changes the date
-     *
-     * @param date  the date that will be defined
-     */
-    public void setDate(Calendar date) {
-        this.date = date;
-    }
-
-    /** Returns the amount of the transaction */
+    /** Returns the amount transacted. */
     public double getAmount() {
         return amount;
-    }
-
-    /**
-     * Changes the amount
-     *
-     * @param amount    the amount that will be defined
-     */
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 }

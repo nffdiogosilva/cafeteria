@@ -2,265 +2,217 @@
 package pt.uac.cafeteria.model.domain;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 /**
- *
- * Represents the student account
- *
+ * A student account in the cafeteria. It manages access to the system,
+ * a balance for buying meals and has the list of transactions made.
  */
 public class Account implements DomainObject<Integer>, java.io.Serializable {
 
     /**
-     * Serialization version
+     * Serialization version.
      *
      * @see http://www.mkyong.com/java-best-practices/understand-the-serialversionuid/
      */
     private static final long serialVersionUID = 1L;
 
-    /** Constant with maximum value to generate a number */
-    private static final int MAX_VALUE = 9999;
+    /** Minimum pin code value. */
+    private final int MIN_VALUE = 1000;
 
-    /** Constant with minimum value to generate a number*/
-    private static final int MIN_VALUE = 1000;
+    /** Maximum pin code value. */
+    private final int MAX_VALUE = 9999;
 
     /** Starting balance for newly created accounts. */
     private final double STARTING_BALANCE = 5.0;
 
+    /** Number of failed consecutive login attempts before blocking the account. */
+    private final int MAX_FAILED_ATTEMPTS = 3;
+
     /** Enumerated type with the status of the account */
     public enum Status {
+        /** Active account. Normal status. */
         ACTIVE { @Override public String toString() { return "Activa"; } },
+
+        /** Blocked account. Student can't login. */
         BLOCKED { @Override public String toString() { return "Bloqueada"; } },
+
+        /** Closed account. Old student, no longer studying. */
         CLOSED { @Override public String toString() { return "Fechada"; } }
     }
 
-    /** Account number */
-    private int number;
+    /** Account id number. Same as the student id. */
+    private int id;
 
-    /** Account pin code */
+    /** The access pin code. */
     private int pinCode;
 
-    /** Account balance */
+    /** The account balance available. */
     private double balance;
 
-    /** Account status */
+    /** The account status. */
     private Status status;
 
-    /** Account transactions list */
+    /** List of transactions associated with the account. */
     private List<Transaction> transactions;
 
-    /** Recorded number of failed attempts at logging in */
-    private int failedAttempts;
+    /** Recorded number of consecutive failed attempts at logging in. */
+    private int failedLoginAttempts;
 
     /**
      * Creates a new Account, with auto-generated pin code.
      *
-     * @param studendId the student id number.
+     * @param studendId the student id number, as an <code>int</code> in the java language.
      */
     public Account(int studentId) {
-        this.number = studentId;
-        this.pinCode = randomNumber();
+        this(new Integer(studentId));
+    }
+
+    /**
+     * Creates a new Account, with auto-generated pin code.
+     *
+     * @param studentId the student id number.
+     */
+    public Account(Integer studentId) {
+        this.id = studentId;
+        this.pinCode = randomNumber(MIN_VALUE, MAX_VALUE);
         this.balance = STARTING_BALANCE;
         this.status = Status.ACTIVE;
         this.transactions = new ArrayList<Transaction>();
     }
 
+    /** Generates a number between given boundaries. */
+    private static int randomNumber(int min, int max) {
+        return min + (int)(Math.random() * (max - min));
+    }
+
     @Override
     public Integer getId() {
-        return new Integer(number);
+        return new Integer(id);
     }
 
     @Override
     public void setId(Integer id) {
-        number = id.intValue();
+        id = id.intValue();
     }
 
-    /** Returns the account number */
-    public int getNumber() {
-        return number;
-    }
-
-    /**
-     * Changes the pin code
-     *
-     * @param pinCode   the pin code that will be defined
-     */
-    public void setPinCode(int pinCode) {
-        this.pinCode = pinCode;
-    }
-
-    /** Returns the account balance */
-    public double getBalance() {
-        return balance;
-    }
-
+    /** Gets the current pin code. */
     public int getPinCode() {
         return pinCode;
     }
 
-    /**
-     * Changes the balance
-     *
-     * @param balance   the balance that will be defined
-     */
+    /** Sets a new access pin code. */
+    public void setPinCode(int pinCode) {
+        this.pinCode = pinCode;
+    }
+
+    /** Gets the account balance */
+    public double getBalance() {
+        return balance;
+    }
+
+    /** Sets the account balance to a new amount. */
     public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    /** Returns the account status */
+    /** Gets the current account status. */
     public Status getStatus() {
         return status;
     }
 
-    /** Checks if account is active */
+    /** Sets account to a new status. */
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    /** Checks if the account is active. */
     public boolean isActive() {
         return status == Status.ACTIVE;
     }
 
-    /** Checks if account is blocked */
+    /** Checks if the account is blocked. */
     public boolean isBlocked() {
         return status == Status.BLOCKED;
     }
 
-    /** Checks if account is closed */
+    /** Checks if the account is closed. */
     public boolean isClosed() {
         return status == Status.CLOSED;
     }
 
+    /** Blocks the account. Student won't be able to login. */
+    public void block() {
+        setStatus(Status.BLOCKED);
+    }
+
+    /** Sets the account back to active after being blocked. */
+    public void unblock() {
+        setStatus(Status.ACTIVE);
+    }
+
+    /** Closes the account. */
+    public void close() {
+        setStatus(Status.CLOSED);
+    }
+
     /**
-     * Authenticate account
+     * Tests if a given pin code is valid for this account.
+     * <p>
+     * After a predefined number of failed consecutive authentications,
+     * the account gets blocked.
+     * <p>
+     * Only active accounts are allowed authentication.
      *
-     * Gets blocked after three failed attempts
-     *
-     * @param pinCode  Account pin code
-     * @return
+     * @param pinCode the pin code to validate.
+     * @return true if pin code matches; false otherwise.
      */
     public boolean authenticate(int pinCode) {
+        if (!isActive()) {
+            return false;
+        }
         if (this.pinCode == pinCode) {
-            failedAttempts = 0;
+            failedLoginAttempts = 0;
             return true;
         }
-        if (++failedAttempts == 3) {
+        if (++failedLoginAttempts >= MAX_FAILED_ATTEMPTS) {
             block();
+            failedLoginAttempts = 0;
         }
         return false;
     }
 
     /**
-     * Changes the state.
+     * Makes a deposit to the account, increasing balance.
      *
-     * @param status    the status that will be defined
+     * @param amount the amount being added to the balance.
+     * @param administrator the administrator username doing the operation.
      */
-    public void setStatus(Status status) {
-        this.status = status;
+    public void deposit(double amount, String administrator) {
+        amount = Math.abs(amount);
+        balance += amount;
+        transactions.add(new Credit(administrator, amount));
     }
 
-    /** Returns account transactions list */
+    /**
+     * Buys a ticket for a meal.
+     *
+     * @param meal meal to buy a ticket to.
+     * @param price price of the meal.
+     * @throws IllegalArgumentException if not enough balance.
+     */
+    public void buyTicket(Meal meal, double price) {
+        price = Math.abs(price);
+        if (price > balance) {
+            throw new IllegalArgumentException("Não possui saldo suficiente.");
+        }
+        balance -= price;
+        transactions.add(new Ticket(meal, price));
+    }
+
+    /** Gets a list of the account's transactions. */
     public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    /** Returns a string that describe the account */
-    @Override
-    public String toString(){
-        return "\nNumber: " + this.number +
-                "\nPin Code: " + this.pinCode +
-                "\nBalance: " + this.balance +
-                "\nStatus: " + this.status +
-                "\nTransactions: " + this.transactions;
-    }
-
-    /**
-     * Method responsible for making a deposit and adding it into the transactions list
-     *
-     * @param amount    the amount that is deposit into the account
-     * @param administrator the administrator that does the deposit
-     */
-    public void deposit (double amount, String administrator) {
-        if (amount < 0) {
-            amount = -amount;
-        }
-        this.balance = balance + amount;
-        this.transactions.add(new Credit(administrator, amount));
-    }
-
-    /**
-     * Method responsible for making a payment and adding it into the transactions list
-     *
-     * @param amount    the amount of the payment
-     * @param date  the date of the meal
-     * @param meal  the type of meal: dinner or lunch
-     * @throws Exception    exception that leads with not enough credit
-     */
-    public void payment (double amount, Calendar date, Meal.Time meal) {
-        if (amount <= this.balance) {
-            this.balance = balance - amount;
-            this.transactions.add(new Debit(date, meal));
-        }
-        else {
-            throw new IllegalArgumentException("Nao possui credito suficiente");
-        }
-    }
-
-    /**
-     * Method responsible for recovering the active state of the account
-     *
-     * @param pinCode   the pin code of a student
-     * @throws Exception    exceptions that leads with account not being blocked or having an invalid pin code
-     */
-    public void recoverAccountState(int pinCode) {
-        if (this.pinCode == pinCode) {
-            if (this.getStatus() == Status.BLOCKED) {
-                setStatus(Status.ACTIVE);
-            }
-            else {
-                throw new IllegalArgumentException("Conta nao esta bloqueada");
-            }
-        }
-        else {
-            throw new IllegalArgumentException("Codigo pin invalido");
-        }
-    }
-
-
-    /**
-     *
-     * Method responsible for recovering the pin code of an account
-     *
-     * @param id    the id of a student, to check if he's the real pin code owner
-     * @return  the pin code of the account
-     * @throws Exception    exception that leads with invalid id
-     */
-    public int recoverAccountPinCode(Student student, int id) {
-        if (student.getId() == id) {
-            return this.pinCode;
-        }
-        throw new IllegalArgumentException("Identificacao do estudante invalida");
-    }
-
-    /** Sets the BLOCKED state of the account */
-    public void block() {
-        this.setStatus(Status.BLOCKED);
-    }
-
-    /** Sets the ACTIVE state of the account */
-    public void unblock() {
-        this.setStatus(Status.ACTIVE);
-    }
-
-    /** Sets the CLOSED state of the account */
-    public void close() {
-        this.setStatus(Status.CLOSED);
-    }
-
-    /** Alters the email of the Student */
-    public void updateEmail(Student student, String email) {
-        student.setEmail(email);
-    }
-
-    /** Generates a number between 1000 and 9999 */
-    private static int randomNumber() {
-        return MIN_VALUE + (int)(Math.random() * (MAX_VALUE - MIN_VALUE));
+        return Collections.unmodifiableList(transactions);
     }
 }

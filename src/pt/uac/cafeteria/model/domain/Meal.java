@@ -4,125 +4,91 @@ package pt.uac.cafeteria.model.domain;
 import java.util.Calendar;
 
 /**
- * Represents a meal
+ * Meal that can be bought for a certain day, at lunch or dinner,
+ * and of a choice of main course types (meat, fish or vegetarian).
  */
-public class Meal {
+public class Meal implements java.io.Serializable {
 
-    /** Enumerates meal day time */
+    /** Serialization version. */
+    private static final long serialVersionUID = 1L;
+
+    /** Enumerates meal time of day. */
     public enum Time {
         LUNCH  { @Override public String toString() { return "Almoco"; } },
         DINNER { @Override public String toString() { return "Jantar"; } };
     }
 
-    /** Enumerates dish types */
+    /** Enumerates dish types. */
     public enum Type {
         MEAT  { @Override public String toString() { return "Carne"; } },
         FISH { @Override public String toString() { return "Peixe"; } },
         VEGETARIAN { @Override public String toString() { return "Vegetariano"; } };
     }
 
-    /** Meal day time of service */
+    /** The day the meal is served. */
+    private final Calendar day;
+
+    /** The time of day the meal is served. */
     private final Time time;
 
-    /** Service date of the meal */
-    private final Calendar date;
-
-    /** Type of meal */
+    /** Type of meal. */
     private final Type type;
 
-    /** Soup description */
-    private String soup;
+    /** The name of the soup. */
+    private final String soup;
 
-    /** Main course description */
-    private String mainCourse;
+    /** The name of the main course dish. */
+    private final String mainCourse;
 
-    /** Dessert description */
-    private String dessert;
+    /** The name of the dessert. */
+    private final String dessert;
 
     /**
-     * Default Contructor
+     * Creates a new <code>Meal</code> instance.
      *
-     * @param type          meal day time of service
-     * @param date          service date of the meal
-     * @param dishType      Type of meal
-     * @param Soup          soup description
-     * @param mainCourse    main course description
-     * @param dessert       dessert description
+     * @param day the day of the meal.
+     * @param time the time of day.
+     * @param type the type of meal.
+     * @param soup the name of the soup.
+     * @param mainCourse the name of the main course dish.
+     * @param dessert the name of the dessert.
      */
-    Meal(Calendar date, Time time, Type type, String soup, String mainCourse, String dessert) {
+    public Meal(Calendar day, Time time, Type type, String soup, String mainCourse, String dessert) {
+        this.day = day;
         this.time = time;
-        this.date = date;
         this.type = type;
         this.soup = soup;
         this.mainCourse = mainCourse;
         this.dessert = dessert;
     }
 
-   /** Returns the day time of service of a meal */
-    Time getTime() {
+    /** Gets the day of the meal. */
+    public Calendar getDay() {
+        return this.day;
+    }
+
+    /** Gets the time of the day (lunch or dinner). */
+    public Time getTime() {
         return this.time;
     }
 
-    /** Returns the date of a meal */
-    public Calendar getDate() {
-        return this.date;
-    }
-
-    /** Returns the dish type of a meal */
-    Type getType() {
+    /** Gets the type of the meal. */
+    public Type getType() {
         return this.type;
     }
 
-    /** Returns the soup description of a meal */
+    /** Gets the name of the soup. */
     public String getSoup() {
         return this.soup;
     }
 
-    /**
-     * Changes the soup description of a meal
-     *
-     * @param Soup      the soup description that will be defined
-     */
-    public void setSoup(String soup) {
-        this.soup = soup;
-    }
-
-    /** Returns the main course description of a meal */
+    /** Gets the name of the main course dish. */
     public String getMainCourse() {
         return this.mainCourse;
     }
 
-    /**
-     * Changes the main course description of a meal
-     *
-     * @param mainCourse    the main course description that will be defined
-     */
-    public void setMainCourse(String mainCourse) {
-        this.mainCourse = mainCourse;
-    }
-
-    /** Returns the dessert description of a meal */
+    /** Gets the name of the dessert. */
     public String getDessert() {
         return this.dessert;
-    }
-
-    /**
-     * Changes the dessert description of a meal
-     *
-     * @param dessert       the dessert description that will be defined
-     */
-    public void setDessert(String dessert) {
-        this.dessert = dessert;
-    }
-
-    /** Returns a string that describes a meal */
-    @Override
-    public String toString() {
-        return "\n:Time " + this.time +
-                "\nDate: " + this.date +
-                "\nType: " + this.type +
-                "\nSoup: " + this.soup +
-                "\nMain course: " + this.mainCourse +
-                "\nDessert: " + this.dessert;
     }
 }
