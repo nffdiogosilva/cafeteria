@@ -62,6 +62,10 @@ public class Meal implements java.io.Serializable {
         this.dessert = dessert;
     }
 
+    public Meal(Menu.Id id, Type type, String mainCourse, String soup, String dessert) {
+        this(id.getDay(), id.getTime(), type, soup, mainCourse, dessert);
+    }
+
     /** Gets the day of the meal. */
     public Calendar getDay() {
         return this.day;

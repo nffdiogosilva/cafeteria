@@ -169,21 +169,41 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
             Element root = getDoc(getFile(id)).getRootElement();
             Element dishes = root.getChild(getMealTimeKey(id.getTime()));
 
-            Element mainDish = dishes.getChild("carne");
-            String meat = mainDish.getChildText("prato");
-            String fish = dishes.getChild("peixe").getChildText("prato");
-            String veggie = dishes.getChild("vegetariano").getChildText("prato");
-            String soup = mainDish.getChildText("sopa");
-            String dessert = mainDish.getChildText("sobremesa");
+            Meal meat = readMeal(Meal.Type.MEAT, dishes, id);
+            Meal fish = readMeal(Meal.Type.FISH, dishes, id);
+            Meal veggie = readMeal(Meal.Type.VEGETARIAN, dishes, id);
 
-            result = new Menu(id, meat, fish, veggie, soup, dessert);
+            result = new Menu(meat, fish, veggie);
 
             loadedMap.put(id, result);
 
         } catch (Exception e) {
-            // do nothing (no valid menu found)
+            // do nothing (assume no valid menu found)
         }
         return result;
+    }
+
+    /**
+     * Reads a <code>Meal</code> object from a parsed DOM element.
+     *
+     * @param mealType the type of meal
+     * @param parent the parent element where the meal is contained.
+     * @param id the menu id.
+     * @return a meal.
+     */
+    private Meal readMeal(Meal.Type mealType, Element parent, Menu.Id id) {
+        String element = mealType.toString().toLowerCase();
+        Element meal = parent.getChild(element);
+
+        if (meal == null) {
+            return null;
+        }
+
+        String mainCourse = meal.getChildText("prato");
+        String soup = meal.getChildText("sopa");
+        String dessert = meal.getChildText("sobremesa");
+
+        return new Meal(id, mealType, mainCourse, soup, dessert);
     }
 
     /**
@@ -199,9 +219,9 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
         String mealTime = getMealTimeKey(menu.getId().getTime());
 
         Element meal = new Element(mealTime);
-        meal.addContent(dishElement("carne", Meal.Type.MEAT, menu));
-        meal.addContent(dishElement("peixe", Meal.Type.FISH, menu));
-        meal.addContent(dishElement("vegetariano", Meal.Type.VEGETARIAN, menu));
+        addDish(dishElement("carne", Meal.Type.MEAT, menu), meal);
+        addDish(dishElement("peixe", Meal.Type.FISH, menu), meal);
+        addDish(dishElement("vegetariano", Meal.Type.VEGETARIAN, menu), meal);
 
         Document doc;
         Element root;
@@ -228,6 +248,18 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
     }
 
     /**
+     * Adds a dish element to a meal element if it isn't null.
+     *
+     * @param dish child element of <code>meal</dish>.
+     * @param meal parent element of <code>dish</code>.
+     */
+    private void addDish(Element dish, Element meal) {
+        if (dish != null) {
+            meal.addContent(dish);
+        }
+    }
+
+    /**
      * Translates a main dish choice from a menu to a JDOM Element object.
      *
      * @param identifier the name of the parent element for the dishes (type of meal).
@@ -236,6 +268,9 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
      * @return a JDOM Element object with the available dishes for a meal type.
      */
     private Element dishElement(String identifier, Meal.Type mainCourse, Menu menu) {
+        if (menu.getMainCourse(mainCourse) == null) {
+            return null;
+        }
         Element dish = new Element(identifier);
         dish.addContent(new Element("sopa").setText(menu.getSoup()));
         dish.addContent(new Element("prato").setText(menu.getMainCourse(mainCourse)));
