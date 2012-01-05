@@ -89,6 +89,28 @@ public class Menu implements DomainObject<Menu.Id> {
         this(new Id(day, time), meat, fish, vegetarian, soup, dessert);
     }
 
+    /**
+     * Creates a new <code>Menu</code> instance, based on meals.
+     *
+     * @param meals array of <code>Meal</code> objects.
+     */
+    public Menu(Meal... meals) {
+        for (Meal meal : meals) {
+            if (meal != null) {
+                if (id == null) {
+                    id = new Id(meal.getDay(), meal.getTime());
+                }
+                if (soup == null) {
+                    soup = meal.getSoup();
+                }
+                if (dessert == null) {
+                    dessert = meal.getDessert();
+                }
+                dishes.put(meal.getType(), meal.getMainCourse());
+            }
+        }
+    }
+
     @Override
     public Id getId() {
         return id;
@@ -114,12 +136,15 @@ public class Menu implements DomainObject<Menu.Id> {
         return dessert;
     }
 
-    /** Gets a <code>Meal</code> choice from an available main course type. */
+    /**
+     * Gets a <code>Meal</code> choice from an available main course type,
+     * or <code>null</code> if main course type is not in menu.
+     */
     public Meal getMeal(Meal.Type mealType) {
         String mainCourse = getMainCourse(mealType);
         if (mainCourse == null) {
             return null;
         }
-        return new Meal(id.getDay(), id.getTime(), mealType, soup, mainCourse, dessert);
+        return new Meal(id, mealType, soup, mainCourse, dessert);
     }
 }
