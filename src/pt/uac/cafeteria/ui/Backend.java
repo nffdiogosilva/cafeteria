@@ -134,7 +134,6 @@ public class Backend extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        scholarshipChoose = new javax.swing.ButtonGroup();
         bgTime = new javax.swing.ButtonGroup();
         bgCharge = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
@@ -150,20 +149,17 @@ public class Backend extends javax.swing.JFrame {
         lblLogMessage = new javax.swing.JLabel();
         btnLogYes = new javax.swing.JButton();
         btnLogNo = new javax.swing.JButton();
+        informationFrame = new javax.swing.JInternalFrame();
+        lblMessage1 = new javax.swing.JLabel();
+        btnOk = new javax.swing.JButton();
         chargeBalanceFrame = new javax.swing.JInternalFrame();
-        jLabel1 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        lblChargeTitle = new javax.swing.JLabel();
+        money = new javax.swing.JTextField();
         btnChargeYes = new javax.swing.JButton();
         btnChargeNo = new javax.swing.JButton();
         informationMealFrame = new javax.swing.JInternalFrame();
         lblMealMessage = new javax.swing.JLabel();
         btnMealOk = new javax.swing.JButton();
-        informationFrame = new javax.swing.JInternalFrame();
-        lblMessage1 = new javax.swing.JLabel();
-        btnOk = new javax.swing.JButton();
         deleteAdminWarningFrame = new javax.swing.JInternalFrame();
         lblDeleteAdminMessage = new javax.swing.JLabel();
         btnDeleteYes1 = new javax.swing.JButton();
@@ -238,34 +234,11 @@ public class Backend extends javax.swing.JFrame {
         city = new javax.swing.JTextField();
         phone = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
-        rdoYes = new javax.swing.JRadioButton();
-        rdoNo = new javax.swing.JRadioButton();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         cbSchollarship = new javax.swing.JComboBox();
+        cbSchollarShip = new javax.swing.JCheckBox();
         searchPanel = new javax.swing.JPanel();
-        updatePanel = new javax.swing.JPanel();
-        rdoNo1 = new javax.swing.JRadioButton();
-        lblName2 = new javax.swing.JLabel();
-        lblIfen1 = new javax.swing.JLabel();
-        email2 = new javax.swing.JTextField();
-        phone2 = new javax.swing.JTextField();
-        city2 = new javax.swing.JTextField();
-        postalCode3 = new javax.swing.JTextField();
-        lblStreet2 = new javax.swing.JLabel();
-        btnChange = new javax.swing.JButton();
-        lblPostalCode2 = new javax.swing.JLabel();
-        name2 = new javax.swing.JTextField();
-        rdoYes1 = new javax.swing.JRadioButton();
-        street2 = new javax.swing.JTextField();
-        lblEmail2 = new javax.swing.JLabel();
-        postalCode4 = new javax.swing.JTextField();
-        lblCity2 = new javax.swing.JLabel();
-        btnCancel2 = new javax.swing.JButton();
-        lblPhone2 = new javax.swing.JLabel();
-        lblCourse2 = new javax.swing.JLabel();
-        lblScholarship2 = new javax.swing.JLabel();
-        cbSchollarship2 = new javax.swing.JComboBox();
         visualizePanel = new javax.swing.JPanel();
         lblName1 = new javax.swing.JLabel();
         lblStreet1 = new javax.swing.JLabel();
@@ -289,6 +262,27 @@ public class Backend extends javax.swing.JFrame {
         btnUnblockAccount = new javax.swing.JButton();
         btnChargeBalance = new javax.swing.JButton();
         btnCloseAccount = new javax.swing.JButton();
+        updatePanel = new javax.swing.JPanel();
+        lblName2 = new javax.swing.JLabel();
+        lblIfen1 = new javax.swing.JLabel();
+        email2 = new javax.swing.JTextField();
+        phone2 = new javax.swing.JTextField();
+        city2 = new javax.swing.JTextField();
+        postalCode3 = new javax.swing.JTextField();
+        lblStreet2 = new javax.swing.JLabel();
+        btnChange = new javax.swing.JButton();
+        lblPostalCode2 = new javax.swing.JLabel();
+        name2 = new javax.swing.JTextField();
+        street2 = new javax.swing.JTextField();
+        lblEmail2 = new javax.swing.JLabel();
+        postalCode4 = new javax.swing.JTextField();
+        lblCity2 = new javax.swing.JLabel();
+        btnCancel2 = new javax.swing.JButton();
+        lblPhone2 = new javax.swing.JLabel();
+        lblCourse2 = new javax.swing.JLabel();
+        lblScholarship2 = new javax.swing.JLabel();
+        cbSchollarship2 = new javax.swing.JComboBox();
+        jCheckBox1 = new javax.swing.JCheckBox();
         lblSearch = new javax.swing.JLabel();
         lblSearchNumber = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
@@ -299,7 +293,6 @@ public class Backend extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnCheck = new javax.swing.JButton();
-        btnCancel1 = new javax.swing.JButton();
         adminPanel = new javax.swing.JTabbedPane();
         addAdminPanel = new javax.swing.JPanel();
         lblAdminName = new javax.swing.JLabel();
@@ -340,10 +333,9 @@ public class Backend extends javax.swing.JFrame {
         cbSearchAdmin = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         searchAdminList = new javax.swing.JList();
-        btnUpdate1 = new javax.swing.JButton();
-        btnDelete1 = new javax.swing.JButton();
-        btnCheck1 = new javax.swing.JButton();
-        btnAdminCancel = new javax.swing.JButton();
+        btnUpdateAdmin = new javax.swing.JButton();
+        btnDeleteAdmin = new javax.swing.JButton();
+        btnCheckAdmin = new javax.swing.JButton();
         buttonsPanel = new javax.swing.JPanel();
         btnStudent = new javax.swing.JButton();
         btnAdmin = new javax.swing.JButton();
@@ -356,7 +348,7 @@ public class Backend extends javax.swing.JFrame {
         setTitle("Cafeteria");
         setMinimumSize(new java.awt.Dimension(800, 600));
         setResizable(false);
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new java.awt.CardLayout());
 
         mainPanel.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPanel.setLayout(null);
@@ -416,8 +408,7 @@ public class Backend extends javax.swing.JFrame {
         mainPanel.add(loginPanel);
         loginPanel.setBounds(300, 100, 200, 400);
 
-        getContentPane().add(mainPanel);
-        mainPanel.setBounds(0, 0, 800, 600);
+        getContentPane().add(mainPanel, "card3");
 
         menuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         menuPanel.setLayout(null);
@@ -470,38 +461,55 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(warningLogFrame);
         warningLogFrame.setBounds(300, 150, 220, 160);
 
+        informationFrame.setTitle("Informação");
+        informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
+
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMessage1.setText("Dados guardados com sucesso!");
+
+        btnOk.setText("OK");
+        btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnOkMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout informationFrameLayout = new org.jdesktop.layout.GroupLayout(informationFrame.getContentPane());
+        informationFrame.getContentPane().setLayout(informationFrameLayout);
+        informationFrameLayout.setHorizontalGroup(
+            informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, informationFrameLayout.createSequentialGroup()
+                .addContainerGap(80, Short.MAX_VALUE)
+                .add(btnOk)
+                .add(121, 121, 121))
+        );
+        informationFrameLayout.setVerticalGroup(
+            informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(informationFrameLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnOk)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        menuPanel.add(informationFrame);
+        informationFrame.setBounds(300, 150, 300, 150);
+
         chargeBalanceFrame.setTitle("Carregamento");
+        chargeBalanceFrame.setPreferredSize(new java.awt.Dimension(300, 200));
+        chargeBalanceFrame.setSize(new java.awt.Dimension(300, 200));
         chargeBalanceFrame.setVisible(true);
         chargeBalanceFrame.getContentPane().setLayout(null);
 
-        jLabel1.setText("Insira Montante:");
-        chargeBalanceFrame.getContentPane().add(jLabel1);
-        jLabel1.setBounds(60, 20, 102, 16);
-
-        bgCharge.add(jRadioButton1);
-        jRadioButton1.setText("5 €");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        chargeBalanceFrame.getContentPane().add(jRadioButton1);
-        jRadioButton1.setBounds(17, 54, 52, 23);
-
-        bgCharge.add(jRadioButton2);
-        jRadioButton2.setText("10 €");
-        chargeBalanceFrame.getContentPane().add(jRadioButton2);
-        jRadioButton2.setBounds(126, 54, 60, 23);
-
-        bgCharge.add(jRadioButton3);
-        jRadioButton3.setText("20 €");
-        chargeBalanceFrame.getContentPane().add(jRadioButton3);
-        jRadioButton3.setBounds(17, 83, 60, 23);
-
-        bgCharge.add(jRadioButton4);
-        jRadioButton4.setText("30 €");
-        chargeBalanceFrame.getContentPane().add(jRadioButton4);
-        jRadioButton4.setBounds(126, 83, 60, 23);
+        lblChargeTitle.setFont(new java.awt.Font("Lucida Grande", 0, 14));
+        lblChargeTitle.setText("Insira Montante:");
+        chargeBalanceFrame.getContentPane().add(lblChargeTitle);
+        lblChargeTitle.setBounds(90, 10, 130, 17);
+        chargeBalanceFrame.getContentPane().add(money);
+        money.setBounds(100, 70, 90, 28);
 
         btnChargeYes.setText("Confirmar");
         btnChargeYes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -510,7 +518,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         chargeBalanceFrame.getContentPane().add(btnChargeYes);
-        btnChargeYes.setBounds(0, 120, 110, 29);
+        btnChargeYes.setBounds(40, 140, 90, 20);
 
         btnChargeNo.setText("Cancelar");
         btnChargeNo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -519,10 +527,10 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         chargeBalanceFrame.getContentPane().add(btnChargeNo);
-        btnChargeNo.setBounds(110, 120, 112, 29);
+        btnChargeNo.setBounds(150, 140, 90, 20);
 
         menuPanel.add(chargeBalanceFrame);
-        chargeBalanceFrame.setBounds(300, 150, 249, 199);
+        chargeBalanceFrame.setBounds(300, 150, 300, 200);
 
         informationMealFrame.setTitle("Informação");
         informationMealFrame.setPreferredSize(new java.awt.Dimension(220, 160));
@@ -562,54 +570,17 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(informationMealFrame);
         informationMealFrame.setBounds(300, 150, 220, 160);
 
-        informationFrame.setTitle("Informação");
-        informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
-        informationFrame.setSize(new java.awt.Dimension(220, 160));
-
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMessage1.setText("Dados guardados com sucesso!");
-
-        btnOk.setText("OK");
-        btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnOkMouseReleased(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout informationFrameLayout = new org.jdesktop.layout.GroupLayout(informationFrame.getContentPane());
-        informationFrame.getContentPane().setLayout(informationFrameLayout);
-        informationFrameLayout.setHorizontalGroup(
-            informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
-            .add(informationFrameLayout.createSequentialGroup()
-                .add(105, 105, 105)
-                .add(btnOk)
-                .addContainerGap(207, Short.MAX_VALUE))
-        );
-        informationFrameLayout.setVerticalGroup(
-            informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(informationFrameLayout.createSequentialGroup()
-                .add(14, 14, 14)
-                .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnOk)
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        menuPanel.add(informationFrame);
-        informationFrame.setBounds(300, 150, 300, 160);
-
         deleteAdminWarningFrame.setTitle("Aviso");
-        deleteAdminWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
-        deleteAdminWarningFrame.setSize(new java.awt.Dimension(330, 160));
+        deleteAdminWarningFrame.setMinimumSize(new java.awt.Dimension(335, 165));
+        deleteAdminWarningFrame.setPreferredSize(new java.awt.Dimension(335, 165));
+        deleteAdminWarningFrame.setSize(new java.awt.Dimension(335, 165));
         deleteAdminWarningFrame.getContentPane().setLayout(null);
 
-        lblDeleteAdminMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDeleteAdminMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDeleteAdminMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDeleteAdminMessage.setText("Tem a certeza que deseja eliminar este Administrador?");
         deleteAdminWarningFrame.getContentPane().add(lblDeleteAdminMessage);
-        lblDeleteAdminMessage.setBounds(10, 30, 320, 27);
+        lblDeleteAdminMessage.setBounds(10, 30, 310, 27);
 
         btnDeleteYes1.setText("Sim");
         btnDeleteYes1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -630,14 +601,14 @@ public class Backend extends javax.swing.JFrame {
         btnDeleteNo1.setBounds(180, 70, 75, 29);
 
         menuPanel.add(deleteAdminWarningFrame);
-        deleteAdminWarningFrame.setBounds(300, 150, 330, 160);
+        deleteAdminWarningFrame.setBounds(300, 150, 335, 165);
 
         deleteWarningFrame.setTitle("Aviso");
         deleteWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
         deleteWarningFrame.setSize(new java.awt.Dimension(330, 160));
         deleteWarningFrame.getContentPane().setLayout(null);
 
-        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDeleteMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDeleteMessage.setText("Tem a certeza que deseja eliminar este Estudante?");
         deleteWarningFrame.getContentPane().add(lblDeleteMessage);
@@ -984,16 +955,6 @@ public class Backend extends javax.swing.JFrame {
         addPanel.add(email);
         email.setBounds(121, 200, 406, 28);
 
-        scholarshipChoose.add(rdoYes);
-        rdoYes.setText("Sim");
-        addPanel.add(rdoYes);
-        rdoYes.setBounds(121, 268, 55, 23);
-
-        scholarshipChoose.add(rdoNo);
-        rdoNo.setText("Não");
-        addPanel.add(rdoNo);
-        rdoNo.setBounds(182, 268, 57, 23);
-
         btnCancel.setText("Cancelar");
         btnCancel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1015,115 +976,12 @@ public class Backend extends javax.swing.JFrame {
         cbSchollarship.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
         addPanel.add(cbSchollarship);
         cbSchollarship.setBounds(120, 240, 142, 27);
+        addPanel.add(cbSchollarShip);
+        cbSchollarShip.setBounds(120, 270, 30, 23);
 
         studentPanel.addTab("Adicionar", addPanel);
 
         searchPanel.setLayout(null);
-
-        updatePanel.setBackground(new java.awt.Color(153, 153, 153));
-        updatePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        updatePanel.setPreferredSize(new java.awt.Dimension(530, 306));
-        updatePanel.setLayout(null);
-
-        scholarshipChoose.add(rdoNo1);
-        rdoNo1.setText("Não");
-        updatePanel.add(rdoNo1);
-        rdoNo1.setBounds(182, 268, 57, 23);
-
-        lblName2.setText("Nome:");
-        updatePanel.add(lblName2);
-        lblName2.setBounds(20, 26, 41, 16);
-
-        lblIfen1.setText("-");
-        updatePanel.add(lblIfen1);
-        lblIfen1.setBounds(175, 97, 8, 16);
-
-        email2.setText("nffdiosi@gmail.com");
-        updatePanel.add(email2);
-        email2.setBounds(121, 200, 380, 28);
-
-        phone2.setText("917235609");
-        phone2.setMaximumSize(new java.awt.Dimension(14, 28));
-        updatePanel.add(phone2);
-        phone2.setBounds(121, 164, 90, 28);
-
-        city2.setText("Ponta Delgada");
-        updatePanel.add(city2);
-        city2.setBounds(121, 128, 380, 28);
-
-        postalCode3.setText("172");
-        updatePanel.add(postalCode3);
-        postalCode3.setBounds(186, 92, 40, 28);
-
-        lblStreet2.setText("Rua:");
-        updatePanel.add(lblStreet2);
-        lblStreet2.setBounds(20, 62, 27, 16);
-
-        btnChange.setText("Alterar");
-        btnChange.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnChangeMouseReleased(evt);
-            }
-        });
-        updatePanel.add(btnChange);
-        btnChange.setBounds(300, 310, 86, 29);
-
-        lblPostalCode2.setText("Código Postal:");
-        updatePanel.add(lblPostalCode2);
-        lblPostalCode2.setBounds(20, 98, 91, 16);
-
-        name2.setText("Nuno Filipe Ferreira Diogo da Silva");
-        updatePanel.add(name2);
-        name2.setBounds(121, 20, 380, 28);
-
-        scholarshipChoose.add(rdoYes1);
-        rdoYes1.setText("Sim");
-        updatePanel.add(rdoYes1);
-        rdoYes1.setBounds(121, 268, 55, 23);
-
-        street2.setText("Rua Francisco José, 5");
-        updatePanel.add(street2);
-        street2.setBounds(121, 56, 380, 28);
-
-        lblEmail2.setText("Email:");
-        updatePanel.add(lblEmail2);
-        lblEmail2.setBounds(20, 206, 38, 16);
-
-        postalCode4.setText("9500");
-        updatePanel.add(postalCode4);
-        postalCode4.setBounds(121, 92, 50, 28);
-
-        lblCity2.setText("Cidade:");
-        updatePanel.add(lblCity2);
-        lblCity2.setBounds(20, 134, 47, 16);
-
-        btnCancel2.setText("Cancelar");
-        btnCancel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnCancel2MouseReleased(evt);
-            }
-        });
-        updatePanel.add(btnCancel2);
-        btnCancel2.setBounds(400, 310, 98, 29);
-
-        lblPhone2.setText("Telefone:");
-        updatePanel.add(lblPhone2);
-        lblPhone2.setBounds(20, 170, 58, 16);
-
-        lblCourse2.setText("Curso:");
-        updatePanel.add(lblCourse2);
-        lblCourse2.setBounds(20, 242, 41, 16);
-
-        lblScholarship2.setText("Bolseiro:");
-        updatePanel.add(lblScholarship2);
-        lblScholarship2.setBounds(20, 272, 54, 16);
-
-        cbSchollarship2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
-        updatePanel.add(cbSchollarship2);
-        cbSchollarship2.setBounds(120, 240, 142, 27);
-
-        searchPanel.add(updatePanel);
-        updatePanel.setBounds(20, 100, 530, 350);
 
         visualizePanel.setBackground(new java.awt.Color(153, 153, 153));
         visualizePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1197,7 +1055,7 @@ public class Backend extends javax.swing.JFrame {
         lblTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblTitle.setText("Dados do Aluno");
         visualizePanel.add(lblTitle);
-        lblTitle.setBounds(218, 22, 115, 17);
+        lblTitle.setBounds(210, 10, 115, 20);
 
         btnReturn.setText("Voltar");
         btnReturn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1206,7 +1064,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         visualizePanel.add(btnReturn);
-        btnReturn.setBounds(200, 290, 81, 29);
+        btnReturn.setBounds(240, 290, 81, 29);
 
         btnRecoverCode.setText("Recuperar Código");
         btnRecoverCode.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1245,7 +1103,104 @@ public class Backend extends javax.swing.JFrame {
         btnCloseAccount.setBounds(370, 160, 170, 29);
 
         searchPanel.add(visualizePanel);
-        visualizePanel.setBounds(10, 100, 550, 329);
+        visualizePanel.setBounds(10, 100, 550, 330);
+
+        updatePanel.setBackground(new java.awt.Color(153, 153, 153));
+        updatePanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        updatePanel.setPreferredSize(new java.awt.Dimension(530, 306));
+        updatePanel.setLayout(null);
+
+        lblName2.setText("Nome:");
+        updatePanel.add(lblName2);
+        lblName2.setBounds(20, 26, 41, 16);
+
+        lblIfen1.setText("-");
+        updatePanel.add(lblIfen1);
+        lblIfen1.setBounds(175, 97, 8, 16);
+
+        email2.setText("nffdiosi@gmail.com");
+        updatePanel.add(email2);
+        email2.setBounds(121, 200, 380, 28);
+
+        phone2.setText("917235609");
+        phone2.setMaximumSize(new java.awt.Dimension(14, 28));
+        updatePanel.add(phone2);
+        phone2.setBounds(121, 164, 90, 28);
+
+        city2.setText("Ponta Delgada");
+        updatePanel.add(city2);
+        city2.setBounds(121, 128, 380, 28);
+
+        postalCode3.setText("172");
+        updatePanel.add(postalCode3);
+        postalCode3.setBounds(186, 92, 40, 28);
+
+        lblStreet2.setText("Rua:");
+        updatePanel.add(lblStreet2);
+        lblStreet2.setBounds(20, 62, 27, 16);
+
+        btnChange.setText("Alterar");
+        btnChange.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnChangeMouseReleased(evt);
+            }
+        });
+        updatePanel.add(btnChange);
+        btnChange.setBounds(300, 310, 86, 29);
+
+        lblPostalCode2.setText("Código Postal:");
+        updatePanel.add(lblPostalCode2);
+        lblPostalCode2.setBounds(20, 98, 91, 16);
+
+        name2.setText("Nuno Filipe Ferreira Diogo da Silva");
+        updatePanel.add(name2);
+        name2.setBounds(121, 20, 380, 28);
+
+        street2.setText("Rua Francisco José, 5");
+        updatePanel.add(street2);
+        street2.setBounds(121, 56, 380, 28);
+
+        lblEmail2.setText("Email:");
+        updatePanel.add(lblEmail2);
+        lblEmail2.setBounds(20, 206, 38, 16);
+
+        postalCode4.setText("9500");
+        updatePanel.add(postalCode4);
+        postalCode4.setBounds(121, 92, 50, 28);
+
+        lblCity2.setText("Cidade:");
+        updatePanel.add(lblCity2);
+        lblCity2.setBounds(20, 134, 47, 16);
+
+        btnCancel2.setText("Cancelar");
+        btnCancel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancel2MouseReleased(evt);
+            }
+        });
+        updatePanel.add(btnCancel2);
+        btnCancel2.setBounds(400, 310, 98, 29);
+
+        lblPhone2.setText("Telefone:");
+        updatePanel.add(lblPhone2);
+        lblPhone2.setBounds(20, 170, 58, 16);
+
+        lblCourse2.setText("Curso:");
+        updatePanel.add(lblCourse2);
+        lblCourse2.setBounds(20, 242, 41, 16);
+
+        lblScholarship2.setText("Bolseiro:");
+        updatePanel.add(lblScholarship2);
+        lblScholarship2.setBounds(20, 272, 54, 16);
+
+        cbSchollarship2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
+        updatePanel.add(cbSchollarship2);
+        cbSchollarship2.setBounds(120, 240, 142, 27);
+        updatePanel.add(jCheckBox1);
+        jCheckBox1.setBounds(120, 270, 28, 23);
+
+        searchPanel.add(updatePanel);
+        updatePanel.setBounds(20, 100, 530, 350);
 
         lblSearch.setText("Pesquisar por:");
         searchPanel.add(lblSearch);
@@ -1316,15 +1271,6 @@ public class Backend extends javax.swing.JFrame {
         searchPanel.add(btnCheck);
         btnCheck.setBounds(58, 349, 105, 29);
 
-        btnCancel1.setText("Cancelar");
-        btnCancel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnCancel1MouseReleased(evt);
-            }
-        });
-        searchPanel.add(btnCancel1);
-        btnCancel1.setBounds(430, 480, 98, 29);
-
         studentPanel.addTab("Pesquisar", searchPanel);
 
         menuPanel.add(studentPanel);
@@ -1357,7 +1303,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         addAdminPanel.add(btnCancelAdmin);
-        btnCancelAdmin.setBounds(430, 210, 98, 29);
+        btnCancelAdmin.setBounds(300, 300, 98, 29);
 
         btnSaveAdmin.setText("Guardar");
         btnSaveAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1366,7 +1312,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         addAdminPanel.add(btnSaveAdmin);
-        btnSaveAdmin.setBounds(310, 210, 93, 29);
+        btnSaveAdmin.setBounds(180, 300, 93, 29);
 
         adminPwd.setText("jPasswordField1");
         addAdminPanel.add(adminPwd);
@@ -1454,7 +1400,7 @@ public class Backend extends javax.swing.JFrame {
 
         street5.setText("Rua da Universidade, 5");
 
-        lblTitle1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblTitle1.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblTitle1.setText("Dados do Administrador");
 
         btnReturn1.setText("Voltar");
@@ -1557,41 +1503,32 @@ public class Backend extends javax.swing.JFrame {
         searchAdminPanel.add(jScrollPane1);
         jScrollPane1.setBounds(20, 202, 530, 132);
 
-        btnUpdate1.setText("Actualizar");
-        btnUpdate1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnUpdateAdmin.setText("Actualizar");
+        btnUpdateAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnUpdate1MouseReleased(evt);
+                btnUpdateAdminMouseReleased(evt);
             }
         });
-        searchAdminPanel.add(btnUpdate1);
-        btnUpdate1.setBounds(223, 349, 107, 29);
+        searchAdminPanel.add(btnUpdateAdmin);
+        btnUpdateAdmin.setBounds(223, 349, 107, 29);
 
-        btnDelete1.setText("Eliminar");
-        btnDelete1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnDeleteAdmin.setText("Eliminar");
+        btnDeleteAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnDelete1MouseReleased(evt);
+                btnDeleteAdminMouseReleased(evt);
             }
         });
-        searchAdminPanel.add(btnDelete1);
-        btnDelete1.setBounds(397, 349, 95, 29);
+        searchAdminPanel.add(btnDeleteAdmin);
+        btnDeleteAdmin.setBounds(397, 349, 95, 29);
 
-        btnCheck1.setText("Visualizar");
-        btnCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnCheckAdmin.setText("Visualizar");
+        btnCheckAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnCheck1MouseReleased(evt);
+                btnCheckAdminMouseReleased(evt);
             }
         });
-        searchAdminPanel.add(btnCheck1);
-        btnCheck1.setBounds(58, 349, 105, 29);
-
-        btnAdminCancel.setText("Cancelar");
-        btnAdminCancel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnAdminCancelMouseReleased(evt);
-            }
-        });
-        searchAdminPanel.add(btnAdminCancel);
-        btnAdminCancel.setBounds(430, 480, 98, 29);
+        searchAdminPanel.add(btnCheckAdmin);
+        btnCheckAdmin.setBounds(58, 349, 105, 29);
 
         adminPanel.addTab("Pesquisar", searchAdminPanel);
 
@@ -1665,8 +1602,7 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.add(separator);
         separator.setBounds(205, 0, 10, 611);
 
-        getContentPane().add(menuPanel);
-        menuPanel.setBounds(0, 0, 800, 600);
+        getContentPane().add(menuPanel, "card4");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1683,7 +1619,6 @@ public class Backend extends javax.swing.JFrame {
             // Add Panel treatment
             activate(addPanel);
             clearTextFieldsOf(addPanel);
-            scholarshipChoose.clearSelection();
             studentPanel.setSelectedIndex(0);
             
             // Search Panel treatment
@@ -1696,7 +1631,6 @@ public class Backend extends javax.swing.JFrame {
             btnCheck.setVisible(false);
             btnDelete.setVisible(false);
             btnUpdate.setVisible(false);
-            btnCancel1.setEnabled(true);
             searchList.clearSelection();
             updatePanel.setVisible(false);
         }
@@ -1729,13 +1663,11 @@ public class Backend extends javax.swing.JFrame {
                 btnAdmin.setEnabled(false);
                 
                 if (searchAdminList.isSelectionEmpty()) {
-                btnCheck1.setEnabled(false);
-                btnDelete1.setEnabled(false);
-                btnUpdate1.setEnabled(false);
+                btnCheckAdmin.setEnabled(false);
+                btnDeleteAdmin.setEnabled(false);
+                btnUpdateAdmin.setEnabled(false);
                 }
             }
-            
-            
         }
     }//GEN-LAST:event_btnWarningNoMouseReleased
 
@@ -1760,7 +1692,6 @@ public class Backend extends javax.swing.JFrame {
                 enabledAll(searchList);
                 enabledAll(buttonsPanel);
                 btnStudent.setEnabled(false);
-                scholarshipChoose.clearSelection();
                 clearTextFieldsOf(addPanel);
                 searchList.clearSelection();
                 btnCheck.setEnabled(false);
@@ -1771,8 +1702,7 @@ public class Backend extends javax.swing.JFrame {
                 btnRecoverCode.setEnabled(true);
                 btnCloseAccount.setEnabled(true);
                 btnReturn.setEnabled(true);
-                deactivate(searchList);
-                btnCancel1.setEnabled(false);
+                cbSchollarShip.setSelected(false);
             }
             
             if (adminPanel.isVisible()) {
@@ -1782,14 +1712,13 @@ public class Backend extends javax.swing.JFrame {
                 enabledAll(searchAdminList);
                 enabledAll(buttonsPanel);
                 btnAdmin.setEnabled(false);
-                scholarshipChoose.clearSelection();
                 clearTextFieldsOf(addAdminPanel);
                 searchAdminList.clearSelection();
-                btnCheck1.setEnabled(false);
-                btnDelete1.setEnabled(false);
-                btnUpdate1.setEnabled(false);
+                btnSearchAdmin.setEnabled(false);
+                btnCheckAdmin.setEnabled(false);
+                btnDeleteAdmin.setEnabled(false);
+                btnUpdateAdmin.setEnabled(false);
             }
-            
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -1835,9 +1764,9 @@ public class Backend extends javax.swing.JFrame {
             }
             
             if (searchAdminList.isSelectionEmpty()) {
-                btnCheck1.setEnabled(false);
-                btnDelete1.setEnabled(false);
-                btnUpdate1.setEnabled(false);
+                btnCheckAdmin.setEnabled(false);
+                btnDeleteAdmin.setEnabled(false);
+                btnUpdateAdmin.setEnabled(false);
             }
             
             if (studentPanel.isVisible()) {
@@ -1927,6 +1856,7 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCheckMouseReleased
 
     private void searchListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_searchListValueChanged
+
         btnCheck.setEnabled(true);
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
@@ -1939,22 +1869,12 @@ public class Backend extends javax.swing.JFrame {
         activate(searchList);
         activate(buttonsPanel);
         btnStudent.setEnabled(false);
+        
+        searchList.clearSelection();
         btnCheck.setEnabled(false);
-        btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
-        btnCancel1.setEnabled(true);
+        btnUpdate.setEnabled(false);
     }//GEN-LAST:event_btnReturnMouseReleased
-
-    private void btnCancel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel1MouseReleased
-        if (btnCancel1.isEnabled()) {
-            warningFrame.setVisible(true);
-            btnCancel1.setEnabled(false);
-            deactivate(studentPanel);
-            deactivate(searchPanel);
-            deactivate(searchList);
-            deactivate(buttonsPanel);
-        }
-    }//GEN-LAST:event_btnCancel1MouseReleased
 
     private void searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFocusGained
         btnSearch.setEnabled(true);
@@ -2252,6 +2172,8 @@ public class Backend extends javax.swing.JFrame {
                 btnAdmin.setEnabled(false);
                 adminPanel.setVisible(true);
                 adminPanel.setSelectedIndex(0);
+                clearTextFieldsOf(addAdminPanel);
+                clearTextFieldsOf(searchAdminPanel);
                 
                 studentPanel.setVisible(false);
                 mealPanel.setVisible(false);
@@ -2264,9 +2186,9 @@ public class Backend extends javax.swing.JFrame {
                 searchAdminList.clearSelection();
                 searchAdmin.setText(null);
                 
-                btnUpdate1.setEnabled(false);
-                btnCheck1.setEnabled(false);
-                btnDelete1.setEnabled(false);
+                btnUpdateAdmin.setEnabled(false);
+                btnCheckAdmin.setEnabled(false);
+                btnDeleteAdmin.setEnabled(false);
             }
     }//GEN-LAST:event_btnAdminMouseReleased
 
@@ -2282,20 +2204,20 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_searchAdminFocusGained
 
     private void searchAdminListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_searchAdminListValueChanged
-        btnCheck1.setEnabled(true);
-        btnUpdate1.setEnabled(true);
-        btnDelete1.setEnabled(true);
+        btnCheckAdmin.setEnabled(true);
+        btnUpdateAdmin.setEnabled(true);
+        btnDeleteAdmin.setEnabled(true);
     }//GEN-LAST:event_searchAdminListValueChanged
 
-    private void btnCheck1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheck1MouseReleased
-        if (btnCheck1.isEnabled()) {
+    private void btnCheckAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckAdminMouseReleased
+        if (btnCheckAdmin.isEnabled()) {
             visualizeAdminPanel.setVisible(true);
             deactivate(adminPanel);
             deactivate(searchAdminPanel);
             deactivate(searchAdminList);
             deactivate(buttonsPanel);
         }
-    }//GEN-LAST:event_btnCheck1MouseReleased
+    }//GEN-LAST:event_btnCheckAdminMouseReleased
 
     private void btnReturn1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReturn1MouseReleased
         visualizeAdminPanel.setVisible(false);
@@ -2306,15 +2228,15 @@ public class Backend extends javax.swing.JFrame {
         btnAdmin.setEnabled(false);
     }//GEN-LAST:event_btnReturn1MouseReleased
 
-    private void btnUpdate1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdate1MouseReleased
-        if (btnUpdate1.isEnabled()) {
+    private void btnUpdateAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateAdminMouseReleased
+        if (btnUpdateAdmin.isEnabled()) {
             updateAdminPanel.setVisible(true);
             deactivate(adminPanel);   
             deactivate(searchAdminPanel);
             deactivate(searchAdminList);
             deactivate(buttonsPanel);
         }
-    }//GEN-LAST:event_btnUpdate1MouseReleased
+    }//GEN-LAST:event_btnUpdateAdminMouseReleased
 
     private void btnCancel4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancel4MouseReleased
         updateAdminPanel.setVisible(false);
@@ -2325,15 +2247,15 @@ public class Backend extends javax.swing.JFrame {
         btnAdmin.setEnabled(false);
     }//GEN-LAST:event_btnCancel4MouseReleased
 
-    private void btnDelete1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelete1MouseReleased
-        if (btnDelete1.isEnabled()) {
+    private void btnDeleteAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteAdminMouseReleased
+        if (btnDeleteAdmin.isEnabled()) {
             deleteAdminWarningFrame.setVisible(true);
             deactivate(adminPanel);   
             deactivate(searchAdminPanel);
             deactivate(searchAdminList);
             deactivate(buttonsPanel);
         }
-    }//GEN-LAST:event_btnDelete1MouseReleased
+    }//GEN-LAST:event_btnDeleteAdminMouseReleased
 
     private void btnDeleteYes1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYes1MouseReleased
         deleteAdminWarningFrame.setVisible(false);
@@ -2361,18 +2283,6 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnChange1MouseReleased
 
-    private void btnAdminCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminCancelMouseReleased
-        if (btnAdminCancel.isEnabled()) {       
-            warningFrame.setVisible(true);
-            btnAdminCancel.setEnabled(false);
-            deactivate(adminPanel);
-            deactivate(searchAdminPanel);
-            deactivate(addAdminPanel);
-            deactivate(searchAdminList);
-            deactivate(buttonsPanel);
-        }
-    }//GEN-LAST:event_btnAdminCancelMouseReleased
-
     private void btnCancelAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelAdminMouseReleased
         if (btnCancelAdmin.isEnabled()) {       
             warningFrame.setVisible(true);    
@@ -2391,10 +2301,6 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveAdminMouseReleased
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
     private void btnChargeBalanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeBalanceMouseReleased
         if (btnChargeBalance.isEnabled()) {
             btnChargeBalance.setEnabled(false);
@@ -2409,6 +2315,8 @@ public class Backend extends javax.swing.JFrame {
             deactivate(buttonsPanel);
             
             chargeBalanceFrame.setVisible(true);
+            bgCharge.clearSelection();
+            money.setText(null);
         }
     }//GEN-LAST:event_btnChargeBalanceMouseReleased
 
@@ -2539,9 +2447,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bgCharge;
     private javax.swing.ButtonGroup bgTime;
     private javax.swing.JButton btnAdmin;
-    private javax.swing.JButton btnAdminCancel;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnCancel1;
     private javax.swing.JButton btnCancel2;
     private javax.swing.JButton btnCancel4;
     private javax.swing.JButton btnCancelAdmin;
@@ -2553,11 +2459,11 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnChargeNo;
     private javax.swing.JButton btnChargeYes;
     private javax.swing.JButton btnCheck;
-    private javax.swing.JButton btnCheck1;
+    private javax.swing.JButton btnCheckAdmin;
     private javax.swing.JButton btnCloseAccount;
     private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnDelete1;
+    private javax.swing.JButton btnDeleteAdmin;
     private javax.swing.JButton btnDeleteNo;
     private javax.swing.JButton btnDeleteNo1;
     private javax.swing.JButton btnDeleteYes;
@@ -2580,7 +2486,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnTerminate;
     private javax.swing.JButton btnUnblockAccount;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnUpdate1;
+    private javax.swing.JButton btnUpdateAdmin;
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
@@ -2589,6 +2495,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbFish;
     private javax.swing.JComboBox cbMeat;
     private javax.swing.JComboBox cbMonthChoice;
+    private javax.swing.JCheckBox cbSchollarShip;
     private javax.swing.JComboBox cbSchollarship;
     private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
@@ -2612,14 +2519,10 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField email2;
     private javax.swing.JInternalFrame informationFrame;
     private javax.swing.JInternalFrame informationMealFrame;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbTicketlMealTimeText;
@@ -2633,6 +2536,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblAdminUser1;
     private javax.swing.JLabel lblBackBK;
     private javax.swing.JLabel lblBackBK1;
+    private javax.swing.JLabel lblChargeTitle;
     private javax.swing.JLabel lblCity;
     private javax.swing.JLabel lblCity1;
     private javax.swing.JLabel lblCity2;
@@ -2700,6 +2604,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel mealPanel;
     private javax.swing.JPanel menuPanel;
+    private javax.swing.JTextField money;
     private javax.swing.JTextField name;
     private javax.swing.JLabel name1;
     private javax.swing.JTextField name2;
@@ -2721,12 +2626,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField postalCode4;
     private javax.swing.JRadioButton rbDinner;
     private javax.swing.JRadioButton rbLunch;
-    private javax.swing.JRadioButton rdoNo;
-    private javax.swing.JRadioButton rdoNo1;
-    private javax.swing.JRadioButton rdoYes;
-    private javax.swing.JRadioButton rdoYes1;
     private javax.swing.JLabel scholarship1;
-    private javax.swing.ButtonGroup scholarshipChoose;
     private javax.swing.JTextField search;
     private javax.swing.JTextField searchAdmin;
     private javax.swing.JList searchAdminList;
