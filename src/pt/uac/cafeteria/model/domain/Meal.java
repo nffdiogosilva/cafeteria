@@ -1,8 +1,6 @@
 
 package pt.uac.cafeteria.model.domain;
 
-import java.util.Calendar;
-
 /**
  * Meal that can be bought for a certain day, at lunch or dinner,
  * and of a choice of main course types (meat, fish or vegetarian).
@@ -26,7 +24,7 @@ public class Meal implements java.io.Serializable {
     }
 
     /** The day the meal is served. */
-    private final Calendar day;
+    private final Day day;
 
     /** The time of day the meal is served. */
     private final Time time;
@@ -53,7 +51,8 @@ public class Meal implements java.io.Serializable {
      * @param mainCourse the name of the main course dish.
      * @param dessert the name of the dessert.
      */
-    public Meal(Calendar day, Time time, Type type, String soup, String mainCourse, String dessert) {
+    public Meal(Day day, Time time, Type type,
+            String soup, String mainCourse, String dessert) {
         this.day = day;
         this.time = time;
         this.type = type;
@@ -62,12 +61,8 @@ public class Meal implements java.io.Serializable {
         this.dessert = dessert;
     }
 
-    public Meal(Menu.Id id, Type type, String mainCourse, String soup, String dessert) {
-        this(id.getDay(), id.getTime(), type, soup, mainCourse, dessert);
-    }
-
     /** Gets the day of the meal. */
-    public Calendar getDay() {
+    public Day getDay() {
         return this.day;
     }
 

@@ -1,150 +1,146 @@
 
 package pt.uac.cafeteria.model.domain;
 
-import java.util.Calendar;
 import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Meal Menu for a a lunch or dinner, in a given day.
+ * Meal menu for a given day.
+ * <p>
+ * The menu has a collection of <code>Meal</code> objects, grouped by
+ * the time of day the meals are served. At each meal time, only one meal
+ * per type of meal can be defined.
  */
-public class Menu implements DomainObject<Menu.Id> {
+public class Menu implements DomainObject<Day> {
+
+    /** Unique indentifier for this menu, which is the day. */
+    private Day id;
+
+    /** Map with meals for each meal type and meal time. */
+    private Map<Meal.Time, Map<Meal.Type, Meal>> menu;
 
     /**
-     * Unique identity for menus.
-     * <p>
-     * Composed of a date and meal time of day (lunch or dinner).
-     */
-    public static class Id {
-
-        /** Day of the menu. */
-        private final Calendar day;
-
-        /** Time of the meal. */
-        private final Meal.Time time;
-
-        /** Creates a new Menu.Id instance. */
-        public Id(Calendar day, Meal.Time time) {
-            this.day = day;
-            this.time = time;
-        }
-
-        /** Gets the date of the menu. */
-        public Calendar getDay() {
-            return (Calendar) this.day.clone();
-        }
-
-        /** Gets the time of day. */
-        public Meal.Time getTime() {
-            return this.time;
-        }
-    }
-
-    /** Unique indentifier for this menu. */
-    private Id id;
-
-    private Map<Meal.Type, String> dishes = new EnumMap<Meal.Type, String>(Meal.Type.class);
-
-    /** Soup name. */
-    private String soup;
-
-    /** The dessert name. */
-    private String dessert;
-
-    /**
-     * Creates a new Menu instance, when Menu.Id is known.
+     * Creates a new <code>Menu</code> instance.
      *
-     * @param id the menu unique identifier.
-     * @param meat the name of the meat dish.
-     * @param fish the name of the fish dish.
-     * @param vegetarian the name of the vegetarian dish.
-     * @param soup the soup name.
-     * @param dessert the dessert name.
+     * @param id the day of the menu.
      */
-    public Menu(Id id, String meat, String fish, String vegetarian,
-            String soup, String dessert) {
-
+    public Menu(Day id) {
         this.id = id;
-        dishes.put(Meal.Type.MEAT, meat);
-        dishes.put(Meal.Type.FISH, fish);
-        dishes.put(Meal.Type.VEGETARIAN, vegetarian);
-        this.soup = soup;
-        this.dessert = dessert;
+        menu = new EnumMap<Meal.Time, Map<Meal.Type, Meal>>(Meal.Time.class);
     }
 
     /**
-     * Creates a new Menu instance.
+     * Adds a menu for a time of day, full with meat, fish and vegetarian dishes.
      *
-     * @param day the day of the meal.
-     * @param time the time of day for the meal.
+     * @param mealTime the time of day (as in lunch or dinner).
+     * @param soup the name of the soup.
      * @param meat the name of the meat dish.
      * @param fish the name of the fish dish.
-     * @param vegetarian the name of the vegetarian dish.
-     * @param soup the soup name.
-     * @param dessert the dessert name.
+     * @param vegetarian the name of the vegetarian dish (optional).
+     * @param dessert the name of the dessert.
      */
-    public Menu(Calendar day, Meal.Time time, String meat, String fish,
-            String vegetarian, String soup, String dessert) {
+    public void addSubmenu(Meal.Time mealTime, String soup, String meat,
+            String fish, String vegetarian, String dessert) {
 
-        this(new Id(day, time), meat, fish, vegetarian, soup, dessert);
+        addMeals(
+            new Meal(id, mealTime, Meal.Type.MEAT, soup, meat, dessert),
+            new Meal(id, mealTime, Meal.Type.FISH, soup, fish, dessert)
+        );
+
+        // assume vegetarian dish is optional
+        if (vegetarian != null && !vegetarian.isEmpty()) {
+            addMeal(new Meal(id, mealTime,
+                Meal.Type.VEGETARIAN, soup, vegetarian, dessert
+            ));
+        }
     }
 
     /**
-     * Creates a new <code>Menu</code> instance, based on meals.
+     * Adds an array of meals to the menu.
      *
-     * @param meals array of <code>Meal</code> objects.
+     * @param meals the array of meals to add.
      */
-    public Menu(Meal... meals) {
+    public void addMeals(Meal... meals) {
         for (Meal meal : meals) {
-            if (meal != null) {
-                if (id == null) {
-                    id = new Id(meal.getDay(), meal.getTime());
-                }
-                if (soup == null) {
-                    soup = meal.getSoup();
-                }
-                if (dessert == null) {
-                    dessert = meal.getDessert();
-                }
-                dishes.put(meal.getType(), meal.getMainCourse());
+            addMeal(meal);
+        }
+    }
+
+    /**
+     * Adds a meal to the menu.
+     *
+     * @param meal the meal to add.
+     */
+    public void addMeal(Meal meal) {
+        if (meal != null && meal.getDay().equals(id)) {
+
+            Map<Meal.Type, Meal> submenu = menu.get(meal.getTime());
+            if (submenu == null) {
+                submenu = new EnumMap<Meal.Type, Meal>(Meal.Type.class);
             }
+            submenu.put(meal.getType(), meal);
+            menu.put(meal.getTime(), submenu);
         }
     }
 
     @Override
-    public Id getId() {
+    public Day getId() {
         return id;
     }
 
     @Override
-    public void setId(Menu.Id id) {
+    public void setId(Day id) {
         this.id = id;
     }
 
-    /** Gets the name of the main course dish, based on type of meal. */
-    public String getMainCourse(Meal.Type mealType) {
-        return dishes.get(mealType);
-    }
-
-    /** Gets the soup name in the menu. */
-    public String getSoup() {
-        return soup;
-    }
-
-    /** Gets the dessert name in the menu. */
-    public String getDessert() {
-        return dessert;
+    /** Gets all meals in the menu. */
+    public Map<Meal.Time, Map<Meal.Type, Meal>> getMeals() {
+        return menu;
     }
 
     /**
-     * Gets a <code>Meal</code> choice from an available main course type,
-     * or <code>null</code> if main course type is not in menu.
+     * Gets the meals available for a given time.
+     *
+     * @param mealTime the time of the day.
+     * @return the sub-menu of the given time, or null if there isn't one.
      */
-    public Meal getMeal(Meal.Type mealType) {
-        String mainCourse = getMainCourse(mealType);
-        if (mainCourse == null) {
+    public Map<Meal.Type, Meal> getMeals(Meal.Time mealTime) {
+        return menu.get(mealTime);
+    }
+
+    /**
+     * Gets a meal choice from the day menu.
+     *
+     * @param mealTime time of the day.
+     * @param mealType main course dish type.
+     * @return the meal for the given time and type, or null if there isn't one.
+     */
+    public Meal getMeal(Meal.Time mealTime, Meal.Type mealType) {
+        Map<Meal.Type, Meal> submenu = menu.get(mealTime);
+
+        if (submenu == null) {
             return null;
         }
-        return new Meal(id, mealType, soup, mainCourse, dessert);
+
+        return submenu.get(mealType);
+    }
+
+    /**
+     * Removes all meals for a given meal time.
+     *
+     * @param mealTime the time of day for the meals to be removed.
+     */
+    public void removeMeals(Meal.Time mealTime) {
+        menu.remove(mealTime);
+    }
+
+    /** Checks if the menu has no meals. */
+    public boolean isEmpty() {
+        return menu.isEmpty();
+    }
+
+    /** Checks if there are no meals for a give time. */
+    public boolean isEmpty(Meal.Time mealTime) {
+        return getMeals(mealTime) == null || getMeals(mealTime).isEmpty();
     }
 }

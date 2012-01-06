@@ -4,10 +4,8 @@ package pt.uac.cafeteria.model.persistence;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +16,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import pt.uac.cafeteria.model.ApplicationException;
+import pt.uac.cafeteria.model.domain.Day;
 import pt.uac.cafeteria.model.domain.Menu;
 import pt.uac.cafeteria.model.domain.Meal;
 import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
@@ -55,16 +54,16 @@ import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
  *   &lt;ementa&gt;
  * </pre>
  */
-public class MenuMapper implements DataMapper<Menu, Menu.Id> {
+public class MenuMapper implements DataMapper<Menu, Day> {
 
     /** Root element name in XML document. */
     private static final String ROOT = "ementa";
 
-    /** File name format to be translated from a date (eg, 20120116.xml). */
-    private final String FILENAME_FORMAT = "yyyyMMdd";
+    /** File name format to be translated from a date (e.g., 2012-01-16.xml). */
+    private final String FILENAME_FORMAT = "yyyy-MM-dd";
 
     /** Loaded map of Menu instances. */
-    private Map<Menu.Id, Menu> loadedMap = new HashMap<Menu.Id, Menu>();
+    private Map<Day, Menu> loadedMap = new HashMap<Day, Menu>();
 
     /** Path to the directory where files for each menu should be saved. */
     private String path;
@@ -87,8 +86,8 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
      * @param day the day to check menu availability.
      * @return
      */
-    public boolean hasMenu(Calendar day) {
-        return getFile(day.getTime()).exists();
+    public boolean hasMenu(Day day) {
+        return getFile(day).exists();
     }
 
     /**
@@ -97,20 +96,8 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
      * @param day any day.
      * @return The File object pointing to the file corresponding to <code>day</code>.
      */
-    private File getFile(Date day) {
-        DateFormat df = new SimpleDateFormat(FILENAME_FORMAT);
-        String date = df.format(day);
-        return new File(path + date + ".xml");
-    }
-
-    /**
-     * Gets the file for a given menu id.
-     *
-     * @param id the menu id.
-     * @return The File object pointing to the corresponding menu.
-     */
-    private File getFile(Menu.Id id) {
-        return getFile(id.getDay().getTime());
+    private File getFile(Day day) {
+        return new File(path + day.format(FILENAME_FORMAT) + ".xml");
     }
 
     /**
@@ -133,48 +120,21 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
         }
     }
 
-    /**
-     * Translates a Meal.Time value to a machine readable name to
-     * be used as an element in the XML document.
-     *
-     * @param time Meal.Time enum value.
-     * @return String with corresponding key value.
-     */
-    private String getMealTimeKey(Meal.Time time) {
-        return time.toString().toLowerCase();
-    }
-
-    /**
-     * Finds a Menu object.
-     * <p>
-     * Menu objects have a compound key of day and Meal.Time values. This
-     * is a convenience method when there's both values initialized, but not
-     * the compounded id object.
-     *
-     * @param day the day.
-     * @param mealTime the time of day (lunch or dinner).
-     * @return The menu for the given day and time.
-     */
-    public Menu find(Calendar day, Meal.Time mealTime) {
-        return find(new Menu.Id(day, mealTime));
-    }
-
     @Override
-    public Menu find(Menu.Id id) {
+    public Menu find(Day id) {
         Menu result = loadedMap.get(id);
         if (result != null) {
             return result;
         }
         try {
             Element root = getDoc(getFile(id)).getRootElement();
-            Element dishes = root.getChild(getMealTimeKey(id.getTime()));
 
-            Meal meat = readMeal(Meal.Type.MEAT, dishes, id);
-            Meal fish = readMeal(Meal.Type.FISH, dishes, id);
-            Meal veggie = readMeal(Meal.Type.VEGETARIAN, dishes, id);
+            Menu menu = new Menu(id);
+            for (Object child : root.getChildren()) {
+                menu.addMeals(readMenu((Element) child, id));
+            }
 
-            result = new Menu(meat, fish, veggie);
-
+            result = menu;
             loadedMap.put(id, result);
 
         } catch (Exception e) {
@@ -184,98 +144,123 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
     }
 
     /**
-     * Reads a <code>Meal</code> object from a parsed DOM element.
+     * Reads an array of meal objects for lunch or dinner.
      *
-     * @param mealType the type of meal
-     * @param parent the parent element where the meal is contained.
-     * @param id the menu id.
-     * @return a meal.
+     * @param menu the JDOM Element corresponding to lunch or dinner.
+     * @param day the day of the menu.
+     * @return meals that belong to a sub-menu for a time of day.
      */
-    private Meal readMeal(Meal.Type mealType, Element parent, Menu.Id id) {
-        String element = mealType.toString().toLowerCase();
-        Element meal = parent.getChild(element);
+    private Meal[] readMenu(Element menu, Day day) {
+        Meal.Time mealTime = getEnum(Meal.Time.class, menu.getName());
 
-        if (meal == null) {
-            return null;
+        List<Meal> meals = new ArrayList<Meal>();
+        for (Object child : menu.getChildren()) {
+            meals.add(readMeal((Element) child, day, mealTime));
         }
+        return meals.toArray(new Meal[]{});
+    }
 
-        String mainCourse = meal.getChildText("prato");
+    /**
+     * Reads a meal object from a corresponding JDOM Element.
+     *
+     * @param meal the JDOM Element corresponding to the meal type.
+     * @param day the day of the menu.
+     * @param mealTime the time of day for the sub-menu.
+     * @return the corresponding Meal object parsed.
+     */
+    private Meal readMeal(Element meal, Day day, Meal.Time mealTime) {
+        Meal.Type mealType = getEnum(Meal.Type.class, meal.getName());
+
         String soup = meal.getChildText("sopa");
+        String mainCourse = meal.getChildText("prato");
         String dessert = meal.getChildText("sobremesa");
 
-        return new Meal(id, mealType, mainCourse, soup, dessert);
+        return new Meal(day, mealTime, mealType, soup, mainCourse, dessert);
+    }
+
+
+    /**
+     * Translates an Enum value to a machine readable name to
+     * be used as an element in the XML document.
+     *
+     * @param e the enum to translate.
+     * @return Machine name of <code>e</code>.
+     */
+    private String getEnumValue(Enum e) {
+        return e.toString().toLowerCase();
+    }
+
+    /**
+     * Gets an enum based on its machine readable name.
+     *
+     * @param <E> the type of the enum object.
+     * @param type the class object for the enum.
+     * @param value the machine readable name
+     * @return the enum object corresponding to <code>value</code>.
+     */
+    public <E extends Enum<E>> E getEnum(Class<E> type, String value) {
+       for (final E element : EnumSet.allOf(type)) {
+           if (getEnumValue(element).equals(value)) {
+               return element;
+           }
+       }
+       return null;
     }
 
     /**
      * Saves a <code>Menu</code> object to its file.
      * <p>
-     * If the file doesn't exist, a new one is created. If the a menu
-     * already exists, it's replaced for the new one.
+     * Any existing file will be replaced. Any error found will assume
+     * malformed document, warranting an overwrite.
      *
      * @param menu the Menu object to save.
-     * @return true if saved successfully.
+     * @return true if saved successfully, or false on any error found.
      */
     private boolean save(Menu menu) {
-        String mealTime = getMealTimeKey(menu.getId().getTime());
-
-        Element meal = new Element(mealTime);
-        addDish(dishElement("carne", Meal.Type.MEAT, menu), meal);
-        addDish(dishElement("peixe", Meal.Type.FISH, menu), meal);
-        addDish(dishElement("vegetariano", Meal.Type.VEGETARIAN, menu), meal);
-
-        Document doc;
-        Element root;
-
-        File file = getFile(menu.getId());
         try {
-            // existing file
-            doc = getDoc(file);
-            root = doc.getRootElement();
-            root.removeChild(mealTime);
-            root.addContent(meal);
+            Element root = new Element(ROOT);
+
+            // iterate lunch, dinner...
+            for (Meal.Time mealTime : menu.getMeals().keySet()) {
+                Element submenu = new Element(getEnumValue(mealTime));
+
+                // iterate meat, fish, vegetarian...
+                for (Meal.Type mealType : menu.getMeals(mealTime).keySet()) {
+                    Meal meal = menu.getMeal(mealTime, mealType);
+                    submenu.addContent(mealElement(meal));
+                }
+
+                root.addContent(submenu);
+            }
+
+            Document doc = new Document(root);
+            File file = getFile(menu.getId());
+
+            doSave(doc, file);
+            loadedMap.put(menu.getId(), menu);
+
+            return true;
 
         } catch (Exception e) {
-            // any error (e.g., malformed document) warrants a new file
-            root = new Element(ROOT);
-            root.addContent(meal);
-            doc = new Document(root);
-        }
-
-        doSave(doc, file);
-        loadedMap.put(menu.getId(), menu);
-
-        return true;
-    }
-
-    /**
-     * Adds a dish element to a meal element if it isn't null.
-     *
-     * @param dish child element of <code>meal</dish>.
-     * @param meal parent element of <code>dish</code>.
-     */
-    private void addDish(Element dish, Element meal) {
-        if (dish != null) {
-            meal.addContent(dish);
+            return false;
         }
     }
 
     /**
-     * Translates a main dish choice from a menu to a JDOM Element object.
+     * Translates a <code>Meal</code> to a JDOM Element object.
      *
-     * @param identifier the name of the parent element for the dishes (type of meal).
-     * @param mainCourse the type of meal (e.g., carne, peixe...).
-     * @param menu the Menu object to extract the dishes from.
-     * @return a JDOM Element object with the available dishes for a meal type.
+     * @param meal the meal to save.
+     * @return a JDOM Element object with the meal dishes.
      */
-    private Element dishElement(String identifier, Meal.Type mainCourse, Menu menu) {
-        if (menu.getMainCourse(mainCourse) == null) {
-            return null;
-        }
-        Element dish = new Element(identifier);
-        dish.addContent(new Element("sopa").setText(menu.getSoup()));
-        dish.addContent(new Element("prato").setText(menu.getMainCourse(mainCourse)));
-        dish.addContent(new Element("sobremesa").setText(menu.getDessert()));
-        return dish;
+    private Element mealElement(Meal meal) {
+        String mealType = getEnumValue(meal.getType());
+
+        Element mealElement = new Element(mealType);
+        mealElement.addContent(new Element("sopa").setText(meal.getSoup()));
+        mealElement.addContent(new Element("prato").setText(meal.getMainCourse()));
+        mealElement.addContent(new Element("sobremesa").setText(meal.getDessert()));
+
+        return mealElement;
     }
 
     /**
@@ -294,7 +279,6 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             }
-
             FileOutputStream fileStream = new FileOutputStream(file);
             out.output(doc, fileStream);
 
@@ -304,7 +288,7 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
     }
 
     @Override
-    public Menu.Id insert(Menu menu) {
+    public Day insert(Menu menu) {
         return save(menu) ? menu.getId() : null;
     }
 
@@ -315,27 +299,8 @@ public class MenuMapper implements DataMapper<Menu, Menu.Id> {
 
     @Override
     public boolean delete(Menu menu) {
-        File file = getFile(menu.getId());
-        String mealTime = getMealTimeKey(menu.getId().getTime());
-
-        try {
-            Document doc = getDoc(file);
-            Element root = doc.getRootElement();
-            root.removeChild(mealTime);
-
-            List children = root.getChildren();
-            if (children.isEmpty()) {
-                file.delete();
-            }
-            else {
-                doSave(doc, file);
-            }
-
-            loadedMap.remove(menu.getId());
-            return true;
-
-        } catch (IOException e) {
-            return false;
-        }
+        getFile(menu.getId()).delete();
+        loadedMap.remove(menu.getId());
+        return true;
     }
 }

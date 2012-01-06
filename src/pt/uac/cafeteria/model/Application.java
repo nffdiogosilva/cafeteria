@@ -2,7 +2,6 @@
 package pt.uac.cafeteria.model;
 
 import java.sql.*;
-import java.util.Calendar;
 import pt.uac.cafeteria.model.domain.*;
 import pt.uac.cafeteria.model.persistence.*;
 
@@ -198,7 +197,7 @@ public class Application {
     public static double mealPrice(Meal meal, Student student) {
         double price = config.getDouble(Config.MEAL_PRICE);
 
-        if (isSameDay(meal.getDay(), Calendar.getInstance())) {
+        if (meal.getDay().isToday()) {
             price += config.getDouble(Config.SAME_DAY_TAX);
         }
 
@@ -207,20 +206,5 @@ public class Application {
         }
 
         return price;
-    }
-
-    /**
-     * Checks if two calendars represent the same day ignoring time.
-     *
-     * @param day1 the first day.
-     * @param day2 the second day.
-     * @return <code>true</code> if they represent the same day.
-     */
-    public static boolean isSameDay(Calendar day1, Calendar day2) {
-        return (
-            day1.get(Calendar.ERA) == day2.get(Calendar.ERA) &&
-            day1.get(Calendar.YEAR) == day2.get(Calendar.YEAR) &&
-            day1.get(Calendar.DAY_OF_YEAR) == day2.get(Calendar.DAY_OF_YEAR)
-        );
     }
 }

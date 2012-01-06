@@ -80,52 +80,6 @@ public abstract class Validator<T extends DomainObject> {
     }
 
     /**
-     * Helper method that checks if no string is empty in a group of strings.
-     *
-     * @param strings the group of strings to test.
-     * @return true if none of the strings are empty, or false otherwise.
-     */
-    public static boolean isNoneEmpty(String... strings) {
-        for (String string : strings) {
-            if (isEmpty(string)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Helper method that checks if all strings are empty in a group of strings.
-     *
-     * @param strings the group of strings to test.
-     * @return true if all of the strings are empty, or false otherwise.
-     */
-    public static boolean isAllEmpty(String... strings) {
-        for (String string : strings) {
-            if (!isEmpty(string)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Helper method that checks if at least one string is empty in a group
-     * of strings.
-     *
-     * @param strings the group of strings to test.
-     * @return true if at least on string is empty, or false otherwise.
-     */
-    public static boolean isAnyEmpty(String... strings) {
-        for (String string : strings) {
-            if (isEmpty(string)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Checks weather the domain object being validated is valid or not.
      * <p>
      * Any errors found are recorded.
@@ -208,8 +162,17 @@ public abstract class Validator<T extends DomainObject> {
      */
     protected void check(boolean valid, String errorMessage) {
         if (!valid) {
-            errors.add(errorMessage);
+            addError(errorMessage);
         }
+    }
+
+    /**
+     * Adds an error to the list of errors.
+     *
+     * @param errorMessage the error message to add.
+     */
+    protected void addError(String errorMessage) {
+        errors.add(errorMessage);
     }
 
     /** Gets a collection of all errors found during validation. */

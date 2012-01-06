@@ -1,7 +1,7 @@
 
 package pt.uac.cafeteria.model.validation;
 
-import pt.uac.cafeteria.model.domain.Meal.Type;
+import pt.uac.cafeteria.model.domain.Meal;
 import pt.uac.cafeteria.model.domain.Menu;
 
 /**
@@ -13,18 +13,17 @@ public class MenuValidator extends Validator<Menu> {
     protected void doAssertions(Menu menu) {
         check(
             menu.getId() != null,
-            "É necessário definir um dia e se é almoço ou jantar."
+            "É necessário definir um dia para a ementa."
         );
         check(
-            isAllEmpty(
-                menu.getMainCourse(Type.MEAT),
-                menu.getMainCourse(Type.FISH),
-                menu.getMainCourse(Type.VEGETARIAN)),
-            "É necessário introduzir no mínimo um tipo de prato."
+            !menu.isEmpty(),
+            "É necessário introduzir no mínimo uma refeição."
         );
-        check(
-            isAnyEmpty(menu.getSoup(), menu.getDessert()),
-            "É necessário introduzir uma sopa e sobremesa."
-        );
+        for (Meal.Time mealTime : menu.getMeals().keySet()) {
+            check(
+                !menu.isEmpty(),
+                "Ementa para '" + mealTime.toString() + "' vazia."
+            );
+        }
     }
 }
