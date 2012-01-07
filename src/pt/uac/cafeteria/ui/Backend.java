@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
+import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
+import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
+import pt.uac.cafeteria.model.validation.StudentValidator;
 /**
  * 
  * Represents the Back Office user interface.
@@ -247,8 +250,10 @@ public class Backend extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
-        cbSchollarship = new javax.swing.JComboBox();
+        jbCourse = new javax.swing.JComboBox();
         cbSchollarShip = new javax.swing.JCheckBox();
+        lblNumber = new javax.swing.JLabel();
+        number = new javax.swing.JTextField();
         searchPanel = new javax.swing.JPanel();
         visualizePanel = new javax.swing.JPanel();
         lblName1 = new javax.swing.JLabel();
@@ -387,9 +392,9 @@ public class Backend extends javax.swing.JFrame {
         loginFrame.getContentPane().setLayout(loginFrameLayout);
         loginFrameLayout.setHorizontalGroup(
             loginFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblLoginMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblLoginMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, loginFrameLayout.createSequentialGroup()
-                .addContainerGap(233, Short.MAX_VALUE)
+                .addContainerGap(107, Short.MAX_VALUE)
                 .add(btnLoginOk)
                 .add(144, 144, 144))
         );
@@ -519,7 +524,7 @@ public class Backend extends javax.swing.JFrame {
 
         lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMessage1.setText("Username e/ou Password fora dos limites!");
+        lblMessage1.setText("Dados Guardados Com Sucesso!");
 
         btnOk.setText("OK");
         btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -532,9 +537,9 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.getContentPane().setLayout(informationFrameLayout);
         informationFrameLayout.setHorizontalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, informationFrameLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(btnOk)
                 .add(121, 121, 121))
         );
@@ -545,7 +550,7 @@ public class Backend extends javax.swing.JFrame {
                 .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnOk)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         menuPanel.add(informationFrame);
@@ -994,7 +999,7 @@ public class Backend extends javax.swing.JFrame {
         addPanel.add(name);
         name.setBounds(121, 20, 406, 28);
         addPanel.add(street);
-        street.setBounds(121, 56, 406, 28);
+        street.setBounds(121, 56, 320, 28);
         addPanel.add(postalCode);
         postalCode.setBounds(121, 92, 50, 28);
         addPanel.add(postalCode1);
@@ -1026,10 +1031,16 @@ public class Backend extends javax.swing.JFrame {
         addPanel.add(btnSave);
         btnSave.setBounds(340, 480, 93, 29);
 
-        addPanel.add(cbSchollarship);
-        cbSchollarship.setBounds(120, 240, 52, 27);
+        addPanel.add(jbCourse);
+        jbCourse.setBounds(120, 240, 52, 27);
         addPanel.add(cbSchollarShip);
         cbSchollarShip.setBounds(120, 270, 30, 23);
+
+        lblNumber.setText("Nº:");
+        addPanel.add(lblNumber);
+        lblNumber.setBounds(450, 62, 20, 16);
+        addPanel.add(number);
+        number.setBounds(477, 56, 50, 28);
 
         studentPanel.addTab("Adicionar", addPanel);
 
@@ -1663,11 +1674,13 @@ public class Backend extends javax.swing.JFrame {
         if (btnStudent.isEnabled()) {
             
             //load courses
+            jbCourse.addItem(null);
+            
             for (Course course: MapperRegistry.course().findAll()) {
-                cbSchollarship.addItem(course.getName());
+                jbCourse.addItem(course);
             }
             
-            cbSchollarship.setSize(250, 25);
+            jbCourse.setSize(250, 25);
             
             btnMeal.setEnabled(true);
             mealPanel.setVisible(false);
@@ -1985,11 +1998,36 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_searchKeyReleased
 
     private void btnSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseReleased
-        if (btnSave.isEnabled()) {             
+        
+        StudentValidator validator = new StudentValidator();
+        
+        Course course = (Course)jbCourse.getSelectedItem();
+        
+        Address address = new Address(street.getText(), 
+                number.getText(), 
+                postalCode.getText() + "-" + postalCode1.getText(), 
+                city.getText());
+        
+        Student student = new Student(
+                null, 
+                name.getText(), 
+                address, 
+                Integer.parseInt(phone.getText()), 
+                email.getText(), 
+                cbSchollarShip.isSelected(), 
+                course
+                );
+        if (validator.isValid(student) && btnSave.isEnabled()) {
+            
+            Application.createStudent(student);
+            
             informationFrame.setVisible(true);             
             deactivate(studentPanel);             
             deactivate(addPanel);
             deactivate(buttonsPanel);
+        }
+        else {
+            System.out.println(validator.getErrors().toString());
         }
     }//GEN-LAST:event_btnSaveMouseReleased
 
@@ -2611,7 +2649,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbMeat;
     private javax.swing.JComboBox cbMonthChoice;
     private javax.swing.JCheckBox cbSchollarShip;
-    private javax.swing.JComboBox cbSchollarship;
     private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
     private javax.swing.JComboBox cbSearchAdmin;
@@ -2640,6 +2677,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox jbCourse;
     private javax.swing.JLabel lbTicketlMealTimeText;
     private javax.swing.JLabel lblAdminName;
     private javax.swing.JLabel lblAdminName1;
@@ -2677,6 +2715,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblName2;
     private javax.swing.JLabel lblName5;
+    private javax.swing.JLabel lblNumber;
     private javax.swing.JLabel lblPanelTitle;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhone;
@@ -2732,6 +2771,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField newMeat;
     private javax.swing.JTextField newSoup;
     private javax.swing.JTextField newVeggie;
+    private javax.swing.JTextField number;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phone1;
