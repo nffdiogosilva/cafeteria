@@ -24,7 +24,8 @@ public class StudentValidator extends Validator<Student> {
 
     @Override
     public void doAssertions(Student student) {
-        if (assertRequired("número de processo", student.getId())) {
+        if (student.getId() != null &&
+                assertRequired("número de processo", student.getId())) {
             assertId(student.getId());
         }
 
