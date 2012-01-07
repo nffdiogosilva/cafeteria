@@ -37,11 +37,16 @@ public class Course implements DomainObject<Integer> {
 
     /** Gets the course name. */
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /** Updates the name to a new value. */
     public void setName(String newName) {
         name = newName;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
