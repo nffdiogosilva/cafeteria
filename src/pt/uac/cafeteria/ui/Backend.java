@@ -2,8 +2,11 @@ package pt.uac.cafeteria.ui;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
 import pt.uac.cafeteria.model.domain.Address;
@@ -11,8 +14,8 @@ import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
-import pt.uac.cafeteria.model.validation.AdministratorValidator;
 import pt.uac.cafeteria.model.validation.StudentValidator;
+import pt.uac.cafeteria.model.validation.Validator;
 /**
  * 
  * Represents the Back Office user interface.
@@ -24,8 +27,8 @@ public class Backend extends javax.swing.JFrame {
     private static int day = Calendar.getInstance().get(Calendar.DATE);
     
     /** Type of list to use on JList Component */
-    private DefaultListModel list1 = new DefaultListModel();
-    private DefaultListModel list2 = new DefaultListModel();
+    private DefaultListModel studentsList = new DefaultListModel();
+    private DefaultListModel adminsList = new DefaultListModel();
     
     /** Creates new form Backend */
     public Backend() {
@@ -52,34 +55,39 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setVisible(false);
         chargeBalanceFrame.setVisible(false);
         
-        putStudentsInList();
         putAdminsInList();
     }
     
-    /** Add students to JList Component */
-    private void putStudentsInList() {
-        ArrayList<String> students = new ArrayList<String>();
-        students.add("Nuno Diogo da Silva");
-        students.add("Nuno Rego Silva");
-        students.add("Nuno Pereira");
-        
-        searchList.setModel(list1);
-        
-        for (String student : students) {
-            list1.addElement(student);
+    private int ifIsNull(String number) {
+        try {
+            if (number.isEmpty()) {
+                return 0;
+            }
+            return Integer.parseInt(number);
+        }
+        catch (NumberFormatException e) {
+            e.getMessage();
+            return -1;
         }
     }
     
+    /** Add a student into JList Component */
+    private void putStudentInList(Student student) {
+        searchList.setModel(studentsList);
+        studentsList.addElement(student);
+    }
+    
+    /** Adds admins into JList Component */
     private void putAdminsInList() {
         ArrayList<String> admins = new ArrayList<String>();
         admins.add("Paulo Leocádio");
         admins.add("Hélia Guerra");
         admins.add("Luís Gomes");
         
-        searchAdminList.setModel(list2);
+        searchAdminList.setModel(adminsList);
         
         for (String admin : admins) {
-            list2.addElement(admin);
+            adminsList.addElement(admin);
         }
     }
     
@@ -159,6 +167,9 @@ public class Backend extends javax.swing.JFrame {
         lblBackBK = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
+        warningSearchFrame = new javax.swing.JInternalFrame();
+        lblSearchMessage = new javax.swing.JLabel();
+        btnSearchOk = new javax.swing.JButton();
         warningLogFrame = new javax.swing.JInternalFrame();
         lblLogMessage = new javax.swing.JLabel();
         btnLogYes = new javax.swing.JButton();
@@ -278,6 +289,8 @@ public class Backend extends javax.swing.JFrame {
         btnUnblockAccount = new javax.swing.JButton();
         btnChargeBalance = new javax.swing.JButton();
         btnCloseAccount = new javax.swing.JButton();
+        lblid = new javax.swing.JLabel();
+        id = new javax.swing.JLabel();
         updatePanel = new javax.swing.JPanel();
         lblName2 = new javax.swing.JLabel();
         lblIfen1 = new javax.swing.JLabel();
@@ -471,6 +484,43 @@ public class Backend extends javax.swing.JFrame {
         menuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         menuPanel.setLayout(null);
 
+        warningSearchFrame.setTitle("Informação");
+        warningSearchFrame.setPreferredSize(new java.awt.Dimension(220, 160));
+
+        lblSearchMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSearchMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSearchMessage.setText("ID Inválido! Insira Novamente");
+
+        btnSearchOk.setText("OK");
+        btnSearchOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSearchOkMouseReleased(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout warningSearchFrameLayout = new org.jdesktop.layout.GroupLayout(warningSearchFrame.getContentPane());
+        warningSearchFrame.getContentPane().setLayout(warningSearchFrameLayout);
+        warningSearchFrameLayout.setHorizontalGroup(
+            warningSearchFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblSearchMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, warningSearchFrameLayout.createSequentialGroup()
+                .addContainerGap(80, Short.MAX_VALUE)
+                .add(btnSearchOk)
+                .add(121, 121, 121))
+        );
+        warningSearchFrameLayout.setVerticalGroup(
+            warningSearchFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(warningSearchFrameLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(lblSearchMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnSearchOk)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        menuPanel.add(warningSearchFrame);
+        warningSearchFrame.setBounds(300, 150, 300, 150);
+
         warningLogFrame.setTitle("Aviso");
         warningLogFrame.setPreferredSize(new java.awt.Dimension(220, 160));
 
@@ -522,7 +572,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setTitle("Informação");
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
 
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMessage1.setText("Dados Guardados Com Sucesso!");
 
@@ -537,9 +587,9 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.getContentPane().setLayout(informationFrameLayout);
         informationFrameLayout.setHorizontalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, informationFrameLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(80, Short.MAX_VALUE)
                 .add(btnOk)
                 .add(121, 121, 121))
         );
@@ -550,7 +600,7 @@ public class Backend extends javax.swing.JFrame {
                 .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnOk)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         menuPanel.add(informationFrame);
@@ -559,7 +609,6 @@ public class Backend extends javax.swing.JFrame {
         chargeBalanceFrame.setTitle("Carregamento");
         chargeBalanceFrame.setPreferredSize(new java.awt.Dimension(300, 200));
         chargeBalanceFrame.setSize(new java.awt.Dimension(300, 200));
-        chargeBalanceFrame.setVisible(true);
         chargeBalanceFrame.getContentPane().setLayout(null);
 
         lblChargeTitle.setFont(new java.awt.Font("Lucida Grande", 0, 14));
@@ -1052,68 +1101,68 @@ public class Backend extends javax.swing.JFrame {
 
         lblName1.setText("Nome:");
         visualizePanel.add(lblName1);
-        lblName1.setBounds(22, 47, 41, 16);
+        lblName1.setBounds(22, 70, 41, 16);
 
         lblStreet1.setText("Rua:");
         visualizePanel.add(lblStreet1);
-        lblStreet1.setBounds(22, 71, 27, 16);
+        lblStreet1.setBounds(22, 95, 27, 16);
 
         lblPostalCode1.setText("Código Postal:");
         visualizePanel.add(lblPostalCode1);
-        lblPostalCode1.setBounds(22, 95, 91, 16);
+        lblPostalCode1.setBounds(22, 120, 91, 16);
 
         lblCity1.setText("Cidade:");
         visualizePanel.add(lblCity1);
-        lblCity1.setBounds(22, 119, 47, 16);
+        lblCity1.setBounds(22, 145, 47, 16);
 
         lblPhone1.setText("Telefone:");
         visualizePanel.add(lblPhone1);
-        lblPhone1.setBounds(22, 143, 58, 16);
+        lblPhone1.setBounds(22, 170, 58, 16);
 
         lblEmail1.setText("Email:");
         visualizePanel.add(lblEmail1);
-        lblEmail1.setBounds(22, 167, 38, 16);
+        lblEmail1.setBounds(22, 195, 38, 16);
 
         lblCourse1.setText("Curso:");
         visualizePanel.add(lblCourse1);
-        lblCourse1.setBounds(22, 191, 41, 16);
+        lblCourse1.setBounds(22, 220, 41, 16);
 
         lblScholarship1.setText("Bolseiro:");
         visualizePanel.add(lblScholarship1);
-        lblScholarship1.setBounds(22, 218, 54, 16);
+        lblScholarship1.setBounds(22, 245, 54, 16);
 
         name1.setText("Nuno Filipe Ferreira Diogo da Silva");
         visualizePanel.add(name1);
-        name1.setBounds(143, 47, 217, 16);
+        name1.setBounds(143, 70, 217, 16);
 
         street1.setText("Rua da Universidade, 5");
         visualizePanel.add(street1);
-        street1.setBounds(143, 71, 143, 16);
+        street1.setBounds(143, 95, 143, 16);
 
         postalCode2.setText("9500-123");
         visualizePanel.add(postalCode2);
-        postalCode2.setBounds(143, 95, 64, 16);
+        postalCode2.setBounds(143, 120, 64, 16);
 
         city1.setText("Ponta Delgada");
         visualizePanel.add(city1);
-        city1.setBounds(143, 119, 90, 16);
+        city1.setBounds(143, 145, 90, 16);
 
         phone1.setText("937445045");
         visualizePanel.add(phone1);
-        phone1.setBounds(143, 143, 72, 16);
+        phone1.setBounds(143, 170, 72, 16);
 
         email1.setText("diogosilva@gmail.com");
         visualizePanel.add(email1);
-        email1.setBounds(143, 167, 142, 16);
+        email1.setBounds(143, 195, 142, 16);
 
         scholarship1.setText("IRM");
         visualizePanel.add(scholarship1);
-        scholarship1.setBounds(143, 191, 23, 16);
+        scholarship1.setBounds(143, 220, 23, 16);
 
         chbScholarship.setSelected(true);
         chbScholarship.setEnabled(false);
         visualizePanel.add(chbScholarship);
-        chbScholarship.setBounds(143, 211, 28, 23);
+        chbScholarship.setBounds(143, 245, 28, 23);
 
         lblTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblTitle.setText("Dados do Aluno");
@@ -1164,6 +1213,14 @@ public class Backend extends javax.swing.JFrame {
         });
         visualizePanel.add(btnCloseAccount);
         btnCloseAccount.setBounds(370, 160, 170, 29);
+
+        lblid.setText("Nº de Aluno:");
+        visualizePanel.add(lblid);
+        lblid.setBounds(22, 45, 90, 16);
+
+        id.setText("20082439");
+        visualizePanel.add(id);
+        id.setBounds(143, 45, 64, 16);
 
         searchPanel.add(visualizePanel);
         visualizePanel.setBounds(10, 100, 550, 330);
@@ -1293,9 +1350,9 @@ public class Backend extends javax.swing.JFrame {
         searchPanel.add(btnSearch);
         btnSearch.setBounds(240, 110, 104, 29);
 
-        cbSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Nº de aluno" }));
+        cbSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nº de aluno", "Nome" }));
         searchPanel.add(cbSearch);
-        cbSearch.setBounds(240, 30, 120, 27);
+        cbSearch.setBounds(240, 30, 130, 27);
 
         searchList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -1681,7 +1738,6 @@ public class Backend extends javax.swing.JFrame {
             }
             
             jbCourse.setSize(250, 25);
-            
             btnMeal.setEnabled(true);
             mealPanel.setVisible(false);
             enabledAll(buttonsPanel);
@@ -1692,6 +1748,7 @@ public class Backend extends javax.swing.JFrame {
             activate(addPanel);
             clearTextFieldsOf(addPanel);
             studentPanel.setSelectedIndex(0);
+            jbCourse.setSelectedIndex(0);
             
             // Search Panel treatment
             clearTextFieldsOf(searchPanel);
@@ -1700,6 +1757,7 @@ public class Backend extends javax.swing.JFrame {
             search.setEnabled(true);
             btnSearch.setEnabled(false);
             searchList.setVisible(false);
+            studentsList.removeAllElements();
             btnCheck.setVisible(false);
             btnDelete.setVisible(false);
             btnUpdate.setVisible(false);
@@ -1881,6 +1939,53 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTerminateMouseReleased
 
     private void btnSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseReleased
+        
+        if (cbSearch.getSelectedIndex() == 1) {
+            
+        }
+        else {
+            
+            Integer id = ifIsNull(search.getText());
+            
+            if (Validator.testDigits(8, id)) {
+                Student student = MapperRegistry.student().find(id);
+        
+                if (student != null) {
+                    putStudentInList(student);
+                }
+                else {
+                    
+                    lblSearchMessage.setText("Aluno não registado na Base de Dados!");
+                    
+                    warningSearchFrame.setVisible(true);
+                    warningSearchFrame.setLocation(300, 180);
+                    warningSearchFrame.grabFocus();
+
+                    deactivate(buttonsPanel);
+                    deactivate(studentPanel);
+                    deactivate(searchPanel);
+                    deactivate(searchList);
+                }
+            }
+            else {
+                
+                lblSearchMessage.setText("ID Inválido! Insira Novamente");
+                
+                warningSearchFrame.setVisible(true);
+                warningSearchFrame.setLocation(300, 180);
+                warningSearchFrame.grabFocus();
+                
+                deactivate(buttonsPanel);
+                deactivate(studentPanel);
+                deactivate(searchPanel);
+                deactivate(searchList);
+            }
+            
+            
+            
+            
+        }
+        
         if (btnSearch.isEnabled()) {
             
             searchList.setVisible(true);
@@ -2000,34 +2105,35 @@ public class Backend extends javax.swing.JFrame {
     private void btnSaveMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseReleased
         
         StudentValidator validator = new StudentValidator();
-        
+
         Course course = (Course)jbCourse.getSelectedItem();
-        
+
         Address address = new Address(street.getText(), 
                 number.getText(), 
                 postalCode.getText() + "-" + postalCode1.getText(), 
                 city.getText());
-        
+
         Student student = new Student(
                 null, 
                 name.getText(), 
                 address, 
-                Integer.parseInt(phone.getText()), 
+                ifIsNull(phone.getText()), 
                 email.getText(), 
                 cbSchollarShip.isSelected(), 
                 course
                 );
+
         if (validator.isValid(student) && btnSave.isEnabled()) {
-            
+
             Application.createStudent(student);
-            
+
             informationFrame.setVisible(true);             
             deactivate(studentPanel);             
             deactivate(addPanel);
             deactivate(buttonsPanel);
         }
         else {
-            System.out.println(validator.getErrors().toString());
+            System.out.println(validator.getErrors());
         }
     }//GEN-LAST:event_btnSaveMouseReleased
 
@@ -2043,7 +2149,7 @@ public class Backend extends javax.swing.JFrame {
     private void btnDeleteYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYesMouseReleased
         deleteWarningFrame.setVisible(false);
         
-        list1.remove(searchList.getSelectedIndex());
+        studentsList.remove(searchList.getSelectedIndex());
         lblMessage1.setText("Eliminação feita com Sucesso");
         informationFrame.setVisible(true);
         deactivate(searchPanel);
@@ -2386,7 +2492,7 @@ public class Backend extends javax.swing.JFrame {
     private void btnDeleteYes1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYes1MouseReleased
         deleteAdminWarningFrame.setVisible(false);
         
-        list2.remove(searchAdminList.getSelectedIndex());
+        adminsList.remove(searchAdminList.getSelectedIndex());
         lblMessage1.setText("Eliminação feita com Sucesso");
         informationFrame.setVisible(true);
         deactivate(searchAdminPanel);
@@ -2554,6 +2660,18 @@ public class Backend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLoginOkKeyReleased
 
+    private void btnSearchOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchOkMouseReleased
+        
+        warningSearchFrame.setVisible(false);
+        
+        enabledAll(buttonsPanel);
+        enabledAll(studentPanel);
+        enabledAll(searchList);
+        enabledAll(searchPanel);
+        
+        btnStudent.setEnabled(false);
+    }//GEN-LAST:event_btnSearchOkMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -2635,6 +2753,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveMeal;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSearchAdmin;
+    private javax.swing.JButton btnSearchOk;
     private javax.swing.JButton btnStudent;
     private javax.swing.JButton btnTerminate;
     private javax.swing.JButton btnUnblockAccount;
@@ -2669,6 +2788,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField email;
     private javax.swing.JLabel email1;
     private javax.swing.JTextField email2;
+    private javax.swing.JLabel id;
     private javax.swing.JInternalFrame informationFrame;
     private javax.swing.JInternalFrame informationMealFrame;
     private javax.swing.JCheckBox jCheckBox1;
@@ -2729,6 +2849,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblScholarship2;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblSearchAdmin;
+    private javax.swing.JLabel lblSearchMessage;
     private javax.swing.JLabel lblSearchNumber;
     private javax.swing.JLabel lblSearchNumber1;
     private javax.swing.JLabel lblSoup;
@@ -2755,6 +2876,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblVeggie;
+    private javax.swing.JLabel lblid;
     private javax.swing.JInternalFrame loginFrame;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
@@ -2804,5 +2926,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JPanel visualizePanel;
     private javax.swing.JInternalFrame warningFrame;
     private javax.swing.JInternalFrame warningLogFrame;
+    private javax.swing.JInternalFrame warningSearchFrame;
     // End of variables declaration//GEN-END:variables
 }
