@@ -1706,7 +1706,7 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="143" y="95" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="143" y="95" width="220" height="20"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1726,7 +1726,7 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="143" y="145" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="143" y="145" width="200" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1736,7 +1736,7 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="143" y="170" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="143" y="170" width="90" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1746,23 +1746,22 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="143" y="195" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="143" y="195" width="220" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="scholarship1">
+                    <Component class="javax.swing.JLabel" name="course">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="IRM"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="143" y="220" width="-1" height="-1"/>
+                          <AbsoluteConstraints x="143" y="220" width="220" height="-1"/>
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="chbScholarship">
+                    <Component class="javax.swing.JCheckBox" name="cbSchollarship">
                       <Properties>
-                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Constraints>

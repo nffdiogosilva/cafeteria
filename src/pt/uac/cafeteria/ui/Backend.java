@@ -290,8 +290,8 @@ public class Backend extends javax.swing.JFrame {
         city1 = new javax.swing.JLabel();
         phone1 = new javax.swing.JLabel();
         email1 = new javax.swing.JLabel();
-        scholarship1 = new javax.swing.JLabel();
-        chbScholarship = new javax.swing.JCheckBox();
+        course = new javax.swing.JLabel();
+        cbSchollarship = new javax.swing.JCheckBox();
         lblTitle = new javax.swing.JLabel();
         btnReturn = new javax.swing.JButton();
         btnRecoverCode = new javax.swing.JButton();
@@ -1146,7 +1146,7 @@ public class Backend extends javax.swing.JFrame {
 
         street1.setText("Rua da Universidade, 5");
         visualizePanel.add(street1);
-        street1.setBounds(143, 95, 143, 16);
+        street1.setBounds(143, 95, 220, 20);
 
         postalCode2.setText("9500-123");
         visualizePanel.add(postalCode2);
@@ -1154,24 +1154,23 @@ public class Backend extends javax.swing.JFrame {
 
         city1.setText("Ponta Delgada");
         visualizePanel.add(city1);
-        city1.setBounds(143, 145, 90, 16);
+        city1.setBounds(143, 145, 200, 16);
 
         phone1.setText("937445045");
         visualizePanel.add(phone1);
-        phone1.setBounds(143, 170, 72, 16);
+        phone1.setBounds(143, 170, 90, 16);
 
         email1.setText("diogosilva@gmail.com");
         visualizePanel.add(email1);
-        email1.setBounds(143, 195, 142, 16);
+        email1.setBounds(143, 195, 220, 16);
 
-        scholarship1.setText("IRM");
-        visualizePanel.add(scholarship1);
-        scholarship1.setBounds(143, 220, 23, 16);
+        course.setText("IRM");
+        visualizePanel.add(course);
+        course.setBounds(143, 220, 220, 16);
 
-        chbScholarship.setSelected(true);
-        chbScholarship.setEnabled(false);
-        visualizePanel.add(chbScholarship);
-        chbScholarship.setBounds(143, 245, 28, 23);
+        cbSchollarship.setEnabled(false);
+        visualizePanel.add(cbSchollarship);
+        cbSchollarship.setBounds(143, 245, 28, 23);
 
         lblTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblTitle.setText("Dados do Aluno");
@@ -2064,6 +2063,33 @@ public class Backend extends javax.swing.JFrame {
 
     private void btnCheckMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckMouseReleased
         if (btnCheck.isEnabled()) {
+            
+            Student student = (Student) searchList.getSelectedValue();
+            
+            id.setText(student.getId().toString());
+            name1.setText(student.getName());
+            street1.setText(student.getAddress().getStreetAddress());
+            postalCode2.setText(student.getAddress().getPostalCode());
+            city1.setText(student.getAddress().getCity());
+            phone1.setText(student.getPhone().toString());
+            email1.setText(student.getEmail());
+            course.setText(student.getCourse().toString());
+            
+            if (student.hasScholarship()) {
+                cbSchollarship.setSelected(true);
+            }
+            else {
+                cbSchollarship.setSelected(false);
+            }
+            
+            if (student.getAccount().isActive()) {
+                btnUnblockAccount.setEnabled(false);
+            }
+            
+            if (student.getAccount().isBlocked()) {
+                btnUnblockAccount.setEnabled(true);
+            }
+            
             visualizePanel.setVisible(true);
             deactivate(studentPanel);
             deactivate(searchPanel);
@@ -2779,6 +2805,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbMeat;
     private javax.swing.JComboBox cbMonthChoice;
     private javax.swing.JCheckBox cbSchollarShip;
+    private javax.swing.JCheckBox cbSchollarship;
     private javax.swing.JComboBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
     private javax.swing.JComboBox cbSearchAdmin;
@@ -2786,7 +2813,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbVeggie;
     private javax.swing.JComboBox cbYearChoice;
     private javax.swing.JInternalFrame chargeBalanceFrame;
-    private javax.swing.JCheckBox chbScholarship;
     private javax.swing.JPanel chooseDayPanel;
     private javax.swing.JPanel chooseMealPanel;
     private javax.swing.JTextField city;
@@ -2794,6 +2820,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField city2;
     private javax.swing.JButton confirm;
     private javax.swing.JLayeredPane confirmMealPanel;
+    private javax.swing.JLabel course;
     private javax.swing.JInternalFrame deleteAdminWarningFrame;
     private javax.swing.JInternalFrame deleteWarningFrame;
     private javax.swing.JTextField email;
@@ -2916,7 +2943,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField postalCode4;
     private javax.swing.JRadioButton rbDinner;
     private javax.swing.JRadioButton rbLunch;
-    private javax.swing.JLabel scholarship1;
     private javax.swing.JTextField search;
     private javax.swing.JTextField searchAdmin;
     private javax.swing.JList searchAdminList;
