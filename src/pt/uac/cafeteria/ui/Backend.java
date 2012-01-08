@@ -1949,7 +1949,7 @@ public class Backend extends javax.swing.JFrame {
     private void btnSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseReleased
         
         if (cbSearch.getSelectedIndex() == 1) {
-            
+            // Student student = MapperRegistry.student().findByName(search.getText());
         }
         else {
             
@@ -1990,10 +1990,6 @@ public class Backend extends javax.swing.JFrame {
                 deactivate(searchPanel);
                 deactivate(searchList);
             }
-            
-            
-            
-            
         }
         
         if (btnSearch.isEnabled()) {
@@ -2125,17 +2121,64 @@ public class Backend extends javax.swing.JFrame {
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            searchList.setVisible(true);
-            searchList.setEnabled(true);
-            
-            btnCheck.setVisible(true);
-            btnCheck.setEnabled(false);
-                    
-            btnUpdate.setVisible(true);
-            btnUpdate.setEnabled(false);
-            
-            btnDelete.setVisible(true);
-            btnDelete.setEnabled(false);
+            if (cbSearch.getSelectedIndex() == 1) {
+                // Student student = MapperRegistry.student().findByName(search.getText());
+            }
+            else {
+
+                Integer id = ifIsNull(search.getText());
+
+                if (Validator.testDigits(8, id)) {
+                    Student student = MapperRegistry.student().find(id);
+
+                    if (student != null) {
+                        if (!hasStudent(student)) {
+                            putStudentInList(student);
+                        }
+                    }
+                    else {
+
+                        lblSearchMessage.setText("Aluno não registado na Base de Dados!");
+
+                        warningSearchFrame.setVisible(true);
+                        warningSearchFrame.setLocation(300, 180);
+                        warningSearchFrame.grabFocus();
+
+                        deactivate(buttonsPanel);
+                        deactivate(studentPanel);
+                        deactivate(searchPanel);
+                        deactivate(searchList);
+                    }
+                }
+                else {
+
+                    lblSearchMessage.setText("ID Inválido! Insira Novamente");
+
+                    warningSearchFrame.setVisible(true);
+                    warningSearchFrame.setLocation(300, 180);
+                    warningSearchFrame.grabFocus();
+
+                    deactivate(buttonsPanel);
+                    deactivate(studentPanel);
+                    deactivate(searchPanel);
+                    deactivate(searchList);
+                }
+            }
+
+            if (btnSearch.isEnabled()) {
+
+                searchList.setVisible(true);
+                searchList.setEnabled(true);
+
+                btnCheck.setVisible(true);
+                btnCheck.setEnabled(false);
+
+                btnUpdate.setVisible(true);
+                btnUpdate.setEnabled(false);
+
+                btnDelete.setVisible(true);
+                btnDelete.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_searchKeyReleased
 
