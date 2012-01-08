@@ -2,11 +2,8 @@ package pt.uac.cafeteria.ui;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
 import pt.uac.cafeteria.model.domain.Address;
@@ -56,6 +53,17 @@ public class Backend extends javax.swing.JFrame {
         chargeBalanceFrame.setVisible(false);
         
         putAdminsInList();
+    }
+    
+    private int changeStringToInt(String string) {
+        try {
+            int aux = Integer.parseInt(string);
+            return aux;
+        }
+        catch (NumberFormatException e) {
+            e.getMessage();
+            return -1;
+        }
     }
     
     private boolean hasStudent(Student student) {
@@ -319,8 +327,10 @@ public class Backend extends javax.swing.JFrame {
         lblPhone2 = new javax.swing.JLabel();
         lblCourse2 = new javax.swing.JLabel();
         lblScholarship2 = new javax.swing.JLabel();
-        cbSchollarship2 = new javax.swing.JComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jbCourse1 = new javax.swing.JComboBox();
+        cbSchollarship2 = new javax.swing.JCheckBox();
+        lblNumber1 = new javax.swing.JLabel();
+        number1 = new javax.swing.JTextField();
         lblSearch = new javax.swing.JLabel();
         lblSearchNumber = new javax.swing.JLabel();
         search = new javax.swing.JTextField();
@@ -1089,8 +1099,10 @@ public class Backend extends javax.swing.JFrame {
         addPanel.add(btnSave);
         btnSave.setBounds(340, 480, 93, 29);
 
+        jbCourse.setPreferredSize(new java.awt.Dimension(250, 25));
+        jbCourse.setSize(new java.awt.Dimension(250, 25));
         addPanel.add(jbCourse);
-        jbCourse.setBounds(120, 240, 52, 27);
+        jbCourse.setBounds(120, 240, 250, 25);
         addPanel.add(cbSchollarShip);
         cbSchollarShip.setBounds(120, 270, 30, 23);
 
@@ -1286,7 +1298,7 @@ public class Backend extends javax.swing.JFrame {
 
         street2.setText("Rua Francisco José, 5");
         updatePanel.add(street2);
-        street2.setBounds(121, 56, 380, 28);
+        street2.setBounds(121, 56, 300, 28);
 
         lblEmail2.setText("Email:");
         updatePanel.add(lblEmail2);
@@ -1321,11 +1333,18 @@ public class Backend extends javax.swing.JFrame {
         updatePanel.add(lblScholarship2);
         lblScholarship2.setBounds(20, 272, 54, 16);
 
-        cbSchollarship2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "IRM", "Gestão", "Serviço Social", "Enfermagem" }));
+        jbCourse1.setPreferredSize(new java.awt.Dimension(250, 25));
+        jbCourse1.setSize(new java.awt.Dimension(250, 25));
+        updatePanel.add(jbCourse1);
+        jbCourse1.setBounds(120, 240, 250, 25);
         updatePanel.add(cbSchollarship2);
-        cbSchollarship2.setBounds(120, 240, 142, 27);
-        updatePanel.add(jCheckBox1);
-        jCheckBox1.setBounds(120, 270, 28, 23);
+        cbSchollarship2.setBounds(120, 270, 28, 23);
+
+        lblNumber1.setText("Nº:");
+        updatePanel.add(lblNumber1);
+        lblNumber1.setBounds(425, 62, 20, 16);
+        updatePanel.add(number1);
+        number1.setBounds(450, 56, 50, 28);
 
         searchPanel.add(updatePanel);
         updatePanel.setBounds(20, 100, 530, 350);
@@ -1744,8 +1763,6 @@ public class Backend extends javax.swing.JFrame {
             for (Course course: MapperRegistry.course().findAll()) {
                 jbCourse.addItem(course);
             }
-            
-            jbCourse.setSize(250, 25);
             btnMeal.setEnabled(true);
             mealPanel.setVisible(false);
             enabledAll(buttonsPanel);
@@ -2256,9 +2273,42 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteMouseReleased
 
     private void btnChangeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangeMouseReleased
-        if (btnChange.isEnabled()) {             
-            informationFrame.setVisible(true);
-            updatePanel.setVisible(false);
+        if (btnChange.isEnabled()) {
+            
+            Student student = (Student) searchList.getSelectedValue();
+            
+            Course course = (Course) jbCourse1.getSelectedItem();
+            
+            int id = changeStringToInt(this.id.getText());
+            
+            String postalCode = postalCode4.getText() + "-" + postalCode3.getText();
+            
+            Address address = student.getAddress();
+            
+            address.setStreetAddress(street2.getText());
+            address.setNumber(number1.getText());
+            address.setPostalCode(postalCode);
+            address.setCity(city2.getText());
+            
+            student.setId(id);
+            student.setName(name2.getText());
+            student.setAddress(address);
+            student.setPhone(ifIsNull(phone2.getText()));
+            student.setEmail(email2.getText());
+            student.setScholarship(cbSchollarship2.isSelected());
+            student.setCourse(course);
+            
+            StudentValidator validator = new StudentValidator();
+            
+            if (validator.isValid(student)) {
+                if (MapperRegistry.student().update(student)) {
+                    informationFrame.setVisible(true);
+                    updatePanel.setVisible(false);
+                }
+            }
+            else {
+                System.out.println(validator.getErrors());
+            }
         }
     }//GEN-LAST:event_btnChangeMouseReleased
 
@@ -2275,6 +2325,33 @@ public class Backend extends javax.swing.JFrame {
 
     private void btnUpdateMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseReleased
         if (btnUpdate.isEnabled()) {
+            
+            for (Course course: MapperRegistry.course().findAll()) {
+                jbCourse1.addItem(course);
+            }
+            
+            Student student = (Student) searchList.getSelectedValue();
+            
+            String aux[] = student.getAddress().getPostalCode().split("-");
+            
+            id.setText(student.getId().toString());
+            name2.setText(student.getName());
+            street2.setText(student.getAddress().getStreetAddress());
+            number1.setText(student.getAddress().getNumber());
+            postalCode4.setText(aux[0]);
+            postalCode3.setText(aux[1]);
+            city2.setText(student.getAddress().getCity());
+            phone2.setText(student.getPhone().toString());
+            email2.setText(student.getEmail());
+            jbCourse1.setSelectedIndex(student.getCourse().getId() - 1);
+            
+            if (student.hasScholarship()) {
+                cbSchollarship2.setSelected(true);
+            }
+            else {
+                cbSchollarship2.setSelected(false);
+            }
+            
             lblMessage1.setText("Dados guardados com sucesso!");
             updatePanel.setVisible(true);
             deactivate(studentPanel);   
@@ -2849,7 +2926,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox cbMonthChoice;
     private javax.swing.JCheckBox cbSchollarShip;
     private javax.swing.JCheckBox cbSchollarship;
-    private javax.swing.JComboBox cbSchollarship2;
+    private javax.swing.JCheckBox cbSchollarship2;
     private javax.swing.JComboBox cbSearch;
     private javax.swing.JComboBox cbSearchAdmin;
     private javax.swing.JComboBox cbSoup;
@@ -2872,13 +2949,13 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel id;
     private javax.swing.JInternalFrame informationFrame;
     private javax.swing.JInternalFrame informationMealFrame;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox jbCourse;
+    private javax.swing.JComboBox jbCourse1;
     private javax.swing.JLabel lbTicketlMealTimeText;
     private javax.swing.JLabel lblAdminName;
     private javax.swing.JLabel lblAdminName1;
@@ -2917,6 +2994,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblName2;
     private javax.swing.JLabel lblName5;
     private javax.swing.JLabel lblNumber;
+    private javax.swing.JLabel lblNumber1;
     private javax.swing.JLabel lblPanelTitle;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblPhone;
@@ -2975,6 +3053,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField newSoup;
     private javax.swing.JTextField newVeggie;
     private javax.swing.JTextField number;
+    private javax.swing.JTextField number1;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField phone;
     private javax.swing.JLabel phone1;
