@@ -58,6 +58,15 @@ public class Backend extends javax.swing.JFrame {
         putAdminsInList();
     }
     
+    private boolean hasStudent(Student student) {
+        for (int i = 0 ; i < studentsList.toArray().length; i++) {
+            if (student.equals(studentsList.getElementAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     private int ifIsNull(String number) {
         try {
             if (number.isEmpty()) {
@@ -1951,7 +1960,9 @@ public class Backend extends javax.swing.JFrame {
                 Student student = MapperRegistry.student().find(id);
         
                 if (student != null) {
-                    putStudentInList(student);
+                    if (!hasStudent(student)) {
+                        putStudentInList(student);
+                    }
                 }
                 else {
                     
