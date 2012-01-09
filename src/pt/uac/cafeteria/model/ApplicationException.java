@@ -16,6 +16,17 @@ import java.util.logging.Logger;
 public class ApplicationException extends RuntimeException {
 
     /**
+     * Logs an exception.
+     *
+     * @param e original exception thrown.
+     */
+    public static void log(Exception e) {
+        if (!(e instanceof ApplicationException)) {
+            Logger.getLogger(e.getClass().getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    /**
      * Creates a new instance of <code>ApplicationException</code>
      * without detail message.
      */
@@ -45,6 +56,19 @@ public class ApplicationException extends RuntimeException {
      */
     public ApplicationException(String msg, Exception e) {
         super(msg);
-        Logger.getLogger(e.getClass().getName()).log(Level.SEVERE, null, e);
+        log(e);
+    }
+
+    /**
+     * Creates an instance of <code>ApplicationException</code>
+     * based on another exception.
+     * <p>
+     * Used in re-throwing a lower level Exception (e.g., IOException,
+     * SQLException) and logs it for debugging purposes.
+     *
+     * @param e the original exception thrown.
+     */
+    public ApplicationException(Exception e) {
+        log(e);
     }
 }
