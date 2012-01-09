@@ -119,7 +119,7 @@ public class Application {
         }
         if (MapperRegistry.student().insert(student) != null) {
             incrementStudentId();
-            //sendNoticeOfNewAccount(student);
+            sendNoticeOfNewAccount(student);
             return id;
         }
         return null;
@@ -143,7 +143,11 @@ public class Application {
      * @param student the Student object.
      */
     public static void sendNoticeOfNewAccount(Student student) {
-        throw new UnsupportedOperationException("Not yet implemented!");
+        // Placeholder until java mail is active
+        System.out.println("Nova conta criada.");
+        System.out.println("Número: " + student.getAccount().getId());
+        System.out.println("Nome: " + student.getName());
+        System.out.println("Pin: " + student.getAccount().getPinCode());
     }
 
     /**
