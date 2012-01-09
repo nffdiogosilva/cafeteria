@@ -1858,6 +1858,7 @@ public class Backend extends javax.swing.JFrame {
                 btnCloseAccount.setEnabled(true);
                 btnReturn.setEnabled(true);
                 cbSchollarShip.setSelected(false);
+                jbCourse.setSelectedIndex(0);
             }
             
             if (adminPanel.isVisible()) {
