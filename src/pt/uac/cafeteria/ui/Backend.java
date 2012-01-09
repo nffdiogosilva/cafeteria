@@ -2082,7 +2082,7 @@ public class Backend extends javax.swing.JFrame {
             
             id.setText(student.getId().toString());
             name1.setText(student.getName());
-            street1.setText(student.getAddress().getStreetAddress() + ", nº" + student.getAddress().getNumber());
+            street1.setText(student.getAddress().getStreetAddress() + ", " + student.getAddress().getNumber());
             postalCode2.setText(student.getAddress().getPostalCode());
             city1.setText(student.getAddress().getCity());
             phone1.setText(student.getPhone().toString());
