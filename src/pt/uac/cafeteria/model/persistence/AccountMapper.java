@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import pt.uac.cafeteria.model.ApplicationException;
@@ -100,6 +101,11 @@ public class AccountMapper extends FileAccess implements DataMapper<Account, Int
             save();
         }
         return account.getId();
+    }
+
+    /** Finds all loaded accounts. */
+    public Collection<Account> findAll() {
+        return loadedMap.values();
     }
 
     /**
