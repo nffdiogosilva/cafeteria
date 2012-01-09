@@ -170,7 +170,9 @@ public class StudentMapper extends DatabaseMapper<Student> {
     @Override
     public Integer insert(Student student) {
         Integer id = super.insert(student);
-        MapperRegistry.account().insert(createNewAccount(id));
+        Account newAccount = createNewAccount(id);
+        MapperRegistry.account().insert(newAccount);
+        student.setAccount(newAccount);
         return id;
     }
 
