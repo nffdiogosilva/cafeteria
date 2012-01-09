@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import pt.uac.cafeteria.model.domain.Account;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Address;
@@ -30,8 +31,27 @@ public class StudentMapper extends DatabaseMapper<Student> {
         return "Alunos";
     }
 
-    @Override
-    protected String findStatement() {
+    /**
+     * Finds a list of Student domain objects from a name.
+     * <p>
+     * The name can be a partial match, and is not case sensitive.
+     *
+     * @param name a full or partial match for a student name.
+     * @return A list of matching students.
+     */
+    public List<Student> findByName(String name) {
+        String query = findStatement("a.nome RLIKE ?");
+        return findMany(query, new String[]{name});
+    }
+
+    /**
+     * SQL SELECT statement missing only the criteria to append to the
+     * WHERE clause.
+     *
+     * @param criteria contents of "WHERE" part of the SQL statement.
+     * @return A complete SQL statement string.
+     */
+    protected String findStatement(String criteria) {
         // We will attempt to load the foreign keys too, to save calls to the db.
         return "SELECT a.id, a.nome, telefone, email, bolsa, "
                 + "m.id AS idMorada, rua, nr, cod_postal, localidade, "
@@ -39,7 +59,12 @@ public class StudentMapper extends DatabaseMapper<Student> {
                 + " FROM " + table() + " AS a"
                 + " INNER JOIN Moradas AS m ON morada = m.id"
                 + " INNER JOIN Cursos  AS c ON a.curso = c.id"
-                + " WHERE a.id = ?";
+                + " WHERE " + criteria;
+    }
+
+    @Override
+    protected String findStatement() {
+        return findStatement("a.id = ?");
     }
 
     @Override
