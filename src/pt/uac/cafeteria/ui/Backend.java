@@ -730,15 +730,15 @@ public class Backend extends javax.swing.JFrame {
         deleteAdminWarningFrame.setBounds(300, 150, 335, 165);
 
         deleteWarningFrame.setTitle("Aviso");
-        deleteWarningFrame.setPreferredSize(new java.awt.Dimension(330, 160));
-        deleteWarningFrame.setSize(new java.awt.Dimension(330, 160));
+        deleteWarningFrame.setPreferredSize(new java.awt.Dimension(390, 160));
+        deleteWarningFrame.setSize(new java.awt.Dimension(390, 160));
         deleteWarningFrame.getContentPane().setLayout(null);
 
         lblDeleteMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDeleteMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDeleteMessage.setText("Tem a certeza que deseja eliminar este Estudante?");
+        lblDeleteMessage.setText("Tem a certeza que deseja eliminar este aluno permanentemente?");
         deleteWarningFrame.getContentPane().add(lblDeleteMessage);
-        lblDeleteMessage.setBounds(0, 27, 320, 27);
+        lblDeleteMessage.setBounds(0, 20, 380, 40);
 
         btnDeleteYes.setText("Sim");
         btnDeleteYes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -747,7 +747,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         deleteWarningFrame.getContentPane().add(btnDeleteYes);
-        btnDeleteYes.setBounds(80, 72, 75, 29);
+        btnDeleteYes.setBounds(110, 70, 75, 29);
 
         btnDeleteNo.setText("Não");
         btnDeleteNo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -756,10 +756,10 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         deleteWarningFrame.getContentPane().add(btnDeleteNo);
-        btnDeleteNo.setBounds(170, 72, 75, 29);
+        btnDeleteNo.setBounds(200, 70, 75, 29);
 
         menuPanel.add(deleteWarningFrame);
-        deleteWarningFrame.setBounds(300, 150, 330, 160);
+        deleteWarningFrame.setBounds(300, 150, 390, 160);
 
         warningFrame.setTitle("Aviso");
         warningFrame.setPreferredSize(new java.awt.Dimension(220, 160));
@@ -1966,15 +1966,15 @@ public class Backend extends javax.swing.JFrame {
 
     private void btnSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseReleased
         
+        Integer id = ifIsNull(search.getText());
+        Student student = MapperRegistry.student().find(id);
+        
         if (cbSearch.getSelectedIndex() == 1) {
             // Student student = MapperRegistry.student().findByName(search.getText());
         }
         else {
             
-            Integer id = ifIsNull(search.getText());
-            
             if (Validator.testDigits(8, id)) {
-                Student student = MapperRegistry.student().find(id);
         
                 if (student != null) {
                     studentsList.removeAllElements();
@@ -2011,7 +2011,7 @@ public class Backend extends javax.swing.JFrame {
             }
         }
         
-        if (btnSearch.isEnabled()) {
+        if (btnSearch.isEnabled() && student != null) {
             
             searchList.setVisible(true);
             searchList.setEnabled(true);
@@ -2135,15 +2135,15 @@ public class Backend extends javax.swing.JFrame {
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+            Integer id = ifIsNull(search.getText());
+            Student student = MapperRegistry.student().find(id);
+            
             if (cbSearch.getSelectedIndex() == 1) {
                 // Student student = MapperRegistry.student().findByName(search.getText());
             }
-            else {
-
-                Integer id = ifIsNull(search.getText());
-
+            else {    
                 if (Validator.testDigits(8, id)) {
-                    Student student = MapperRegistry.student().find(id);
 
                     if (student != null) {
                         studentsList.removeAllElements();
@@ -2180,7 +2180,7 @@ public class Backend extends javax.swing.JFrame {
                 }
             }
 
-            if (btnSearch.isEnabled()) {
+            if (btnSearch.isEnabled() && student != null) {
 
                 searchList.setVisible(true);
                 searchList.setEnabled(true);
@@ -2259,7 +2259,7 @@ public class Backend extends javax.swing.JFrame {
         
         Student student = (Student) searchList.getSelectedValue();
         
-        if (MapperRegistry.student().delete(student)) {
+        if (MapperRegistry.student().delete(student) && MapperRegistry.account().delete(student.getAccount()) && MapperRegistry.address().delete(student.getAddress())) {
             
             studentsList.remove(searchList.getSelectedIndex());
             
@@ -2854,6 +2854,12 @@ public class Backend extends javax.swing.JFrame {
         enabledAll(searchPanel);
         
         btnStudent.setEnabled(false);
+        
+        if (studentsList.isEmpty()) {
+            btnCheck.setEnabled(false);
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+        }
     }//GEN-LAST:event_btnSearchOkMouseReleased
 
     /**
