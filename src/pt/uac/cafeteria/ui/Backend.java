@@ -2125,11 +2125,6 @@ public class Backend extends javax.swing.JFrame {
         activate(searchList);
         activate(buttonsPanel);
         btnStudent.setEnabled(false);
-        
-        searchList.clearSelection();
-        btnCheck.setEnabled(false);
-        btnDelete.setEnabled(false);
-        btnUpdate.setEnabled(false);
     }//GEN-LAST:event_btnReturnMouseReleased
 
     private void searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFocusGained
