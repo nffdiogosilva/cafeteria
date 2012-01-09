@@ -2241,11 +2241,27 @@ public class Backend extends javax.swing.JFrame {
     private void btnDeleteYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYesMouseReleased
         deleteWarningFrame.setVisible(false);
         
-        studentsList.remove(searchList.getSelectedIndex());
-        lblMessage1.setText("Eliminação feita com Sucesso");
-        informationFrame.setVisible(true);
-        deactivate(searchPanel);
-        deactivate(searchList);
+        Student student = (Student) searchList.getSelectedValue();
+        
+        if (MapperRegistry.student().delete(student)) {
+            
+            studentsList.remove(searchList.getSelectedIndex());
+            
+            lblMessage1.setText("Eliminação feita com Sucesso");
+            
+            informationFrame.setVisible(true);
+            deactivate(searchPanel);
+            deactivate(searchList);
+        }
+        else {
+            lblMessage1.setText("Não foi possível eliminar o estudante!");
+            
+            informationFrame.setVisible(true);
+            deactivate(searchPanel);
+            deactivate(searchList);
+        }
+        
+        
     }//GEN-LAST:event_btnDeleteYesMouseReleased
 
     private void btnDeleteNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteNoMouseReleased
