@@ -2217,12 +2217,25 @@ public class Backend extends javax.swing.JFrame {
 
         if (validator.isValid(student) && btnSave.isEnabled()) {
 
-            Application.createStudent(student);
-
-            informationFrame.setVisible(true);             
-            deactivate(studentPanel);             
-            deactivate(addPanel);
-            deactivate(buttonsPanel);
+            Integer studentId = Application.createStudent(student);
+            
+            if (studentId != null ) {
+                lblMessage1.setText("Dados guardados com sucesso!");
+            
+                informationFrame.setVisible(true);             
+                deactivate(studentPanel);             
+                deactivate(addPanel);
+                deactivate(buttonsPanel);
+            }
+            else {
+                lblMessage1.setText("Não foi possível guardar dados!");
+            
+                informationFrame.setVisible(true);             
+                deactivate(studentPanel);             
+                deactivate(addPanel);
+                deactivate(buttonsPanel);
+            }
+            
         }
         else {
             System.out.println(validator.getErrors());
