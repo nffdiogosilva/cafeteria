@@ -148,6 +148,7 @@ public class StudentMapper extends DatabaseMapper<Student> {
         Account account = MapperRegistry.account().find(id);
         if (account == null) {
             account = createNewAccount(id);
+            MapperRegistry.account().insert(account);
         }
         return account;
     }
