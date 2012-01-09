@@ -468,7 +468,7 @@
                           <Component id="lblNoMeal" min="-2" pref="27" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnNoMeal" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="43" max="32767" attributes="0"/>
+                          <EmptySpace pref="47" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -656,7 +656,7 @@
                           <Component id="lblPurchaseSuccess" min="-2" pref="27" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnPurchaseOk" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="43" max="32767" attributes="0"/>
+                          <EmptySpace pref="47" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -722,10 +722,10 @@
                                       <Component id="lblPurchaseDate" min="-2" max="-2" attributes="1"/>
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Component id="lblPurchaseDateText" min="-2" pref="108" max="-2" attributes="0"/>
-                                      <EmptySpace pref="206" max="32767" attributes="0"/>
+                                      <EmptySpace pref="326" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblPrice" max="32767" attributes="1"/>
+                                      <Component id="lblPrice" pref="94" max="32767" attributes="1"/>
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Component id="lblPriceText" min="-2" pref="63" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="371" max="-2" attributes="0"/>
@@ -753,7 +753,7 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="lpMeal1" min="-2" pref="158" max="-2" attributes="0"/>
-                              <EmptySpace pref="34" max="32767" attributes="0"/>
+                              <EmptySpace pref="84" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1629,7 +1629,7 @@
                               <Component id="btnNoCancelPinCode" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnYesCancelPinCode" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="36" max="32767" attributes="0"/>
+                          <EmptySpace pref="40" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1676,12 +1676,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblChangePinCodeSuccess1" alignment="0" pref="244" max="32767" attributes="0"/>
-                      <Component id="lblChangePinCodeSuccess2" alignment="1" pref="244" max="32767" attributes="0"/>
+                      <Component id="lblChangePinCodeSuccess1" alignment="0" pref="271" max="32767" attributes="0"/>
+                      <Component id="lblChangePinCodeSuccess2" alignment="1" pref="271" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                           <Component id="btnChangePinCodeSuccessOk" min="-2" pref="55" max="-2" attributes="0"/>
-                          <EmptySpace pref="95" max="32767" attributes="0"/>
+                          <EmptySpace pref="122" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1694,7 +1694,7 @@
                           <Component id="lblChangePinCodeSuccess2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnChangePinCodeSuccessOk" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="49" max="32767" attributes="0"/>
+                          <EmptySpace pref="41" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1887,7 +1887,7 @@
                               <Component id="btnNoCancelEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnYesCancelEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="36" max="32767" attributes="0"/>
+                          <EmptySpace pref="44" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
