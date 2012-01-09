@@ -2015,13 +2015,13 @@ public class Backend extends javax.swing.JFrame {
             searchList.setEnabled(true);
             
             btnCheck.setVisible(true);
-            btnCheck.setEnabled(false);
+            btnCheck.setEnabled(true);
                     
             btnUpdate.setVisible(true);
-            btnUpdate.setEnabled(false);
+            btnUpdate.setEnabled(true);
             
             btnDelete.setVisible(true);
-            btnDelete.setEnabled(false);
+            btnDelete.setEnabled(true);
         }
     }//GEN-LAST:event_btnSearchMouseReleased
 
