@@ -1977,6 +1977,7 @@ public class Backend extends javax.swing.JFrame {
                 Student student = MapperRegistry.student().find(id);
         
                 if (student != null) {
+                    studentsList.removeAllElements();
                     if (!hasStudent(student)) {
                         putStudentInList(student);
                     }
@@ -2145,6 +2146,7 @@ public class Backend extends javax.swing.JFrame {
                     Student student = MapperRegistry.student().find(id);
 
                     if (student != null) {
+                        studentsList.removeAllElements();
                         if (!hasStudent(student)) {
                             putStudentInList(student);
                         }
