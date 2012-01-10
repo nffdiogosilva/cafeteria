@@ -45,6 +45,18 @@ public class StudentMapper extends DatabaseMapper<Student> {
     }
 
     /**
+     * Finds a student from his email address.
+     *
+     * @param email the student's email address.
+     * @return the student domain object.
+     */
+    public Student findByEmail(String email) {
+        String query = findStatement("email = ?");
+        List<Student> list = findMany(query, new String[]{email});
+        return !list.isEmpty() ? list.get(0) : null;
+    }
+
+    /**
      * SQL SELECT statement missing only the criteria to append to the
      * WHERE clause.
      *
