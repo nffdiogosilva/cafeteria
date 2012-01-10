@@ -81,4 +81,14 @@ public class Administrator implements DomainObject<Integer> {
     public boolean authenticate(String password) {
         return this.password.equals(password);
     }
+
+    @Override
+    public String toString() {
+        return "Administrator {"
+            + "\n  id = " + getId()
+            + "\n  name = " + getName()
+            + "\n  username = " + getUsername()
+            + "\n  password = " + getPassword()
+            + "\n}";
+    }
 }

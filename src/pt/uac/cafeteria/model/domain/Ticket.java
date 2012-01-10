@@ -27,4 +27,13 @@ public class Ticket extends Transaction {
     public Meal getMeal() {
         return meal;
     }
+
+    @Override
+    public String toString() {
+        return "\n    Ticket {"
+            + "\n      date = " + getDate()
+            + "\n      amount = " + getAmount()
+            + "\n      meal = " + getMeal()
+            + "\n    }";
+    }
 }

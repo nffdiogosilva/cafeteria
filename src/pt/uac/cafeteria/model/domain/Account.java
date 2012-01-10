@@ -215,4 +215,16 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
     public List<Transaction> getTransactions() {
         return Collections.unmodifiableList(transactions);
     }
+
+    @Override
+    public String toString() {
+        return "Account {"
+            + "\n  id = " + getId()
+            + "\n  pinCode = " + getPinCode()
+            + "\n  balance = " + getBalance()
+            + "\n  status = " + getStatus()
+            + "\n  transactions = " + getTransactions()
+            + "\n}"
+        ;
+    }
 }

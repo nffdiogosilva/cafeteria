@@ -13,7 +13,10 @@ import java.util.GregorianCalendar;
  * Based on an instance of Calendar. Can be converted both ways (from and to)
  * <code>Calendar</code> and <code>Date</code> objects.
  */
-public class Day {
+public class Day implements java.io.Serializable {
+
+    /** Serialization version. */
+    private static final long serialVersionUID = 1L;
 
     /** Default format when converting to a string. */
     private final String FORMAT = "yyyy-MM-dd";
