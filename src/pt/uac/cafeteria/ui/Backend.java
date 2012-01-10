@@ -2873,10 +2873,16 @@ public class Backend extends javax.swing.JFrame {
             
             chargeBalanceFrame.setVisible(false);
             
-            lblMessage1.setText("Operação feita com sucesso!");
-            informationFrame.setVisible(true);
-            searchList.setEnabled(false);
-            
+            if(MapperRegistry.account().update(student.getAccount())) {
+                lblMessage1.setText("Operação feita com sucesso!");
+                informationFrame.setVisible(true);
+                searchList.setEnabled(false);
+            }
+            else {
+                lblMessage1.setText("Operação falhou!");
+                informationFrame.setVisible(true);
+                searchList.setEnabled(false);
+            }
             
             //Temporary
             System.out.println("Novo saldo do aluno " + student.getId() + ": " + student.getAccount().getBalance());
