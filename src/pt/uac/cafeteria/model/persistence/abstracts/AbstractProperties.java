@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 import pt.uac.cafeteria.model.ApplicationException;
 
@@ -211,5 +212,31 @@ public abstract class AbstractProperties extends FileAccess {
      */
     public double getDouble(String key) {
         return Double.parseDouble(get(key));
+    }
+
+    /**
+     * Returns a <code>Properties</code> object with properties from a section.
+     * <p>
+     * A section is described as a group of properties whose keys
+     * start with a common value and a dot.
+     * <p>
+     * Example: properties <code>db.user</code> and <code>db.pass</code>
+     * make a section named <code>db</code>. So <code>getSection("db")</code>
+     * would return only those properties (and others that start with
+     * <code>db.</code>).
+     *
+     * @param section common key value prefixed by dot, making the section.
+     * @return A new <code>Properties</code> object with only the properties
+     *         that match the <code>section</code>.
+     */
+    public Properties getSection(String section) {
+        load();
+        Properties prop = new Properties();
+        for (Map.Entry<Object, Object> entry : props.entrySet()) {
+            if (entry.getKey().toString().startsWith(section + ".")) {
+                prop.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return prop;
     }
 }

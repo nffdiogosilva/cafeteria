@@ -50,6 +50,12 @@ public class Config extends AbstractProperties {
     /** Database password credential for authentication. */
     public static final String DB_PASS = "db.pass";
 
+    /** System email address, used also as username for authentication. */
+    public static final String MAIL_USER = "mail.user";
+
+    /** System email password for SMTP authentication. */
+    public static final String MAIL_PASS = "mail.pass";
+
     /** Reference to this object's instance. */
     protected static Config instance;
 
@@ -81,13 +87,27 @@ public class Config extends AbstractProperties {
     @Override
     protected void setDefaults() {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
         setInt(YEAR, currentYear);
         set(ACCOUNT_SEED, "1000");
         set(MEAL_PRICE, "2.40");
         set(SAME_DAY_TAX, "0.45");
         set(SCHOLARSHIP_DISCOUNT, "0.80");
+
+        // database settings
         set(DB_NAME, "uacbd");
         set(DB_USER, "root");
         set(DB_PASS, "root");
+
+        // email account
+        set(MAIL_USER, "univent.uac@gmail.com");
+        set(MAIL_PASS, "univent1112");
+
+        // email authentication settings
+        set("mail.smtp.host", "smtp.gmail.com");
+        set("mail.smtp.socketFactory.port", "465");
+        set("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        set("mail.smtp.auth", "true");
+        set("mail.smtp.port", "465");
     }
 }

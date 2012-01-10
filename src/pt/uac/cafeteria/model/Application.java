@@ -1,7 +1,16 @@
 
 package pt.uac.cafeteria.model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import pt.uac.cafeteria.model.domain.*;
 import pt.uac.cafeteria.model.persistence.*;
 
@@ -24,6 +33,9 @@ public class Application {
 
     /** Reusable database connection. */
     private static Connection db;
+
+    /** Email session for sending emails. */
+    private static Session mail_session;
 
     /** Application initialization. */
     public static void init() {
@@ -73,6 +85,78 @@ public class Application {
     }
 
     /**
+     * Returns a default SMTP email session for sending emails.
+     * <p>
+     * Settings can be overriden from Config.
+     */
+    public static Session getMailSession() {
+        if (mail_session == null) {
+            final String username = config.get(Config.MAIL_USER);
+            final String password = config.get(Config.MAIL_PASS);
+
+            java.util.Properties props = config.getSection("mail.smtp");
+
+            mail_session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                }
+            );
+        }
+        return mail_session;
+    }
+
+    /**
+     * Sends a simple plain text mail to a single recipient.
+     * <p>
+     * If there is a problem sending the email, its contents will be sent
+     * to the output console, along with more detailed debugging information.
+     *
+     * @param to the recipent's email address to send the email to.
+     * @param subject the email subject.
+     * @param body the body of the email message.
+     * @throws ApplicationException if email could not be sent.
+     */
+    public static void sendMail(String to, String subject, String body) {
+        String from = config.get(Config.MAIL_USER);
+        try {
+            // Instantiate a message
+            Message msg = new MimeMessage(getMailSession());
+
+            //Set message attributes
+            msg.setFrom(new InternetAddress(from));
+            InternetAddress[] address = {new InternetAddress(to)};
+            msg.setRecipients(Message.RecipientType.TO, address);
+            msg.setSubject(subject);
+            msg.setSentDate(new java.util.Date());
+
+            // Set message content
+            msg.setText(body);
+
+            //Send the message
+            Transport.send(msg);
+        }
+        catch (MessagingException e) {
+            System.err.println("--- Email não enviado ---");
+            System.out.println("De: " + from);
+            System.out.println("Para: " + to);
+            System.out.println("Assunto: " + subject);
+            System.out.println(body);
+            System.out.println();
+            System.err.flush();
+
+            ApplicationException.log(e);
+
+            throw new ApplicationException(
+                "Impossível enviar email. Conteúdo foi enviado para a "
+                    + "consola, com relatório do erro."
+            );
+        }
+    }
+
+    /**
      * Checks if default administrator account exists,
      * and creates it if not found.
      */
@@ -119,7 +203,6 @@ public class Application {
         }
         if (MapperRegistry.student().insert(student) != null) {
             incrementStudentId();
-            sendNoticeOfNewAccount(student);
             return id;
         }
         return null;
@@ -135,19 +218,6 @@ public class Application {
     public static void incrementStudentId() {
         int currentSeed = config.getInt(Config.ACCOUNT_SEED);
         config.setInt(Config.ACCOUNT_SEED, ++currentSeed);
-    }
-
-    /**
-     * Sends notice to student of newly created account.
-     *
-     * @param student the Student object.
-     */
-    public static void sendNoticeOfNewAccount(Student student) {
-        // Placeholder until java mail is active
-        System.out.println("Nova conta criada.");
-        System.out.println("Número: " + student.getAccount().getId());
-        System.out.println("Nome: " + student.getName());
-        System.out.println("Pin: " + student.getAccount().getPinCode());
     }
 
     /**
