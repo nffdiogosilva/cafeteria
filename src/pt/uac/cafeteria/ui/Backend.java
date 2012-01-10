@@ -2966,12 +2966,25 @@ public class Backend extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Backend().setVisible(true);
-            }
-        });
+        try {
+            Application.init();
+            
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new Backend().setVisible(true);
+                }
+            }); 
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            
+            ApplicationException.log(e);
+        }
+        finally {
+            Application.close();
+        }
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addAdminPanel;
