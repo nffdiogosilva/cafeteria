@@ -250,7 +250,7 @@ public class Application {
     public static Student authenticateStudent(int accountNumber, int pinCode) {
         Account account = MapperRegistry.account().find(accountNumber);
 
-        if (account == null && account.authenticate(pinCode)) {
+        if (account != null && account.authenticate(pinCode)) {
             return MapperRegistry.student().find(accountNumber);
         }
 
