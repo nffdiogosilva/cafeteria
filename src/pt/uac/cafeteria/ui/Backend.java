@@ -2322,12 +2322,20 @@ public class Backend extends javax.swing.JFrame {
             Integer studentId = Application.createStudent(student);
             
             if (studentId != null ) {
-                lblMessage1.setText("Dados guardados com sucesso!");
-            
-                informationFrame.setVisible(true);             
-                deactivate(studentPanel);             
-                deactivate(addPanel);
-                deactivate(buttonsPanel);
+                
+                String subject = "Dados da conta em Cafeteria";
+                String body = "Olá, " + student.getName()
+                        + "\n\nJá se encontram disponíveis os seus dados de acesso ao Sistema Cafeteria:\n\n"
+                        + "\nNº de Conta: " + studentId
+                        + "\nCódigo de Acesso: " + student.getAccount().getPinCode()
+                        + "\nSaldo Actual: " + student.getAccount().getBalance();
+                try {
+                    Application.sendMail(student.getEmail(), subject, body);
+                    JOptionPane.showMessageDialog(null, "Dados de Conta enviados para " + student.getEmail());
+                } catch (ApplicationException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                    // ou algo mais personalizado
+                }
             }
             else {
                 lblMessage1.setText("Não foi possível guardar dados!");
@@ -2880,8 +2888,6 @@ public class Backend extends javax.swing.JFrame {
             deactivate(buttonsPanel);
             chargeBalanceFrame.setVisible(false);
         }
-        
-        
     }//GEN-LAST:event_btnChargeYesMouseReleased
 
     private void btnUnblockAccountMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUnblockAccountMouseReleased
