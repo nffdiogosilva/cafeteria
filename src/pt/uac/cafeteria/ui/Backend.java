@@ -23,6 +23,10 @@ public class Backend extends javax.swing.JFrame {
     private static int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private static int day = Calendar.getInstance().get(Calendar.DATE);
     
+    private Administrator administrator;
+    
+    private int studentPosition;
+    
     /** Type of list to use on JList Component */
     private DefaultListModel studentsList = new DefaultListModel();
     private DefaultListModel adminsList = new DefaultListModel();
@@ -1866,6 +1870,25 @@ public class Backend extends javax.swing.JFrame {
                 btnDeleteAdmin.setEnabled(false);
                 btnUpdateAdmin.setEnabled(false);
             }
+            
+            if (visualizePanel.isVisible()){
+                
+                searchList.setSelectedIndex(studentPosition);
+                Student student = (Student) searchList.getSelectedValue();
+                
+                studentPanel.setEnabled(false);
+                deactivate(searchPanel);
+                deactivate(buttonsPanel);
+                searchList.setEnabled(false);
+                
+                if (student.getAccount().isActive()) {
+                    btnUnblockAccount.setEnabled(false);
+                }
+            }
+            
+            if (chargeBalanceFrame.isVisible()) {
+                enabledAll(chargeBalanceFrame);
+            }
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -2065,11 +2088,11 @@ public class Backend extends javax.swing.JFrame {
         String user = username.getText();
         String pass = String.valueOf(password.getPassword());
             
-        Administrator admin = Application.authenticateAdmin(user, pass);
+        administrator = Application.authenticateAdmin(user, pass);
         
         if (confirm.isEnabled() && evt.getKeyCode() == KeyEvent.VK_ENTER) {
             
-            if (admin != null) {
+            if (administrator != null) {
                 mainPanel.setVisible(false);
                 menuPanel.setVisible(true);
                 studentPanel.setVisible(false);
@@ -2091,9 +2114,9 @@ public class Backend extends javax.swing.JFrame {
         String user = username.getText();
         String pass = String.valueOf(password.getPassword());
             
-        Administrator admin = Application.authenticateAdmin(user, pass);
-
-        if (admin != null && confirm.isEnabled()) {
+        administrator = Application.authenticateAdmin(user, pass);
+        
+        if (administrator != null && confirm.isEnabled()) {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
             studentPanel.setVisible(false);
@@ -2794,17 +2817,14 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveAdminMouseReleased
 
     private void btnChargeBalanceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeBalanceMouseReleased
+        money.requestFocus();
         if (btnChargeBalance.isEnabled()) {
             btnChargeBalance.setEnabled(false);
             btnUnblockAccount.setEnabled(false);
             btnRecoverCode.setEnabled(false);
             btnCloseAccount.setEnabled(false);
             btnReturn.setEnabled(false);
-            
-            deactivate(studentPanel);
-            deactivate(searchList);
-            deactivate(searchPanel);
-            deactivate(buttonsPanel);
+            btnStudent.setEnabled(false);
             
             chargeBalanceFrame.setVisible(true);
             bgCharge.clearSelection();
@@ -2813,31 +2833,55 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChargeBalanceMouseReleased
 
     private void btnChargeNoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeNoMouseReleased
+        Student student = (Student) searchList.getSelectedValue();
+        
+        if (student.getAccount().isActive()) {
+            btnUnblockAccount.setEnabled(false);
+        }
+        else {
+            btnUnblockAccount.setEnabled(true);
+        }
         btnChargeBalance.setEnabled(true);
-        btnUnblockAccount.setEnabled(true);
         btnRecoverCode.setEnabled(true);
         btnCloseAccount.setEnabled(true);
-        btnStudent.setEnabled(true);
         btnReturn.setEnabled(true);
-
-        enabledAll(studentPanel);
-        enabledAll(searchList);
-        enabledAll(searchPanel);
-
+        
         chargeBalanceFrame.setVisible(false);
     }//GEN-LAST:event_btnChargeNoMouseReleased
 
     private void btnChargeYesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChargeYesMouseReleased
-        if (btnSaveAdmin.isEnabled()) {             
+        Student student = (Student) searchList.getSelectedValue();
+        studentPosition = searchList.getSelectedIndex();
+        
+        if (Validator.matchPattern("^[0-9]+$", money.getText())) {
+            
+            Double value = Double.parseDouble(money.getText());
+            
+            student.getAccount().deposit(value, administrator.getUsername());
+            
             chargeBalanceFrame.setVisible(false);
             
             lblMessage1.setText("Operação feita com sucesso!");
             informationFrame.setVisible(true);
+            searchList.setEnabled(false);
+            
+            
+            //Temporary
+            System.out.println("Novo saldo do aluno " + student.getId() + ": " + student.getAccount().getBalance());
+        }
+        else {
+            
+            lblMessage1.setText("Insira um número por favor");
+            informationFrame.setVisible(true);
+            money.setText(null);
             
             deactivate(studentPanel);             
             deactivate(searchPanel);
             deactivate(buttonsPanel);
+            chargeBalanceFrame.setVisible(false);
         }
+        
+        
     }//GEN-LAST:event_btnChargeYesMouseReleased
 
     private void btnUnblockAccountMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUnblockAccountMouseReleased
