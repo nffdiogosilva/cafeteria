@@ -31,4 +31,13 @@ public class Credit extends Transaction {
     public String getAdministrator() {
         return administrator;
     }
+
+    @Override
+    public String toString() {
+        return "\n    Credit {"
+            + "\n      date = " + getDate()
+            + "\n      amount = " + getAmount()
+            + "\n      administrator = " + getAdministrator()
+            + "\n    }";
+    }
 }

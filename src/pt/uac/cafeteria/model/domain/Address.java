@@ -89,4 +89,15 @@ public class Address implements DomainObject<Integer> {
     public void setCity(String city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return "Address {"
+            + "\n    id = " + getId()
+            + "\n    streetAddress = " + getStreetAddress()
+            + "\n    number = " + getNumber()
+            + "\n    postalCode = " + getPostalCode()
+            + "\n    city = " + getCity()
+            + "\n  }";
+    }
 }

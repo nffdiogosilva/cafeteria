@@ -90,4 +90,11 @@ public class Meal implements java.io.Serializable {
     public String getDessert() {
         return this.dessert;
     }
+
+    @Override
+    public String toString() {
+        return "Meal {" + "day=" + day + ", time=" + time + ", type=" + type + ", soup=" + soup + ", mainCourse=" + mainCourse + ", dessert=" + dessert + '}';
+    }
+
+
 }

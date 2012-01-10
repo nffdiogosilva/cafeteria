@@ -138,9 +138,17 @@ public class Student implements DomainObject<Integer> {
     public void setCourse(Course course) {
         this.course = course;
     }
-    
+
     @Override
     public String toString() {
-        return id + "       " + name;
+        return "Student {"
+            + "\n  id = " + getId()
+            + "\n  name = " + getName()
+            + "\n  address = " + getAddress()
+            + "\n  phone = " + getPhone()
+            + "\n  email = " + getEmail()
+            + "\n  scholarship = " + hasScholarship()
+            + "\n  course = " + getCourse()
+            + "\n}";
     }
 }
