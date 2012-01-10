@@ -3018,6 +3018,7 @@ public class Backend extends javax.swing.JFrame {
         /* Create and display the form */
         try {
             Application.init();
+            MapperRegistry.account().setAutosave(true);
             
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
@@ -3030,9 +3031,6 @@ public class Backend extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
             
             ApplicationException.log(e);
-        }
-        finally {
-            Application.close();
         }
         
     }
