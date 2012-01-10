@@ -497,7 +497,7 @@ public class Backend extends javax.swing.JFrame {
         warningSearchFrame.setTitle("Informação");
         warningSearchFrame.setPreferredSize(new java.awt.Dimension(220, 160));
 
-        lblSearchMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblSearchMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblSearchMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSearchMessage.setText("ID Inválido! Insira Novamente");
 
@@ -582,7 +582,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setTitle("Informação");
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
 
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMessage1.setText("Dados Guardados Com Sucesso!");
 
@@ -626,7 +626,7 @@ public class Backend extends javax.swing.JFrame {
         chargeBalanceFrame.getContentPane().add(lblChargeTitle);
         lblChargeTitle.setBounds(90, 10, 130, 17);
         chargeBalanceFrame.getContentPane().add(money);
-        money.setBounds(100, 70, 90, 28);
+        money.setBounds(100, 50, 90, 28);
 
         btnChargeYes.setText("Confirmar");
         btnChargeYes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -635,7 +635,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         chargeBalanceFrame.getContentPane().add(btnChargeYes);
-        btnChargeYes.setBounds(40, 140, 90, 20);
+        btnChargeYes.setBounds(40, 110, 90, 30);
 
         btnChargeNo.setText("Cancelar");
         btnChargeNo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -644,7 +644,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         chargeBalanceFrame.getContentPane().add(btnChargeNo);
-        btnChargeNo.setBounds(150, 140, 90, 20);
+        btnChargeNo.setBounds(150, 110, 90, 30);
 
         menuPanel.add(chargeBalanceFrame);
         chargeBalanceFrame.setBounds(300, 150, 300, 200);
