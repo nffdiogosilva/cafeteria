@@ -66,15 +66,6 @@ public class Backend extends javax.swing.JFrame {
         }
     }
     
-    private boolean hasStudent(Student student) {
-        for (int i = 0 ; i < studentsList.toArray().length; i++) {
-            if (student.equals(studentsList.getElementAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     private int ifIsNull(String number) {
         try {
             if (number.isEmpty()) {
@@ -1965,27 +1956,21 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTerminateMouseReleased
 
     private void btnSearchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseReleased
-        
-        Integer id = ifIsNull(search.getText());
-        Student student = MapperRegistry.student().find(id);
-        
-        if (cbSearch.getSelectedIndex() == 1) {
-            // Student student = MapperRegistry.student().findByName(search.getText());
-        }
-        else {
+        if (cbSearch.getSelectedIndex() == 0) {
             
-            if (Validator.testDigits(8, id)) {
-        
+            Integer id = ifIsNull(search.getText());
+            Student student = MapperRegistry.student().find(id);
+            
+            if (Validator.testDigits(8, id) && !Validator.isEmpty(search.getText())) {
+                
+                studentsList.removeAllElements();
+                
                 if (student != null) {
-                    studentsList.removeAllElements();
-                    if (!hasStudent(student)) {
-                        putStudentInList(student);
-                    }
+                    putStudentInList(student);
                 }
                 else {
-                    
-                    lblSearchMessage.setText("Aluno não registado na Base de Dados!");
-                    
+                    lblSearchMessage.setText("Não foram encontrados resultados!");
+
                     warningSearchFrame.setVisible(true);
                     warningSearchFrame.setLocation(300, 180);
                     warningSearchFrame.grabFocus();
@@ -1997,33 +1982,81 @@ public class Backend extends javax.swing.JFrame {
                 }
             }
             else {
-                
-                lblSearchMessage.setText("ID Inválido! Insira Novamente");
-                
+            
+                lblSearchMessage.setText("Insira numero neste formato: 20121000");
+
                 warningSearchFrame.setVisible(true);
                 warningSearchFrame.setLocation(300, 180);
                 warningSearchFrame.grabFocus();
-                
+
                 deactivate(buttonsPanel);
                 deactivate(studentPanel);
                 deactivate(searchPanel);
                 deactivate(searchList);
+
+                studentsList.removeAllElements();
             }
         }
         
-        if (btnSearch.isEnabled() && student != null) {
+        else if (cbSearch.getSelectedIndex() == 1 && !Validator.isEmpty(search.getText())) {
+
+            ArrayList<Student> students = (ArrayList<Student>) MapperRegistry.student().findByName(search.getText());
+
+            if (!students.isEmpty()) {
+
+                studentsList.removeAllElements();
+
+                for (Student newStudent : students) {
+                    putStudentInList(newStudent);
+                }
+                
+                searchList.setVisible(true);
+                searchList.setEnabled(true);
+            }
+            else {
+
+                lblSearchMessage.setText("Não foram encontrados resultados!");
+
+                warningSearchFrame.setVisible(true);
+                warningSearchFrame.setLocation(300, 180);
+                warningSearchFrame.grabFocus();
+
+                deactivate(buttonsPanel);
+                deactivate(studentPanel);
+                deactivate(searchPanel);
+                deactivate(searchList);
+
+                studentsList.removeAllElements();
+            }
+        }
+        else {
+            lblSearchMessage.setText("Insira um nome neste formato: Ana");
+
+            warningSearchFrame.setVisible(true);
+            warningSearchFrame.setLocation(300, 180);
+            warningSearchFrame.grabFocus();
+
+            deactivate(buttonsPanel);
+            deactivate(studentPanel);
+            deactivate(searchPanel);
+            deactivate(searchList);
             
+            studentsList.removeAllElements();
+        }
+        
+        if (btnSearch.isEnabled()) {
+
             searchList.setVisible(true);
             searchList.setEnabled(true);
-            
+
             btnCheck.setVisible(true);
-            btnCheck.setEnabled(true);
-                    
+            btnCheck.setEnabled(false);
+
             btnUpdate.setVisible(true);
-            btnUpdate.setEnabled(true);
-            
+            btnUpdate.setEnabled(false);
+
             btnDelete.setVisible(true);
-            btnDelete.setEnabled(true);
+            btnDelete.setEnabled(false);
         }
     }//GEN-LAST:event_btnSearchMouseReleased
 
@@ -2135,25 +2168,20 @@ public class Backend extends javax.swing.JFrame {
 
     private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
-            Integer id = ifIsNull(search.getText());
-            Student student = MapperRegistry.student().find(id);
-            
-            if (cbSearch.getSelectedIndex() == 1) {
-                // Student student = MapperRegistry.student().findByName(search.getText());
-            }
-            else {    
-                if (Validator.testDigits(8, id)) {
+            if (cbSearch.getSelectedIndex() == 0) {
+                
+                Integer id = ifIsNull(search.getText());
+                Student student = MapperRegistry.student().find(id);
+
+                if (Validator.testDigits(8, id) && !Validator.isEmpty(search.getText())) {
+                    
+                    studentsList.removeAllElements();
 
                     if (student != null) {
-                        studentsList.removeAllElements();
-                        if (!hasStudent(student)) {
-                            putStudentInList(student);
-                        }
+                        putStudentInList(student);
                     }
                     else {
-
-                        lblSearchMessage.setText("Aluno não registado na Base de Dados!");
+                        lblSearchMessage.setText("Não foram encontrados resultados!");
 
                         warningSearchFrame.setVisible(true);
                         warningSearchFrame.setLocation(300, 180);
@@ -2167,7 +2195,7 @@ public class Backend extends javax.swing.JFrame {
                 }
                 else {
 
-                    lblSearchMessage.setText("ID Inválido! Insira Novamente");
+                    lblSearchMessage.setText("Insira numero neste formato: 20121000");
 
                     warningSearchFrame.setVisible(true);
                     warningSearchFrame.setLocation(300, 180);
@@ -2177,10 +2205,58 @@ public class Backend extends javax.swing.JFrame {
                     deactivate(studentPanel);
                     deactivate(searchPanel);
                     deactivate(searchList);
+
+                    studentsList.removeAllElements();
                 }
             }
 
-            if (btnSearch.isEnabled() && student != null) {
+            else if (cbSearch.getSelectedIndex() == 1 && !Validator.isEmpty(search.getText())) {
+
+                ArrayList<Student> students = (ArrayList<Student>) MapperRegistry.student().findByName(search.getText());
+
+                if (!students.isEmpty()) {
+
+                    studentsList.removeAllElements();
+
+                    for (Student student : students) {
+                        putStudentInList(student);
+                    }
+
+                    searchList.setVisible(true);
+                    searchList.setEnabled(true);
+                }
+                else {
+
+                    lblSearchMessage.setText("Não foram encontrados resultados!");
+
+                    warningSearchFrame.setVisible(true);
+                    warningSearchFrame.setLocation(300, 180);
+                    warningSearchFrame.grabFocus();
+
+                    deactivate(buttonsPanel);
+                    deactivate(studentPanel);
+                    deactivate(searchPanel);
+                    deactivate(searchList);
+
+                    studentsList.removeAllElements();
+                }
+            }
+            else {
+                lblSearchMessage.setText("Insira um nome neste formato: Ana");
+
+                warningSearchFrame.setVisible(true);
+                warningSearchFrame.setLocation(300, 180);
+                warningSearchFrame.grabFocus();
+
+                deactivate(buttonsPanel);
+                deactivate(studentPanel);
+                deactivate(searchPanel);
+                deactivate(searchList);
+
+                studentsList.removeAllElements();
+            }
+
+            if (btnSearch.isEnabled()) {
 
                 searchList.setVisible(true);
                 searchList.setEnabled(true);
