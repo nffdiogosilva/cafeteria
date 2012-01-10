@@ -250,12 +250,13 @@ public class Application {
     public static Student authenticateStudent(int accountNumber, int pinCode) {
         Account account = MapperRegistry.account().find(accountNumber);
 
-        if (account != null && account.authenticate(pinCode)) {
-            return MapperRegistry.student().find(accountNumber);
-        }
-
-        if (account.isBlocked()) {
-            throw new IllegalStateException("Conta bloqueada!");
+        if (account != null) {
+            if (account.authenticate(pinCode)) {
+                return MapperRegistry.student().find(accountNumber);
+            }
+            if (account.isBlocked()) {
+                throw new IllegalStateException("Conta bloqueada!");
+            }
         }
 
         return null;
