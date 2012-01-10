@@ -141,14 +141,6 @@ public class Student implements DomainObject<Integer> {
 
     @Override
     public String toString() {
-        return "Student {"
-            + "\n  id = " + getId()
-            + "\n  name = " + getName()
-            + "\n  address = " + getAddress()
-            + "\n  phone = " + getPhone()
-            + "\n  email = " + getEmail()
-            + "\n  scholarship = " + hasScholarship()
-            + "\n  course = " + getCourse()
-            + "\n}";
+        return id + "       " + name;
     }
 }
