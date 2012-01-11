@@ -3013,11 +3013,34 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelAdminMouseReleased
 
     private void btnSaveAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveAdminMouseReleased
-        if (btnSaveAdmin.isEnabled()) {             
+        AdministratorValidator validator = new AdministratorValidator();
+        
+        Administrator admin = new Administrator (adminName.getText(), adminUser.getText(), String.valueOf(adminPwd.getPassword()));
+
+        if (validator.isValid(admin) && btnSaveAdmin.isEnabled()) {
+            
+            Administrator adminByUser = MapperRegistry.administrator().findByUsername(adminUser.getText());
+            
+            if (adminByUser != null) {
+                    lblMessage1.setText("Username: " + adminUser.getText() + " já registado!");
+                    
+            }
+            else {
+                
+                if (MapperRegistry.administrator().insert(admin) != null) {
+                    lblMessage1.setText("Dados guardados com sucesso!");
+                }
+                else {
+                    lblMessage1.setText("Não foi possível guardar dados!");
+                }
+            }
             informationFrame.setVisible(true);             
             deactivate(adminPanel);             
             deactivate(addAdminPanel);
             deactivate(buttonsPanel);
+        }
+        else {
+            System.out.println(validator.getErrors());
         }
     }//GEN-LAST:event_btnSaveAdminMouseReleased
 
