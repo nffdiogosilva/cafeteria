@@ -2318,12 +2318,22 @@ public class Backend extends javax.swing.JFrame {
                 );
 
         if (validator.isValid(student) && btnSave.isEnabled()) {
+            
+            Student studentByEmail = MapperRegistry.student().findByEmail(student.getEmail());
+            
+            if (studentByEmail != null) {
+                    lblMessage1.setText("Email: " + student.getEmail() + " já registado!");
+                    informationFrame.setVisible(true);             
+                    deactivate(studentPanel);             
+                    deactivate(addPanel);
+                    deactivate(buttonsPanel);
+            }
 
             Integer studentId = Application.createStudent(student);
             
             if (studentId != null ) {
                 
-                String subject = "Dados da conta em Cafeteria";
+                String subject = "Dados da conta";
                 String body = "Olá, " + student.getName()
                         + "\n\n Já se encontram disponíveis os seus dados de acesso ao Sistema Cafeteria:\n"
                         + "\nNº de Conta: " + studentId
