@@ -2919,20 +2919,43 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUnblockAccountMouseReleased
 
     private void btnRecoverCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRecoverCodeMouseReleased
-        if (btnRecoverCode.isEnabled()) {
-            btnChargeBalance.setEnabled(false);
-            btnUnblockAccount.setEnabled(false);
-            btnRecoverCode.setEnabled(false);
-            btnCloseAccount.setEnabled(false);
-            btnReturn.setEnabled(false);
-            
-            deactivate(studentPanel);
-            deactivate(searchList);
-            deactivate(searchPanel);
+        
+        searchList.setSelectedIndex(studentPosition);
+        Student student = (Student) searchList.getSelectedValue();
+        
+        String subject = "Recuperação de Código de acesso";
+        String body = "Olá, " + student.getName()
+                + "\n\n Código de Acesso: " + student.getAccount().getPinCode()
+                + "\n\nCom os melhores cumprimentos,\nA Administração.";
+        try {
+
+            if (btnRecoverCode.isEnabled()) {
+                btnChargeBalance.setEnabled(false);
+                btnUnblockAccount.setEnabled(false);
+                btnRecoverCode.setEnabled(false);
+                btnCloseAccount.setEnabled(false);
+                btnReturn.setEnabled(false);
+
+                deactivate(studentPanel);
+                deactivate(searchList);
+                deactivate(searchPanel);
+                deactivate(buttonsPanel);
+
+                Application.sendMail(student.getEmail(), subject, body);
+                
+                lblMessage1.setText("Código enviado para: " + student.getEmail());
+                informationFrame.setVisible(true);
+            }
+
+        } catch (ApplicationException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+
+            lblMessage1.setText("Não foi possível enviar email!");
+
+            informationFrame.setVisible(true);             
+            deactivate(studentPanel);             
+            deactivate(addPanel);
             deactivate(buttonsPanel);
-            
-            lblMessage1.setText("Código enviado para: " + email1.getText());
-            informationFrame.setVisible(true);
         }
     }//GEN-LAST:event_btnRecoverCodeMouseReleased
 
