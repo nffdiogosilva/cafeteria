@@ -30,21 +30,45 @@ public class AdministratorMapper extends DatabaseMapper<Administrator> {
     }
 
     /**
+     * Finds a list of Administrator domain objects from a name.
+     * <p>
+     * The name can be a partial match, and is not case sensitive.
+     *
+     * @param name a full or partial match for an administrator name.
+     * @return A list of matching administrators.
+     */
+    public List<Administrator> findByName(String name) {
+        String query = findStatement("nome RLIKE ?");
+        return findMany(query, new String[]{name});
+    }
+
+    /**
      * Finds an Administrator domain object from a username.
      *
      * @param username the administrator's username.
      * @return An Administrator domain object.
      */
     public Administrator findByUsername(String username) {
-        String query = "SELECT id, nome, username, password FROM " + table() + " WHERE username = ?";
+        String query = findStatement("username = ?");
         List<Administrator> admins = findMany(query, new String[]{username});
         return !admins.isEmpty() ? admins.get(0) : null;
     }
 
+    /**
+     * SQL SELECT statement missing only the criteria to append to the
+     * WHERE clause.
+     *
+     * @param criteria contents of "WHERE" part of the SQL statement.
+     * @return A complete SQL statement string.
+     */
+    protected String findStatement(String criteria) {
+        return "SELECT id, nome, username, password"
+                + " FROM " + table() + " WHERE " + criteria;
+    }
+
     @Override
     protected String findStatement() {
-        return "SELECT id, nome, username, password"
-                + " FROM " + table() + " WHERE id = ?";
+        return findStatement("id = ?");
     }
 
     @Override
