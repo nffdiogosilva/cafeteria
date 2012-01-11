@@ -1368,26 +1368,26 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="lblName" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblAddress" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblPhone" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPhone" alignment="0" max="32767" attributes="1"/>
                               <Component id="lblEmail" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblScholarship" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblCourse" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblEmailText" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblPhoneText" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblAddressText" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblNameText" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblCourseText" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="chbScholarship" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNameText" alignment="0" pref="341" max="32767" attributes="0"/>
+                              <Component id="lblAddressText" alignment="0" pref="341" max="32767" attributes="0"/>
+                              <Component id="lblPhoneText" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="lblEmailText" alignment="0" pref="341" max="32767" attributes="0"/>
+                              <Component id="lblCourseText" alignment="0" pref="341" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="194" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1461,28 +1461,15 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblNameText">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Paulo Dinis Vieira Silva"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblAddressText">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Rua Torta, n&#xba;2"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblPhoneText">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="296123123"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblEmailText">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="20081234@alunos.uac.pt"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="chbScholarship">
                   <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Default Cursor"/>
                     </Property>
@@ -1490,9 +1477,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblCourseText">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Inform&#xe1;tica - Redes e Multim&#xe9;dia"/>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -1992,10 +1976,10 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblChangeEmailSuccess" alignment="0" pref="244" max="32767" attributes="0"/>
+                      <Component id="lblChangeEmailSuccess1" alignment="0" pref="244" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblChangeEmailSuccess1" pref="224" max="32767" attributes="0"/>
+                          <Component id="lblChangeEmailSuccess2" pref="224" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -2009,9 +1993,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="lblChangeEmailSuccess" min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="lblChangeEmailSuccess1" min="-2" pref="15" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="lblChangeEmailSuccess1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblChangeEmailSuccess2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnChangeEmailOk" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="28" max="32767" attributes="0"/>
@@ -2020,7 +2004,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="lblChangeEmailSuccess">
+                <Component class="javax.swing.JLabel" name="lblChangeEmailSuccess1">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="11" style="1"/>
@@ -2029,7 +2013,7 @@
                     <Property name="text" type="java.lang.String" value="Email alterado com sucesso!"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="lblChangeEmailSuccess1">
+                <Component class="javax.swing.JLabel" name="lblChangeEmailSuccess2">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="11" style="1"/>
@@ -2110,9 +2094,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblCurrentEmailText">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="20081234@alunos.uac.pt"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="tfNewMailText">
                 </Component>

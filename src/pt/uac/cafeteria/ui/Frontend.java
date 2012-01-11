@@ -9,7 +9,6 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.ApplicationException;
-import pt.uac.cafeteria.model.domain.Account.Status;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.Validator;
@@ -27,6 +26,7 @@ public class Frontend extends javax.swing.JFrame {
     private String currentPin;
     private String newPin;
     private String confirmPin;
+    private String regex;
     
     /** Creates new form Frontend */
     public Frontend() {
@@ -231,8 +231,8 @@ public class Frontend extends javax.swing.JFrame {
         btnYesCancelEmail = new javax.swing.JButton();
         btnNoCancelEmail = new javax.swing.JButton();
         ifChangeEmailSuccess = new javax.swing.JInternalFrame();
-        lblChangeEmailSuccess = new javax.swing.JLabel();
         lblChangeEmailSuccess1 = new javax.swing.JLabel();
+        lblChangeEmailSuccess2 = new javax.swing.JLabel();
         btnChangeEmailOk = new javax.swing.JButton();
         panelChangeEmailFields = new javax.swing.JPanel();
         lblCurrentEmail = new javax.swing.JLabel();
@@ -904,42 +904,31 @@ public class Frontend extends javax.swing.JFrame {
 
         lblCourse.setText("Curso:");
 
-        lblNameText.setText("Paulo Dinis Vieira Silva");
-
-        lblAddressText.setText("Rua Torta, nº2");
-
-        lblPhoneText.setText("296123123");
-
-        lblEmailText.setText("20081234@alunos.uac.pt");
-
-        chbScholarship.setSelected(true);
         chbScholarship.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         chbScholarship.setEnabled(false);
-
-        lblCourseText.setText("Informática - Redes e Multimédia");
 
         javax.swing.GroupLayout panelStudentLayout = new javax.swing.GroupLayout(panelStudent);
         panelStudent.setLayout(panelStudentLayout);
         panelStudentLayout.setHorizontalGroup(
             panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelStudentLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelStudentLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblName)
-                    .addComponent(lblAddress)
-                    .addComponent(lblPhone)
-                    .addComponent(lblEmail)
-                    .addComponent(lblScholarship)
-                    .addComponent(lblCourse))
+                .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblName, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAddress, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPhone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblScholarship, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCourse, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(21, 21, 21)
                 .addGroup(panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblEmailText)
-                    .addComponent(lblPhoneText)
-                    .addComponent(lblAddressText)
-                    .addComponent(lblNameText)
-                    .addComponent(lblCourseText)
-                    .addComponent(chbScholarship))
-                .addContainerGap(194, Short.MAX_VALUE))
+                    .addComponent(chbScholarship)
+                    .addComponent(lblNameText, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addComponent(lblAddressText, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addComponent(lblPhoneText, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEmailText, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                    .addComponent(lblCourseText, javax.swing.GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelStudentLayout.setVerticalGroup(
             panelStudentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -975,7 +964,7 @@ public class Frontend extends javax.swing.JFrame {
 
         panelAccount.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Movimentos de Conta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
 
-        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblAccount.setText("Conta: ");
 
         lblAccountText.setText("20081234");
@@ -1263,13 +1252,13 @@ public class Frontend extends javax.swing.JFrame {
         ifChangeEmailSuccess.setTitle("Informação");
         ifChangeEmailSuccess.setVisible(true);
 
-        lblChangeEmailSuccess.setFont(new java.awt.Font("Tahoma", 1, 11));
-        lblChangeEmailSuccess.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblChangeEmailSuccess.setText("Email alterado com sucesso!");
-
         lblChangeEmailSuccess1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblChangeEmailSuccess1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblChangeEmailSuccess1.setText("Consulte a sua caixa de correio.");
+        lblChangeEmailSuccess1.setText("Email alterado com sucesso!");
+
+        lblChangeEmailSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblChangeEmailSuccess2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblChangeEmailSuccess2.setText("Consulte a sua caixa de correio.");
 
         btnChangeEmailOk.setText("OK");
         btnChangeEmailOk.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1282,10 +1271,10 @@ public class Frontend extends javax.swing.JFrame {
         ifChangeEmailSuccess.getContentPane().setLayout(ifChangeEmailSuccessLayout);
         ifChangeEmailSuccessLayout.setHorizontalGroup(
             ifChangeEmailSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblChangeEmailSuccess, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+            .addComponent(lblChangeEmailSuccess1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
             .addGroup(ifChangeEmailSuccessLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblChangeEmailSuccess1, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                .addComponent(lblChangeEmailSuccess2, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(ifChangeEmailSuccessLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
@@ -1296,9 +1285,9 @@ public class Frontend extends javax.swing.JFrame {
             ifChangeEmailSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ifChangeEmailSuccessLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(lblChangeEmailSuccess, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblChangeEmailSuccess1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblChangeEmailSuccess1)
+                .addComponent(lblChangeEmailSuccess2)
                 .addGap(18, 18, 18)
                 .addComponent(btnChangeEmailOk)
                 .addContainerGap(28, Short.MAX_VALUE))
@@ -1311,8 +1300,6 @@ public class Frontend extends javax.swing.JFrame {
         lblCurrentEmail.setText("Email corrente:");
 
         lblNewEmail.setText("Novo email:");
-
-        lblCurrentEmailText.setText("20081234@alunos.uac.pt");
 
         javax.swing.GroupLayout panelChangeEmailFieldsLayout = new javax.swing.GroupLayout(panelChangeEmailFields);
         panelChangeEmailFields.setLayout(panelChangeEmailFieldsLayout);
@@ -1676,7 +1663,7 @@ public class Frontend extends javax.swing.JFrame {
 
                 String subject = "Alteração do Código de Acesso";
                 String body = "Olá, " + student.getName()
-                       + "\n\n O seu código de acesso foi alterado com sucesso no Sistema Cafeteria:\n"
+                       + "\n\nO seu código de acesso foi alterado com sucesso no Sistema Cafeteria:\n"
                        + "\nNovo Código de Acesso: " + student.getAccount().getPinCode()
                        + "\n\nCom os melhores cumprimentos,\nA Administração.";
 
@@ -1754,27 +1741,88 @@ public class Frontend extends javax.swing.JFrame {
             btnCancelNewEmail.setEnabled(true);
             tfNewMailText.setEnabled(true);
             tfNewMailText.setText(null);
+            lblCurrentEmailText.setText(student.getEmail());
         }
     }//GEN-LAST:event_btnChangeEmailMouseReleased
 
     private void btnChangeEmailOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangeEmailOkMouseReleased
-        if (btnChangeEmailOk.isEnabled()) {
-            activate(panelButtons);
+        regex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        
+        if (student.getEmail().equals(tfNewMailText.getText())) {
             panelChangeEmail.setVisible(false);
-            ifChangeEmailSuccess.setVisible(false);
-            btnChangeEmail.setEnabled(true);
             panelWelcome.setVisible(true);
-            btnLogOut.setEnabled(true);
+            activate(panelButtons);
+        }
+        else if(!Validator.matchPattern(regex, tfNewMailText.getText())) {
+            ifChangeEmailSuccess.setVisible(false);
+            btnValidateEmail.setEnabled(true);
+            btnCancelNewEmail.setEnabled(true);
+            tfNewMailText.setEnabled(true);
+            activate(panelButtons);
+            btnChangeEmail.setEnabled(false);
+        }
+        else if (!student.getEmail().equals(tfNewMailText.getText())) {
+            ifChangeEmailSuccess.setVisible(false);
+            btnValidateEmail.setEnabled(true);
+            btnCancelNewEmail.setEnabled(true);
+            tfNewMailText.setEnabled(true);
+            activate(panelButtons);
+            btnChangeEmail.setEnabled(false);
         }
     }//GEN-LAST:event_btnChangeEmailOkMouseReleased
 
     private void btnValidateEmailMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnValidateEmailMouseReleased
-        if (btnValidateEmail.isEnabled()) {
-            ifChangeEmailSuccess.setVisible(true);
-            btnValidateEmail.setEnabled(false);
-            btnCancelNewEmail.setEnabled(false);
-            tfNewMailText.setEnabled(false);
-            deactivate(panelButtons);
+        ifChangeEmailSuccess.setVisible(true);
+        btnValidateEmail.setEnabled(false);
+        btnCancelNewEmail.setEnabled(false);
+        tfNewMailText.setEnabled(false);
+        deactivate(panelButtons);
+        
+        regex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        
+        if (Validator.matchPattern(regex, tfNewMailText.getText()) && MapperRegistry.student().findByEmail(tfNewMailText.getText()) == null) {
+            
+            student.setEmail(tfNewMailText.getText());
+            
+            String subject = "Alteração do Endereço de E-mail";
+            String body = "Olá, " + student.getName()
+                   + "\n\nO seu e-mail foi alterado com sucesso no Sistema Cafeteria:\n"
+                   + "\nE-mail actual: " + student.getEmail()
+                   + "\n\nCom os melhores cumprimentos,\nA Administração.";
+            try {
+                if (MapperRegistry.student().update(student)) {
+                    try {
+                        Application.sendMail(student.getEmail(), subject, body);
+                        ifChangeEmailSuccess.setTitle("Informação");
+                        lblChangeEmailSuccess1.setText("Email alterado com sucesso!");
+                        lblChangeEmailSuccess2.setText("Consulte a sua caixa de correio.");
+                    }
+                    catch (Exception e){
+                        ifChangeEmailSuccess.setTitle("Aviso");
+                        lblChangeEmailSuccess1.setText(e.getMessage());
+                        lblChangeEmailSuccess2.setText(null);
+                    }
+                }
+                else {
+                    ifChangeEmailSuccess.setTitle("Aviso");
+                    lblChangeEmailSuccess1.setText("Não foi possível guardar dados!");
+                    lblChangeEmailSuccess2.setText(null);
+                }
+            }
+            catch (ApplicationException e) {
+                ApplicationException.log(e);
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        if (!Validator.matchPattern(regex, tfNewMailText.getText())) {
+            ifChangeEmailSuccess.setTitle("Aviso");
+            lblChangeEmailSuccess1.setText("Introduza um endereço válido!");
+            lblChangeEmailSuccess2.setText(null);
+        }
+        else if (MapperRegistry.student().findByEmail(tfNewMailText.getText()) != null && !student.getEmail().equals(tfNewMailText.getText())) {
+            ifChangeEmailSuccess.setTitle("Aviso");
+            lblChangeEmailSuccess1.setText("Email já registado!");
+            lblChangeEmailSuccess2.setText(null);
         }
     }//GEN-LAST:event_btnValidateEmailMouseReleased
 
@@ -1801,6 +1849,7 @@ public class Frontend extends javax.swing.JFrame {
         }
         else {
             activate(panelButtons);
+            btnChangePinCode.setEnabled(false);
             ifChangePinCodeSuccess.setVisible(false);
             btnValidatePinCode.setEnabled(true);
             btnCancelNewPinCode.setEnabled(true);
@@ -2072,8 +2121,8 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblCancelBuyTickets;
     private javax.swing.JLabel lblCancelEmail;
     private javax.swing.JLabel lblCancelPinCode;
-    private javax.swing.JLabel lblChangeEmailSuccess;
     private javax.swing.JLabel lblChangeEmailSuccess1;
+    private javax.swing.JLabel lblChangeEmailSuccess2;
     private javax.swing.JLabel lblChangePinCodeSuccess1;
     private javax.swing.JLabel lblChangePinCodeSuccess2;
     private javax.swing.JLabel lblChooseDish;
