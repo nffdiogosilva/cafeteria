@@ -12,6 +12,7 @@ import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
+import pt.uac.cafeteria.model.validation.AdministratorValidator;
 import pt.uac.cafeteria.model.validation.StudentValidator;
 import pt.uac.cafeteria.model.validation.Validator;
 /**
@@ -340,17 +341,15 @@ public class Backend extends javax.swing.JFrame {
         searchAdminPanel = new javax.swing.JPanel();
         updateAdminPanel = new javax.swing.JPanel();
         lblAdminName1 = new javax.swing.JLabel();
-        lblAdminUser1 = new javax.swing.JLabel();
         btnChange1 = new javax.swing.JButton();
         lblAdminPwd1 = new javax.swing.JLabel();
-        name4 = new javax.swing.JTextField();
+        setAdminName = new javax.swing.JTextField();
         btnCancel4 = new javax.swing.JButton();
-        street6 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        adminCurrentPwd = new javax.swing.JPasswordField();
         lblAdminPwd2 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        adminNewPwd = new javax.swing.JPasswordField();
         lblAdminPwd3 = new javax.swing.JLabel();
-        jPasswordField3 = new javax.swing.JPasswordField();
+        adminNewPwd1 = new javax.swing.JPasswordField();
         visualizeAdminPanel = new javax.swing.JPanel();
         lblAdminId = new javax.swing.JLabel();
         lblUserAdmin = new javax.swing.JLabel();
@@ -592,9 +591,9 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.getContentPane().setLayout(informationFrameLayout);
         informationFrameLayout.setHorizontalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, informationFrameLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(btnOk)
                 .add(121, 121, 121))
         );
@@ -605,7 +604,7 @@ public class Backend extends javax.swing.JFrame {
                 .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnOk)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         menuPanel.add(informationFrame);
@@ -1464,10 +1463,6 @@ public class Backend extends javax.swing.JFrame {
         updateAdminPanel.add(lblAdminName1);
         lblAdminName1.setBounds(20, 20, 41, 16);
 
-        lblAdminUser1.setText("Username:");
-        updateAdminPanel.add(lblAdminUser1);
-        lblAdminUser1.setBounds(20, 60, 90, 16);
-
         btnChange1.setText("Alterar");
         btnChange1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1479,11 +1474,11 @@ public class Backend extends javax.swing.JFrame {
 
         lblAdminPwd1.setText("Insira password actual:");
         updateAdminPanel.add(lblAdminPwd1);
-        lblAdminPwd1.setBounds(20, 100, 145, 16);
+        lblAdminPwd1.setBounds(20, 60, 145, 16);
 
-        name4.setText("Nuno Filipe Ferreira Diogo da Silva");
-        updateAdminPanel.add(name4);
-        name4.setBounds(170, 15, 330, 28);
+        setAdminName.setText("Nuno Filipe Ferreira Diogo da Silva");
+        updateAdminPanel.add(setAdminName);
+        setAdminName.setBounds(170, 15, 330, 28);
 
         btnCancel4.setText("Cancelar");
         btnCancel4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1494,29 +1489,25 @@ public class Backend extends javax.swing.JFrame {
         updateAdminPanel.add(btnCancel4);
         btnCancel4.setBounds(280, 300, 98, 29);
 
-        street6.setText("Rua Francisco José, 5");
-        updateAdminPanel.add(street6);
-        street6.setBounds(170, 55, 330, 28);
-
-        jPasswordField1.setText("jPasswordField1");
-        updateAdminPanel.add(jPasswordField1);
-        jPasswordField1.setBounds(170, 95, 134, 28);
+        adminCurrentPwd.setText("jPasswordField1");
+        updateAdminPanel.add(adminCurrentPwd);
+        adminCurrentPwd.setBounds(170, 55, 134, 28);
 
         lblAdminPwd2.setText("Insira nova password:");
         updateAdminPanel.add(lblAdminPwd2);
-        lblAdminPwd2.setBounds(20, 140, 137, 16);
+        lblAdminPwd2.setBounds(20, 100, 137, 16);
 
-        jPasswordField2.setText("jPasswordField1");
-        updateAdminPanel.add(jPasswordField2);
-        jPasswordField2.setBounds(170, 135, 134, 28);
+        adminNewPwd.setText("jPasswordField1");
+        updateAdminPanel.add(adminNewPwd);
+        adminNewPwd.setBounds(170, 95, 134, 28);
 
         lblAdminPwd3.setText("insira novamente:");
         updateAdminPanel.add(lblAdminPwd3);
-        lblAdminPwd3.setBounds(20, 180, 112, 16);
+        lblAdminPwd3.setBounds(20, 140, 112, 16);
 
-        jPasswordField3.setText("jPasswordField1");
-        updateAdminPanel.add(jPasswordField3);
-        jPasswordField3.setBounds(170, 175, 134, 28);
+        adminNewPwd1.setText("jPasswordField1");
+        updateAdminPanel.add(adminNewPwd1);
+        adminNewPwd1.setBounds(170, 135, 134, 28);
 
         searchAdminPanel.add(updateAdminPanel);
         updateAdminPanel.setBounds(20, 100, 530, 350);
@@ -1860,7 +1851,6 @@ public class Backend extends javax.swing.JFrame {
                 btnAdmin.setEnabled(false);
                 clearTextFieldsOf(addAdminPanel);
                 searchAdminList.clearSelection();
-                btnSearchAdmin.setEnabled(false);
                 btnCheckAdmin.setEnabled(false);
                 btnDeleteAdmin.setEnabled(false);
                 btnUpdateAdmin.setEnabled(false);
@@ -1898,7 +1888,7 @@ public class Backend extends javax.swing.JFrame {
                 btnUpdate.setEnabled(false);
                 btnCheck.setEnabled(false);
                 btnDelete.setEnabled(false);
-           }
+            }
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -2887,6 +2877,13 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReturn1MouseReleased
 
     private void btnUpdateAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateAdminMouseReleased
+        Administrator admin = (Administrator) searchAdminList.getSelectedValue();
+        
+        setAdminName.setText(admin.getName());
+        adminCurrentPwd.setText(null);
+        adminNewPwd.setText(null);
+        adminNewPwd1.setText(null);
+        
         if (btnUpdateAdmin.isEnabled()) {
             updateAdminPanel.setVisible(true);
             deactivate(adminPanel);   
@@ -2935,9 +2932,72 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteNo1MouseReleased
 
     private void btnChange1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChange1MouseReleased
-        if (btnChange1.isEnabled()) {             
-            informationFrame.setVisible(true);
-            updateAdminPanel.setVisible(false);
+        if (btnChange1.isEnabled()) {
+            Administrator admin = (Administrator) searchAdminList.getSelectedValue();
+        
+            String name = setAdminName.getText();
+            String pass = String.valueOf(adminCurrentPwd.getPassword());
+            String newPass = String.valueOf(adminNewPwd.getPassword());
+            String newPass1 = String.valueOf(adminNewPwd1.getPassword());
+
+            AdministratorValidator validator = new AdministratorValidator();
+
+            if (pass.isEmpty() && newPass.isEmpty() && newPass1.isEmpty()) {
+
+                admin.setName(name);
+
+                if (validator.isValid(admin)) {
+                    if (MapperRegistry.administrator().update(admin) && btnChange1.isEnabled()) {
+                        lblMessage1.setText("Dados guardados com sucesso!");
+                    }
+                    else {
+                        lblMessage1.setText("Não foi possível guardar dados");
+                    }
+                    informationFrame.setVisible(true);
+                    updateAdminPanel.setVisible(false);
+                }
+                else {
+                    System.out.println(validator.getErrors());
+                }
+            }
+            else {
+
+                if (admin.getPassword().equals(pass) && newPass.equals(newPass1)) {
+
+                    admin.setPassword(newPass);
+                    admin.setName(name);
+
+                    if (validator.isValid(admin)) {
+
+                        if (MapperRegistry.administrator().update(admin)) {
+                            lblMessage1.setText("Dados guardados com sucesso!");
+                        }
+                        else {
+                            lblMessage1.setText("Não foi possível guardar dados");
+                        }
+                        informationFrame.setVisible(true);
+                        updateAdminPanel.setVisible(false);
+                    }
+                    else {
+                        System.out.println(validator.getErrors());
+                    }
+                }
+                else if (!admin.getPassword().equals(pass)){
+                    lblMessage1.setText("Password incorrecta!");
+
+                    informationFrame.setVisible(true);
+                    updateAdminPanel.setVisible(false);
+                }
+                else if (!newPass.equals(newPass1)) {
+                    lblMessage1.setText("Nova password incompatível com a re-inserida!");
+
+                    informationFrame.setVisible(true);
+                    updateAdminPanel.setVisible(false);
+                }
+                else {
+                    System.out.println(validator.getErrors());
+                }   
+            }
         }
     }//GEN-LAST:event_btnChange1MouseReleased
 
@@ -3348,8 +3408,11 @@ public class Backend extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addAdminPanel;
     private javax.swing.JPanel addPanel;
+    private javax.swing.JPasswordField adminCurrentPwd;
     private javax.swing.JLabel adminId;
     private javax.swing.JTextField adminName;
+    private javax.swing.JPasswordField adminNewPwd;
+    private javax.swing.JPasswordField adminNewPwd1;
     private javax.swing.JTabbedPane adminPanel;
     private javax.swing.JPasswordField adminPwd;
     private javax.swing.JTextField adminUser;
@@ -3431,9 +3494,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel id;
     private javax.swing.JInternalFrame informationFrame;
     private javax.swing.JInternalFrame informationMealFrame;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox jbCourse;
@@ -3447,7 +3507,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblAdminPwd2;
     private javax.swing.JLabel lblAdminPwd3;
     private javax.swing.JLabel lblAdminUser;
-    private javax.swing.JLabel lblAdminUser1;
     private javax.swing.JLabel lblBackBK;
     private javax.swing.JLabel lblBackBK1;
     private javax.swing.JLabel lblChargeTitle;
@@ -3526,7 +3585,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField name;
     private javax.swing.JLabel name1;
     private javax.swing.JTextField name2;
-    private javax.swing.JTextField name4;
     private javax.swing.JLabel nameAdmin;
     private javax.swing.JTextField newDessert;
     private javax.swing.JTextField newFish;
@@ -3553,10 +3611,10 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JList searchList;
     private javax.swing.JPanel searchPanel;
     private javax.swing.JSeparator separator;
+    private javax.swing.JTextField setAdminName;
     private javax.swing.JTextField street;
     private javax.swing.JLabel street1;
     private javax.swing.JTextField street2;
-    private javax.swing.JTextField street6;
     private javax.swing.JTabbedPane studentPanel;
     private javax.swing.JPanel updateAdminPanel;
     private javax.swing.JPanel updatePanel;
