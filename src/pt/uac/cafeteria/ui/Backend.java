@@ -56,8 +56,6 @@ public class Backend extends javax.swing.JFrame {
         warningLogFrame.setVisible(false);
         informationFrame.setVisible(false);
         chargeBalanceFrame.setVisible(false);
-        
-        putAdminsInList();
     }
     
     private int changeStringToInt(String string) {
@@ -90,18 +88,10 @@ public class Backend extends javax.swing.JFrame {
         studentsList.addElement(student);
     }
     
-    /** Adds admins into JList Component */
-    private void putAdminsInList() {
-        ArrayList<String> admins = new ArrayList<String>();
-        admins.add("Paulo Leocádio");
-        admins.add("Hélia Guerra");
-        admins.add("Luís Gomes");
-        
+    /** Adds an administrator into JList Component */
+    private void putAdminInList(Administrator admin) {
         searchAdminList.setModel(adminsList);
-        
-        for (String admin : admins) {
-            adminsList.addElement(admin);
-        }
+        adminsList.addElement(admin);
     }
     
     /**
@@ -1620,6 +1610,11 @@ public class Backend extends javax.swing.JFrame {
                 searchAdminFocusGained(evt);
             }
         });
+        searchAdmin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchAdminKeyReleased(evt);
+            }
+        });
         searchAdminPanel.add(searchAdmin);
         searchAdmin.setBounds(240, 70, 100, 28);
 
@@ -2752,9 +2747,108 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdminMouseReleased
 
     private void btnSearchAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchAdminMouseReleased
-        if (btnSearchAdmin.isEnabled()) {
+        
+        if (!Validator.isEmpty(searchAdmin.getText())) {
+        
+            if (cbSearchAdmin.getSelectedIndex() == 0) {
+                
+                Administrator admin = MapperRegistry.administrator().findByUsername(searchAdmin.getText());
+
+                if (admin != null) {
+
+                    adminsList.removeAllElements();
+
+                    putAdminInList(admin);
+
+                    searchAdminList.setVisible(true);
+                    searchAdminList.setEnabled(true);
+                    
+                    if (searchAdminList.isSelectionEmpty()) {
+                        btnCheckAdmin.setEnabled(false);
+                        btnUpdateAdmin.setEnabled(false);
+                        btnDeleteAdmin.setEnabled(false);
+                    }
+                }
+                else {
+
+                    lblSearchMessage.setText("Não foram encontrados resultados!");
+
+                    warningSearchFrame.setVisible(true);
+                    warningSearchFrame.setLocation(300, 180);
+                    warningSearchFrame.grabFocus();
+
+                    deactivate(buttonsPanel);
+                    deactivate(adminPanel);
+                    deactivate(searchAdminPanel);
+                    deactivate(searchAdminList);
+
+                    adminsList.removeAllElements();
+                }
+            }
+            else {
+                ArrayList<Administrator> admins = (ArrayList<Administrator>) MapperRegistry.administrator().findByName(searchAdmin.getText());
+                
+                if (!admins.isEmpty()) {
+                    adminsList.removeAllElements();
+                    
+                    for (Administrator newAdmin : admins) {
+                        putAdminInList(newAdmin);
+                    }
+                    
+                    searchAdminList.setVisible(true);
+                    searchAdminList.setEnabled(true);
+                    
+                    if (searchAdminList.isSelectionEmpty()) {
+                        btnCheckAdmin.setEnabled(false);
+                        btnUpdateAdmin.setEnabled(false);
+                        btnDeleteAdmin.setEnabled(false);
+                    }
+                }
+                else {
+
+                    lblSearchMessage.setText("Não foram encontrados resultados!");
+
+                    warningSearchFrame.setVisible(true);
+                    warningSearchFrame.setLocation(300, 180);
+                    warningSearchFrame.grabFocus();
+
+                    deactivate(buttonsPanel);
+                    deactivate(adminPanel);
+                    deactivate(searchAdminPanel);
+                    deactivate(searchAdminList);
+
+                    adminsList.removeAllElements();
+                }
+            }
+        }
+        else {
+            lblSearchMessage.setText("Insira um nome neste formato: Ana");
+
+            warningSearchFrame.setVisible(true);
+            warningSearchFrame.setLocation(300, 180);
+            warningSearchFrame.grabFocus();
+
+            deactivate(buttonsPanel);
+            deactivate(adminPanel);
+            deactivate(searchAdminPanel);
+            deactivate(searchAdminList);
+            
+            adminsList.removeAllElements();
+        }
+        
+        if (btnSearch.isEnabled()) {
+
             searchAdminList.setVisible(true);
             searchAdminList.setEnabled(true);
+
+            btnCheckAdmin.setVisible(true);
+            btnCheckAdmin.setEnabled(false);
+
+            btnUpdateAdmin.setVisible(true);
+            btnUpdateAdmin.setEnabled(false);
+
+            btnDeleteAdmin.setVisible(true);
+            btnDeleteAdmin.setEnabled(false);
         }
     }//GEN-LAST:event_btnSearchAdminMouseReleased
 
@@ -3055,22 +3149,150 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginOkKeyReleased
 
     private void btnSearchOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchOkMouseReleased
-        
+
         warningSearchFrame.setVisible(false);
         
-        enabledAll(buttonsPanel);
-        enabledAll(studentPanel);
-        enabledAll(searchList);
-        enabledAll(searchPanel);
-        
-        btnStudent.setEnabled(false);
-        
-        if (studentsList.isEmpty()) {
-            btnCheck.setEnabled(false);
-            btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(false);
+        if (studentPanel.isVisible()) {
+            enabledAll(buttonsPanel);
+            enabledAll(studentPanel);
+            enabledAll(searchList);
+            enabledAll(searchPanel);
+
+            btnStudent.setEnabled(false);
+            
+            if (studentsList.isEmpty()) {
+                btnCheck.setEnabled(false);
+                btnUpdate.setEnabled(false);
+                btnDelete.setEnabled(false);
+            }
         }
+        
+        if (adminPanel.isVisible()) {
+            enabledAll(buttonsPanel);
+            enabledAll(adminPanel);
+            enabledAll(searchAdminList);
+            enabledAll(searchAdminPanel);
+
+            btnAdmin.setEnabled(false);
+            
+            if (adminsList.isEmpty()) {
+                btnCheckAdmin.setEnabled(false);
+                btnUpdateAdmin.setEnabled(false);
+                btnDeleteAdmin.setEnabled(false);
+            }
+        }
+        
+        
+        
     }//GEN-LAST:event_btnSearchOkMouseReleased
+
+    private void searchAdminKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchAdminKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (!Validator.isEmpty(searchAdmin.getText())) {
+        
+                if (cbSearchAdmin.getSelectedIndex() == 0) {
+
+                    Administrator admin = MapperRegistry.administrator().findByUsername(searchAdmin.getText());
+
+                    if (admin != null) {
+
+                        adminsList.removeAllElements();
+
+                        putAdminInList(admin);
+
+                        searchAdminList.setVisible(true);
+                        searchAdminList.setEnabled(true);
+
+                        if (searchAdminList.isSelectionEmpty()) {
+                            btnCheckAdmin.setEnabled(false);
+                            btnUpdateAdmin.setEnabled(false);
+                            btnDeleteAdmin.setEnabled(false);
+                        }
+                    }
+                    else {
+
+                        lblSearchMessage.setText("Não foram encontrados resultados!");
+
+                        warningSearchFrame.setVisible(true);
+                        warningSearchFrame.setLocation(300, 180);
+                        warningSearchFrame.grabFocus();
+
+                        deactivate(buttonsPanel);
+                        deactivate(adminPanel);
+                        deactivate(searchAdminPanel);
+                        deactivate(searchAdminList);
+
+                        adminsList.removeAllElements();
+                    }
+                }
+                else {
+                    ArrayList<Administrator> admins = (ArrayList<Administrator>) MapperRegistry.administrator().findByName(searchAdmin.getText());
+
+                    if (!admins.isEmpty()) {
+                        adminsList.removeAllElements();
+
+                        for (Administrator newAdmin : admins) {
+                            putAdminInList(newAdmin);
+                        }
+
+                        searchAdminList.setVisible(true);
+                        searchAdminList.setEnabled(true);
+
+                        if (searchAdminList.isSelectionEmpty()) {
+                            btnCheckAdmin.setEnabled(false);
+                            btnUpdateAdmin.setEnabled(false);
+                            btnDeleteAdmin.setEnabled(false);
+                        }
+                    }
+                    else {
+
+                        lblSearchMessage.setText("Não foram encontrados resultados!");
+
+                        warningSearchFrame.setVisible(true);
+                        warningSearchFrame.setLocation(300, 180);
+                        warningSearchFrame.grabFocus();
+
+                        deactivate(buttonsPanel);
+                        deactivate(adminPanel);
+                        deactivate(searchAdminPanel);
+                        deactivate(searchAdminList);
+
+                        adminsList.removeAllElements();
+                    }
+                }
+            }
+            else {
+                lblSearchMessage.setText("Insira um nome neste formato: Ana");
+
+                warningSearchFrame.setVisible(true);
+                warningSearchFrame.setLocation(300, 180);
+                warningSearchFrame.grabFocus();
+
+                deactivate(buttonsPanel);
+                deactivate(adminPanel);
+                deactivate(searchAdminPanel);
+                deactivate(searchAdminList);
+
+                adminsList.removeAllElements();
+            }
+
+            if (btnSearch.isEnabled()) {
+
+                searchAdminList.setVisible(true);
+                searchAdminList.setEnabled(true);
+
+                btnCheckAdmin.setVisible(true);
+                btnCheckAdmin.setEnabled(false);
+
+                btnUpdateAdmin.setVisible(true);
+                btnUpdateAdmin.setEnabled(false);
+
+                btnDeleteAdmin.setVisible(true);
+                btnDeleteAdmin.setEnabled(false);
+            }
+        }
+        
+    }//GEN-LAST:event_searchAdminKeyReleased
 
     /**
      * @param args the command line arguments
