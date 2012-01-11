@@ -84,11 +84,6 @@ public class Administrator implements DomainObject<Integer> {
 
     @Override
     public String toString() {
-        return "Administrator {"
-            + "\n  id = " + getId()
-            + "\n  name = " + getName()
-            + "\n  username = " + getUsername()
-            + "\n  password = " + getPassword()
-            + "\n}";
+        return id + "     " + username + "      " + name;
     }
 }
