@@ -1871,6 +1871,10 @@ public class Backend extends javax.swing.JFrame {
                 btnUpdateAdmin.setEnabled(false);
             }
             
+            if (chargeBalanceFrame.isVisible()) {
+                enabledAll(chargeBalanceFrame);
+            }
+            
             if (visualizePanel.isVisible()){
                 
                 searchList.setSelectedIndex(studentPosition);
@@ -1884,11 +1888,22 @@ public class Backend extends javax.swing.JFrame {
                 if (student.getAccount().isActive()) {
                     btnUnblockAccount.setEnabled(false);
                 }
+                
+                if (student.getAccount().isClosed()) {
+                    visualizePanel.setVisible(false);
+                    studentsList.remove(studentPosition);
+                    studentPanel.setEnabled(true);
+                    enabledAll(searchPanel);
+                    enabledAll(buttonsPanel);
+                    btnStudent.setEnabled(false);
+                }
             }
             
-            if (chargeBalanceFrame.isVisible()) {
-                enabledAll(chargeBalanceFrame);
-            }
+            if (searchList.isSelectionEmpty()) {
+                btnUpdate.setEnabled(false);
+                btnCheck.setEnabled(false);
+                btnDelete.setEnabled(false);
+           }
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -2970,7 +2985,14 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRecoverCodeMouseReleased
 
     private void btnCloseAccountMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseAccountMouseReleased
-        if (btnCloseAccount.isEnabled()) {
+        
+        searchList.setSelectedIndex(studentPosition);
+        Student student = (Student) searchList.getSelectedValue();
+        
+        if (btnCloseAccount.isEnabled() && student != null) {
+            
+            Application.closeStudentAccount(student);
+            
             btnChargeBalance.setEnabled(false);
             btnUnblockAccount.setEnabled(false);
             btnRecoverCode.setEnabled(false);
@@ -2983,6 +3005,7 @@ public class Backend extends javax.swing.JFrame {
             deactivate(buttonsPanel);
             
             lblMessage1.setText("Conta fechada!");
+            
             informationFrame.setVisible(true);
         }
     }//GEN-LAST:event_btnCloseAccountMouseReleased
