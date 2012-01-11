@@ -3,8 +3,15 @@ package pt.uac.cafeteria.ui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import pt.uac.cafeteria.model.Application;
+import pt.uac.cafeteria.model.ApplicationException;
+import pt.uac.cafeteria.model.domain.Account.Status;
+import pt.uac.cafeteria.model.domain.Student;
+import pt.uac.cafeteria.model.persistence.MapperRegistry;
 
 /**
  * 
@@ -15,15 +22,30 @@ public class Frontend extends javax.swing.JFrame {
     private static int year = Calendar.getInstance().get(Calendar.YEAR);
     private static int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private static int day = Calendar.getInstance().get(Calendar.DATE);
+    private Student student;
     
     /** Creates new form Frontend */
     public Frontend() {
         initComponents();
         
+        Application.init();
+        
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(screenSize.width/2 - 400, screenSize.height/2 - 300);
         
+        ifLogInFailed.setVisible(false);
         menuPanel.setVisible(false);
+    }
+    
+    private int changeStringToInt(String string) {
+        try {
+            int aux = Integer.parseInt(string);
+            return aux;
+        }
+        catch (NumberFormatException e) {
+            e.getMessage();
+            return -1;
+        }
     }
     
     /**
@@ -62,6 +84,9 @@ public class Frontend extends javax.swing.JFrame {
         bgTime = new javax.swing.ButtonGroup();
         bgDish = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
+        ifLogInFailed = new javax.swing.JInternalFrame();
+        lblLogInFailed = new javax.swing.JLabel();
+        btnLogInFailed = new javax.swing.JButton();
         lblNumber = new javax.swing.JLabel();
         tfNumber = new javax.swing.JTextField();
         lblPinCode = new javax.swing.JLabel();
@@ -211,7 +236,44 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.setMinimumSize(new java.awt.Dimension(800, 600));
         mainPanel.setLayout(null);
 
-        lblNumber.setFont(new java.awt.Font("Tahoma", 1, 11));
+        ifLogInFailed.setTitle("Informação");
+        ifLogInFailed.setVisible(true);
+
+        lblLogInFailed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblLogInFailed.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLogInFailed.setText("Dados Inválidos! Tente Novamente");
+
+        btnLogInFailed.setText("OK");
+        btnLogInFailed.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnLogInFailedMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ifLogInFailedLayout = new javax.swing.GroupLayout(ifLogInFailed.getContentPane());
+        ifLogInFailed.getContentPane().setLayout(ifLogInFailedLayout);
+        ifLogInFailedLayout.setHorizontalGroup(
+            ifLogInFailedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblLogInFailed, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+            .addGroup(ifLogInFailedLayout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addComponent(btnLogInFailed, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(95, Short.MAX_VALUE))
+        );
+        ifLogInFailedLayout.setVerticalGroup(
+            ifLogInFailedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ifLogInFailedLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(lblLogInFailed, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLogInFailed)
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+
+        mainPanel.add(ifLogInFailed);
+        ifLogInFailed.setBounds(270, 160, 258, 172);
+
+        lblNumber.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblNumber.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNumber.setText("Número de Conta");
         mainPanel.add(lblNumber);
@@ -222,11 +284,17 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.add(tfNumber);
         tfNumber.setBounds(345, 170, 110, 30);
 
-        lblPinCode.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblPinCode.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblPinCode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPinCode.setText("Código de Acesso");
         mainPanel.add(lblPinCode);
         lblPinCode.setBounds(305, 240, 190, 14);
+
+        pfPinCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pfPinCodeKeyReleased(evt);
+            }
+        });
         mainPanel.add(pfPinCode);
         pfPinCode.setBounds(345, 265, 110, 30);
 
@@ -441,7 +509,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addComponent(lblNoMeal, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNoMeal)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         panelBuyTicket.add(ifNoMeal, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
@@ -571,7 +639,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addComponent(lblPurchaseSuccess, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPurchaseOk)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         panelBuyTicket.add(ifPurchaseSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
@@ -646,9 +714,9 @@ public class Frontend extends javax.swing.JFrame {
                         .addComponent(lblPurchaseDate)
                         .addGap(10, 10, 10)
                         .addComponent(lblPurchaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(326, Short.MAX_VALUE))
+                        .addContainerGap(206, Short.MAX_VALUE))
                     .addGroup(panelSummaryLayout.createSequentialGroup()
-                        .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                        .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
                         .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(371, 371, 371))
@@ -669,7 +737,7 @@ public class Frontend extends javax.swing.JFrame {
                     .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lpMeal1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         spSummary.setViewportView(panelSummary);
@@ -1007,7 +1075,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addGroup(ifCancelPinCodeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNoCancelPinCode)
                     .addComponent(btnYesCancelPinCode))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         panelChangePinCode.add(ifCancelPinCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
@@ -1034,12 +1102,12 @@ public class Frontend extends javax.swing.JFrame {
         ifChangePinCodeSuccess.getContentPane().setLayout(ifChangePinCodeSuccessLayout);
         ifChangePinCodeSuccessLayout.setHorizontalGroup(
             ifChangePinCodeSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblChangePinCodeSuccess1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-            .addComponent(lblChangePinCodeSuccess2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+            .addComponent(lblChangePinCodeSuccess1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+            .addComponent(lblChangePinCodeSuccess2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
             .addGroup(ifChangePinCodeSuccessLayout.createSequentialGroup()
                 .addGap(94, 94, 94)
                 .addComponent(btnChangePinCodeSuccessOk, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         ifChangePinCodeSuccessLayout.setVerticalGroup(
             ifChangePinCodeSuccessLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1050,7 +1118,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addComponent(lblChangePinCodeSuccess2)
                 .addGap(18, 18, 18)
                 .addComponent(btnChangePinCodeSuccessOk)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         panelChangePinCode.add(ifChangePinCodeSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 260, 160));
@@ -1165,7 +1233,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addGroup(ifCancelEmailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNoCancelEmail)
                     .addComponent(btnYesCancelEmail))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         panelChangeEmail.add(ifCancelEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
@@ -1211,7 +1279,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addComponent(lblChangeEmailSuccess1)
                 .addGap(18, 18, 18)
                 .addComponent(btnChangeEmailOk)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         panelChangeEmail.add(ifChangeEmailSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 260, 160));
@@ -1311,21 +1379,44 @@ public class Frontend extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMouseReleased
-        if (btnConfirm.isEnabled()) {
-            mainPanel.setVisible(false);
-            menuPanel.setVisible(true);
-            panelWelcome.setVisible(true);
-            panelBuyTicket.setVisible(false);
-            panelCheckBalance.setVisible(false);
-            panelChangePinCode.setVisible(false);
-            panelChangeEmail.setVisible(false);
-            panelChooseDay.setVisible(false);
-            ifLogOut.setVisible(false);
-            btnBuyTicket.setEnabled(true);
-            btnCheckBalance.setEnabled(true);
-            btnChangePinCode.setEnabled(true);
-            btnChangeEmail.setEnabled(true);
-            btnLogOut.setEnabled(true);
+        int accountNumber = changeStringToInt(tfNumber.getText());
+        int password = changeStringToInt(String.valueOf(pfPinCode.getPassword()));
+                
+        try {
+            student = Application.authenticateStudent(accountNumber, password);
+                        
+            if (btnConfirm.isEnabled() && student != null) {
+                mainPanel.setVisible(false);
+                menuPanel.setVisible(true);
+                panelWelcome.setVisible(true);
+                panelBuyTicket.setVisible(false);
+                panelCheckBalance.setVisible(false);
+                panelChangePinCode.setVisible(false);
+                panelChangeEmail.setVisible(false);
+                panelChooseDay.setVisible(false);
+                ifLogOut.setVisible(false);
+                btnBuyTicket.setEnabled(true);
+                btnCheckBalance.setEnabled(true);
+                btnChangePinCode.setEnabled(true);
+                btnChangeEmail.setEnabled(true);
+                btnLogOut.setEnabled(true);
+            }
+            else {
+                ifLogInFailed.setVisible(true);
+                btnConfirm.setEnabled(false);
+                tfNumber.setEnabled(false);
+                pfPinCode.setEnabled(false);
+                lblLogInFailed.setText("Dados Inválidos! Tente novamente.");
+           }
+        }
+        catch (Exception e) {
+           if (e instanceof IllegalStateException) {
+                ifLogInFailed.setVisible(true);
+                btnConfirm.setEnabled(false);
+                tfNumber.setEnabled(false);
+                pfPinCode.setEnabled(false);
+                lblLogInFailed.setText(e.getMessage());
+           }
         }
     }//GEN-LAST:event_btnConfirmMouseReleased
 
@@ -1719,6 +1810,57 @@ public class Frontend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConfirmMealMouseReleased
 
+    private void btnLogInFailedMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogInFailedMouseReleased
+        ifLogInFailed.setVisible(false);
+        tfNumber.setEnabled(true);
+        pfPinCode.setEnabled(true);
+        btnConfirm.setEnabled(true);
+    }//GEN-LAST:event_btnLogInFailedMouseReleased
+
+    private void pfPinCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfPinCodeKeyReleased
+        int accountNumber = changeStringToInt(tfNumber.getText());
+        int password = changeStringToInt(String.valueOf(pfPinCode.getPassword()));
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                student = Application.authenticateStudent(accountNumber, password);
+
+                if (btnConfirm.isEnabled() && student != null ) {
+                    mainPanel.setVisible(false);
+                    menuPanel.setVisible(true);
+                    panelWelcome.setVisible(true);
+                    panelBuyTicket.setVisible(false);
+                    panelCheckBalance.setVisible(false);
+                    panelChangePinCode.setVisible(false);
+                    panelChangeEmail.setVisible(false);
+                    panelChooseDay.setVisible(false);
+                    ifLogOut.setVisible(false);
+                    btnBuyTicket.setEnabled(true);
+                    btnCheckBalance.setEnabled(true);
+                    btnChangePinCode.setEnabled(true);
+                    btnChangeEmail.setEnabled(true);
+                    btnLogOut.setEnabled(true);
+                }
+                else {
+                    ifLogInFailed.setVisible(true);
+                    btnConfirm.setEnabled(false);
+                    tfNumber.setEnabled(false);
+                    pfPinCode.setEnabled(false);
+                    lblLogInFailed.setText("Dados Inválidos! Tente novamente.");
+               }
+            }
+            catch (Exception e) {
+               if (e instanceof IllegalStateException) {
+                    ifLogInFailed.setVisible(true);
+                    btnConfirm.setEnabled(false);
+                    tfNumber.setEnabled(false);
+                    pfPinCode.setEnabled(false);
+                    lblLogInFailed.setText(e.getMessage());
+               }
+            }
+        }
+    }//GEN-LAST:event_pfPinCodeKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1747,12 +1889,21 @@ public class Frontend extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        try {
+            Application.init();
+            MapperRegistry.account().setAutosave(true);
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new Frontend().setVisible(true);
+                }
+            }); 
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
 
-            public void run() {
-                new Frontend().setVisible(true);
-            }
-        });
+            ApplicationException.log(e);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgDish;
@@ -1769,6 +1920,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JButton btnCheckBalance;
     private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnConfirmMeal;
+    private javax.swing.JButton btnLogInFailed;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnNoCancel;
@@ -1794,6 +1946,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JInternalFrame ifCancelPinCode;
     private javax.swing.JInternalFrame ifChangeEmailSuccess;
     private javax.swing.JInternalFrame ifChangePinCodeSuccess;
+    private javax.swing.JInternalFrame ifLogInFailed;
     private javax.swing.JInternalFrame ifLogOut;
     private javax.swing.JInternalFrame ifMoreTickets;
     private javax.swing.JInternalFrame ifNoMeal;
@@ -1827,6 +1980,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblFishText;
     private javax.swing.JLabel lblFrontBK;
     private javax.swing.JLabel lblFrontBK1;
+    private javax.swing.JLabel lblLogInFailed;
     private javax.swing.JLabel lblLogOut1;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblLogo1;
