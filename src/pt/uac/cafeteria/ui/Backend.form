@@ -2553,32 +2553,30 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="btnReturn1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="lblUserAdmin" alignment="0" max="32767" attributes="1"/>
+                                              <Component id="lblAdminId" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblNameAdmin" alignment="0" pref="76" max="32767" attributes="1"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="adminId" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="nameAdmin" alignment="0" min="-2" max="-2" attributes="1"/>
+                                              <Component id="userAdmin" alignment="0" pref="238" max="32767" attributes="1"/>
+                                          </Group>
+                                          <EmptySpace pref="184" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="btnReturn1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
+                                      <Component id="lblTitle1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblName5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblStreet6" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                                              <Component id="lblTitle1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="name5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="lblStreet7" alignment="0" min="-2" max="-2" attributes="1"/>
-                                                  <Component id="street5" alignment="0" pref="238" max="32767" attributes="1"/>
-                                              </Group>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace pref="184" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="lblStreet5" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -2590,18 +2588,18 @@
                               <Component id="lblTitle1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblName5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="name5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAdminId" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="adminId" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblStreet6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblStreet7" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblNameAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="nameAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblStreet5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="street5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblUserAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="userAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="64" max="32767" attributes="0"/>
                               <Component id="btnReturn1" min="-2" max="-2" attributes="0"/>
@@ -2611,24 +2609,24 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="lblName5">
+                    <Component class="javax.swing.JLabel" name="lblAdminId">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Nome:"/>
+                        <Property name="text" type="java.lang.String" value="ID:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lblStreet5">
+                    <Component class="javax.swing.JLabel" name="lblUserAdmin">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Rua:"/>
+                        <Property name="text" type="java.lang.String" value="Username:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="name5">
+                    <Component class="javax.swing.JLabel" name="adminId">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Paulo Leoc&#xe1;dio"/>
+                        <Property name="text" type="java.lang.String" value="teste"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="street5">
+                    <Component class="javax.swing.JLabel" name="userAdmin">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Rua da Universidade, 5"/>
+                        <Property name="text" type="java.lang.String" value="teste"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblTitle1">
@@ -2647,14 +2645,14 @@
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReturn1MouseReleased"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lblStreet6">
+                    <Component class="javax.swing.JLabel" name="lblNameAdmin">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Username:"/>
+                        <Property name="text" type="java.lang.String" value="Nome:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lblStreet7">
+                    <Component class="javax.swing.JLabel" name="nameAdmin">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="pleocadio"/>
+                        <Property name="text" type="java.lang.String" value="teste"/>
                       </Properties>
                     </Component>
                   </SubComponents>

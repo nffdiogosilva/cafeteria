@@ -352,14 +352,14 @@ public class Backend extends javax.swing.JFrame {
         lblAdminPwd3 = new javax.swing.JLabel();
         jPasswordField3 = new javax.swing.JPasswordField();
         visualizeAdminPanel = new javax.swing.JPanel();
-        lblName5 = new javax.swing.JLabel();
-        lblStreet5 = new javax.swing.JLabel();
-        name5 = new javax.swing.JLabel();
-        street5 = new javax.swing.JLabel();
+        lblAdminId = new javax.swing.JLabel();
+        lblUserAdmin = new javax.swing.JLabel();
+        adminId = new javax.swing.JLabel();
+        userAdmin = new javax.swing.JLabel();
         lblTitle1 = new javax.swing.JLabel();
         btnReturn1 = new javax.swing.JButton();
-        lblStreet6 = new javax.swing.JLabel();
-        lblStreet7 = new javax.swing.JLabel();
+        lblNameAdmin = new javax.swing.JLabel();
+        nameAdmin = new javax.swing.JLabel();
         lblSearchAdmin = new javax.swing.JLabel();
         lblSearchNumber1 = new javax.swing.JLabel();
         searchAdmin = new javax.swing.JTextField();
@@ -1525,13 +1525,13 @@ public class Backend extends javax.swing.JFrame {
         visualizeAdminPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         visualizeAdminPanel.setMaximumSize(new java.awt.Dimension(530, 530));
 
-        lblName5.setText("Nome:");
+        lblAdminId.setText("ID:");
 
-        lblStreet5.setText("Rua:");
+        lblUserAdmin.setText("Username:");
 
-        name5.setText("Paulo Leocádio");
+        adminId.setText("teste");
 
-        street5.setText("Rua da Universidade, 5");
+        userAdmin.setText("teste");
 
         lblTitle1.setFont(new java.awt.Font("Lucida Grande", 1, 14));
         lblTitle1.setText("Dados do Administrador");
@@ -1543,9 +1543,9 @@ public class Backend extends javax.swing.JFrame {
             }
         });
 
-        lblStreet6.setText("Username:");
+        lblNameAdmin.setText("Nome:");
 
-        lblStreet7.setText("pleocadio");
+        nameAdmin.setText("teste");
 
         org.jdesktop.layout.GroupLayout visualizeAdminPanelLayout = new org.jdesktop.layout.GroupLayout(visualizeAdminPanel);
         visualizeAdminPanel.setLayout(visualizeAdminPanelLayout);
@@ -1554,25 +1554,24 @@ public class Backend extends javax.swing.JFrame {
             .add(visualizeAdminPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(org.jdesktop.layout.GroupLayout.TRAILING, visualizeAdminPanelLayout.createSequentialGroup()
+                            .add(btnReturn1)
+                            .add(221, 221, 221))
+                        .add(visualizeAdminPanelLayout.createSequentialGroup()
+                            .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, lblUserAdmin, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, lblAdminId)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, lblNameAdmin, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(adminId)
+                                .add(nameAdmin)
+                                .add(userAdmin, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
+                            .addContainerGap(184, Short.MAX_VALUE)))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, visualizeAdminPanelLayout.createSequentialGroup()
-                        .add(btnReturn1)
-                        .add(221, 221, 221))
-                    .add(visualizeAdminPanelLayout.createSequentialGroup()
-                        .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(lblName5)
-                            .add(lblStreet6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(visualizeAdminPanelLayout.createSequentialGroup()
-                                .add(69, 69, 69)
-                                .add(lblTitle1))
-                            .add(visualizeAdminPanelLayout.createSequentialGroup()
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(name5)
-                                    .add(lblStreet7)
-                                    .add(street5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))))
-                        .addContainerGap(184, Short.MAX_VALUE))
-                    .add(lblStreet5)))
+                        .add(lblTitle1)
+                        .add(162, 162, 162))))
         );
         visualizeAdminPanelLayout.setVerticalGroup(
             visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1581,16 +1580,16 @@ public class Backend extends javax.swing.JFrame {
                 .add(lblTitle1)
                 .add(25, 25, 25)
                 .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblName5)
-                    .add(name5))
+                    .add(lblAdminId)
+                    .add(adminId))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblStreet6)
-                    .add(lblStreet7))
+                    .add(lblNameAdmin)
+                    .add(nameAdmin))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(visualizeAdminPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(lblStreet5)
-                    .add(street5))
+                    .add(lblUserAdmin)
+                    .add(userAdmin))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 64, Short.MAX_VALUE)
                 .add(btnReturn1)
                 .addContainerGap())
@@ -2863,6 +2862,12 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_searchAdminListValueChanged
 
     private void btnCheckAdminMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCheckAdminMouseReleased
+        Administrator admin = (Administrator) searchAdminList.getSelectedValue();
+        
+        adminId.setText(String.valueOf(admin.getId()));
+        nameAdmin.setText(admin.getName());
+        userAdmin.setText(admin.getUsername());
+        
         if (btnCheckAdmin.isEnabled()) {
             visualizeAdminPanel.setVisible(true);
             deactivate(adminPanel);
@@ -3343,6 +3348,7 @@ public class Backend extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addAdminPanel;
     private javax.swing.JPanel addPanel;
+    private javax.swing.JLabel adminId;
     private javax.swing.JTextField adminName;
     private javax.swing.JTabbedPane adminPanel;
     private javax.swing.JPasswordField adminPwd;
@@ -3433,6 +3439,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JComboBox jbCourse;
     private javax.swing.JComboBox jbCourse1;
     private javax.swing.JLabel lbTicketlMealTimeText;
+    private javax.swing.JLabel lblAdminId;
     private javax.swing.JLabel lblAdminName;
     private javax.swing.JLabel lblAdminName1;
     private javax.swing.JLabel lblAdminPwd;
@@ -3468,7 +3475,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblName2;
-    private javax.swing.JLabel lblName5;
+    private javax.swing.JLabel lblNameAdmin;
     private javax.swing.JLabel lblNumber;
     private javax.swing.JLabel lblNumber1;
     private javax.swing.JLabel lblPanelTitle;
@@ -3491,9 +3498,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblStreet;
     private javax.swing.JLabel lblStreet1;
     private javax.swing.JLabel lblStreet2;
-    private javax.swing.JLabel lblStreet5;
-    private javax.swing.JLabel lblStreet6;
-    private javax.swing.JLabel lblStreet7;
     private javax.swing.JLabel lblTicketDessert;
     private javax.swing.JLabel lblTicketDessertText;
     private javax.swing.JLabel lblTicketFish;
@@ -3509,6 +3513,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTicketVegetarianText;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTitle1;
+    private javax.swing.JLabel lblUserAdmin;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblVeggie;
     private javax.swing.JLabel lblid;
@@ -3522,7 +3527,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel name1;
     private javax.swing.JTextField name2;
     private javax.swing.JTextField name4;
-    private javax.swing.JLabel name5;
+    private javax.swing.JLabel nameAdmin;
     private javax.swing.JTextField newDessert;
     private javax.swing.JTextField newFish;
     private javax.swing.JTextField newMeat;
@@ -3551,11 +3556,11 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JTextField street;
     private javax.swing.JLabel street1;
     private javax.swing.JTextField street2;
-    private javax.swing.JLabel street5;
     private javax.swing.JTextField street6;
     private javax.swing.JTabbedPane studentPanel;
     private javax.swing.JPanel updateAdminPanel;
     private javax.swing.JPanel updatePanel;
+    private javax.swing.JLabel userAdmin;
     private javax.swing.JTextField username;
     private javax.swing.JPanel visualizeAdminPanel;
     private javax.swing.JPanel visualizePanel;
