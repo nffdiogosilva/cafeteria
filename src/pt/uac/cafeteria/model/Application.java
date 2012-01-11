@@ -255,6 +255,7 @@ public class Application {
                 return MapperRegistry.student().find(accountNumber);
             }
             if (account.isBlocked()) {
+                MapperRegistry.account().update(account);
                 throw new IllegalStateException("Conta bloqueada!");
             }
         }
