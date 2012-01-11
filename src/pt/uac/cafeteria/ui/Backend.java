@@ -2096,6 +2096,7 @@ public class Backend extends javax.swing.JFrame {
                 mainPanel.setVisible(false);
                 menuPanel.setVisible(true);
                 studentPanel.setVisible(false);
+                adminPanel.setVisible(false);
                 mealPanel.setVisible(false);
                 activate(buttonsPanel);
             }
@@ -2120,6 +2121,7 @@ public class Backend extends javax.swing.JFrame {
             mainPanel.setVisible(false);
             menuPanel.setVisible(true);
             studentPanel.setVisible(false);
+            adminPanel.setVisible(false);
             mealPanel.setVisible(false);
             activate(buttonsPanel);
         }
