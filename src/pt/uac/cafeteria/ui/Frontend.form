@@ -118,6 +118,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLogInFailedMouseReleased"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btnLogInFailedKeyReleased"/>
               </Events>
             </Component>
           </SubComponents>
@@ -1726,7 +1727,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="90" y="150" width="260" height="160"/>
+                  <AbsoluteConstraints x="90" y="200" width="260" height="160"/>
                 </Constraint>
               </Constraints>
 

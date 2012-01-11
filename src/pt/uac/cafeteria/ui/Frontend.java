@@ -12,6 +12,7 @@ import pt.uac.cafeteria.model.ApplicationException;
 import pt.uac.cafeteria.model.domain.Account.Status;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
+import pt.uac.cafeteria.model.validation.Validator;
 
 /**
  * 
@@ -23,6 +24,9 @@ public class Frontend extends javax.swing.JFrame {
     private static int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private static int day = Calendar.getInstance().get(Calendar.DATE);
     private Student student;
+    private String currentPin;
+    private String newPin;
+    private String confirmPin;
     
     /** Creates new form Frontend */
     public Frontend() {
@@ -41,6 +45,19 @@ public class Frontend extends javax.swing.JFrame {
         try {
             int aux = Integer.parseInt(string);
             return aux;
+        }
+        catch (NumberFormatException e) {
+            e.getMessage();
+            return -1;
+        }
+    }
+    
+    private int ifIsNull(String number) {
+        try {
+            if (number.isEmpty()) {
+                return 0;
+            }
+            return Integer.parseInt(number);
         }
         catch (NumberFormatException e) {
             e.getMessage();
@@ -239,7 +256,7 @@ public class Frontend extends javax.swing.JFrame {
         ifLogInFailed.setTitle("Informação");
         ifLogInFailed.setVisible(true);
 
-        lblLogInFailed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblLogInFailed.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblLogInFailed.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogInFailed.setText("Dados Inválidos! Tente Novamente");
 
@@ -247,6 +264,11 @@ public class Frontend extends javax.swing.JFrame {
         btnLogInFailed.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnLogInFailedMouseReleased(evt);
+            }
+        });
+        btnLogInFailed.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                btnLogInFailedKeyReleased(evt);
             }
         });
 
@@ -273,7 +295,7 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.add(ifLogInFailed);
         ifLogInFailed.setBounds(270, 160, 258, 172);
 
-        lblNumber.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblNumber.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblNumber.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNumber.setText("Número de Conta");
         mainPanel.add(lblNumber);
@@ -284,7 +306,7 @@ public class Frontend extends javax.swing.JFrame {
         mainPanel.add(tfNumber);
         tfNumber.setBounds(345, 170, 110, 30);
 
-        lblPinCode.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblPinCode.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPinCode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPinCode.setText("Código de Acesso");
         mainPanel.add(lblPinCode);
@@ -1083,11 +1105,11 @@ public class Frontend extends javax.swing.JFrame {
         ifChangePinCodeSuccess.setTitle("Informação");
         ifChangePinCodeSuccess.setVisible(true);
 
-        lblChangePinCodeSuccess1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblChangePinCodeSuccess1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChangePinCodeSuccess1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChangePinCodeSuccess1.setText("Código de acesso alterado com sucesso!");
 
-        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblChangePinCodeSuccess2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChangePinCodeSuccess2.setText("Consulte a sua caixa de correio.");
 
@@ -1121,7 +1143,7 @@ public class Frontend extends javax.swing.JFrame {
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
-        panelChangePinCode.add(ifChangePinCodeSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 260, 160));
+        panelChangePinCode.add(ifChangePinCodeSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 200, 260, 160));
 
         panelChangePinCodeFields.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Alterar Código de Acesso", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
 
@@ -1628,14 +1650,79 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChangePinCodeMouseReleased
 
     private void btnValidatePinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnValidatePinCodeMouseReleased
-        if (btnValidatePinCode.isEnabled()) {
-            deactivate(panelButtons);
-            ifChangePinCodeSuccess.setVisible(true);
+        currentPin = String.valueOf(pfCurrentPin.getPassword());
+        newPin = String.valueOf(pfNewPin.getPassword());
+        confirmPin = String.valueOf(pfConfirmPin.getPassword());
+        
+        deactivate(panelButtons);
+        ifChangePinCodeSuccess.setVisible(true);
+        ifChangePinCodeSuccess.requestFocusInWindow();
+        btnCancelNewPinCode.setEnabled(false);
+        pfCurrentPin.setEnabled(false);
+        pfNewPin.setEnabled(false);
+        pfConfirmPin.setEnabled(false);
+        
+        if (!Validator.testDigits(4, ifIsNull(currentPin)) || !Validator.testDigits(4, ifIsNull(newPin)) || !Validator.testDigits(4, ifIsNull(confirmPin))) {
             btnValidatePinCode.setEnabled(false);
-            btnCancelNewPinCode.setEnabled(false);
-            pfCurrentPin.setEnabled(false);
-            pfNewPin.setEnabled(false);
-            pfConfirmPin.setEnabled(false);
+            ifChangePinCodeSuccess.setTitle("Aviso");
+            lblChangePinCodeSuccess1.setText("Preencha todos os campos correctamente!");
+            lblChangePinCodeSuccess2.setText("Exemplo: 1234");
+        }
+        else {
+            if(btnValidatePinCode.isEnabled() && changeStringToInt(currentPin) == student.getAccount().getPinCode() && changeStringToInt(newPin) == changeStringToInt(confirmPin) && !newPin.isEmpty() && !confirmPin.isEmpty()) {
+                btnValidatePinCode.setEnabled(false);
+
+                student.getAccount().setPinCode(changeStringToInt(confirmPin));
+
+                String subject = "Alteração do Código de Acesso";
+                String body = "Olá, " + student.getName()
+                       + "\n\n O seu código de acesso foi alterado com sucesso no Sistema Cafeteria:\n"
+                       + "\nNovo Código de Acesso: " + student.getAccount().getPinCode()
+                       + "\n\nCom os melhores cumprimentos,\nA Administração.";
+
+                if (MapperRegistry.account().update(student.getAccount())) {
+                    try {
+                        Application.sendMail(student.getEmail(), subject, body);
+
+                        ifChangePinCodeSuccess.setTitle("Informação");
+                        lblChangePinCodeSuccess1.setText("Código de acesso alterado com sucesso!");
+                        lblChangePinCodeSuccess2.setText("Consulte a sua caixa de correio.");
+                    }
+                    catch (Exception e) {
+                        ifChangePinCodeSuccess.setTitle("Aviso");
+                        lblChangePinCodeSuccess1.setText(e.getMessage());
+                        lblChangePinCodeSuccess2.setText(null);
+                    }
+                }
+                else {
+                    ifChangePinCodeSuccess.setTitle("Aviso");
+                    lblChangePinCodeSuccess1.setText("Não foi possível guardar dados!");
+                    lblChangePinCodeSuccess2.setText(null);
+                }
+            }
+            else {
+                if (changeStringToInt(currentPin) != student.getAccount().getPinCode() && changeStringToInt(newPin) == changeStringToInt(confirmPin)) {
+                    ifChangePinCodeSuccess.setTitle("Aviso");
+                    lblChangePinCodeSuccess1.setText("Código corrente incorrecto!");
+                    lblChangePinCodeSuccess2.setText(null);
+                    pfCurrentPin.setText(null);
+                }
+                if (changeStringToInt(currentPin) == student.getAccount().getPinCode() && changeStringToInt(newPin) != changeStringToInt(confirmPin)) {
+                    ifChangePinCodeSuccess.setTitle("Aviso");
+                    lblChangePinCodeSuccess1.setText("As palavras-passe não correspondem!");
+                    lblChangePinCodeSuccess2.setText(null);
+                    pfNewPin.setText(null);
+                    pfConfirmPin.setText(null);
+                }
+                if (changeStringToInt(currentPin) != student.getAccount().getPinCode() && changeStringToInt(newPin) != changeStringToInt(confirmPin)) {
+                    ifChangePinCodeSuccess.setTitle("Aviso");
+                    lblChangePinCodeSuccess1.setText("Código corrente incorrecto!");
+                    lblChangePinCodeSuccess2.setText("As palavras-passe não correspondem!");
+                    pfCurrentPin.setText(null);
+                    pfNewPin.setText(null);
+                    pfConfirmPin.setText(null);
+                }
+            }
         }
     }//GEN-LAST:event_btnValidatePinCodeMouseReleased
 
@@ -1700,12 +1787,27 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelNewEmailMouseReleased
 
     private void btnChangePinCodeSuccessOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnChangePinCodeSuccessOkMouseReleased
-        ifChangePinCodeSuccess.setVisible(false);
-        panelChangePinCode.setVisible(false);         
-        btnChangePinCode.setEnabled(true);
-        panelWelcome.setVisible(true);
-        btnLogOut.setEnabled(true);
-        activate(panelButtons);
+        currentPin = String.valueOf(pfCurrentPin.getPassword());
+        newPin = String.valueOf(pfNewPin.getPassword());
+        confirmPin = String.valueOf(pfConfirmPin.getPassword());
+        
+        if(changeStringToInt(newPin) == student.getAccount().getPinCode() && changeStringToInt(newPin) == changeStringToInt(confirmPin)) {
+            ifChangePinCodeSuccess.setVisible(false);
+            panelChangePinCode.setVisible(false);         
+            btnChangePinCode.setEnabled(true);
+            panelWelcome.setVisible(true);
+            btnLogOut.setEnabled(true);
+            activate(panelButtons);
+        }
+        else {
+            activate(panelButtons);
+            ifChangePinCodeSuccess.setVisible(false);
+            btnValidatePinCode.setEnabled(true);
+            btnCancelNewPinCode.setEnabled(true);
+            pfCurrentPin.setEnabled(true);
+            pfNewPin.setEnabled(true);
+            pfConfirmPin.setEnabled(true);
+        }
     }//GEN-LAST:event_btnChangePinCodeSuccessOkMouseReleased
 
     private void btnYesCancelLogOutMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesCancelLogOutMouseReleased
@@ -1860,6 +1962,15 @@ public class Frontend extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_pfPinCodeKeyReleased
+
+    private void btnLogInFailedKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLogInFailedKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            ifLogInFailed.setVisible(false);
+            tfNumber.setEnabled(true);
+            pfPinCode.setEnabled(true);
+            btnConfirm.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnLogInFailedKeyReleased
 
     /**
      * @param args the command line arguments
