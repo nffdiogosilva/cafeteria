@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
+import pt.uac.cafeteria.model.domain.Account.Status;
 import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
@@ -2352,8 +2353,6 @@ public class Backend extends javax.swing.JFrame {
                 ApplicationException.log(e);
             }
 
-            
-            
             if (studentId != null ) {
                 
                 String subject = "Dados da conta";
@@ -2934,7 +2933,11 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChargeYesMouseReleased
 
     private void btnUnblockAccountMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUnblockAccountMouseReleased
-        if (btnUnblockAccount.isEnabled()) {
+        
+        searchList.setSelectedIndex(studentPosition);
+        Student student = (Student) searchList.getSelectedValue();
+        
+        if (btnUnblockAccount.isEnabled() && student.getAccount().isBlocked()) {
             btnChargeBalance.setEnabled(false);
             btnUnblockAccount.setEnabled(false);
             btnCloseAccount.setEnabled(false);
@@ -2946,7 +2949,14 @@ public class Backend extends javax.swing.JFrame {
             deactivate(searchPanel);
             deactivate(buttonsPanel);
             
-            lblMessage1.setText("Conta desbloqueada");
+            student.getAccount().setStatus(Status.ACTIVE);
+            
+            if (MapperRegistry.account().update(student.getAccount())) {
+                lblMessage1.setText("Conta desbloqueada");
+            }
+            else {
+                lblMessage1.setText("Não foi possível efectuar operação!");
+            }
             informationFrame.setVisible(true);
         }
     }//GEN-LAST:event_btnUnblockAccountMouseReleased
