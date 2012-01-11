@@ -2334,6 +2334,7 @@ public class Backend extends javax.swing.JFrame {
 
         if (validator.isValid(student) && btnSave.isEnabled()) {
             
+            Integer studentId = null;
             Student studentByEmail = MapperRegistry.student().findByEmail(student.getEmail());
             
             if (studentByEmail != null) {
@@ -2343,8 +2344,15 @@ public class Backend extends javax.swing.JFrame {
                     deactivate(addPanel);
                     deactivate(buttonsPanel);
             }
+            
+            try {
+                studentId = Application.createStudent(student);
+            }
+            catch (ApplicationException e) {
+                ApplicationException.log(e);
+            }
 
-            Integer studentId = Application.createStudent(student);
+            
             
             if (studentId != null ) {
                 
