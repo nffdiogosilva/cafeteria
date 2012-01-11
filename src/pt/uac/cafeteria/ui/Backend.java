@@ -193,6 +193,7 @@ public class Backend extends javax.swing.JFrame {
         lblDeleteAdminMessage = new javax.swing.JLabel();
         btnDeleteYes1 = new javax.swing.JButton();
         btnDeleteNo1 = new javax.swing.JButton();
+        lblDeleteAdminMessage1 = new javax.swing.JLabel();
         deleteWarningFrame = new javax.swing.JInternalFrame();
         lblDeleteMessage = new javax.swing.JLabel();
         btnDeleteYes = new javax.swing.JButton();
@@ -591,9 +592,9 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.getContentPane().setLayout(informationFrameLayout);
         informationFrameLayout.setHorizontalGroup(
             informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, informationFrameLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(80, Short.MAX_VALUE)
                 .add(btnOk)
                 .add(121, 121, 121))
         );
@@ -604,7 +605,7 @@ public class Backend extends javax.swing.JFrame {
                 .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnOk)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         menuPanel.add(informationFrame);
@@ -689,9 +690,9 @@ public class Backend extends javax.swing.JFrame {
 
         lblDeleteAdminMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDeleteAdminMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblDeleteAdminMessage.setText("Tem a certeza que deseja eliminar este Administrador?");
+        lblDeleteAdminMessage.setText("este administrador permanentemente?");
         deleteAdminWarningFrame.getContentPane().add(lblDeleteAdminMessage);
-        lblDeleteAdminMessage.setBounds(10, 30, 310, 27);
+        lblDeleteAdminMessage.setBounds(10, 40, 310, 27);
 
         btnDeleteYes1.setText("Sim");
         btnDeleteYes1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -710,6 +711,12 @@ public class Backend extends javax.swing.JFrame {
         });
         deleteAdminWarningFrame.getContentPane().add(btnDeleteNo1);
         btnDeleteNo1.setBounds(180, 70, 75, 29);
+
+        lblDeleteAdminMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblDeleteAdminMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDeleteAdminMessage1.setText("Tem a certeza que deseja eliminar");
+        deleteAdminWarningFrame.getContentPane().add(lblDeleteAdminMessage1);
+        lblDeleteAdminMessage1.setBounds(10, 20, 310, 27);
 
         menuPanel.add(deleteAdminWarningFrame);
         deleteAdminWarningFrame.setBounds(300, 150, 335, 165);
@@ -2915,10 +2922,18 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteAdminMouseReleased
 
     private void btnDeleteYes1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteYes1MouseReleased
-        deleteAdminWarningFrame.setVisible(false);
         
-        adminsList.remove(searchAdminList.getSelectedIndex());
-        lblMessage1.setText("Eliminação feita com Sucesso");
+        Administrator admin = (Administrator) searchAdminList.getSelectedValue();
+        
+        if (MapperRegistry.administrator().delete(admin)) {
+            adminsList.remove(searchAdminList.getSelectedIndex());
+            lblMessage1.setText("Eliminação feita com Sucesso");
+        }
+        else {
+            lblMessage1.setText("Impossível efectuar operação!");
+        }
+        
+        deleteAdminWarningFrame.setVisible(false);
         informationFrame.setVisible(true);
         deactivate(searchAdminPanel);
         deactivate(searchAdminList);
@@ -3542,6 +3557,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblCourse1;
     private javax.swing.JLabel lblCourse2;
     private javax.swing.JLabel lblDeleteAdminMessage;
+    private javax.swing.JLabel lblDeleteAdminMessage1;
     private javax.swing.JLabel lblDeleteMessage;
     private javax.swing.JLabel lblDessert;
     private javax.swing.JLabel lblEmail;
