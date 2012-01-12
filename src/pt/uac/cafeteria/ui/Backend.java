@@ -551,7 +551,7 @@ public class Backend extends javax.swing.JFrame {
         );
 
         menuPanel.add(validationsFrame);
-        validationsFrame.setBounds(300, 50, 400, 300);
+        validationsFrame.setBounds(300, 100, 400, 300);
 
         warningSearchFrame.setTitle("Informação");
         warningSearchFrame.setPreferredSize(new java.awt.Dimension(220, 160));
