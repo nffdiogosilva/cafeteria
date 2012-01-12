@@ -529,13 +529,11 @@ public class Backend extends javax.swing.JFrame {
             .add(validationsFrameLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(validationsFrameLayout.createSequentialGroup()
-                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                            .addContainerGap())
-                        .add(validationsFrameLayout.createSequentialGroup()
-                            .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
-                            .addContainerGap()))
+                    .add(validationsFrameLayout.createSequentialGroup()
+                        .add(validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                            .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
+                        .addContainerGap())
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, validationsFrameLayout.createSequentialGroup()
                         .add(btnValidationOk)
                         .add(172, 172, 172))))
@@ -546,7 +544,7 @@ public class Backend extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                 .add(18, 18, 18)
                 .add(btnValidationOk)
                 .addContainerGap())
@@ -2515,6 +2513,16 @@ public class Backend extends javax.swing.JFrame {
             
             Student student = (Student) searchList.getSelectedValue();
             
+            String auxName = student.getName();
+            String auxStreet =  student.getAddress().getStreetAddress();
+            String auxNumber = student.getAddress().getNumber();
+            String auxPostalCode = student.getAddress().getPostalCode();
+            String auxCity = student.getAddress().getCity();
+            String auxEmail = student.getEmail();
+            Integer auxPhone = student.getPhone();
+            boolean auxSchollarship = student.hasScholarship();
+            Course auxCourse = student.getCourse();
+            
             Course course = (Course) jbCourse1.getSelectedItem();
             
             int id = changeStringToInt(this.id.getText());
@@ -2545,7 +2553,25 @@ public class Backend extends javax.swing.JFrame {
                 }
             }
             else {
-                System.out.println(validator.getErrors());
+                
+                student.setName(auxName);
+                student.getAddress().setStreetAddress(auxStreet);
+                student.getAddress().setNumber(auxNumber);
+                student.getAddress().setPostalCode(auxPostalCode);
+                student.getAddress().setCity(auxCity);
+                student.setPhone(auxPhone);
+                student.setEmail(auxEmail);
+                student.setScholarship(auxSchollarship);
+                student.setCourse(auxCourse);
+                
+                deactivate(updatePanel);
+
+                validationsFrame.setVisible(true);
+
+                validationsList.removeAllElements();
+                for (String validation: validator.getErrors()) {
+                    putValidationInList(validation);
+                }
             }
         }
     }//GEN-LAST:event_btnChangeMouseReleased
@@ -3509,6 +3535,13 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(updateAdminPanel);
             btnStudent.setEnabled(true);
             btnAdmin.setEnabled(false);
+        }
+        
+        if (updatePanel.isVisible()) {
+            enabledAll(updatePanel);
+            enabledAll(buttonsPanel);
+            btnStudent.setEnabled(false);
+            searchList.setSelectedIndex(studentPosition);
         }
     }//GEN-LAST:event_btnValidationOkMouseReleased
     
