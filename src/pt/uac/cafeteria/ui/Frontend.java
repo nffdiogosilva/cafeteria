@@ -11,7 +11,8 @@ import javax.swing.JOptionPane;
 import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.ApplicationException;
 import pt.uac.cafeteria.model.domain.Student;
-import pt.uac.cafeteria.model.persistence.MapperRegistry;
+import pt.uac.cafeteria.model.domain.Ticket;
+import pt.uac.cafeteria.model.MapperRegistry;
 import pt.uac.cafeteria.model.validation.Validator;
 import pt.uac.cafeteria.model.domain.Transaction;
 
