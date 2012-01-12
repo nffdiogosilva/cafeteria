@@ -2423,7 +2423,7 @@ public class Backend extends javax.swing.JFrame {
                 } catch (ApplicationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage());
                     //@TODO: PERGUNTAR AO HELDER AQUI
-                    lblMessage1.setText("Não foi possível guardar dados!");
+                    lblMessage1.setText("Dados Guardados!");
             
                     informationFrame.setVisible(true);
                     deactivate(studentPanel);
