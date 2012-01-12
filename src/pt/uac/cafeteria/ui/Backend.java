@@ -3031,14 +3031,16 @@ public class Backend extends javax.swing.JFrame {
             String pass = String.valueOf(adminCurrentPwd.getPassword());
             String newPass = String.valueOf(adminNewPwd.getPassword());
             String newPass1 = String.valueOf(adminNewPwd1.getPassword());
+            String aux = admin.getName();
 
             AdministratorValidator validator = new AdministratorValidator();
 
             if (pass.isEmpty() && newPass.isEmpty() && newPass1.isEmpty()) {
-
+                
                 admin.setName(name);
-
+                
                 if (validator.isValid(admin)) {
+                    
                     if (MapperRegistry.administrator().update(admin) && btnChange1.isEnabled()) {
                         lblMessage1.setText("Dados guardados com sucesso!");
                     }
@@ -3049,7 +3051,18 @@ public class Backend extends javax.swing.JFrame {
                     updateAdminPanel.setVisible(false);
                 }
                 else {
-                    System.out.println(validator.getErrors());
+                    
+                    admin.setName(aux);
+                    deactivate(updateAdminPanel);
+                    
+                    validationsFrame.setVisible(true);
+                    validationsFrame.requestFocusInWindow();
+                    validationsFrame.grabFocus();
+
+                    validationsList.removeAllElements();
+                    for (String validation: validator.getErrors()) {
+                        putValidationInList(validation);
+                    }
                 }
             }
             else {
@@ -3071,7 +3084,16 @@ public class Backend extends javax.swing.JFrame {
                         updateAdminPanel.setVisible(false);
                     }
                     else {
-                        System.out.println(validator.getErrors());
+                        deactivate(updateAdminPanel);
+
+                        validationsFrame.setVisible(true);
+                        validationsFrame.requestFocusInWindow();
+                        validationsFrame.grabFocus();
+
+                        validationsList.removeAllElements();
+                        for (String validation: validator.getErrors()) {
+                            putValidationInList(validation);
+                        }
                     }
                 }
                 else if (!admin.getPassword().equals(pass)){
@@ -3481,6 +3503,12 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(addPanel);
             enabledAll(buttonsPanel);
             btnStudent.setEnabled(false);
+        }
+        
+        if (updateAdminPanel.isVisible()) {
+            enabledAll(updateAdminPanel);
+            btnStudent.setEnabled(true);
+            btnAdmin.setEnabled(false);
         }
     }//GEN-LAST:event_btnValidationOkMouseReleased
     
