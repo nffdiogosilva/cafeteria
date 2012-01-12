@@ -1,5 +1,5 @@
 
-package pt.uac.cafeteria.model.persistence;
+package pt.uac.cafeteria.model;
 
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pt.uac.cafeteria.model.*;
+import pt.uac.cafeteria.model.persistence.*;
 import pt.uac.cafeteria.model.persistence.abstracts.DataMapper;
 
 /**

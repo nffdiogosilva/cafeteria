@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import pt.uac.cafeteria.model.MapperRegistry;
 import pt.uac.cafeteria.model.domain.Account;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Address;

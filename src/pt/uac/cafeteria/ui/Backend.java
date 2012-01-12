@@ -13,7 +13,6 @@ import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Transaction;
-import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
 import pt.uac.cafeteria.model.validation.StudentValidator;
 import pt.uac.cafeteria.model.validation.Validator;
