@@ -166,7 +166,7 @@ public class MapperRegistry {
      * @return fully-qualified class name.
      */
     private static String fullyQualifiedName(String className) {
-        return MapperRegistry.class.getPackage().getName() + "." + className;
+        return MapperRegistry.class.getPackage().getName() + ".persistence." + className;
     }
 
     /**
