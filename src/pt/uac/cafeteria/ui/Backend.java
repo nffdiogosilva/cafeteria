@@ -32,6 +32,7 @@ public class Backend extends javax.swing.JFrame {
     /** Type of list to use on JList Component */
     private DefaultListModel studentsList = new DefaultListModel();
     private DefaultListModel adminsList = new DefaultListModel();
+    private DefaultListModel validationsList = new DefaultListModel();
     
     /** Creates new form Backend */
     public Backend() {
@@ -93,6 +94,11 @@ public class Backend extends javax.swing.JFrame {
     private void putAdminInList(Administrator admin) {
         searchAdminList.setModel(adminsList);
         adminsList.addElement(admin);
+    }
+    
+    private void putValidationInList(String string) {
+        validationsJlist.setModel(validationsList);
+        validationsList.addElement(string);
     }
     
     /**
@@ -171,6 +177,11 @@ public class Backend extends javax.swing.JFrame {
         lblBackBK = new javax.swing.JLabel();
         loginPanel = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
+        validationsFrame = new javax.swing.JInternalFrame();
+        btnValidationOk = new javax.swing.JButton();
+        lblValidationMessage = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        validationsJlist = new javax.swing.JList();
         warningSearchFrame = new javax.swing.JInternalFrame();
         lblSearchMessage = new javax.swing.JLabel();
         btnSearchOk = new javax.swing.JButton();
@@ -488,6 +499,61 @@ public class Backend extends javax.swing.JFrame {
 
         menuPanel.setPreferredSize(new java.awt.Dimension(800, 600));
         menuPanel.setLayout(null);
+
+        validationsFrame.setTitle("Aviso");
+        validationsFrame.setPreferredSize(new java.awt.Dimension(400, 300));
+        validationsFrame.setSize(new java.awt.Dimension(400, 300));
+
+        btnValidationOk.setText("OK");
+        btnValidationOk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnValidationOkMouseReleased(evt);
+            }
+        });
+
+        lblValidationMessage.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblValidationMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblValidationMessage.setText("Validações necessárias:");
+
+        validationsJlist.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(validationsJlist);
+
+        org.jdesktop.layout.GroupLayout validationsFrameLayout = new org.jdesktop.layout.GroupLayout(validationsFrame.getContentPane());
+        validationsFrame.getContentPane().setLayout(validationsFrameLayout);
+        validationsFrameLayout.setHorizontalGroup(
+            validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(validationsFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(validationsFrameLayout.createSequentialGroup()
+                            .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                            .addContainerGap())
+                        .add(validationsFrameLayout.createSequentialGroup()
+                            .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+                            .addContainerGap()))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, validationsFrameLayout.createSequentialGroup()
+                        .add(btnValidationOk)
+                        .add(172, 172, 172))))
+        );
+        validationsFrameLayout.setVerticalGroup(
+            validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(validationsFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(btnValidationOk)
+                .addContainerGap())
+        );
+
+        menuPanel.add(validationsFrame);
+        validationsFrame.setBounds(300, 50, 400, 300);
 
         warningSearchFrame.setTitle("Informação");
         warningSearchFrame.setPreferredSize(new java.awt.Dimension(220, 160));
@@ -2377,7 +2443,16 @@ public class Backend extends javax.swing.JFrame {
             
         }
         else {
-            System.out.println(validator.getErrors());
+            deactivate(studentPanel);             
+            deactivate(addPanel);
+            deactivate(buttonsPanel);
+            
+            validationsFrame.setVisible(true);
+            
+            validationsList.removeAllElements();
+            for (String validation: validator.getErrors()) {
+                putValidationInList(validation);
+            }
         }
     }//GEN-LAST:event_btnSaveMouseReleased
 
@@ -3399,6 +3474,16 @@ public class Backend extends javax.swing.JFrame {
         
     }//GEN-LAST:event_searchAdminKeyReleased
 
+    private void btnValidationOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnValidationOkMouseReleased
+        validationsFrame.setVisible(false);
+        if (addPanel.isVisible()) {
+            enabledAll(studentPanel);             
+            enabledAll(addPanel);
+            enabledAll(buttonsPanel);
+            btnStudent.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnValidationOkMouseReleased
+    
     /**
      * @param args the command line arguments
      */
@@ -3501,6 +3586,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnUnblockAccount;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateAdmin;
+    private javax.swing.JButton btnValidationOk;
     private javax.swing.JButton btnWarningNo;
     private javax.swing.JButton btnWarningYes;
     private javax.swing.JPanel buttonsPanel;
@@ -3536,6 +3622,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JInternalFrame informationMealFrame;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox jbCourse;
     private javax.swing.JComboBox jbCourse1;
     private javax.swing.JLabel lbTicketlMealTimeText;
@@ -3615,6 +3702,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblUserAdmin;
     private javax.swing.JLabel lblUsername;
+    private javax.swing.JLabel lblValidationMessage;
     private javax.swing.JLabel lblVeggie;
     private javax.swing.JLabel lblid;
     private javax.swing.JInternalFrame loginFrame;
@@ -3661,6 +3749,8 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JPanel updatePanel;
     private javax.swing.JLabel userAdmin;
     private javax.swing.JTextField username;
+    private javax.swing.JInternalFrame validationsFrame;
+    private javax.swing.JList validationsJlist;
     private javax.swing.JPanel visualizeAdminPanel;
     private javax.swing.JPanel visualizePanel;
     private javax.swing.JInternalFrame warningFrame;
