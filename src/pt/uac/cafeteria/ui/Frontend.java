@@ -10,9 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.ApplicationException;
-import pt.uac.cafeteria.model.domain.Credit;
 import pt.uac.cafeteria.model.domain.Student;
-import pt.uac.cafeteria.model.domain.Ticket;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.Validator;
 import pt.uac.cafeteria.model.domain.Transaction;
@@ -1382,7 +1380,7 @@ public class Frontend extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
@@ -1391,7 +1389,7 @@ public class Frontend extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -1707,8 +1705,7 @@ public class Frontend extends javax.swing.JFrame {
                         lblChangePinCodeSuccess2.setText("Consulte a sua caixa de correio.");
                     }
                     catch (Exception e) {
-                        ifChangePinCodeSuccess.setTitle("Aviso");
-                        lblChangePinCodeSuccess1.setText(e.getMessage());
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                         lblChangePinCodeSuccess2.setText(null);
                     }
                 }
@@ -1829,8 +1826,7 @@ public class Frontend extends javax.swing.JFrame {
                         lblChangeEmailSuccess2.setText("Consulte a sua caixa de correio.");
                     }
                     catch (Exception e){
-                        ifChangeEmailSuccess.setTitle("Aviso");
-                        lblChangeEmailSuccess1.setText(e.getMessage());
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                         lblChangeEmailSuccess2.setText(null);
                     }
                 }
@@ -1870,15 +1866,7 @@ public class Frontend extends javax.swing.JFrame {
         newPin = String.valueOf(pfNewPin.getPassword());
         confirmPin = String.valueOf(pfConfirmPin.getPassword());
         
-        if(changeStringToInt(newPin) == student.getAccount().getPinCode() && changeStringToInt(newPin) == changeStringToInt(confirmPin)) {
-            ifChangePinCodeSuccess.setVisible(false);
-            panelChangePinCode.setVisible(false);         
-            btnChangePinCode.setEnabled(true);
-            panelWelcome.setVisible(true);
-            btnLogOut.setEnabled(true);
-            activate(panelButtons);
-        }
-        else {
+        if (currentPin.isEmpty() || newPin.isEmpty() || confirmPin.isEmpty()) {
             activate(panelButtons);
             btnChangePinCode.setEnabled(false);
             ifChangePinCodeSuccess.setVisible(false);
@@ -1887,6 +1875,24 @@ public class Frontend extends javax.swing.JFrame {
             pfCurrentPin.setEnabled(true);
             pfNewPin.setEnabled(true);
             pfConfirmPin.setEnabled(true);
+        }
+        else if (!Validator.testDigits(4, ifIsNull(currentPin)) || !Validator.testDigits(4, ifIsNull(newPin)) || !Validator.testDigits(4, ifIsNull(confirmPin))) {
+            activate(panelButtons);
+            btnChangePinCode.setEnabled(false);
+            ifChangePinCodeSuccess.setVisible(false);
+            btnValidatePinCode.setEnabled(true);
+            btnCancelNewPinCode.setEnabled(true);
+            pfCurrentPin.setEnabled(true);
+            pfNewPin.setEnabled(true);
+            pfConfirmPin.setEnabled(true);
+        }
+        else {
+            ifChangePinCodeSuccess.setVisible(false);
+            panelChangePinCode.setVisible(false);         
+            btnChangePinCode.setEnabled(true);
+            panelWelcome.setVisible(true);
+            btnLogOut.setEnabled(true);
+            activate(panelButtons);
         }
     }//GEN-LAST:event_btnChangePinCodeSuccessOkMouseReleased
 
