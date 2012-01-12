@@ -5,13 +5,17 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
+import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.ApplicationException;
+import pt.uac.cafeteria.model.domain.Credit;
 import pt.uac.cafeteria.model.domain.Student;
+import pt.uac.cafeteria.model.domain.Ticket;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.Validator;
+import pt.uac.cafeteria.model.domain.Transaction;
 
 /**
  * 
@@ -27,6 +31,8 @@ public class Frontend extends javax.swing.JFrame {
     private String newPin;
     private String confirmPin;
     private String regex;
+    /** Type of list to use on JList Component */
+    private DefaultListModel transactionsList = new DefaultListModel();
     
     /** Creates new form Frontend */
     public Frontend() {
@@ -89,6 +95,11 @@ public class Frontend extends javax.swing.JFrame {
         }
     }
     
+    /** Adds a transaction into JList Component */
+    private void putTransactionsInList (String transaction) {
+        lisMovements.setModel(transactionsList);
+        transactionsList.addElement(transaction);
+    }    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -206,7 +217,7 @@ public class Frontend extends javax.swing.JFrame {
         lblBalanceText = new javax.swing.JLabel();
         panelMovements = new javax.swing.JPanel();
         spMovements = new javax.swing.JScrollPane();
-        lisDates = new javax.swing.JList();
+        lisMovements = new javax.swing.JList();
         panelChangePinCode = new javax.swing.JPanel();
         ifCancelPinCode = new javax.swing.JInternalFrame();
         lblCancelPinCode = new javax.swing.JLabel();
@@ -964,7 +975,7 @@ public class Frontend extends javax.swing.JFrame {
 
         panelAccount.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Movimentos de Conta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
 
-        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblAccount.setText("Conta: ");
 
         lblAccountText.setText("20081234");
@@ -976,13 +987,13 @@ public class Frontend extends javax.swing.JFrame {
 
         panelMovements.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        lisDates.setModel(new javax.swing.AbstractListModel() {
+        lisMovements.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "01/2/2011     Compra     6€", "02/2/2011     Compra     3€", "02/2/2011     Débito     10€", "03/2/2011     Compra     3€" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        lisDates.setOpaque(false);
-        spMovements.setViewportView(lisDates);
+        lisMovements.setOpaque(false);
+        spMovements.setViewportView(lisMovements);
 
         javax.swing.GroupLayout panelMovementsLayout = new javax.swing.GroupLayout(panelMovements);
         panelMovements.setLayout(panelMovementsLayout);
@@ -1094,11 +1105,11 @@ public class Frontend extends javax.swing.JFrame {
         ifChangePinCodeSuccess.setTitle("Informação");
         ifChangePinCodeSuccess.setVisible(true);
 
-        lblChangePinCodeSuccess1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblChangePinCodeSuccess1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblChangePinCodeSuccess1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChangePinCodeSuccess1.setText("Código de acesso alterado com sucesso!");
 
-        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblChangePinCodeSuccess2.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblChangePinCodeSuccess2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChangePinCodeSuccess2.setText("Consulte a sua caixa de correio.");
 
@@ -1610,6 +1621,26 @@ public class Frontend extends javax.swing.JFrame {
             btnChangePinCode.setEnabled(true);
             btnChangeEmail.setEnabled(true);
             btnLogOut.setEnabled(true);
+            lblNameText.setText(student.getName());
+            lblAddressText.setText(student.getAddress().getStreetAddress() +", nº "+student.getAddress().getNumber());
+            lblPhoneText.setText(String.valueOf(student.getPhone()));
+            lblEmailText.setText(student.getEmail());
+            if (student.hasScholarship()) {
+                chbScholarship.setSelected(true);
+            }
+            else {
+                chbScholarship.setSelected(false);
+            }
+            lblCourseText.setText(String.valueOf(student.getCourse()));
+            lblAccountText.setText(String.valueOf(student.getAccount().getId()));
+            lblBalanceText.setText(String.valueOf(student.getAccount().getBalance()));
+            
+            
+            transactionsList.removeAllElements();
+
+            for (Transaction newTransaction : student.getAccount().getTransactions()) {
+                    putTransactionsInList(newTransaction.print());
+            }
         }
     }//GEN-LAST:event_btnCheckBalanceMouseReleased
 
@@ -2179,7 +2210,7 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblWelcome1;
     private javax.swing.JLabel lblWelcome2;
     private javax.swing.JLabel lblWelcome3;
-    private javax.swing.JList lisDates;
+    private javax.swing.JList lisMovements;
     private javax.swing.JLayeredPane lpMeal1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel menuPanel;

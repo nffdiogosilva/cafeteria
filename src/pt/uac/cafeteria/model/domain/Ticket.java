@@ -36,4 +36,12 @@ public class Ticket extends Transaction {
             + "\n      meal = " + getMeal()
             + "\n    }";
     }
+    
+    @Override
+    public String print() {
+        return "Senha           " + getDate() +
+                "          " + getAmount() +
+                "€          " + getMeal().getTime() +
+                "          " + getMeal().getType();
+    }
 }

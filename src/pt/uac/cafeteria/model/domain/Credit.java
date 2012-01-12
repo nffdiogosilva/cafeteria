@@ -1,6 +1,8 @@
 
 package pt.uac.cafeteria.model.domain;
 
+import java.util.Calendar;
+
 /**
  * A type of transaction used when a student makes a payment to an
  * administrator to add credit to his account (increasing balance).
@@ -39,5 +41,12 @@ public class Credit extends Transaction {
             + "\n      amount = " + getAmount()
             + "\n      administrator = " + getAdministrator()
             + "\n    }";
+    }
+    
+    @Override
+    public String print() {
+        return "Carregamento          " + getDate().getDate()+"/"+(getDate().getMonth()+1)+"/"+(getDate().getYear()+1900) +
+                    "          " + getAmount() +
+                    "€          " + getAdministrator();
     }
 }
