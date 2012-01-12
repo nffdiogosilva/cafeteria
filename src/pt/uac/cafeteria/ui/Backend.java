@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
 import pt.uac.cafeteria.model.domain.Account.Status;
@@ -11,6 +12,7 @@ import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
 import pt.uac.cafeteria.model.domain.Student;
+import pt.uac.cafeteria.model.domain.Transaction;
 import pt.uac.cafeteria.model.persistence.MapperRegistry;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
 import pt.uac.cafeteria.model.validation.StudentValidator;
@@ -192,6 +194,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame = new javax.swing.JInternalFrame();
         lblMessage1 = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
+        lblMessage2 = new javax.swing.JLabel();
         chargeBalanceFrame = new javax.swing.JInternalFrame();
         lblChargeTitle = new javax.swing.JLabel();
         money = new javax.swing.JTextField();
@@ -640,10 +643,13 @@ public class Backend extends javax.swing.JFrame {
 
         informationFrame.setTitle("Informação");
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
+        informationFrame.getContentPane().setLayout(null);
 
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMessage1.setText("Dados Guardados Com Sucesso!");
+        informationFrame.getContentPane().add(lblMessage1);
+        lblMessage1.setBounds(-60, 30, 414, 30);
 
         btnOk.setText("OK");
         btnOk.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -651,26 +657,13 @@ public class Backend extends javax.swing.JFrame {
                 btnOkMouseReleased(evt);
             }
         });
+        informationFrame.getContentPane().add(btnOk);
+        btnOk.setBounds(110, 80, 75, 29);
 
-        org.jdesktop.layout.GroupLayout informationFrameLayout = new org.jdesktop.layout.GroupLayout(informationFrame.getContentPane());
-        informationFrame.getContentPane().setLayout(informationFrameLayout);
-        informationFrameLayout.setHorizontalGroup(
-            informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, lblMessage1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, informationFrameLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
-                .add(btnOk)
-                .add(121, 121, 121))
-        );
-        informationFrameLayout.setVerticalGroup(
-            informationFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(informationFrameLayout.createSequentialGroup()
-                .add(14, 14, 14)
-                .add(lblMessage1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 40, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnOk)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        lblMessage2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMessage2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        informationFrame.getContentPane().add(lblMessage2);
+        lblMessage2.setBounds(50, 50, 203, 20);
 
         menuPanel.add(informationFrame);
         informationFrame.setBounds(300, 150, 300, 150);
@@ -1888,6 +1881,7 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnWarningYesMouseReleased
 
     private void btnOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOkMouseReleased
+        lblMessage2.setText(null);
         if (btnOk.isEnabled()) {
             
             informationFrame.setVisible(false);
@@ -2414,7 +2408,7 @@ public class Backend extends javax.swing.JFrame {
                 
                 String subject = "Dados da conta";
                 String body = "Olá, " + student.getName()
-                        + "\n\n Já se encontram disponíveis os seus dados de acesso ao Sistema Cafeteria:\n"
+                        + "\n\nJá se encontram disponíveis os seus dados de acesso ao Sistema Cafeteria:\n"
                         + "\nNº de Conta: " + studentId
                         + "\nCódigo de Acesso: " + student.getAccount().getPinCode()
                         + "\nSaldo Actual: " + student.getAccount().getBalance()
@@ -2429,11 +2423,11 @@ public class Backend extends javax.swing.JFrame {
                     deactivate(buttonsPanel);
                 } catch (ApplicationException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage());
-                    
+                    //@TODO: PERGUNTAR AO HELDER AQUI
                     lblMessage1.setText("Não foi possível guardar dados!");
             
-                    informationFrame.setVisible(true);             
-                    deactivate(studentPanel);             
+                    informationFrame.setVisible(true);
+                    deactivate(studentPanel);
                     deactivate(addPanel);
                     deactivate(buttonsPanel);
                 }
@@ -3238,18 +3232,36 @@ public class Backend extends javax.swing.JFrame {
             chargeBalanceFrame.setVisible(false);
             
             if(MapperRegistry.account().update(student.getAccount())) {
-                lblMessage1.setText("Operação feita com sucesso!");
-                informationFrame.setVisible(true);
-                searchList.setEnabled(false);
+                
+                int last = student.getAccount().getTransactions().size() - 1;
+                
+                Transaction lastTransaction = student.getAccount().getTransactions().get(last);
+                
+                String subject = "Carregamento efectuado";
+                String body = "Olá, " + student.getName()
+                        + "\n\nFoi efectuado um carregamento na sua conta:\n"
+                        + "\nNº de Conta: " + student.getId() + "\n"
+                        + "\nData: " + lastTransaction.getDate() + "\n"
+                        + "\nValor Carregado: " + lastTransaction.getAmount() + "\n"
+                        + "\nSaldo Actual: " + student.getAccount().getBalance()
+                        + "\n\nCom os melhores cumprimentos,\nA Administração.";
+                try {
+                    Application.sendMail(student.getEmail(), subject, body);
+                    
+                    lblMessage1.setText("Dados da operação enviados para: ");
+                    lblMessage2.setText(student.getEmail());
+                    informationFrame.setVisible(true);
+                    searchList.setEnabled(false);
+                } catch (ApplicationException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+                
             }
             else {
                 lblMessage1.setText("Operação falhou!");
                 informationFrame.setVisible(true);
                 searchList.setEnabled(false);
             }
-            
-            //Temporary
-            System.out.println("Novo saldo do aluno " + student.getId() + ": " + student.getAccount().getBalance());
         }
         else {
             
@@ -3737,6 +3749,7 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel lblMeat;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JLabel lblMessage1;
+    private javax.swing.JLabel lblMessage2;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblName2;
