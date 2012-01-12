@@ -532,7 +532,7 @@ public class Backend extends javax.swing.JFrame {
                     .add(validationsFrameLayout.createSequentialGroup()
                         .add(validationsFrameLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                            .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
+                            .add(lblValidationMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
                         .addContainerGap())
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, validationsFrameLayout.createSequentialGroup()
                         .add(btnValidationOk)
@@ -1506,7 +1506,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         addAdminPanel.add(btnCancelAdmin);
-        btnCancelAdmin.setBounds(300, 300, 98, 29);
+        btnCancelAdmin.setBounds(290, 370, 98, 29);
 
         btnSaveAdmin.setText("Guardar");
         btnSaveAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1515,7 +1515,7 @@ public class Backend extends javax.swing.JFrame {
             }
         });
         addAdminPanel.add(btnSaveAdmin);
-        btnSaveAdmin.setBounds(180, 300, 93, 29);
+        btnSaveAdmin.setBounds(170, 370, 93, 29);
 
         adminPwd.setText("jPasswordField1");
         addAdminPanel.add(adminPwd);
@@ -3178,7 +3178,17 @@ public class Backend extends javax.swing.JFrame {
             deactivate(buttonsPanel);
         }
         else {
-            System.out.println(validator.getErrors());
+            
+            deactivate(adminPanel);             
+            deactivate(addAdminPanel);
+            deactivate(buttonsPanel);
+            
+            validationsFrame.setVisible(true);
+            
+            validationsList.removeAllElements();
+            for (String validation: validator.getErrors()) {
+                putValidationInList(validation);
+            }
         }
     }//GEN-LAST:event_btnSaveAdminMouseReleased
 
@@ -3542,6 +3552,13 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(buttonsPanel);
             btnStudent.setEnabled(false);
             searchList.setSelectedIndex(studentPosition);
+        }
+        
+        if (addAdminPanel.isVisible()) {
+            enabledAll(adminPanel);             
+            enabledAll(addAdminPanel);
+            enabledAll(buttonsPanel);
+            btnAdmin.setEnabled(false);
         }
     }//GEN-LAST:event_btnValidationOkMouseReleased
     

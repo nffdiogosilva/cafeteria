@@ -257,7 +257,7 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane2" alignment="0" pref="336" max="32767" attributes="0"/>
-                                  <Component id="lblValidationMessage" pref="344" max="32767" attributes="0"/>
+                                  <Component id="lblValidationMessage" pref="336" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -2440,7 +2440,7 @@
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="300" y="300" width="-1" height="-1"/>
+                      <AbsoluteConstraints x="290" y="370" width="-1" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -2453,7 +2453,7 @@
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="180" y="300" width="-1" height="-1"/>
+                      <AbsoluteConstraints x="170" y="370" width="-1" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
