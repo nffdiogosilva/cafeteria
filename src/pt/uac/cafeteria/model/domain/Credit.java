@@ -42,11 +42,4 @@ public class Credit extends Transaction {
             + "\n      administrator = " + getAdministrator()
             + "\n    }";
     }
-    
-    @Override
-    public String print() {
-        return "Carregamento          " + getDate().getDate()+"/"+(getDate().getMonth()+1)+"/"+(getDate().getYear()+1900) +
-                    "          " + getAmount() +
-                    "€          " + getAdministrator();
-    }
 }

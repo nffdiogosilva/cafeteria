@@ -5,14 +5,19 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
-import javax.swing.DefaultListModel;
+import java.util.GregorianCalendar;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.ApplicationException;
 import pt.uac.cafeteria.model.domain.Student;
-import pt.uac.cafeteria.model.domain.Ticket;
 import pt.uac.cafeteria.model.MapperRegistry;
+import pt.uac.cafeteria.model.domain.Credit;
+import pt.uac.cafeteria.model.domain.Day;
+import pt.uac.cafeteria.model.domain.Meal;
+import pt.uac.cafeteria.model.domain.Menu;
+import pt.uac.cafeteria.model.domain.Ticket;
 import pt.uac.cafeteria.model.validation.Validator;
 import pt.uac.cafeteria.model.domain.Transaction;
 
@@ -30,9 +35,10 @@ public class Frontend extends javax.swing.JFrame {
     private String newPin;
     private String confirmPin;
     private String regex;
-    /** Type of list to use on JList Component */
-    private DefaultListModel transactionsList = new DefaultListModel();
-    
+    private static int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    private static final int LUNCH_HOUR = 13;
+    private static final int DINNER_HOUR = 19;
+
     /** Creates new form Frontend */
     public Frontend() {
         initComponents();
@@ -81,12 +87,12 @@ public class Frontend extends javax.swing.JFrame {
             component.getComponent(i).setEnabled(false);
         }
     }
-
-     /**
-     * Method responsible of setting the component enabled
-     * 
-     * @param component The component that will be enable
-     */
+    
+    /**
+    * Method responsible of setting the component enabled
+    * 
+    * @param component The component that will be enable
+    */
     private void activate(JComponent component) {
         component.setEnabled(false);
         for (int i = 0; i < component.getComponents().length; i++) {
@@ -94,11 +100,33 @@ public class Frontend extends javax.swing.JFrame {
         }
     }
     
-    /** Adds a transaction into JList Component */
-    private void putTransactionsInList (String transaction) {
-        lisMovements.setModel(transactionsList);
-        transactionsList.addElement(transaction);
-    }    
+    /** Receives a transaction list and returns a JTable**/
+    private String[] transactionRow(Transaction trans) {
+
+        String transactionDay = new Day(trans.getDate()).format("yyyy-MM-dd HH:mm:ss");
+        String amount = String.format("€%.2f", trans.getAmount());
+
+        if (trans instanceof Credit) {
+            Credit credit = (Credit) trans;
+            return new String[] {
+                "Carregamento", transactionDay, amount, credit.getAdministrator()
+            };
+        }
+        if (trans instanceof Ticket) {
+            Meal meal = ((Ticket) trans).getMeal();
+            return new String[] {
+                "Compra de senha", transactionDay, amount, meal.getTime() + ", " + meal.getType()
+            };
+        }   
+        return null;
+    }
+    
+    private int monthTotalDays (int i) {
+
+       Calendar cal = new GregorianCalendar(cbYearChoice.getSelectedIndex(), i, 1);
+       int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+       return days;
+   }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -153,7 +181,6 @@ public class Frontend extends javax.swing.JFrame {
         ifPurchaseSuccess = new javax.swing.JInternalFrame();
         lblPurchaseSuccess = new javax.swing.JLabel();
         btnPurchaseOk = new javax.swing.JButton();
-        spSummary = new javax.swing.JScrollPane();
         panelSummary = new javax.swing.JPanel();
         lblPurchaseDate = new javax.swing.JLabel();
         lblPurchaseDateText = new javax.swing.JLabel();
@@ -176,7 +203,6 @@ public class Frontend extends javax.swing.JFrame {
         cbDayChoice = new javax.swing.JComboBox();
         rbLunch = new javax.swing.JRadioButton();
         rbDinner = new javax.swing.JRadioButton();
-        btnNext = new javax.swing.JButton();
         panelShowMeal = new javax.swing.JPanel();
         lblChooseDish = new javax.swing.JLabel();
         rbMeat = new javax.swing.JRadioButton();
@@ -214,9 +240,8 @@ public class Frontend extends javax.swing.JFrame {
         lblAccountText = new javax.swing.JLabel();
         lblBalance = new javax.swing.JLabel();
         lblBalanceText = new javax.swing.JLabel();
-        panelMovements = new javax.swing.JPanel();
-        spMovements = new javax.swing.JScrollPane();
-        lisMovements = new javax.swing.JList();
+        spTransactions = new javax.swing.JScrollPane();
+        tableTransactions = new javax.swing.JTable();
         panelChangePinCode = new javax.swing.JPanel();
         ifCancelPinCode = new javax.swing.JInternalFrame();
         lblCancelPinCode = new javax.swing.JLabel();
@@ -676,21 +701,25 @@ public class Frontend extends javax.swing.JFrame {
 
         panelBuyTicket.add(ifPurchaseSuccess, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 220, 160));
 
-        spSummary.setBorder(null);
-        spSummary.setToolTipText("");
-        spSummary.setPreferredSize(new java.awt.Dimension(560, 350));
-
         panelSummary.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resumo", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
-        panelSummary.setOpaque(false);
-        panelSummary.setPreferredSize(new java.awt.Dimension(300, 270));
+        panelSummary.setPreferredSize(new java.awt.Dimension(500, 270));
+        panelSummary.setLayout(null);
 
         lblPurchaseDate.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPurchaseDate.setText("Data da Compra:");
+        panelSummary.add(lblPurchaseDate);
+        lblPurchaseDate.setBounds(16, 31, 94, 23);
+        panelSummary.add(lblPurchaseDateText);
+        lblPurchaseDateText.setBounds(120, 31, 108, 23);
 
         lblPrice.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblPrice.setText("Preço Total:");
+        panelSummary.add(lblPrice);
+        lblPrice.setBounds(16, 60, 67, 23);
 
         lblPriceText.setText("3€");
+        panelSummary.add(lblPriceText);
+        lblPriceText.setBounds(93, 62, 63, 18);
 
         lpMeal1.setBackground(new java.awt.Color(102, 102, 102));
         lpMeal1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -708,7 +737,7 @@ public class Frontend extends javax.swing.JFrame {
         lpMeal1.add(lblTicketSoup, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         lblTicketDish.setText("Carne:");
-        lblTicketDish.setBounds(10, 100, 50, 20);
+        lblTicketDish.setBounds(10, 100, 70, 20);
         lpMeal1.add(lblTicketDish, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         lblTicketDessert.setText("Sobremesa:");
@@ -735,61 +764,39 @@ public class Frontend extends javax.swing.JFrame {
         lblTicketDessertText.setBounds(100, 130, 300, 20);
         lpMeal1.add(lblTicketDessertText, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout panelSummaryLayout = new javax.swing.GroupLayout(panelSummary);
-        panelSummary.setLayout(panelSummaryLayout);
-        panelSummaryLayout.setHorizontalGroup(
-            panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSummaryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelSummaryLayout.createSequentialGroup()
-                        .addComponent(lblPurchaseDate)
-                        .addGap(10, 10, 10)
-                        .addComponent(lblPurchaseDateText, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(206, Short.MAX_VALUE))
-                    .addGroup(panelSummaryLayout.createSequentialGroup()
-                        .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(10, 10, 10)
-                        .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(371, 371, 371))
-                    .addGroup(panelSummaryLayout.createSequentialGroup()
-                        .addComponent(lpMeal1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-        panelSummaryLayout.setVerticalGroup(
-            panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSummaryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblPurchaseDateText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPurchaseDate, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPriceText, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(lpMeal1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
+        panelSummary.add(lpMeal1);
+        lpMeal1.setBounds(16, 101, 470, 150);
 
-        spSummary.setViewportView(panelSummary);
-
-        panelBuyTicket.add(spSummary, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 300));
+        panelBuyTicket.add(panelSummary, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         panelChooseDay.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Escolha a data e a refeição", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
         panelChooseDay.setMinimumSize(new java.awt.Dimension(400, 400));
         panelChooseDay.setPreferredSize(new java.awt.Dimension(333, 155));
         panelChooseDay.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cbYearChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2011", "2012", "2013", "2014", "2015", "2016", "2017" }));
-        panelChooseDay.add(cbYearChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        cbYearChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbYearChoiceItemStateChanged(evt);
+            }
+        });
+        panelChooseDay.add(cbYearChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 70, -1));
 
         cbMonthChoice.setMaximumRowCount(12);
         cbMonthChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
-        panelChooseDay.add(cbMonthChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+        cbMonthChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMonthChoiceItemStateChanged(evt);
+            }
+        });
+        panelChooseDay.add(cbMonthChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 90, -1));
 
         cbDayChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        panelChooseDay.add(cbDayChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, -1, -1));
+        cbDayChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbDayChoiceItemStateChanged(evt);
+            }
+        });
+        panelChooseDay.add(cbDayChoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, -1, -1));
 
         bgTime.add(rbLunch);
         rbLunch.setText("Almoço");
@@ -808,14 +815,6 @@ public class Frontend extends javax.swing.JFrame {
             }
         });
         panelChooseDay.add(rbDinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 123, -1, -1));
-
-        btnNext.setText("Seguinte");
-        btnNext.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnNextMouseReleased(evt);
-            }
-        });
-        panelChooseDay.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 110, -1, -1));
 
         panelBuyTicket.add(panelChooseDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, -1));
 
@@ -836,10 +835,20 @@ public class Frontend extends javax.swing.JFrame {
 
         bgDish.add(rbFish);
         rbFish.setText("Peixe");
+        rbFish.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                rbFishMouseReleased(evt);
+            }
+        });
         panelShowMeal.add(rbFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
         bgDish.add(rbVegetarian);
         rbVegetarian.setText("Vegetariano");
+        rbVegetarian.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                rbVegetarianMouseReleased(evt);
+            }
+        });
         panelShowMeal.add(rbVegetarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
 
         lblSoup.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -895,7 +904,7 @@ public class Frontend extends javax.swing.JFrame {
         panelBuyTicket.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 490, 80, 30));
 
         menuPanel.add(panelBuyTicket);
-        panelBuyTicket.setBounds(250, 25, 440, 520);
+        panelBuyTicket.setBounds(250, 25, 500, 520);
 
         panelCheckBalance.setOpaque(false);
         panelCheckBalance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -973,77 +982,59 @@ public class Frontend extends javax.swing.JFrame {
         panelCheckBalance.add(panelStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 210));
 
         panelAccount.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Movimentos de Conta", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BELOW_TOP));
+        panelAccount.setLayout(null);
 
         lblAccount.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblAccount.setText("Conta: ");
+        panelAccount.add(lblAccount);
+        lblAccount.setBounds(16, 31, 39, 14);
 
-        lblAccountText.setText("20081234");
+        lblAccountText.setText("               ");
+        panelAccount.add(lblAccountText);
+        lblAccountText.setBounds(61, 31, 60, 14);
 
         lblBalance.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblBalance.setText("Saldo:");
+        panelAccount.add(lblBalance);
+        lblBalance.setBounds(235, 31, 34, 14);
 
-        lblBalanceText.setText("100€");
+        lblBalanceText.setText("        ");
+        panelAccount.add(lblBalanceText);
+        lblBalanceText.setBounds(279, 31, 90, 14);
 
-        panelMovements.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        tableTransactions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        lisMovements.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "01/2/2011     Compra     6€", "02/2/2011     Compra     3€", "02/2/2011     Débito     10€", "03/2/2011     Compra     3€" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            },
+            new String [] {
+                "Tipo", "Data", "Montante", "Detalhes"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
-        lisMovements.setOpaque(false);
-        spMovements.setViewportView(lisMovements);
+        tableTransactions.getTableHeader().setReorderingAllowed(false);
+        spTransactions.setViewportView(tableTransactions);
+        tableTransactions.getColumnModel().getColumn(0).setMinWidth(110);
+        tableTransactions.getColumnModel().getColumn(0).setPreferredWidth(110);
+        tableTransactions.getColumnModel().getColumn(0).setMaxWidth(110);
+        tableTransactions.getColumnModel().getColumn(1).setMinWidth(130);
+        tableTransactions.getColumnModel().getColumn(1).setPreferredWidth(130);
+        tableTransactions.getColumnModel().getColumn(1).setMaxWidth(130);
+        tableTransactions.getColumnModel().getColumn(2).setMinWidth(70);
+        tableTransactions.getColumnModel().getColumn(2).setPreferredWidth(70);
+        tableTransactions.getColumnModel().getColumn(2).setMaxWidth(70);
+        tableTransactions.getColumnModel().getColumn(3).setMinWidth(115);
+        tableTransactions.getColumnModel().getColumn(3).setPreferredWidth(115);
+        tableTransactions.getColumnModel().getColumn(3).setMaxWidth(115);
 
-        javax.swing.GroupLayout panelMovementsLayout = new javax.swing.GroupLayout(panelMovements);
-        panelMovements.setLayout(panelMovementsLayout);
-        panelMovementsLayout.setHorizontalGroup(
-            panelMovementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMovementsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(spMovements, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelMovementsLayout.setVerticalGroup(
-            panelMovementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMovementsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(spMovements, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout panelAccountLayout = new javax.swing.GroupLayout(panelAccount);
-        panelAccount.setLayout(panelAccountLayout);
-        panelAccountLayout.setHorizontalGroup(
-            panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAccountLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAccountLayout.createSequentialGroup()
-                        .addComponent(panelMovements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(panelAccountLayout.createSequentialGroup()
-                        .addComponent(lblAccount)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblAccountText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
-                        .addComponent(lblBalance)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblBalanceText)
-                        .addGap(69, 69, 69))))
-        );
-        panelAccountLayout.setVerticalGroup(
-            panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAccountLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAccount)
-                    .addComponent(lblAccountText)
-                    .addComponent(lblBalance)
-                    .addComponent(lblBalanceText))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelMovements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        panelAccount.add(spTransactions);
+        spTransactions.setBounds(16, 51, 408, 221);
 
         panelCheckBalance.add(panelAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 440, 290));
 
@@ -1444,7 +1435,7 @@ public class Frontend extends javax.swing.JFrame {
             ifLogOut.setVisible(true);
             deactivate(panelButtons);
             if (panelCheckBalance.isVisible()) {
-                panelMovements.setEnabled(false);
+                tableTransactions.setEnabled(false);
             }
             if (panelChangePinCode.isVisible()) {
                 pfCurrentPin.setEnabled(false);
@@ -1468,27 +1459,39 @@ public class Frontend extends javax.swing.JFrame {
             btnConfirmMeal.setEnabled(false);
             btnCancel.setVisible(true);
             btnCancel.setEnabled(true);
+            btnBuy.setVisible(false);
+            panelSummary.setVisible(false);
             ifNoMeal.setVisible(false);
             ifMoreTickets.setVisible(false);
-            spSummary.setVisible(false);
-            btnBuy.setVisible(false);
             ifPurchaseSuccess.setVisible(false);
             ifCancelBuyTicket.setVisible(false);
-            cbYearChoice.setSelectedIndex(0);
             bgTime.clearSelection();
             bgDish.clearSelection();
-            cbMonthChoice.setSelectedIndex(0);
-            cbDayChoice.setSelectedIndex(0);
-            btnNext.setEnabled(false);
-            btnBuyTicket.setEnabled(false);
-            btnCheckBalance.setEnabled(false);
-            btnChangePinCode.setEnabled(false);
-            btnChangeEmail.setEnabled(false);
-            btnLogOut.setEnabled(false);
+            deactivate(panelButtons);
             panelWelcome.setVisible(false);
             panelCheckBalance.setVisible(false);
             panelChangePinCode.setVisible(false);
             panelChangeEmail.setVisible(false);
+            
+            for (int i = 0; i < 5; i++) {
+                cbYearChoice.addItem(Calendar.getInstance().get(Calendar.YEAR) + i);
+            }
+           
+            Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+
+            if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+                rbLunch.setEnabled(false);
+            }
+            else {
+                rbLunch.setEnabled(true);
+            }
+
+            if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+                rbDinner.setEnabled(false);
+            }
+            else {
+                rbDinner.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_btnBuyTicketMouseReleased
 
@@ -1499,7 +1502,6 @@ public class Frontend extends javax.swing.JFrame {
             btnBuy.setEnabled(false);
             rbLunch.setEnabled(false);
             rbDinner.setEnabled(false);
-            btnNext.setEnabled(false);
             btnBuy.setEnabled(false);
         }
         if (panelShowMeal.isVisible()) {
@@ -1509,19 +1511,13 @@ public class Frontend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCancelMouseReleased
 
-    private void rbLunchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbLunchMouseReleased
-        if (rbLunch.isEnabled()) {
-            btnNext.setEnabled(true);
-        }
-    }//GEN-LAST:event_rbLunchMouseReleased
-
     private void rbMeatMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbMeatMouseReleased
         btnConfirmMeal.setEnabled(true);
     }//GEN-LAST:event_rbMeatMouseReleased
 
     private void btnYesTicketsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesTicketsMouseReleased
         ifMoreTickets.setVisible(false);
-        spSummary.setVisible(false);
+        panelSummary.setVisible(false);
         panelShowMeal.setVisible(false);
         btnBuy.setVisible(false);
         panelChooseDay.setVisible(true);
@@ -1550,26 +1546,33 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNoTicketsMouseReleased
 
     private void btnBuyMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuyMouseReleased
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+        
+        Day currentDay = new Day (selectedYear.intValue() , cbMonthChoice.getSelectedIndex() - 1, selectedDay.intValue());
+        Menu menu = MapperRegistry.menu().find(currentDay);
+        
         if (btnBuy.isEnabled()) {
-            btnBuy.setEnabled(false);
-            btnCancel.setEnabled(false);
-            ifPurchaseSuccess.setVisible(true);
+            try {Double mealPrice = Application.mealPrice(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT), student);
+                student.getAccount().buyTicket(null, mealPrice);
+                btnBuy.setEnabled(false);
+                btnCancel.setEnabled(false);
+                ifPurchaseSuccess.setVisible(true);
+                MapperRegistry.account().update(student.getAccount());
+            }
+            catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnBuyMouseReleased
 
     private void btnPurchaseOkMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPurchaseOkMouseReleased
         ifPurchaseSuccess.setVisible(false);
-        spSummary.setVisible(false);
+        panelSummary.setVisible(false);
         ifMoreTickets.setVisible(true);
         btnBuy.setVisible(false);
         btnCancel.setVisible(false);
     }//GEN-LAST:event_btnPurchaseOkMouseReleased
-
-    private void rbDinnerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDinnerMouseReleased
-        if (rbDinner.isEnabled()) {
-            btnNext.setEnabled(true);
-        }
-    }//GEN-LAST:event_rbDinnerMouseReleased
 
     private void btnYesCancelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesCancelMouseReleased
         if (btnYesCancel.isEnabled()) {
@@ -1578,7 +1581,7 @@ public class Frontend extends javax.swing.JFrame {
             btnConfirmMeal.setVisible(false);
             btnCancel.setVisible(false);
             ifMoreTickets.setVisible(false);
-            spSummary.setVisible(false);
+            panelSummary.setVisible(false);
             btnBuy.setVisible(false);
             ifCancelBuyTicket.setVisible(false);
             btnBuyTicket.setEnabled(true);
@@ -1594,9 +1597,7 @@ public class Frontend extends javax.swing.JFrame {
         ifCancelBuyTicket.setVisible(false);
         rbLunch.setEnabled(true);
         rbDinner.setEnabled(true);
-        if (rbLunch.isSelected() || rbDinner.isSelected()) {
-            btnNext.setEnabled(true);
-        }
+
         if (panelShowMeal.isVisible()) {
             deactivate(panelChooseDay);
             rbMeat.setEnabled(true);
@@ -1606,7 +1607,7 @@ public class Frontend extends javax.swing.JFrame {
         if (rbMeat.isSelected() || rbFish.isSelected() || rbVegetarian.isSelected()) {
             btnConfirmMeal.setEnabled(true);
         }
-        if (spSummary.isVisible()) {
+        if (panelSummary.isVisible()) {
             btnBuy.setEnabled(true);
         }
     }//GEN-LAST:event_btnNoCancelMouseReleased
@@ -1632,13 +1633,14 @@ public class Frontend extends javax.swing.JFrame {
             }
             lblCourseText.setText(String.valueOf(student.getCourse()));
             lblAccountText.setText(String.valueOf(student.getAccount().getId()));
-            lblBalanceText.setText(String.valueOf(student.getAccount().getBalance()));
+            lblBalanceText.setText("€"+String.valueOf(student.getAccount().getBalance()));
             
-            
-            transactionsList.removeAllElements();
+            DefaultTableModel transTabModel = (DefaultTableModel) tableTransactions.getModel();
 
-            for (Transaction newTransaction : student.getAccount().getTransactions()) {
-                    putTransactionsInList(newTransaction.print());
+            transTabModel.setRowCount(0);
+            
+            for (Transaction trans : student.getAccount().getTransactions()) {
+                transTabModel.addRow(transactionRow(trans));
             }
         }
     }//GEN-LAST:event_btnCheckBalanceMouseReleased
@@ -1928,31 +1930,14 @@ public class Frontend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnNoCancelLogOutMouseReleased
 
-    private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
-        if (btnNext.isEnabled()) {
-            if (rbLunch.isSelected()) {
-                deactivate(panelChooseDay);
-                rbMeat.setEnabled(true);
-                rbFish.setEnabled(true);
-                rbVegetarian.setEnabled(true);
-                panelShowMeal.setVisible(true);
-                lblSoupText.setText("Caldo Verde");
-                lblMeatText.setText("Bifes");
-                lblFishText.setText("Chicharros");
-                lblVegetarianText.setText("Salada");
-                lblDessertText.setText("Mousse");
-            }
-            if (rbDinner.isSelected()) {
-                deactivate(panelChooseDay);
-                ifNoMeal.setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_btnNextMouseReleased
-
     private void btnNoMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNoMealMouseReleased
         ifNoMeal.setVisible(false);
         panelChooseDay.setVisible(true);
         activate(panelChooseDay);
+        bgTime.clearSelection();
+        panelShowMeal.setVisible(false);
+        btnConfirmMeal.setVisible(false);
+        btnCancel.setVisible(false);
     }//GEN-LAST:event_btnNoMealMouseReleased
 
     private void btnYesCancelPinCodeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnYesCancelPinCodeMouseReleased
@@ -1988,14 +1973,55 @@ public class Frontend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNoCancelEmailMouseReleased
 
     private void btnConfirmMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMealMouseReleased
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+        
+        Day currentDay = new Day (selectedYear.intValue() , cbMonthChoice.getSelectedIndex() - 1, selectedDay.intValue());
+        Menu menu = MapperRegistry.menu().find(currentDay);
+        
         if (btnConfirmMeal.isEnabled()) {
             panelChooseDay.setVisible(false);
             panelShowMeal.setVisible(false);
-            spSummary.setVisible(true);
+            panelSummary.setVisible(true);
             btnConfirmMeal.setVisible(false);
             btnBuy.setVisible(true);
             btnBuy.setEnabled(true);
-            lblPurchaseDateText.setText(""+day+"/"+month+"/"+year);    
+            lblPurchaseDateText.setText(""+year+"-"+month+"."+year);
+            if (rbLunch.isSelected()) {
+                lblPriceText.setText(""+Application.mealPrice(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT), student));
+                lbTicketlMealTimeText.setText("Almoço");
+                if (rbMeat.isSelected()) {
+                    lblTicketDish.setText("Carne:");
+                    lblTicketDishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                }
+                if (rbFish.isSelected()) {
+                    lblTicketDish.setText("Peixe:");
+                    lblTicketDishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                }
+                if (rbVegetarian.isSelected()) {
+                    lblTicketDish.setText("Vegetariano:");
+                    lblTicketDishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                }
+            }
+            if (rbDinner.isSelected()) {
+                lblPriceText.setText(""+Application.mealPrice(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT), student));
+                lbTicketlMealTimeText.setText("Jantar");
+                                if (rbMeat.isSelected()) {
+                    lblTicketDish.setText("Carne:");
+                    lblTicketDishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                }
+                if (rbFish.isSelected()) {
+                    lblTicketDish.setText("Peixe:");
+                    lblTicketDishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                }
+                if (rbVegetarian.isSelected()) {
+                    lblTicketDish.setText("Vegetariano:");
+                    lblTicketDishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                }
+            }
+            lblTicketMealDateText.setText(selectedYear.intValue() + "-" + (cbMonthChoice.getSelectedIndex() - 1) + "-" + selectedDay.intValue());
+            lblTicketSoupText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getSoup());
+            lblDessertText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getDessert());
         }
     }//GEN-LAST:event_btnConfirmMealMouseReleased
 
@@ -2059,6 +2085,475 @@ public class Frontend extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLogInFailedKeyReleased
 
+    private void cbYearChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbYearChoiceItemStateChanged
+       cbDayChoice.removeAllItems();
+       Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+
+       if (cbMonthChoice.getSelectedIndex() + 1 == month && selectedYear.intValue() == year) {
+           for (int j = day; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+               cbDayChoice.addItem(j);
+           }
+       }
+       else {
+           for (int j = 1; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+               cbDayChoice.addItem(j);
+           }
+       }
+
+       Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+       if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+           rbLunch.setEnabled(false);
+           rbLunch.setSelected(false);
+       }
+       else {
+           rbLunch.setEnabled(true);
+           rbLunch.setSelected(false);
+       }
+
+       if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+           rbDinner.setEnabled(false);
+           rbDinner.setSelected(false);
+       }
+       else {
+           rbDinner.setEnabled(true);
+           rbDinner.setSelected(false);
+       }
+
+       if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+           panelShowMeal.setVisible(true);
+       }
+       else {
+           bgTime.clearSelection();
+           panelShowMeal.setVisible(false);
+       }
+    }//GEN-LAST:event_cbYearChoiceItemStateChanged
+
+    private void cbMonthChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMonthChoiceItemStateChanged
+       cbDayChoice.removeAllItems();
+       Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+
+       if (cbMonthChoice.getSelectedIndex() + 1 == month && selectedYear.intValue() == year) {
+           for (int j = day; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+               cbDayChoice.addItem(j);
+           }
+       }
+       else {
+           for (int j = 1; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+               cbDayChoice.addItem(j);
+           }
+       }
+
+       Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+       if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+           rbLunch.setEnabled(false);
+           rbLunch.setSelected(false);
+       }
+       else {
+           rbLunch.setEnabled(true);
+           rbLunch.setSelected(false);
+       }
+
+       if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+           rbDinner.setEnabled(false);
+           rbDinner.setSelected(false);
+       }
+       else {
+           rbDinner.setEnabled(true);
+           rbDinner.setSelected(false);
+       }
+
+       if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+           panelShowMeal.setVisible(true);
+       }
+       else {
+           bgTime.clearSelection();
+           panelShowMeal.setVisible(false);
+       }
+    }//GEN-LAST:event_cbMonthChoiceItemStateChanged
+
+    private void cbDayChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDayChoiceItemStateChanged
+       Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+       Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+       
+       if (selectedDay == null) {
+           selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+       }
+
+       if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+           rbLunch.setEnabled(false);
+       }
+       else {
+           rbLunch.setEnabled(true);
+       }
+
+       if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+           rbDinner.setEnabled(false);
+       }
+       else {
+           rbDinner.setEnabled(true);
+       }
+
+       if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+           panelShowMeal.setVisible(true);
+       }
+       else {
+           bgTime.clearSelection();
+           panelShowMeal.setVisible(false);
+       }
+       
+       if (rbLunch.isSelected() && !rbDinner.isSelected()) {
+            
+            Day currentDay = new Day (selectedYear.intValue() , cbMonthChoice.getSelectedIndex() - 1, selectedDay.intValue());
+
+            Menu menu = MapperRegistry.menu().find(currentDay);
+
+            if(menu != null) {
+                if (rbLunch.isEnabled() && rbLunch.isSelected()) {
+                    panelShowMeal.setVisible(true);
+                    lblSoupText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getSoup());
+                    lblDessertText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getDessert());
+
+                    if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 1");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbMeat.setEnabled(true);
+                        rbFish.setEnabled(true);
+                        rbVegetarian.setEnabled(true);
+                    }
+
+                    if (menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 2");
+                        lblMeatText.setText("Não há prato de carne!");
+                        lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbMeat.setEnabled(false);
+                    }
+
+                    if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 3");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText("Não há prato de peixe!");
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbFish.setEnabled(false);
+                    }
+
+                    if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 4");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText("Não há prato vegetariano!");
+                        rbVegetarian.setEnabled(false);
+                    }
+
+                    if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 5");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText("Não há prato de peixe!");
+                        lblVegetarianText.setText("Não há prato vegetariano!");
+                        rbFish.setEnabled(false);
+                        rbVegetarian.setEnabled(false);
+                    }
+
+                    if (menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 6");
+                        lblMeatText.setText("Não há prato de carne!");
+                        lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText("Não há prato vegetariano!");
+                        rbMeat.setEnabled(false);
+                        rbVegetarian.setEnabled(false);
+                    }
+
+                    if (menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 7");
+                        lblMeatText.setText("Não há prato de carne!");
+                        lblFishText.setText("Não há prato de peixe!");
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbMeat.setEnabled(false);
+                        rbFish.setEnabled(false);
+                    }
+                }
+            }
+            else {
+                panelChooseDay.setEnabled(false);
+                panelShowMeal.setEnabled(false);
+                ifNoMeal.setVisible(true);
+            }
+       }
+       
+       if (rbDinner.isSelected() && !rbLunch.isSelected()) {
+            Day currentDay = new Day (selectedYear.intValue() , cbMonthChoice.getSelectedIndex() - 1, selectedDay.intValue());
+
+            Menu menu = MapperRegistry.menu().find(currentDay);
+
+            if(menu != null) {
+                if (rbDinner.isEnabled() && rbDinner.isSelected()) {
+                    panelShowMeal.setVisible(true);
+                    lblSoupText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getSoup());
+                    lblDessertText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getDessert());
+
+
+                    System.out.println(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT));
+                    System.out.println(!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty());
+
+
+                    if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 1");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbMeat.setEnabled(true);
+                        rbFish.setEnabled(true);
+                        rbVegetarian.setEnabled(true);
+                    }
+
+                    if (menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 2");
+                        lblMeatText.setText("Não há prato de carne!");
+                        lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbMeat.setEnabled(false);
+                    }
+
+                    if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 3");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText("Não há prato de peixe!");
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbFish.setEnabled(false);
+                    }
+
+                    if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 4");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText("Não há prato vegetariano!");
+                        rbVegetarian.setEnabled(false);
+                    }
+
+                    if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 5");
+                        lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                        lblFishText.setText("Não há prato de peixe!");
+                        lblVegetarianText.setText("Não há prato vegetariano!");
+                        rbFish.setEnabled(false);
+                        rbVegetarian.setEnabled(false);
+                    }
+
+                    if (menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 6");
+                        lblMeatText.setText("Não há prato de carne!");
+                        lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                        lblVegetarianText.setText("Não há prato vegetariano!");
+                        rbMeat.setEnabled(false);
+                        rbVegetarian.setEnabled(false);
+                    }
+
+                    if (menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                        System.out.println("condição 7");
+                        lblMeatText.setText("Não há prato de carne!");
+                        lblFishText.setText("Não há prato de peixe!");
+                        lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                        rbMeat.setEnabled(false);
+                        rbFish.setEnabled(false);
+                    }
+                }
+            }
+            else {
+                panelChooseDay.setEnabled(false);
+                panelShowMeal.setEnabled(false);
+                ifNoMeal.setVisible(true);
+            }
+       }
+    }//GEN-LAST:event_cbDayChoiceItemStateChanged
+
+    private void rbLunchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbLunchMouseReleased
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+        
+        Day currentDay = new Day (selectedYear.intValue() , cbMonthChoice.getSelectedIndex() - 1, selectedDay.intValue());
+        
+        Menu menu = MapperRegistry.menu().find(currentDay);
+        System.out.println("MENU: "+menu);
+        //System.out.println("Carne: " + menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+        
+        if(menu != null) {
+            if (rbLunch.isEnabled() && rbLunch.isSelected()) {
+                panelShowMeal.setVisible(true);
+                lblSoupText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getSoup());
+                lblDessertText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getDessert());
+                
+                
+                System.out.println(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT));
+                System.out.println(!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty());
+                
+                
+                if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 1");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbMeat.setEnabled(true);
+                    rbFish.setEnabled(true);
+                    rbVegetarian.setEnabled(true);
+                }
+                
+                if (menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 2");
+                    lblMeatText.setText("Não há prato de carne!");
+                    lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbMeat.setEnabled(false);
+                }
+                
+                if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 3");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText("Não há prato de peixe!");
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbFish.setEnabled(false);
+                }
+                
+                if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 4");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText("Não há prato vegetariano!");
+                    rbVegetarian.setEnabled(false);
+                }
+                
+                if (!menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 5");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText("Não há prato de peixe!");
+                    lblVegetarianText.setText("Não há prato vegetariano!");
+                    rbFish.setEnabled(false);
+                    rbVegetarian.setEnabled(false);
+                }
+                
+                if (menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 6");
+                    lblMeatText.setText("Não há prato de carne!");
+                    lblFishText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText("Não há prato vegetariano!");
+                    rbMeat.setEnabled(false);
+                    rbVegetarian.setEnabled(false);
+                }
+                
+                if (menu.getMeal(Meal.Time.LUNCH, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 7");
+                    lblMeatText.setText("Não há prato de carne!");
+                    lblFishText.setText("Não há prato de peixe!");
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbMeat.setEnabled(false);
+                    rbFish.setEnabled(false);
+                }
+            }
+        }
+        else {
+            panelChooseDay.setEnabled(false);
+            panelShowMeal.setEnabled(false);
+            ifNoMeal.setVisible(true);
+        }
+    }//GEN-LAST:event_rbLunchMouseReleased
+
+    private void rbDinnerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDinnerMouseReleased
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+        
+        Day currentDay = new Day (selectedYear.intValue() , cbMonthChoice.getSelectedIndex() - 1, selectedDay.intValue());
+        
+        Menu menu = MapperRegistry.menu().find(currentDay);
+        
+        if(menu != null) {
+            if (rbDinner.isEnabled() && rbDinner.isSelected()) {
+                panelShowMeal.setVisible(true);
+                lblSoupText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getSoup());
+                lblDessertText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getDessert());
+                
+                
+                System.out.println(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT));
+                System.out.println(!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty());
+                
+                
+                if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 1");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbMeat.setEnabled(true);
+                    rbFish.setEnabled(true);
+                    rbVegetarian.setEnabled(true);
+                }
+                
+                if (menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 2");
+                    lblMeatText.setText("Não há prato de carne!");
+                    lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbMeat.setEnabled(false);
+                }
+                
+                if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 3");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText("Não há prato de peixe!");
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbFish.setEnabled(false);
+                }
+                
+                if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 4");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText("Não há prato vegetariano!");
+                    rbVegetarian.setEnabled(false);
+                }
+                
+                if (!menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 5");
+                    lblMeatText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse());
+                    lblFishText.setText("Não há prato de peixe!");
+                    lblVegetarianText.setText("Não há prato vegetariano!");
+                    rbFish.setEnabled(false);
+                    rbVegetarian.setEnabled(false);
+                }
+                
+                if (menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 6");
+                    lblMeatText.setText("Não há prato de carne!");
+                    lblFishText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.FISH).getMainCourse());
+                    lblVegetarianText.setText("Não há prato vegetariano!");
+                    rbMeat.setEnabled(false);
+                    rbVegetarian.setEnabled(false);
+                }
+                
+                if (menu.getMeal(Meal.Time.DINNER, Meal.Type.MEAT).getMainCourse().isEmpty() && menu.getMeal(Meal.Time.LUNCH, Meal.Type.FISH).getMainCourse().isEmpty() && !menu.getMeal(Meal.Time.LUNCH, Meal.Type.VEGETARIAN).getMainCourse().isEmpty()) {
+                    System.out.println("condição 7");
+                    lblMeatText.setText("Não há prato de carne!");
+                    lblFishText.setText("Não há prato de peixe!");
+                    lblVegetarianText.setText(menu.getMeal(Meal.Time.DINNER, Meal.Type.VEGETARIAN).getMainCourse());
+                    rbMeat.setEnabled(false);
+                    rbFish.setEnabled(false);
+                }
+            }
+        }
+        else {
+            panelChooseDay.setEnabled(false);
+            panelShowMeal.setEnabled(false);
+            ifNoMeal.setVisible(true);
+        }
+    }//GEN-LAST:event_rbDinnerMouseReleased
+
+    private void rbFishMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbFishMouseReleased
+        btnConfirmMeal.setEnabled(true);
+    }//GEN-LAST:event_rbFishMouseReleased
+
+    private void rbVegetarianMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbVegetarianMouseReleased
+        btnConfirmMeal.setEnabled(true);
+    }//GEN-LAST:event_rbVegetarianMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -2120,7 +2615,6 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JButton btnConfirmMeal;
     private javax.swing.JButton btnLogInFailed;
     private javax.swing.JButton btnLogOut;
-    private javax.swing.JButton btnNext;
     private javax.swing.JButton btnNoCancel;
     private javax.swing.JButton btnNoCancelEmail;
     private javax.swing.JButton btnNoCancelLogOut;
@@ -2217,7 +2711,6 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JLabel lblWelcome1;
     private javax.swing.JLabel lblWelcome2;
     private javax.swing.JLabel lblWelcome3;
-    private javax.swing.JList lisMovements;
     private javax.swing.JLayeredPane lpMeal1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel menuPanel;
@@ -2231,7 +2724,6 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JPanel panelCheckBalance;
     private javax.swing.JPanel panelChooseDay;
     private javax.swing.JPanel panelLogin;
-    private javax.swing.JPanel panelMovements;
     private javax.swing.JPanel panelShowMeal;
     private javax.swing.JPanel panelStudent;
     private javax.swing.JPanel panelSummary;
@@ -2246,8 +2738,8 @@ public class Frontend extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbMeat;
     private javax.swing.JRadioButton rbVegetarian;
     private javax.swing.JSeparator separator;
-    private javax.swing.JScrollPane spMovements;
-    private javax.swing.JScrollPane spSummary;
+    private javax.swing.JScrollPane spTransactions;
+    private javax.swing.JTable tableTransactions;
     private javax.swing.JTextField tfNewMailText;
     private javax.swing.JTextField tfNumber;
     // End of variables declaration//GEN-END:variables

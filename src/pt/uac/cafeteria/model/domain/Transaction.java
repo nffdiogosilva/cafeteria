@@ -41,8 +41,4 @@ public abstract class Transaction implements java.io.Serializable {
     public double getAmount() {
         return amount;
     }
-    
-    public String print() {
-        return "" + date;
-    }
 }
