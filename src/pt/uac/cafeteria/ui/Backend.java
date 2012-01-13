@@ -18,6 +18,7 @@ import pt.uac.cafeteria.model.domain.Meal;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Transaction;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
+import pt.uac.cafeteria.model.validation.MenuValidator;
 import pt.uac.cafeteria.model.validation.StudentValidator;
 import pt.uac.cafeteria.model.validation.Validator;
 /**
@@ -2715,7 +2716,7 @@ public class Backend extends javax.swing.JFrame {
     private void btnMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMealMouseReleased
 
         for (int i = 0; i < 2; i++) {
-            cbYearChoice.addItem(Calendar.getInstance().get(Calendar.YEAR) + i);
+            cbYearChoice.addItem(today.getYear() + i);
         }
 
         if (btnMeal.isEnabled()) {
@@ -2833,10 +2834,10 @@ public class Backend extends javax.swing.JFrame {
         String dessert = lblTicketDessertText.getText();
 
         menu.addMeals(makeMeals(day, mealTime, soup, meat, fish, vegetarian, dessert));
+        
+        MenuValidator validator = new MenuValidator();
 
-        Day menuId = MapperRegistry.menu().insert(menu);
-
-        if (btnConfirmMeal.isEnabled() && menuId != null) {
+        if (btnConfirmMeal.isEnabled() && validator.isValid(menu) && MapperRegistry.menu().insert(menu) != null) {
             lblMessage1.setText("Dados guardados com sucesso!");
             informationMealFrame.setVisible(true);
             deactivate(mealPanel);
