@@ -45,11 +45,11 @@ public class Day implements java.io.Serializable {
      * ignoring time. Based on the gregorian calendar.
      *
      * @param year the year value.
-     * @param month the month value (1 = January)
+     * @param month the month value (1 = January).
      * @param dayOfMonth the day of the month.
      */
     public Day(int year, int month, int dayOfMonth) {
-        day = new GregorianCalendar(year, month+1, dayOfMonth);
+        day = new GregorianCalendar(year, month-1, dayOfMonth);
     }
 
     /** Gets the day as a <code>Calendar</code> object. */
@@ -60,6 +60,21 @@ public class Day implements java.io.Serializable {
     /** Gets the day as a <code>Date</code> object. */
     public Date getDate() {
         return this.day.getTime();
+    }
+
+    /** Gets the day of the month value. */
+    public int getDayOfMonth() {
+        return day.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /** Gets the month value. */
+    public int getMonth() {
+        return day.get(Calendar.MONTH)+1;
+    }
+
+    /** Gets the year value. */
+    public int getYear() {
+        return day.get(Calendar.YEAR);
     }
 
     /**

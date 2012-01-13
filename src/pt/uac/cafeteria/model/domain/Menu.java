@@ -30,32 +30,6 @@ public class Menu implements DomainObject<Day> {
     }
 
     /**
-     * Adds a menu for a time of day, full with meat, fish and vegetarian dishes.
-     *
-     * @param mealTime the time of day (as in lunch or dinner).
-     * @param soup the name of the soup.
-     * @param meat the name of the meat dish.
-     * @param fish the name of the fish dish.
-     * @param vegetarian the name of the vegetarian dish (optional).
-     * @param dessert the name of the dessert.
-     */
-    public void addSubmenu(Meal.Time mealTime, String soup, String meat,
-            String fish, String vegetarian, String dessert) {
-
-        addMeals(
-            new Meal(id, mealTime, Meal.Type.MEAT, soup, meat, dessert),
-            new Meal(id, mealTime, Meal.Type.FISH, soup, fish, dessert)
-        );
-
-        // assume vegetarian dish is optional
-        if (vegetarian != null && !vegetarian.isEmpty()) {
-            addMeal(new Meal(id, mealTime,
-                Meal.Type.VEGETARIAN, soup, vegetarian, dessert
-            ));
-        }
-    }
-
-    /**
      * Adds an array of meals to the menu.
      *
      * @param meals the array of meals to add.

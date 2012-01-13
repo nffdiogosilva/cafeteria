@@ -13,8 +13,8 @@ import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
 import pt.uac.cafeteria.model.domain.Day;
-import pt.uac.cafeteria.model.domain.Meal.Time;
 import pt.uac.cafeteria.model.domain.Menu;
+import pt.uac.cafeteria.model.domain.Meal;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Transaction;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
@@ -25,15 +25,12 @@ import pt.uac.cafeteria.model.validation.Validator;
  * Represents the Back Office user interface.
  */
 public class Backend extends javax.swing.JFrame {
-    
-    private static int year = Calendar.getInstance().get(Calendar.YEAR);
-    private static int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-    private static int day = Calendar.getInstance().get(Calendar.DATE);
-    private static int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-    
+
     private static final int LUNCH_HOUR = 13;
     private static final int DINNER_HOUR = 19;
-    
+
+    private static Day today = new Day();
+
     private Administrator administrator;
     
     private int studentPosition;
@@ -110,15 +107,83 @@ public class Backend extends javax.swing.JFrame {
             cbSoup.addItem(soup);
         }
     }
-    
-    private int monthTotalDays (int i) {
-        
-        Calendar cal = new GregorianCalendar(cbYearChoice.getSelectedIndex(), i, 1);
+
+    private Day getSelectedDay() {
+
+        int selYear = (Integer) cbYearChoice.getSelectedItem();
+        int selMonth = cbMonthChoice.getSelectedIndex()+1;
+
+        int selDay = cbDayChoice.getSelectedItem() != null
+                  ? (Integer) cbDayChoice.getSelectedItem()
+                  : cbDayChoice.getSelectedIndex();
+
+        return new Day(
+            selYear,
+            selMonth,
+            selDay
+        );
+    }
+
+    private int monthTotalDays (int year, int month) {
+
+        Calendar cal = new GregorianCalendar(year, month, 1);
         int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        
+
         return days;
     }
-    
+        
+    private void updateDayItems() {
+        cbDayChoice.removeAllItems();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+
+        boolean thisMonth = cbMonthChoice.getSelectedIndex() + 1 == today.getMonth() && selectedYear.intValue() == today.getYear();
+        int startingDay = thisMonth ? today.getDayOfMonth() : 1;
+
+        for (int i = startingDay; i <= monthTotalDays(selectedYear, cbMonthChoice.getSelectedIndex()); i++) {
+            cbDayChoice.addItem(i);
+        }
+
+        cbDayChoice.setSelectedIndex(0);
+
+        checkMealTime();
+        rbLunch.setSelected(false);
+        rbDinner.setSelected(false);
+
+        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+            chooseMealPanel.setVisible(true);
+        }
+        else {
+            bgTime.clearSelection();
+            chooseMealPanel.setVisible(false);
+        }
+    }
+
+    private void checkMealTime() {
+        int currentHour = today.getCalendar().get(Calendar.HOUR_OF_DAY);
+        rbLunch.setEnabled(!(getSelectedDay().isToday() && currentHour > LUNCH_HOUR));
+        rbDinner.setEnabled(!(getSelectedDay().isToday() && currentHour > DINNER_HOUR));
+    }
+
+    private Meal[] makeMeals(Day day, Meal.Time mealTime, String soup,
+            String meat, String fish, String vegetarian, String dessert) {
+
+        java.util.List<Meal> meals = new ArrayList<Meal>();
+
+        if (!Validator.isEmpty(meat)) {
+            meals.add(new Meal(day, mealTime, Meal.Type.MEAT, soup, meat, dessert));
+        }
+
+        if (!Validator.isEmpty(fish)) {
+            meals.add(new Meal(day, mealTime, Meal.Type.FISH, soup, fish, dessert));
+        }
+
+        if (!Validator.isEmpty(vegetarian)) {
+            meals.add(new Meal(day, mealTime, Meal.Type.VEGETARIAN, soup, vegetarian, dessert));
+        }
+
+        return meals.toArray(new Meal[]{});
+    }
+
     private int changeStringToInt(String string) {
         try {
             int aux = Integer.parseInt(string);
@@ -2648,27 +2713,11 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateMouseReleased
 
     private void btnMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMealMouseReleased
-        
-        for (int i = 0; i < 5; i++) {
+
+        for (int i = 0; i < 2; i++) {
             cbYearChoice.addItem(Calendar.getInstance().get(Calendar.YEAR) + i);
         }
-        
-        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
-        
-        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
-            rbLunch.setEnabled(false);
-        }
-        else {
-            rbLunch.setEnabled(true);
-        }
-        
-        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
-            rbDinner.setEnabled(false);
-        }
-        else {
-            rbDinner.setEnabled(true);
-        }
-        
+
         if (btnMeal.isEnabled()) {
             bgTime.clearSelection();
             activate(buttonsPanel);
@@ -2687,6 +2736,8 @@ public class Backend extends javax.swing.JFrame {
             
             cbMonthChoice.setEnabled(true);
             cbMonthChoice.setSelectedIndex(0);
+            
+            updateDayItems();
             
             cbDayChoice.setEnabled(true);
             cbDayChoice.setSelectedIndex(0);
@@ -2766,30 +2817,26 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelConfirmationMouseReleased
 
     private void btnConfirmMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMealMouseReleased
-        
-        Integer daySelected = (Integer) cbDayChoice.getSelectedItem();
-        Integer yearSelected = (Integer) cbYearChoice.getSelectedItem();
-        
-        Day currentDay = new Day(yearSelected.intValue(), cbMonthChoice.getSelectedIndex()-1, daySelected.intValue());
-        
-        Menu menu = new Menu(currentDay);
-        
+
+        Day day = getSelectedDay();
+
+        Menu menu = MapperRegistry.menu().find(day);
+        if (menu == null) {
+            menu = new Menu(day);
+        }
+        Meal.Time mealTime = rbLunch.isSelected() ? Meal.Time.LUNCH : Meal.Time.DINNER;
+
         String soup = lblTicketSoupText.getText();
         String meat = lblTicketMeatText.getText();
         String fish = lblTicketFishText.getText();
-        String veggie = lblTicketVegetarianText.getText();
+        String vegetarian = lblTicketVegetarianText.getText();
         String dessert = lblTicketDessertText.getText();
-        
-        if (rbLunch.isSelected()) {
-            menu.addSubmenu(Time.LUNCH, soup, meat, fish, veggie, dessert);
-        }
-        else {
-            menu.addSubmenu(Time.DINNER, soup, meat, fish, veggie, dessert);
-        }
-        
-        Day id = MapperRegistry.menu().insert(menu);
-        
-        if (btnConfirmMeal.isEnabled() && id != null) {
+
+        menu.addMeals(makeMeals(day, mealTime, soup, meat, fish, vegetarian, dessert));
+
+        Day menuId = MapperRegistry.menu().insert(menu);
+
+        if (btnConfirmMeal.isEnabled() && menuId != null) {
             lblMessage1.setText("Dados guardados com sucesso!");
             informationMealFrame.setVisible(true);
             deactivate(mealPanel);
@@ -3599,113 +3646,17 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnValidationOkMouseReleased
 
     private void cbMonthChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMonthChoiceItemStateChanged
-        cbDayChoice.removeAllItems();
-        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
-        
-        if (cbMonthChoice.getSelectedIndex() + 1 == month && selectedYear.intValue() == year) {
-            for (int j = day; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
-                cbDayChoice.addItem(j);
-            }
-        }
-        else {
-            for (int j = 1; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
-                cbDayChoice.addItem(j);
-            }
-        }
-        
-        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
-        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
-            rbLunch.setEnabled(false);
-            rbLunch.setSelected(false);
-        }
-        else {
-            rbLunch.setEnabled(true);
-            rbLunch.setSelected(false);
-        }
-        
-        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
-            rbDinner.setEnabled(false);
-            rbDinner.setSelected(false);
-        }
-        else {
-            rbDinner.setEnabled(true);
-            rbDinner.setSelected(false);
-        }
-        
-        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
-            chooseMealPanel.setVisible(true);
-        }
-        else {
-            bgTime.clearSelection();
-            chooseMealPanel.setVisible(false);
-        }
-        
+        updateDayItems();
     }//GEN-LAST:event_cbMonthChoiceItemStateChanged
 
     private void cbYearChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbYearChoiceItemStateChanged
-        cbDayChoice.removeAllItems();
-        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
-        
-        if (cbMonthChoice.getSelectedIndex() + 1 == month && selectedYear.intValue() == year) {
-            for (int j = day; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
-                cbDayChoice.addItem(j);
-            }
-        }
-        else {
-            for (int j = 1; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
-                cbDayChoice.addItem(j);
-            }
-        }
-        
-        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
-        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
-            rbLunch.setEnabled(false);
-            rbLunch.setSelected(false);
-        }
-        else {
-            rbLunch.setEnabled(true);
-            rbLunch.setSelected(false);
-        }
-        
-        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
-            rbDinner.setEnabled(false);
-            rbDinner.setSelected(false);
-        }
-        else {
-            rbDinner.setEnabled(true);
-            rbDinner.setSelected(false);
-        }
-        
-        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
-            chooseMealPanel.setVisible(true);
-        }
-        else {
-            bgTime.clearSelection();
-            chooseMealPanel.setVisible(false);
-        }
-        
+        updateDayItems();
     }//GEN-LAST:event_cbYearChoiceItemStateChanged
 
     private void cbDayChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDayChoiceItemStateChanged
-        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
-        if (selectedDay == null) {
-            selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        }
-        
-        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
-            rbLunch.setEnabled(false);
-        }
-        else {
-            rbLunch.setEnabled(true);
-        }
-        
-        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
-            rbDinner.setEnabled(false);
-        }
-        else {
-            rbDinner.setEnabled(true);
-        }
-        
+
+        checkMealTime();
+
         if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
             chooseMealPanel.setVisible(true);
         }
