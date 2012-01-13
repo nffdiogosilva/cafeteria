@@ -4,13 +4,17 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
+import java.util.Collection;
+import java.util.GregorianCalendar;
 import javax.swing.*;
 import pt.uac.cafeteria.model.*;
 import pt.uac.cafeteria.model.domain.Account.Status;
 import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Administrator;
 import pt.uac.cafeteria.model.domain.Course;
+import pt.uac.cafeteria.model.domain.Day;
+import pt.uac.cafeteria.model.domain.Meal.Time;
+import pt.uac.cafeteria.model.domain.Menu;
 import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Transaction;
 import pt.uac.cafeteria.model.validation.AdministratorValidator;
@@ -25,6 +29,10 @@ public class Backend extends javax.swing.JFrame {
     private static int year = Calendar.getInstance().get(Calendar.YEAR);
     private static int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private static int day = Calendar.getInstance().get(Calendar.DATE);
+    private static int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    
+    private static final int LUNCH_HOUR = 13;
+    private static final int DINNER_HOUR = 19;
     
     private Administrator administrator;
     
@@ -59,6 +67,56 @@ public class Backend extends javax.swing.JFrame {
         warningLogFrame.setVisible(false);
         informationFrame.setVisible(false);
         chargeBalanceFrame.setVisible(false);
+    }
+    
+    private void putFoodInComboBox() {
+        
+        cbDessert.removeAllItems();
+        cbFish.removeAllItems();
+        cbMeat.removeAllItems();
+        cbVeggie.removeAllItems();
+        cbSoup.removeAllItems();
+        
+        cbDessert.addItem("");
+        cbFish.addItem("");
+        cbMeat.addItem("");
+        cbVeggie.addItem("");
+        cbSoup.addItem("");
+        
+        Collection<String> desserts = MapperRegistry.dessertDish().findAll();
+        Collection<String> fishes = MapperRegistry.fishDish().findAll();
+        Collection<String> meats = MapperRegistry.meatDish().findAll();
+        Collection<String> veggies = MapperRegistry.vegetarianDish().findAll();
+        Collection<String> soups = MapperRegistry.soupDish().findAll();
+        
+        
+        for (String dessert : desserts) {
+            cbDessert.addItem(dessert);
+        }
+        
+        for (String fish : fishes) {
+            cbFish.addItem(fish);
+        }
+        
+        for (String meat : meats) {
+            cbMeat.addItem(meat);
+        }
+        
+        for (String veggie : veggies) {
+            cbVeggie.addItem(veggie);
+        }
+        
+        for (String soup : soups) {
+            cbSoup.addItem(soup);
+        }
+    }
+    
+    private int monthTotalDays (int i) {
+        
+        Calendar cal = new GregorianCalendar(cbYearChoice.getSelectedIndex(), i, 1);
+        int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        
+        return days;
     }
     
     private int changeStringToInt(String string) {
@@ -239,7 +297,6 @@ public class Backend extends javax.swing.JFrame {
         cbDayChoice = new javax.swing.JComboBox();
         rbLunch = new javax.swing.JRadioButton();
         rbDinner = new javax.swing.JRadioButton();
-        btnNext = new javax.swing.JButton();
         chooseMealPanel = new javax.swing.JPanel();
         cbSoup = new javax.swing.JComboBox();
         lblSoup = new javax.swing.JLabel();
@@ -251,11 +308,6 @@ public class Backend extends javax.swing.JFrame {
         lblVeggie = new javax.swing.JLabel();
         lblDessert = new javax.swing.JLabel();
         cbDessert = new javax.swing.JComboBox();
-        newMeat = new javax.swing.JTextField();
-        newFish = new javax.swing.JTextField();
-        newVeggie = new javax.swing.JTextField();
-        newSoup = new javax.swing.JTextField();
-        newDessert = new javax.swing.JTextField();
         btnSaveMeal = new javax.swing.JButton();
         btnCancelMeal = new javax.swing.JButton();
         lblPanelTitle = new javax.swing.JLabel();
@@ -644,7 +696,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.setPreferredSize(new java.awt.Dimension(220, 160));
         informationFrame.getContentPane().setLayout(null);
 
-        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMessage1.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMessage1.setText("Dados Guardados Com Sucesso!");
         informationFrame.getContentPane().add(lblMessage1);
@@ -659,7 +711,7 @@ public class Backend extends javax.swing.JFrame {
         informationFrame.getContentPane().add(btnOk);
         btnOk.setBounds(110, 80, 75, 29);
 
-        lblMessage2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMessage2.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         informationFrame.getContentPane().add(lblMessage2);
         lblMessage2.setBounds(50, 50, 203, 20);
@@ -939,18 +991,32 @@ public class Backend extends javax.swing.JFrame {
         chooseDayPanel.setPreferredSize(new java.awt.Dimension(333, 155));
         chooseDayPanel.setLayout(null);
 
-        cbYearChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2011", "2012", "2013", "2014", "2015", "2016", "2017" }));
+        cbYearChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbYearChoiceItemStateChanged(evt);
+            }
+        });
         chooseDayPanel.add(cbYearChoice);
-        cbYearChoice.setBounds(10, 40, 88, 27);
+        cbYearChoice.setBounds(10, 40, 90, 27);
 
         cbMonthChoice.setMaximumRowCount(12);
         cbMonthChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" }));
+        cbMonthChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbMonthChoiceItemStateChanged(evt);
+            }
+        });
         chooseDayPanel.add(cbMonthChoice);
-        cbMonthChoice.setBounds(100, 40, 121, 27);
+        cbMonthChoice.setBounds(120, 40, 121, 27);
 
         cbDayChoice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        cbDayChoice.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbDayChoiceItemStateChanged(evt);
+            }
+        });
         chooseDayPanel.add(cbDayChoice);
-        cbDayChoice.setBounds(220, 40, 72, 27);
+        cbDayChoice.setBounds(240, 40, 72, 27);
 
         bgTime.add(rbLunch);
         rbLunch.setText("Almoço");
@@ -972,59 +1038,26 @@ public class Backend extends javax.swing.JFrame {
         chooseDayPanel.add(rbDinner);
         rbDinner.setBounds(10, 123, 68, 23);
 
-        btnNext.setText("Seguinte");
-        btnNext.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnNextMouseReleased(evt);
-            }
-        });
-        chooseDayPanel.add(btnNext);
-        btnNext.setBounds(400, 110, 98, 29);
-
         mealPanel.add(chooseDayPanel);
         chooseDayPanel.setBounds(20, 60, 510, 155);
 
         chooseMealPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cbSoup.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Canja", "Alho Francês", "Cenoura", "Abóbra", "Criar Novo..." }));
-        cbSoup.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbSoupItemStateChanged(evt);
-            }
-        });
         chooseMealPanel.add(cbSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 169, -1));
 
         lblSoup.setText("Sopa:");
         chooseMealPanel.add(lblSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 25, -1, -1));
 
-        cbMeat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Almôndegas", "Carne Assada", "Bife de Vaca", "Criar Novo..." }));
-        cbMeat.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbMeatItemStateChanged(evt);
-            }
-        });
         chooseMealPanel.add(cbMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 169, -1));
 
         lblMeat.setText("Carne:");
         chooseMealPanel.add(lblMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 65, -1, -1));
 
-        cbFish.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Albacora", "Salmão", "Filetes", "Chicharros", "Criar Novo..." }));
-        cbFish.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbFishItemStateChanged(evt);
-            }
-        });
         chooseMealPanel.add(cbFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 169, -1));
 
         lblFish.setText("Peixe:");
         chooseMealPanel.add(lblFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 105, -1, -1));
 
-        cbVeggie.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Salada", "Alho Francês", "Criar Novo..." }));
-        cbVeggie.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbVeggieItemStateChanged(evt);
-            }
-        });
         chooseMealPanel.add(cbVeggie, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 169, -1));
 
         lblVeggie.setText("Vegetariano:");
@@ -1033,18 +1066,7 @@ public class Backend extends javax.swing.JFrame {
         lblDessert.setText("Sobremesa:");
         chooseMealPanel.add(lblDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 185, -1, -1));
 
-        cbDessert.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mousse", "Gelatina", "Fruta", "Tarte de Maçã", "Criar Novo..." }));
-        cbDessert.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbDessertItemStateChanged(evt);
-            }
-        });
         chooseMealPanel.add(cbDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 169, -1));
-        chooseMealPanel.add(newMeat, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 230, -1));
-        chooseMealPanel.add(newFish, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, 230, -1));
-        chooseMealPanel.add(newVeggie, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, 230, -1));
-        chooseMealPanel.add(newSoup, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, 230, -1));
-        chooseMealPanel.add(newDessert, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 180, 230, -1));
 
         btnSaveMeal.setText("Salvar");
         btnSaveMeal.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1065,7 +1087,7 @@ public class Backend extends javax.swing.JFrame {
         mealPanel.add(chooseMealPanel);
         chooseMealPanel.setBounds(20, 250, 530, 300);
 
-        lblPanelTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14));
+        lblPanelTitle.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         lblPanelTitle.setText("Criar Refeição");
         mealPanel.add(lblPanelTitle);
         lblPanelTitle.setBounds(240, 20, 101, 17);
@@ -1832,6 +1854,8 @@ public class Backend extends javax.swing.JFrame {
             btnUpdate.setVisible(false);
             searchList.clearSelection();
             updatePanel.setVisible(false);
+            
+            confirmMealPanel.setVisible(false);
         }
     }//GEN-LAST:event_btnStudentMouseReleased
 
@@ -1953,6 +1977,14 @@ public class Backend extends javax.swing.JFrame {
                 btnCheck.setEnabled(false);
                 btnDelete.setEnabled(false);
             }
+            
+            if (mealPanel.isVisible()) {
+                enabledAll(buttonsPanel);
+                enabledAll(adminPanel);
+                enabledAll(chooseMealPanel);
+                enabledAll(chooseDayPanel);
+                btnMeal.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_btnOkMouseReleased
 
@@ -1985,11 +2017,6 @@ public class Backend extends javax.swing.JFrame {
             enabledAll(chooseMealPanel);
             enabledAll(chooseDayPanel);
             mealPanel.setEnabled(true);
-            
-            if (!(rbLunch.isSelected() || rbDinner.isSelected())) {
-                btnNext.setEnabled(false);    
-            }
-            
             
             if (searchList.isSelectionEmpty()) {
                 btnCheck.setEnabled(false);
@@ -2187,6 +2214,7 @@ public class Backend extends javax.swing.JFrame {
             studentPanel.setVisible(false);
             adminPanel.setVisible(false);
             mealPanel.setVisible(false);
+            confirmMealPanel.setVisible(false);
             activate(buttonsPanel);
         }
         else {
@@ -2619,6 +2647,27 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateMouseReleased
 
     private void btnMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMealMouseReleased
+        
+        for (int i = 0; i < 5; i++) {
+            cbYearChoice.addItem(Calendar.getInstance().get(Calendar.YEAR) + i);
+        }
+        
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        
+        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+            rbLunch.setEnabled(false);
+        }
+        else {
+            rbLunch.setEnabled(true);
+        }
+        
+        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+            rbDinner.setEnabled(false);
+        }
+        else {
+            rbDinner.setEnabled(true);
+        }
+        
         if (btnMeal.isEnabled()) {
             bgTime.clearSelection();
             activate(buttonsPanel);
@@ -2626,31 +2675,34 @@ public class Backend extends javax.swing.JFrame {
             adminPanel.setVisible(false);
             
             btnMeal.setEnabled(false);
-            btnNext.setEnabled(false);
             
             mealPanel.setVisible(true);
+            chooseMealPanel.setEnabled(true);
             chooseMealPanel.setVisible(false);
             confirmMealPanel.setVisible(false);
+            
+            cbYearChoice.setEnabled(true);
+            cbYearChoice.setSelectedIndex(0);
+            
+            cbMonthChoice.setEnabled(true);
+            cbMonthChoice.setSelectedIndex(0);
+            
+            cbDayChoice.setEnabled(true);
+            cbDayChoice.setSelectedIndex(0);
         }
     }//GEN-LAST:event_btnMealMouseReleased
 
     private void rbLunchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbLunchMouseReleased
-        if (rbLunch.isSelected()) {
-            btnNext.setEnabled(true);
+        putFoodInComboBox();
+        
+        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+            chooseMealPanel.setVisible(true);
+            enabledAll(chooseMealPanel);
+        }
+        else {
+            chooseMealPanel.setVisible(false);
         }
     }//GEN-LAST:event_rbLunchMouseReleased
-
-    private void btnNextMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNextMouseReleased
-        if (btnNext.isEnabled()) {
-            btnCancelMeal.setEnabled(true);
-            chooseMealPanel.setVisible(true);
-            newMeat.setVisible(false);
-            newFish.setVisible(false);
-            newVeggie.setVisible(false);
-            newSoup.setVisible(false);
-            newDessert.setVisible(false);
-        }
-    }//GEN-LAST:event_btnNextMouseReleased
 
     private void btnCancelMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelMealMouseReleased
         if (btnCancelMeal.isEnabled()) {
@@ -2662,124 +2714,77 @@ public class Backend extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCancelMealMouseReleased
 
-    private void cbMeatItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMeatItemStateChanged
-        String meal = "Criar Novo...";
-        if (cbMeat.getSelectedItem().equals(meal)) {
-            newMeat.setVisible(true);
-        }
-        else {
-            newMeat.setVisible(false);
-            clearTextFieldsOf(chooseMealPanel);
-        }
-    }//GEN-LAST:event_cbMeatItemStateChanged
-
-    private void cbFishItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbFishItemStateChanged
-        String meal = "Criar Novo...";
-        if (cbFish.getSelectedItem().equals(meal)) {
-            newFish.setVisible(true);
-        }
-        else {
-            newFish.setVisible(false);
-            clearTextFieldsOf(chooseMealPanel);
-        }
-    }//GEN-LAST:event_cbFishItemStateChanged
-
-    private void cbVeggieItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVeggieItemStateChanged
-        String newMeal = "Criar Novo...";
-        if (cbVeggie.getSelectedItem().equals(newMeal)) {
-            newVeggie.setVisible(true);
-        }
-        else {
-            newVeggie.setVisible(false);
-            clearTextFieldsOf(chooseMealPanel);
-        }
-    }//GEN-LAST:event_cbVeggieItemStateChanged
-
-    private void cbSoupItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSoupItemStateChanged
-        String newMeal = "Criar Novo...";
-        if (cbSoup.getSelectedItem().equals(newMeal)) {
-            newSoup.setVisible(true);
-        }
-        else {
-            newSoup.setVisible(false);
-            clearTextFieldsOf(chooseMealPanel);
-        }
-    }//GEN-LAST:event_cbSoupItemStateChanged
-
-    private void cbDessertItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDessertItemStateChanged
-        String newMeal = "Criar Novo...";
-        if (cbDessert.getSelectedItem().equals(newMeal)) {
-            newDessert.setVisible(true);
-        }
-        else {
-            newDessert.setVisible(false);
-            clearTextFieldsOf(chooseMealPanel);
-        }
-    }//GEN-LAST:event_cbDessertItemStateChanged
-
     private void btnSaveMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMealMouseReleased
+
+        String meat = "" + cbMeat.getSelectedItem();
+        String fish = "" + cbFish.getSelectedItem();
+        String veggie = "" + cbVeggie.getSelectedItem();
         
-        if (btnSaveMeal.isEnabled()) {
-            mealPanel.setVisible(false);
-            activate(confirmMealPanel);
+        if (meat.isEmpty() && fish.isEmpty() && veggie.isEmpty()) {
+            lblMessage1.setText("Preencher pelo menos um prato Principal");
+            informationFrame.setVisible(true);
+            deactivate(buttonsPanel);
+            deactivate(mealPanel);
+            deactivate(chooseMealPanel);
+            deactivate(chooseDayPanel);
             
-            lblTicketMealDateText.setText(day + "/" + month + "/" + year);
-            
-            if (rbLunch.isSelected()) {
-                lbTicketlMealTimeText.setText(rbLunch.getText());
-            }
-            else {
-                lbTicketlMealTimeText.setText(rbDinner.getText());
-            }
-            
-            String newMeal = "Criar Novo...";
-            
-            if (cbSoup.getSelectedItem().equals(newMeal)) {
-                lblTicketSoupText.setText("" + newSoup.getText());
-            }
-            else {
-                lblTicketSoupText.setText("" + cbSoup.getSelectedItem());
-            }
-            
-            if (cbMeat.getSelectedItem().equals(newMeal)) {
-                lblTicketMeatText.setText("" + newMeat.getText());
-            }
-            else {
-                lblTicketMeatText.setText("" + cbMeat.getSelectedItem());
-            }
-            
-            if (cbFish.getSelectedItem().equals(newMeal)) {
-                lblTicketFishText.setText("" + newFish.getText());
-            }
-            else {
-                lblTicketFishText.setText("" + cbFish.getSelectedItem());
-            }
-            
-            if (cbVeggie.getSelectedItem().equals(newMeal)) {
-                lblTicketVegetarianText.setText("" + newVeggie.getText());
-            }
-            else {
-                lblTicketVegetarianText.setText("" + cbVeggie.getSelectedItem());
-            }
-            
-            if (cbDessert.getSelectedItem().equals(newMeal)) {
-                lblTicketDessertText.setText("" + newDessert.getText());
-            }
-            else {
-                lblTicketDessertText.setText("" + cbDessert.getSelectedItem());
-            }   
         }
+        else {
+            if (btnSaveMeal.isEnabled()) {
+                mealPanel.setVisible(false);
+                activate(confirmMealPanel);
+                deactivate(buttonsPanel);
+
+                lblTicketMealDateText.setText(cbDayChoice.getSelectedItem() + "/" + (cbMonthChoice.getSelectedIndex() + 1) + "/" + cbYearChoice.getSelectedItem());
+
+                if (rbLunch.isSelected()) {
+                    lbTicketlMealTimeText.setText(rbLunch.getText());
+                }
+                else {
+                    lbTicketlMealTimeText.setText(rbDinner.getText());
+                }
+
+                lblTicketSoupText.setText("" + cbSoup.getSelectedItem());
+                lblTicketMeatText.setText("" + cbMeat.getSelectedItem());
+                lblTicketFishText.setText("" + cbFish.getSelectedItem());
+                lblTicketVegetarianText.setText("" + cbVeggie.getSelectedItem());
+                lblTicketDessertText.setText("" + cbDessert.getSelectedItem());
+            }
+        }
+                
     }//GEN-LAST:event_btnSaveMealMouseReleased
 
     private void btnCancelConfirmationMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelConfirmationMouseReleased
-        if (btnCancelConfirmation.isEnabled()) {
-            confirmMealPanel.setVisible(false);
-            mealPanel.setVisible(true);
-        }
+        enabledAll(buttonsPanel);
+        btnMeal.setEnabled(false);
+        confirmMealPanel.setVisible(false);
+        mealPanel.setVisible(true);
     }//GEN-LAST:event_btnCancelConfirmationMouseReleased
 
     private void btnConfirmMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMealMouseReleased
-        if (btnConfirmMeal.isEnabled()) {
+        
+        Integer daySelected = (Integer) cbDayChoice.getSelectedItem();
+        
+        Day currentDay = new Day(cbYearChoice.getSelectedIndex() + 1, cbMonthChoice.getSelectedIndex() + 1, daySelected.intValue());
+        
+        Menu menu = new Menu(currentDay);
+        
+        String soup = lblTicketSoupText.getText();
+        String meat = lblTicketMeatText.getText();
+        String fish = lblTicketFishText.getText();
+        String veggie = lblTicketVegetarianText.getText();
+        String dessert = lblTicketDessertText.getText();
+        
+        if (rbLunch.isSelected()) {
+            menu.addSubmenu(Time.LUNCH, soup, meat, fish, veggie, dessert);
+        }
+        else {
+            menu.addSubmenu(Time.DINNER, soup, meat, fish, veggie, dessert);
+        }
+        
+        Day id = MapperRegistry.menu().insert(menu);
+        
+        if (btnConfirmMeal.isEnabled() && id != null) {
             lblMessage1.setText("Dados guardados com sucesso!");
             informationMealFrame.setVisible(true);
             deactivate(mealPanel);
@@ -2804,8 +2809,14 @@ public class Backend extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMealOkMouseReleased
 
     private void rbDinnerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDinnerMouseReleased
-        if (rbDinner.isSelected()) {
-            btnNext.setEnabled(true);
+        putFoodInComboBox();
+        
+        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+            chooseMealPanel.setVisible(true);
+            enabledAll(chooseMealPanel);
+        }
+        else {
+            chooseMealPanel.setVisible(false);
         }
     }//GEN-LAST:event_rbDinnerMouseReleased
 
@@ -2835,6 +2846,8 @@ public class Backend extends javax.swing.JFrame {
                 btnUpdateAdmin.setEnabled(false);
                 btnCheckAdmin.setEnabled(false);
                 btnDeleteAdmin.setEnabled(false);
+                
+                confirmMealPanel.setVisible(false);
             }
     }//GEN-LAST:event_btnAdminMouseReleased
 
@@ -3572,6 +3585,123 @@ public class Backend extends javax.swing.JFrame {
             btnAdmin.setEnabled(false);
         }
     }//GEN-LAST:event_btnValidationOkMouseReleased
+
+    private void cbMonthChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMonthChoiceItemStateChanged
+        cbDayChoice.removeAllItems();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+        
+        if (cbMonthChoice.getSelectedIndex() + 1 == month && selectedYear.intValue() == year) {
+            for (int j = day; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+                cbDayChoice.addItem(j);
+            }
+        }
+        else {
+            for (int j = 1; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+                cbDayChoice.addItem(j);
+            }
+        }
+        
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+            rbLunch.setEnabled(false);
+            rbLunch.setSelected(false);
+        }
+        else {
+            rbLunch.setEnabled(true);
+            rbLunch.setSelected(false);
+        }
+        
+        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+            rbDinner.setEnabled(false);
+            rbDinner.setSelected(false);
+        }
+        else {
+            rbDinner.setEnabled(true);
+            rbDinner.setSelected(false);
+        }
+        
+        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+            chooseMealPanel.setVisible(true);
+        }
+        else {
+            bgTime.clearSelection();
+            chooseMealPanel.setVisible(false);
+        }
+        
+    }//GEN-LAST:event_cbMonthChoiceItemStateChanged
+
+    private void cbYearChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbYearChoiceItemStateChanged
+        cbDayChoice.removeAllItems();
+        Integer selectedYear = (Integer) cbYearChoice.getSelectedItem();
+        
+        if (cbMonthChoice.getSelectedIndex() + 1 == month && selectedYear.intValue() == year) {
+            for (int j = day; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+                cbDayChoice.addItem(j);
+            }
+        }
+        else {
+            for (int j = 1; j <= monthTotalDays(cbMonthChoice.getSelectedIndex()); j++) {
+                cbDayChoice.addItem(j);
+            }
+        }
+        
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+            rbLunch.setEnabled(false);
+            rbLunch.setSelected(false);
+        }
+        else {
+            rbLunch.setEnabled(true);
+            rbLunch.setSelected(false);
+        }
+        
+        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+            rbDinner.setEnabled(false);
+            rbDinner.setSelected(false);
+        }
+        else {
+            rbDinner.setEnabled(true);
+            rbDinner.setSelected(false);
+        }
+        
+        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+            chooseMealPanel.setVisible(true);
+        }
+        else {
+            bgTime.clearSelection();
+            chooseMealPanel.setVisible(false);
+        }
+        
+    }//GEN-LAST:event_cbYearChoiceItemStateChanged
+
+    private void cbDayChoiceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbDayChoiceItemStateChanged
+        Integer selectedDay = (Integer) cbDayChoice.getSelectedItem();
+        if (selectedDay == null) {
+            selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        }
+        
+        if (currentHour > LUNCH_HOUR && day == selectedDay.intValue()) {
+            rbLunch.setEnabled(false);
+        }
+        else {
+            rbLunch.setEnabled(true);
+        }
+        
+        if (currentHour > DINNER_HOUR && day == selectedDay.intValue()) {
+            rbDinner.setEnabled(false);
+        }
+        else {
+            rbDinner.setEnabled(true);
+        }
+        
+        if (rbLunch.isEnabled() && rbLunch.isSelected() || rbDinner.isEnabled() && rbDinner.isSelected()) {
+            chooseMealPanel.setVisible(true);
+        }
+        else {
+            bgTime.clearSelection();
+            chooseMealPanel.setVisible(false);
+        }
+    }//GEN-LAST:event_cbDayChoiceItemStateChanged
     
     /**
      * @param args the command line arguments
@@ -3659,7 +3789,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JButton btnLoginOk;
     private javax.swing.JButton btnMeal;
     private javax.swing.JButton btnMealOk;
-    private javax.swing.JButton btnNext;
     private javax.swing.JButton btnOk;
     private javax.swing.JButton btnRecoverCode;
     private javax.swing.JButton btnReturn;
@@ -3805,11 +3934,6 @@ public class Backend extends javax.swing.JFrame {
     private javax.swing.JLabel name1;
     private javax.swing.JTextField name2;
     private javax.swing.JLabel nameAdmin;
-    private javax.swing.JTextField newDessert;
-    private javax.swing.JTextField newFish;
-    private javax.swing.JTextField newMeat;
-    private javax.swing.JTextField newSoup;
-    private javax.swing.JTextField newVeggie;
     private javax.swing.JTextField number;
     private javax.swing.JTextField number1;
     private javax.swing.JPasswordField password;
