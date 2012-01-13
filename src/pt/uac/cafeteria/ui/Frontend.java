@@ -107,26 +107,6 @@ public class Frontend extends javax.swing.JFrame {
         rbDinner.setEnabled(!(getSelectedDay().isToday() && currentHour > DINNER_HOUR));
     }
 
-    private Meal[] makeMeals(Day day, Meal.Time mealTime, String soup,
-            String meat, String fish, String vegetarian, String dessert) {
-
-        java.util.List<Meal> meals = new ArrayList<Meal>();
-
-        if (!Validator.isEmpty(meat)) {
-            meals.add(new Meal(day, mealTime, Meal.Type.MEAT, soup, meat, dessert));
-        }
-
-        if (!Validator.isEmpty(fish)) {
-            meals.add(new Meal(day, mealTime, Meal.Type.FISH, soup, fish, dessert));
-        }
-
-        if (!Validator.isEmpty(vegetarian)) {
-            meals.add(new Meal(day, mealTime, Meal.Type.VEGETARIAN, soup, vegetarian, dessert));
-        }
-
-        return meals.toArray(new Meal[]{});
-    }
-
     private void noMeal() {
         panelChooseDay.setEnabled(false);
         panelShowMeal.setEnabled(false);
