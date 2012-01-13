@@ -714,7 +714,7 @@ public class Backend extends javax.swing.JFrame {
         lblMessage2.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblMessage2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         informationFrame.getContentPane().add(lblMessage2);
-        lblMessage2.setBounds(50, 50, 203, 20);
+        lblMessage2.setBounds(50, 50, 220, 20);
 
         menuPanel.add(informationFrame);
         informationFrame.setBounds(300, 150, 300, 150);
@@ -1984,6 +1984,7 @@ public class Backend extends javax.swing.JFrame {
                 enabledAll(chooseMealPanel);
                 enabledAll(chooseDayPanel);
                 btnMeal.setEnabled(false);
+                lblMessage2.setText(null);
             }
         }
     }//GEN-LAST:event_btnOkMouseReleased
@@ -2719,9 +2720,12 @@ public class Backend extends javax.swing.JFrame {
         String meat = "" + cbMeat.getSelectedItem();
         String fish = "" + cbFish.getSelectedItem();
         String veggie = "" + cbVeggie.getSelectedItem();
+        String soup = "" + cbSoup.getSelectedItem();
+        String dessert = "" + cbDessert.getSelectedItem();
         
-        if (meat.isEmpty() && fish.isEmpty() && veggie.isEmpty()) {
-            lblMessage1.setText("Preencher pelo menos um prato Principal");
+        if (meat.isEmpty() && fish.isEmpty() && veggie.isEmpty() || dessert.isEmpty() || soup.isEmpty()) {
+            lblMessage1.setText("Preencher pelo menos um prato Principal!");
+            lblMessage2.setText("Acompanhado de Sopa e Sobremessa.");
             informationFrame.setVisible(true);
             deactivate(buttonsPanel);
             deactivate(mealPanel);
