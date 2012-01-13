@@ -2766,7 +2766,7 @@ public class Backend extends javax.swing.JFrame {
         Integer daySelected = (Integer) cbDayChoice.getSelectedItem();
         Integer yearSelected = (Integer) cbYearChoice.getSelectedItem();
         
-        Day currentDay = new Day(yearSelected.intValue(), cbMonthChoice.getSelectedIndex() + 1, daySelected.intValue());
+        Day currentDay = new Day(yearSelected.intValue(), cbMonthChoice.getSelectedIndex()-1, daySelected.intValue());
         
         Menu menu = new Menu(currentDay);
         
