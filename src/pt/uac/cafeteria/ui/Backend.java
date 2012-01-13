@@ -2764,8 +2764,9 @@ public class Backend extends javax.swing.JFrame {
     private void btnConfirmMealMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmMealMouseReleased
         
         Integer daySelected = (Integer) cbDayChoice.getSelectedItem();
+        Integer yearSelected = (Integer) cbYearChoice.getSelectedItem();
         
-        Day currentDay = new Day(cbYearChoice.getSelectedIndex() + 1, cbMonthChoice.getSelectedIndex() + 1, daySelected.intValue());
+        Day currentDay = new Day(yearSelected.intValue(), cbMonthChoice.getSelectedIndex() + 1, daySelected.intValue());
         
         Menu menu = new Menu(currentDay);
         
@@ -2786,6 +2787,13 @@ public class Backend extends javax.swing.JFrame {
         
         if (btnConfirmMeal.isEnabled() && id != null) {
             lblMessage1.setText("Dados guardados com sucesso!");
+            informationMealFrame.setVisible(true);
+            deactivate(mealPanel);
+            deactivate(confirmMealPanel);
+            deactivate(buttonsPanel);
+        }
+        else {
+            lblMessage1.setText("Não foi possível guardar dados!");
             informationMealFrame.setVisible(true);
             deactivate(mealPanel);
             deactivate(confirmMealPanel);
