@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 import pt.uac.cafeteria.model.MapperRegistry;
 import pt.uac.cafeteria.model.domain.Account;
-import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Address;
 import pt.uac.cafeteria.model.domain.Course;
+import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.persistence.abstracts.DatabaseMapper;
 
 /**
@@ -110,6 +110,7 @@ public class StudentMapper extends DatabaseMapper<Student> {
      * @param id the foreign key id.
      * @param rs the result set to load from.
      * @return An Address domain object.
+     * @throws SQLException in case of SQL error. 
      */
     protected Address loadAddress(Integer id, ResultSet rs) throws SQLException {
         AddressMapper addressMapper = MapperRegistry.address();
@@ -138,6 +139,7 @@ public class StudentMapper extends DatabaseMapper<Student> {
      * @param id the foreign key id.
      * @param rs the result set to load from.
      * @return A Course domain object.
+     * @throws SQLException in case of SQL error.
      */
     protected Course loadCourse(Integer id, ResultSet rs) throws SQLException {
         CourseMapper courseMapper = MapperRegistry.course();

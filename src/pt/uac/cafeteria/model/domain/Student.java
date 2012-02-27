@@ -37,6 +37,7 @@ public class Student implements DomainObject<Integer> {
      * Creates a new Student instance.
      *
      * @param id the student id number.
+     * @param name the student's name.
      * @param address the student's address.
      * @param phone a phone number.
      * @param email an email address.

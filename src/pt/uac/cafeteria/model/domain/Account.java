@@ -63,7 +63,7 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
     /**
      * Creates a new Account, with auto-generated pin code.
      *
-     * @param studendId the student id number, as an <code>int</code> in the java language.
+     * @param studentId the student id number, as an <code>int</code> in the java language.
      */
     public Account(int studentId) {
         this(new Integer(studentId));
@@ -94,7 +94,7 @@ public class Account implements DomainObject<Integer>, java.io.Serializable {
 
     @Override
     public void setId(Integer id) {
-        id = id.intValue();
+        this.id = id.intValue();
     }
 
     /** Gets the current pin code. */

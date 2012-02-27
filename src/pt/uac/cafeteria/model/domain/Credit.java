@@ -1,7 +1,6 @@
 
 package pt.uac.cafeteria.model.domain;
 
-import java.util.Calendar;
 
 /**
  * A type of transaction used when a student makes a payment to an

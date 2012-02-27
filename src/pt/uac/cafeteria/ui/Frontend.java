@@ -4,7 +4,6 @@ package pt.uac.cafeteria.ui;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
@@ -13,15 +12,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pt.uac.cafeteria.model.Application;
 import pt.uac.cafeteria.model.ApplicationException;
-import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.MapperRegistry;
 import pt.uac.cafeteria.model.domain.Credit;
 import pt.uac.cafeteria.model.domain.Day;
 import pt.uac.cafeteria.model.domain.Meal;
 import pt.uac.cafeteria.model.domain.Menu;
+import pt.uac.cafeteria.model.domain.Student;
 import pt.uac.cafeteria.model.domain.Ticket;
-import pt.uac.cafeteria.model.validation.Validator;
 import pt.uac.cafeteria.model.domain.Transaction;
+import pt.uac.cafeteria.model.validation.Validator;
 
 /**
  * 

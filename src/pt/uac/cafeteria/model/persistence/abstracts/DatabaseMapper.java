@@ -24,6 +24,8 @@ import pt.uac.cafeteria.model.domain.DomainObject;
  * because it allows one mapper to load objects associated to it but managed
  * by other mappers, in only one call. It may also be useful to force the
  * mapper to refresh a load from the database in some cases.
+ * 
+ * @param <T> the domain object type.
  */
 public abstract class DatabaseMapper<T extends DomainObject<Integer>>
                 implements DataMapper<T, Integer>, Loader<T, Integer> {
@@ -134,6 +136,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      *
      * @param rs database result set.
      * @return The domain object mapped from the ResultSet.
+     * @throws SQLException in case of SQL error. 
      */
     protected T load(ResultSet rs) throws SQLException {
         Integer id = new Integer(rs.getInt(1));
@@ -152,6 +155,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      * @param id the domain object's id.
      * @param rs the database result set.
      * @return The domain object mapped from the ResultSet.
+     * @throws SQLException in case of SQL error. 
      */
     abstract protected T doLoad(Integer id, ResultSet rs) throws SQLException;
 
@@ -160,6 +164,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      *
      * @param rs the database result set.
      * @return A list of domain objects loaded from the result set.
+     * @throws SQLException in case of SQL error. 
      */
     protected List<T> loadAll(ResultSet rs) throws SQLException {
         List<T> result = new ArrayList<T>();
@@ -189,13 +194,12 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      */
     protected List<T> findMany(String sql, Object[] parameters) {
         PreparedStatement stmt = null;
-        ResultSet rs = null;
         try {
             stmt = DB.prepareStatement(sql);
             for (int i = 0; i < parameters.length; i++) {
                 stmt.setObject(i+1, parameters[i]);
             }
-            rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             return loadAll(rs);
         } catch (SQLException e) {
             throw new ApplicationException(e.getMessage());
@@ -245,6 +249,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      *
      * @param subject domain object to insert.
      * @param insertStatement prepared statement to set fields.
+     * @throws SQLException in case of SQL error. 
      */
     abstract protected void doInsert(T subject, PreparedStatement insertStatement) throws SQLException;
 
@@ -283,6 +288,7 @@ public abstract class DatabaseMapper<T extends DomainObject<Integer>>
      *
      * @param subject domain object to update.
      * @param updateStatement prepared statement to set fields.
+     * @throws SQLException in case of SQL error. 
      */
     abstract protected void doUpdate(T subject, PreparedStatement updateStatement) throws SQLException;
 
