@@ -76,3 +76,10 @@ The project started out with [TDD](http://en.wikipedia.org/wiki/Test-driven_deve
 Perhaps sometime in the future, for me or others, this project can serve as practice in writing unit tests to prove the application works, find bugs and improve uppon it to make it better.
 
 [uml]: https://github.com/helderco/cafeteria/raw/c3374bb5ff5d3ad2ce1478b8de021230a9292e33/resources/uml.png
+
+
+## Authors
+
+* Helder Correia (me)
+* Nuno Diogo Silva
+* Paulo Silva
