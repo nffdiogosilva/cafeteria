@@ -68,18 +68,8 @@ This application implements a lot of design patterns, mostly from the [Patterns 
 
 We were also careful to have [separation of concerns](http://en.wikipedia.org/wiki/Separation_of_concerns), as can be seen from the [UML][] (provided in the resources folder). A notable case is a simplified version of MVC (in regards to the controller, not the model or view). The model is completely separated and unaware of the other parts of the application, and the view and controller are implemented with Swing in a separate package.
 
-
-## TDD and JUnit
-
-The project started out with [TDD](http://en.wikipedia.org/wiki/Test-driven_development), although we were quickly pressed with time and was an overload for my partners who were hearing about it for the first time. So we abandoned writing tests, but I kept mindful of it, trying to make the code at least testable.
-
-Perhaps sometime in the future, for me or others, this project can serve as practice in writing unit tests to prove the application works, find bugs and improve uppon it to make it better.
-
-[uml]: https://github.com/helderco/cafeteria/raw/c3374bb5ff5d3ad2ce1478b8de021230a9292e33/resources/uml.png
-
-
 ## Authors
 
-* Helder Correia (me)
-* Nuno Diogo Silva
+* Helder Correia
+* Nuno Diogo Silva (me)
 * Paulo Silva
