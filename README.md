@@ -1,6 +1,6 @@
 # Cafeteria
 
-This was a group project in an Object Oriented Programming class, for managing a college cafeteria. It's an evolution from the [ATM project](https://github.com/helderco/atm) created the previous year in Introduction to Programming.
+This was a group project in an Object Oriented Programming class, for managing a college cafeteria. It's an evolution from the [ATM project](https://github.com/nffdiogosilva/atm) created the previous year in Introduction to Programming.
 
 This is being published for **educational purposes**, mostly for the application's **model** (see [uml.png][UML]), which is in part independent of the business model and can be reused in other contexts.
 
